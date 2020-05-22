@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_home"-->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/tabNavHost"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavBar"
+            android:layout_width="0dp"
+            android:layout_height="73.5dp"
+            android:background="@mipmap/bg_bottom_tabbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingTop="32dp"
+            app:menu="@menu/nav_home_home"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:labelVisibilityMode="labeled" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

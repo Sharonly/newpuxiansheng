@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <com.puxiansheng.www.common.StateBarView
+            android:id="@+id/appStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/appMain" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="99dp"
+            android:background="@mipmap/bg_transter">
+
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:background="@color/appMain">-->
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="32dp"
+                android:layout_height="26dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/ic_back_white" />
+
+            <TextView
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:layout_toRightOf="@+id/button_back"
+                android:background="@drawable/bg_search"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/search_iicon"
+                android:drawablePadding="4dp"
+                android:layout_marginTop="15dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="@string/search_transfer_out"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+
+            <!--        </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/button_back"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="地区"
+                        android:textColor="@android:color/white" />
+                    <ImageView
+                        android:id="@+id/area_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_down"/>
+
+                </LinearLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/selected_area"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_weight="3"-->
+<!--                    android:drawableRight="@mipmap/ic_down"-->
+<!--                    android:paddingRight="20dp"-->
+<!--                    android:paddingLeft="20dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="地区"-->
+<!--                    android:textColor="@android:color/white" />-->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_industry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="行业"
+                        android:textColor="@android:color/white" />
+                    <ImageView
+                        android:id="@+id/industry_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_down"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="面积"
+                        android:textColor="@android:color/white" />
+                    <ImageView
+                        android:id="@+id/size_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_down"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_rent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="租金"
+                        android:textColor="@android:color/white" />
+                    <ImageView
+                        android:id="@+id/rent_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_down"/>
+
+                </LinearLayout>
+
+
+
+                <ImageView
+                    android:id="@+id/button_sort"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:src="@mipmap/icon_shaixuan" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            style="@style/DividerThin"
+            android:background="#F6F6F6" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/order_list"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:background="@color/bg_order_list" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</layout>

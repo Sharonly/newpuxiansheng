@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs 'libs'
+        }
+    }
+
+    signingConfigs {
+        pxs {
+            storeFile file("D:/LXX_WorkProject/key/PXS_JKS.jks")
+            storePassword = 'dgpxs2019'
+            keyAlias 'PXS'
+            keyPassword 'dgpxs2019'
+        }
+        debug {
+            storeFile file("/PXS_JKS.jks")
+            storePassword = 'dgpxs2019'
+            keyAlias 'PXS'
+            keyPassword 'dgpxs2019'
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.puxiansheng.www"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 120
+        versionName "3.3.2"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        vectorDrawables.useSupportLibrary = true
+
+        proguardFiles getDefaultProguardFile('proguard-android.txt')
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "d32f68e54cee6cb1043211fe", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+        //dataBinding.enabled true
+        multiDexEnabled true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+    buildFeatures {
+        //compose false
+        dataBinding = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig = signingConfigs.pxs
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig = signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.3.0'
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "android.arch.paging:runtime:1.0.1"
+    implementation "androidx.work:work-runtime:2.3.1"
+
+    implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.4.3'
+    implementation 'me.jessyan:autosize:0.9.5'
+    implementation project(path: ':util')
+    implementation project(path: ':logic')
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'//图片选择器
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    implementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'cn.jiguang.sdk:jpush:3.5.8'// 此处以JPush 3.5.6 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:2.2.8'  // 此处以JCore 2.2.8 版本为例。
+//腾讯地图
+    implementation 'com.tencent.map:tencent-map-vector-sdk:4.3.3.2'
+    'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4'
+
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.android.support:palette-v7:28.0.0'
+//    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
+}

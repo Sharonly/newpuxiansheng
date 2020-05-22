@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_overlay">#66000000</color>
+    <color name="black">#000000</color>
+    <color name="gray">#adb2bc</color>
+    <color name="appMain">#F78934</color>
+    <color name="appMainDark">#E8E8E8</color>
+    <color name="appMainAccent">#9F9F9F</color>
+    <color name="appDivider">#E8E8E8</color>
+    <color name="tanslate">#00000000</color>
+    <color name="color_upgrade_title">#333333</color>
+    <color name="color_upgrade_desc">#6a6a75</color>
+    <color name="bg_upgrade_dialog">#BF4d4d4d</color>
+    <color name="color_upgrade_now">#0559ff</color>
+    <color name="tab_orange">#F78934</color>
+    <color name="white">#ffffff</color>
+    <color name="input_text_blank">#252525</color>
+    <color name="text_gray">#989796</color>
+    <color name="line_gray">#F0EFED</color>
+    <color name="bg_order_list"> #FFFFFF</color>
+
+    <color name="release_sava_text_color">#F78934</color>
+    <color name="release_success_text_color">#3BCC9B</color>
+    <color name="release_fail_text_color">#FB6066</color>
+</resources>

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@android:color/transparent">-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.puxiansheng.www.common.TopBannerView
+                        android:id="@+id/top_banner_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="225dp"/>
+
+<!--                    <FrameLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="225dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/bg_banner"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="173.5dp"-->
+<!--                            android:src="@mipmap/bg_banner_blue"/>-->
+
+<!--                        <com.youth.banner.Banner-->
+<!--                            android:id="@+id/image_switcher"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="143.9dp"-->
+<!--                            android:layout_marginLeft="16dp"-->
+<!--                            android:layout_marginTop="82dp"-->
+<!--                            android:layout_marginRight="16dp"-->
+<!--                            app:indicator_drawable_selected="@drawable/dot_shape_selected"-->
+<!--                            app:indicator_drawable_unselected="@drawable/dot_shape_unselected"-->
+<!--                            app:image_scale_type="fit_xy" />-->
+<!--                    </FrameLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/simple_transfer_out"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_zhuandain"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="转店"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/simple_transfer_in"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_zhaodian"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="找店"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/investment_business"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_zhaoshang"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="招商加盟"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/fast_transfer_out"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_kuaisuzhuandian"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="快速转店"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/fast_transfer_in"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_kuaisuzaodian"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="快速找店"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="17dp">
+
+                        <ImageView
+                            android:id="@+id/img_one"
+                            android:layout_width="106.5dp"
+                            android:layout_height="55dp"
+                            android:scaleType="fitXY"/>
+
+                        <ImageView
+                            android:id="@+id/img_two"
+                            android:layout_width="145dp"
+                            android:layout_height="55dp"
+                            android:layout_alignTop="@+id/img_one"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/img_one"
+                            android:scaleType="fitXY"
+                             />
+
+                        <ImageView
+                            android:id="@+id/img_three"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/img_one"
+                            android:layout_alignRight="@+id/img_two"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
+                            />
+
+                        <ImageView
+                            android:id="@+id/img_four"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignTop="@+id/img_one"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/img_two"
+                            android:scaleType="fitXY"
+                            />
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="53.5dp"
+                        android:layout_marginLeft="9.5dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="9.5dp"
+                        android:background="@mipmap/card"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="46dp"
+                            android:layout_height="14.5dp"
+                            android:layout_marginLeft="17dp"
+                            android:src="@mipmap/words" />
+
+                        <TextView
+                            android:id="@+id/pxs_headline"
+                            android:layout_width="match_parent"
+                            android:layout_height="53.5dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:drawableRight="@mipmap/icon_arrow"
+                            android:drawablePadding="15dp"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:marqueeRepeatLimit="1"
+                            android:singleLine="true"
+                            android:textColor="#252525"
+                            android:textSize="11.9sp" />
+
+<!--                        <com.puxiansheng.www.common.ScrollTextView-->
+<!--                            android:id="@+id/pxs_headline"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="53.5dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginLeft="12dp"-->
+<!--                            android:layout_marginRight="12dp"-->
+<!--                            android:drawableRight="@mipmap/icon_arrow"-->
+<!--                            android:drawablePadding="14dp"-->
+<!--                            android:ellipsize="marquee"-->
+<!--                            android:focusable="true"-->
+<!--                            android:marqueeRepeatLimit="1"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:textColor="#252525"-->
+<!--                            android:textSize="12sp" />-->
+
+                    </LinearLayout>
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabGravity="center"
+                        app:tabIndicator="@drawable/tablayout_indicator_thin"
+                        app:tabIndicatorColor="@color/tab_orange"
+                        app:tabIndicatorFullWidth="true"
+                        app:tabMode="fixed">
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/order_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp" />
+
+                    <!--        <androidx.viewpager.widget.ViewPager-->
+                    <!--            android:id="@+id/order_pager"-->
+                    <!--            android:layout_width="match_parent"-->
+                    <!--            android:layout_height="match_parent"/>-->
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <LinearLayout
+                android:id="@+id/layout_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="vertical"
+                android:translationZ="1dp">
+
+                <com.puxiansheng.www.common.StateBarView
+                    android:id="@+id/appStatusBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent" />
+
+                <LinearLayout
+                    android:id="@+id/top_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/ic_map"
+                        android:layout_width="13dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="16dp"
+                        android:src="@mipmap/ic_location_home" />
+
+                    <TextView
+                        android:id="@+id/button_select_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/ic_map"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="中国"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bt_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_toRightOf="@+id/button_select_location"
+                        android:background="@drawable/bg_search"
+                        android:clickable="true"
+                        android:drawableLeft="@mipmap/search_iicon"
+                        android:drawablePadding="4dp"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:hint="@string/search_tips"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

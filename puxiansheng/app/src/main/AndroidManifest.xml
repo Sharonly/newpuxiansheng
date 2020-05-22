@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.puxiansheng.www">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+<!-- android:usesCleartextTraffic="true"-->
+    <permission
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+<!--    <meta-data-->
+<!--        android:name="TencentMapSDK"-->
+<!--        android:value="O2IBZ-X2RH4-ZKNUJ-DSGQT-RQGVK-TZF4W" />//SITBZ-UJALW-ZE4RO-O2QEQ-XY3X3-7OBT4-->
+    <meta-data
+        android:name="TencentMapSDK"
+        android:value="TMSBZ-BKGWK-3O2JH-AYOVY-SDCYO-QPFJ3" />
+
+
+    <application
+        android:name=".app.App"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:largeHeap="true"
+        tools:targetApi="m">
+                <activity
+                    android:name=".ui.main.MainActivity"
+                    android:label="@string/app_name"
+                    android:launchMode="singleTask">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
+
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+
+        <activity android:name=".ui.login.LoginActivity"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".ui.login.ForgetPasswordActivity" />
+        <activity android:name=".ui.login.AgreementActivity" />
+        <activity android:name=".ui.order.TransferInOrdersActivity" />
+        <activity android:name=".ui.order.TransferOutOrderActivity" />
+        <activity android:name=".ui.order.TransferSuccessOrderActivity"/>
+        <activity android:name=".ui.order.TransferOutOrderDetailActivity" />
+        <activity android:name=".ui.order.TransferInOrderDetailActivity" />
+        <activity android:name=".ui.release.InsertOrUpdateTransferOutOrderActivity"/>
+        <activity android:name=".ui.release.InsertOrUpdateTransferInOrderActivity"/>
+        <activity android:name=".ui.map.MapActivity"/>
+
+        <activity android:name=".ui.mine.favor.MyfarvorActivity"/>
+        <activity android:name=".ui.mine.history.MyHistoryActivity"/>
+        <activity android:name=".ui.mine.relase.MyReleaseAllActivity"/>
+        <activity android:name=".ui.mine.relase.OrderPublicActivity"/>
+        <activity android:name=".ui.mine.relase.OrderProcessingActivity"/>
+        <activity android:name=".ui.mine.relase.OrderSoldOutActivity"/>
+
+
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".app.PushService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+        <!-- Required SDK核心功能-->
+        <receiver
+            android:name=".app.PXSPushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="com.puxiansheng.www" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.puxiansheng.www.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
+
+    </application>
+
+
+</manifest>

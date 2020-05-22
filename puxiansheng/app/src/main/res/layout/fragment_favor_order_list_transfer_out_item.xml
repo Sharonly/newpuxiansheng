@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="123.5dp"-->
+    <!--        android:layout_marginLeft="9.5dp"-->
+    <!--        android:layout_marginRight="9.5dp"-->
+    <!--        android:background="#fff"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:theme="@style/Material"-->
+    <!--        android:gravity="center_vertical">-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_icon"
+            android:layout_width="125dp"
+            android:layout_height="95dp"
+            android:layout_marginLeft="15dp"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="7.5dp">
+
+            <ImageView
+                android:id="@+id/shop_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/layout_icon"
+            android:layout_marginTop="9dp"/>
+
+        <TextView
+            android:id="@+id/labeled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/title"
+            android:layout_below="@+id/title"
+            android:textSize="12sp"
+            android:text="热门"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:id="@+id/industry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="start"
+            android:layout_marginLeft="4.5dp"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            android:text="餐饮"
+            android:layout_toRightOf="@+id/labeled"/>
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/industry"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="3dp"
+            android:text=" — "
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/line"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/rent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/labeled"
+            android:drawablePadding="4dp"
+            android:textColor="#FF5722"
+            android:textSize="14sp"
+            android:layout_alignLeft="@+id/title"
+            android:layout_marginTop="10dp"/>
+
+
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:drawableStart="@mipmap/ic_location"
+            android:textColor="@color/appMainAccent"
+            android:layout_alignLeft="@+id/title"
+            android:layout_below="@+id/rent"
+            android:layout_marginTop="7dp"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/icon_time"
+            android:textColor="@color/appMainAccent"
+            android:gravity="end"
+            android:drawablePadding="3dp"
+            android:textSize="12sp"
+            android:layout_alignTop="@+id/area"
+            android:layout_marginRight="16.5dp"
+            android:layout_alignParentEnd="true"
+           />
+
+
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/button_back"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_back"
+                    android:padding="12dp"
+                    android:layout_marginLeft="3dp"
+                 />
+
+                <TextView
+                    android:id="@+id/tab_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="历史记录"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="40dp" />
+
+
+                <TextView
+                    android:id="@+id/bt_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:paddingRight="13dp"
+                    android:text="清除记录"
+                    android:textColor="@color/tab_orange"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                app:tabIndicator="@drawable/tablayout_indicator_orange_thin"
+                app:tabIndicatorColor="@color/tab_orange"
+                app:tabIndicatorFullWidth="true"
+                app:tabTextAppearance = "@style/tabHistoryTextStyle"
+                app:tabMode="fixed" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"/>
+
+        </LinearLayout>
+</layout>

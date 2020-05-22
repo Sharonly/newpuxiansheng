@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/tanslate">
+
+        <RelativeLayout
+            android:layout_width="267dp"
+            android:layout_height="358dp"
+            android:layout_marginTop="153dp"
+            android:background="@drawable/bg_dialog"
+            android:layout_gravity="center_horizontal">
+
+
+            <TextView
+                android:id="@+id/upgrade_version"
+                android:layout_width="50dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="172dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:textSize="12sp"
+                android:background="@drawable/bg_bt_login_slected"/>
+
+            <TextView
+                android:id="@+id/upgrade_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/upgrade_version"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="60dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/button_sure"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@color/tanslate"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/appMain" />
+
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="133dp"
+                android:layout_height="50dp"
+                android:background="@color/tanslate"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/color_upgrade_desc"
+                android:textSize="15sp"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="1dp"
+                android:layout_height="50dp"
+                android:layout_toRightOf="@+id/button_cancel"
+                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@+id/button_cancel"
+                android:gravity="center"
+                android:background="@color/appDivider"
+                android:visibility="gone"/>
+
+
+            <Button
+                android:id="@+id/button_ok"
+                android:layout_width="133dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@color/tanslate"
+                android:gravity="center"
+                android:text="立即更新"
+                android:textColor="@color/appMain"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        
+        <ImageView
+            android:layout_width="238dp"
+            android:layout_height="227dp"
+            android:src="@mipmap/bg_upgrade"
+            android:layout_marginTop="96dp"
+            android:layout_gravity="center_horizontal"/>
+    </FrameLayout>
+</layout>

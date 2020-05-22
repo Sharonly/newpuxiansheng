@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_dialog"
+        android:theme="@style/Material">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bg_icon"
+            android:layout_width="125dp"
+            android:layout_height="92.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7.5dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/shop_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="9dp"
+            android:layout_toRightOf="@+id/bg_icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/labeled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_alignLeft="@+id/title"
+            android:layout_marginTop="3dp"
+            android:text="热门"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/industry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_gravity="start"
+            android:layout_alignTop="@+id/labeled"
+            android:layout_marginLeft="4.5dp"
+            android:layout_toRightOf="@+id/labeled"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_alignTop="@+id/labeled"
+            android:layout_toRightOf="@+id/industry"
+            android:text=" — "
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/line"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/rent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/labeled"
+            android:layout_alignLeft="@+id/title"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="4dp"
+            android:textColor="#FF5722"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rent"
+            android:layout_alignLeft="@+id/title"
+            android:layout_gravity="start"
+            android:layout_marginTop="9dp"
+            android:drawableStart="@mipmap/ic_location"
+            android:textColor="@color/appMainAccent"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/area"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16.5dp"
+            android:drawableStart="@mipmap/icon_time"
+            android:drawablePadding="3dp"
+            android:gravity="end"
+            android:textColor="@color/appMainAccent"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/line_2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/area"
+            android:layout_marginTop="10dp"
+            android:background="@color/line_gray" />
+
+        <TextView
+            android:id="@+id/bt_delete"
+            android:layout_width="60dp"
+            android:layout_height="27dp"
+            android:layout_below="@+id/line_2"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_bt_delete"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/tab_orange"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/bt_edit"
+            android:layout_width="60dp"
+            android:layout_height="27dp"
+            android:layout_below="@+id/line_2"
+            android:layout_toLeftOf="@+id/bt_delete"
+            android:background="@drawable/bg_bt_edit"
+            android:layout_marginRight="12dp"
+            android:gravity="center"
+            android:layout_marginTop="7dp"
+            android:text="修改"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+</layout>

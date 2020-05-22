@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:background="@mipmap/bg_transter">
+
+            <com.puxiansheng.www.common.StateBarView
+                android:id="@+id/appStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/appMain" />
+
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:background="@color/appMain">-->
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="32dp"
+                android:layout_height="26dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/appStatusBar"
+                android:src="@mipmap/ic_back_white" />
+
+            <TextView
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:layout_toRightOf="@+id/button_back"
+                android:background="@drawable/bg_search"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/search_iicon"
+                android:drawablePadding="4dp"
+                android:layout_marginTop="15dp"
+                android:focusable="true"
+                android:layout_below="@+id/appStatusBar"
+                android:gravity="center_vertical"
+                android:hint="@string/search_info"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            app:tabIndicatorFullWidth="true"
+            app:tabMode="fixed"
+            app:tabIndicator="@drawable/tablayout_indicator_thin"
+            app:tabIndicatorColor="@color/appMain"
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:theme="@style/Material">
+
+            <RelativeLayout
+                android:id="@+id/topBar"
+                android:layout_width="match_parent"
+                android:layout_height="142dp"
+                android:background="@mipmap/bg_release_big_yellow"
+                app:layout_constraintTop_toBottomOf="@+id/appStatusBar">
+
+                <ImageView
+                    android:id="@+id/button_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="30dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_back_white" />
+
+                <TextView
+                    android:id="@+id/topTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:text="找店发布"
+                    android:textColor="@android:color/white"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/topTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="23dp"
+                    android:src="@mipmap/bg_release_white" />
+            </RelativeLayout>
+
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="-45dp"
+                android:layout_marginRight="16dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_dialog">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="25dp"
+                    android:drawableLeft="@mipmap/ic_yellow_cicler"
+                    android:drawablePadding="4dp"
+                    android:text="发布标题"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/input_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_alignLeft="@+id/title"
+                    android:layout_marginTop="25dp"
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:hint="请输入标题"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/input_title"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+                <TextView
+                    android:id="@+id/layout_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="27dp"
+                    android:drawableLeft="@mipmap/ic_yellow_cicler"
+                    android:drawablePadding="4dp"
+                    android:text="基础信息"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_industry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_info"
+                    android:layout_alignLeft="@+id/layout_info"
+                    android:layout_marginTop="23dp"
+                    android:drawableStart="@mipmap/ic_xinhao"
+                    android:drawablePadding="3dp"
+                    android:text="行业"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/button_select_industry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_industry"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:drawableEnd="@mipmap/ic_arrow"
+                    android:drawablePadding="12dp"
+                    android:text="请选择"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/button_select_industry"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+
+                <TextView
+                    android:id="@+id/txt_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line2"
+                    android:layout_alignLeft="@+id/layout_info"
+                    android:layout_marginTop="23dp"
+                    android:drawableStart="@mipmap/ic_xinhao"
+                    android:drawablePadding="3dp"
+                    android:text="面积"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/button_select_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:drawableEnd="@mipmap/ic_arrow"
+                    android:drawablePadding="12dp"
+                    android:text="请选择"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/button_select_size"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+                <TextView
+                    android:id="@+id/txt_rent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line3"
+                    android:layout_alignLeft="@+id/layout_info"
+                    android:layout_marginTop="23dp"
+                    android:drawableStart="@mipmap/ic_xinhao"
+                    android:drawablePadding="3dp"
+                    android:text="租金"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/button_select_rent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_rent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:drawableEnd="@mipmap/ic_arrow"
+                    android:drawablePadding="12dp"
+                    android:text="请选择"
+                    android:hint="元"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/button_select_rent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+                <TextView
+                    android:id="@+id/txt_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line4"
+                    android:layout_alignLeft="@+id/layout_info"
+                    android:layout_marginTop="23dp"
+                    android:drawableStart="@mipmap/ic_xinhao"
+                    android:drawablePadding="3dp"
+                    android:text="区域"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/button_select_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_area"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:drawableEnd="@mipmap/ic_arrow"
+                    android:drawablePadding="12dp"
+                    android:text="请选择"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/line5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/button_select_area"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+
+                <TextView
+                    android:id="@+id/layout_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line5"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="25dp"
+                    android:drawableLeft="@mipmap/ic_yellow_cicler"
+                    android:drawablePadding="4dp"
+                    android:text="详细说明"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/layout_facilities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_content"
+                    android:layout_alignLeft="@+id/layout_content"
+                    android:layout_marginTop="25dp"
+                    android:drawablePadding="4dp"
+                    android:text="配套设施"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bt_select_facilities"
+                    android:layout_below="@+id/layout_content"
+                    android:layout_alignTop="@+id/layout_facilities"
+                    android:layout_alignBottom="@+id/layout_facilities"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:drawableEnd="@mipmap/ic_arrow"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="12dp"
+                    android:text="请选择"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_facilities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_facilities"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/list_facilities"
+                    android:layout_alignLeft="@+id/layout_info"
+                    android:layout_marginTop="23dp"
+                    android:text="楼层"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/input_floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_floor"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:hint="层"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/line6"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/txt_floor"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/line_gray" />
+
+                <TextView
+                    android:id="@+id/txt_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line6"
+                    android:layout_alignLeft="@+id/layout_content"
+                    android:layout_marginTop="25dp"
+                    android:text="详细描述"
+                    android:textColor="@color/input_text_blank"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/bg_input_release"
+                    android:hint="请输入"
+                    android:textSize="14sp"
+                    android:gravity="start"
+                    android:padding="4dp"
+                    android:layout_below="@+id/txt_description"
+                    android:layout_marginTop="10dp"
+                    android:inputType="text"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/submit"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_margin="20dp"
+                    android:layout_below="@+id/input_description"
+                    android:gravity="center"
+                    android:text="提交"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/appMain"
+                    app:cornerRadius="6dp" />
+
+            </RelativeLayout>
+            </ScrollView>
+        </LinearLayout>
+
+</layout>

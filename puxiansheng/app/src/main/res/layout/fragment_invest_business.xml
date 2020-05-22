@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7F7F7"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="225dp"
+                    android:background="@mipmap/bg_banner_orage"
+                    android:orientation="vertical">
+
+                    <com.puxiansheng.www.common.ImageSwitcher
+                        android:id="@+id/image_switcher"
+                        android:layout_width="match_parent"
+                        android:layout_height="145dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="82dp"
+                        android:layout_marginRight="16dp"
+                        />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/business_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.puxiansheng.www.common.StateBarView
+                android:id="@+id/statusbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="32dp"
+                android:layout_height="26dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
+                android:paddingRight="12dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/ic_back_white"
+                android:layout_below="@+id/statusbar"/>
+
+            <TextView
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:layout_toRightOf="@+id/button_back"
+                android:background="@drawable/bg_search"
+                android:layout_below="@+id/statusbar"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/search_iicon"
+                android:drawablePadding="4dp"
+                android:layout_marginTop="8dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="@string/search_invest_business"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </FrameLayout>
+</layout>

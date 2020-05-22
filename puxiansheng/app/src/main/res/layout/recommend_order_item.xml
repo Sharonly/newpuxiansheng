@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="166.5dp"
+        android:layout_height="219dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="6dp">
+
+        <RelativeLayout
+            android:layout_width="166.5dp"
+            android:layout_height="219dp"
+            android:background="@drawable/bg_dialog">
+
+            <ImageView
+                android:id="@+id/shop_img"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/shop_label"
+                android:layout_width="75.5dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_recommend_order_lable"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_img"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_title"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/tab_orange"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rent"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/view_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/size"
+                android:layout_marginRight="14dp"
+                android:layout_toRightOf="@+id/size"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

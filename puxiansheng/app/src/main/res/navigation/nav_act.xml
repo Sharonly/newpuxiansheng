@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.puxiansheng.www.ui.main.MainFragment"
+        android:label="fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+
+
+        <action
+            android:id="@+id/action_mainFragment_to_simpleTransferInOrderFragment"
+            app:destination="@id/transferInOrderFragment" />
+
+
+
+        <action
+            android:id="@+id/action_mainFragment_to_investBusinessFragment"
+            app:destination="@id/investBusinessFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_infoDetailFragment"
+            app:destination="@id/infoDetailFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_insertOrUpdateTransferInOrderFragment"
+            app:destination="@id/insertOrUpdateTransferInOrderFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_settingFragment"
+            app:destination="@+id/settingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_userSettingFragment"
+            app:destination="@+id/userSettingFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_myReleaseFragment"
+            app:destination="@+id/myReleaseFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_myHistoryFragment"
+            app:destination="@+id/myHistoryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myfarvorFragment"
+            app:destination="@+id/myfarvorFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_userSuggestFragment"
+            app:destination="@id/userSuggestFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.puxiansheng.www.ui.home.HomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/fragment_home">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_info"
+        android:name="com.puxiansheng.www.ui.info.InfoHomeListFragment"
+        android:label="InfoListFragment"
+        tools:layout="@layout/fragment_info_home">
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_release"
+        android:name="com.puxiansheng.www.ui.release.ReleaseFragment"
+        android:label="ReleaseFragment"
+        tools:layout="@layout/fragment_release">
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_message"
+        android:name="com.puxiansheng.www.ui.message.MessageHomeListFragment"
+        android:label="MessageListFragment"
+        tools:layout="@layout/fragment_message_home">
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_mine"
+        android:name="com.puxiansheng.www.ui.mine.MineFragment"
+        android:label="MineFragment"
+        tools:layout="@layout/fragment_mine">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/transferInOrderFragment"
+        android:name="com.puxiansheng.www.ui.order.TransferInOrdersActivity"
+        android:label="TransferInOrderFragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/userSuggestFragment"
+        android:name="com.puxiansheng.www.ui.mine.suggest.UserSuggestFragment"
+        android:label="UserSuggestFragment"/>
+
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.puxiansheng.www.ui.main.LocationFragment"
+        android:label="LocationFragment" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.puxiansheng.www.ui.search.SearchFragment"
+        android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/investBusinessFragment"
+        android:name="com.puxiansheng.www.ui.home.InvestBusinessFragment"
+        android:label="InvestBusinessFragment" />
+
+    <fragment
+        android:id="@+id/infoDetailFragment"
+        android:name="com.puxiansheng.www.ui.info.InfoDetailFragment"
+        android:label="InfoDetailFragment" />
+
+    <fragment
+        android:id="@+id/releaseFragment"
+        android:name="com.puxiansheng.www.ui.release.ReleaseFragment"
+        android:label="ReleaseFragment">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/insertOrUpdateTransferInOrderFragment"
+        android:name="com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity"
+        android:label="InsertOrUpdateTransferInOrderFragment">
+
+        <action
+            android:id="@+id/action_insertOrUpdateTransferInOrderFragment_to_loginFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.puxiansheng.www.ui.mine.setting.SettingFragment"
+        android:label="SettingFragment">
+        <action
+            android:id="@+id/action_settingFragment_to_userSettingFragment"
+            app:destination="@+id/userSettingFragment" />
+
+        <action
+            android:id="@+id/action_settingFragment_to_resetPasswordFragment"
+            app:destination="@+id/resetPasswordFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/userSettingFragment"
+        android:name="com.puxiansheng.www.ui.mine.setting.UserSettingFragment"
+        android:label="UserSettingFragment">
+
+        <action
+            android:id="@+id/action_settingFragment_to_locationFragment"
+            app:destination="@+id/locationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.puxiansheng.www.ui.mine.setting.ResetPasswordFragment"
+        android:label="ResetPasswordFragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myfarvorFragment"
+        android:name="com.puxiansheng.www.ui.mine.favor.MyfarvorActivity"
+        android:label="MyfarvorFragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/myHistoryFragment"
+        android:name="com.puxiansheng.www.ui.mine.history.MyHistoryActivity"
+        android:label="MyHistoryFragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myReleaseFragment"
+        android:name="com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity"
+        android:label="MyReleaseFragment">
+
+    </fragment>
+
+</navigation>
