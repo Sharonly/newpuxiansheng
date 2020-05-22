@@ -6,25 +6,25 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml
+8-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml
+9-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:4:5-67
-11-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:4:22-64
+11-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:4:5-67
+11-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:4:22-64
 12    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-12-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:5:5-80
-12-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:5:22-77
+12-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:5:5-80
+12-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:5:22-77
 13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-13-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:6:5-81
-13-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:6:22-78
+13-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:6:5-81
+13-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:6:22-78
 14    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
-14-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:7:5-80
-14-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:7:22-77
+14-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:7:5-80
+14-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:7:22-77
 15
 16    <application android:allowBackup="false" />
-16-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:9:5-48
-16-->D:\LXX_WorkProject\puxiansheng\logic\src\main\AndroidManifest.xml:9:18-45
+16-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:9:5-48
+16-->D:\LXX_WorkProject\pxs_new\newpuxiansheng\puxiansheng\logic\src\main\AndroidManifest.xml:9:18-45
 17
 18</manifest>

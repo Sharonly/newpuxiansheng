@@ -95,6 +95,10 @@ class UserRepository(userDao: UserDao) {
         type = type
     )
 
+    fun requireHistorySearch(type: Int,userId:String) = remoteUserRepository.requireHistorySearch(type = type,userId = userId)
+    fun requireRecommendSearch() = remoteUserRepository.requireRecommendSearch()
+
+
     fun bindMobileNumber(
         phone: String,
         code:String,

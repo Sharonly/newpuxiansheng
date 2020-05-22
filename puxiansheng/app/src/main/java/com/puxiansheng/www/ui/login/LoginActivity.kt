@@ -189,7 +189,7 @@ class LoginActivity : MyBaseActivity() {
                     }
                 }
             }
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch() {
                 loginViewModel.loginByType(loginType)?.let {
                     if (it is User) {
                         if (loginType == MODE_REGISTER) {
@@ -222,8 +222,8 @@ class LoginActivity : MyBaseActivity() {
                             )
                             SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
                             API.setAuthToken(it.token)
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             LiveDataBus.get().with("user")?.value = it
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                         }
                     }
@@ -283,6 +283,10 @@ class LoginActivity : MyBaseActivity() {
 
                             }
                             if (result is User) {
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_USER_ID,
+                                    result.userID
+                                )
                                 SharedPreferencesUtil.put(
                                     API.LOGIN_USER_TOKEN,
                                     result.token

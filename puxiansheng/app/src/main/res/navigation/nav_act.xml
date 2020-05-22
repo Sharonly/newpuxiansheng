@@ -115,7 +115,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.puxiansheng.www.ui.search.SearchFragment"
+        android:name="com.puxiansheng.www.ui.search.SearchActivity"
         android:label="SearchFragment" />
     <fragment
         android:id="@+id/investBusinessFragment"
@@ -124,7 +124,7 @@
 
     <fragment
         android:id="@+id/infoDetailFragment"
-        android:name="com.puxiansheng.www.ui.info.InfoDetailFragment"
+        android:name="com.puxiansheng.www.ui.info.InfoDetailActivity"
         android:label="InfoDetailFragment" />
 
     <fragment

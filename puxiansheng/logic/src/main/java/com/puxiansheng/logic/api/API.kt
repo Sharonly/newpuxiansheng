@@ -44,6 +44,7 @@ object API {
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
     const val API_VERSION = "329"
 
+    const val LOGIN_USER_ID = "user_id"
     const val LOGIN_USER_TOKEN = "user_token"
     const val LOGIN_USER_PHONE = "user_phone"
     const val LOGIN_USER_ICON = "user_icon"
@@ -79,7 +80,11 @@ object API {
     const val GET_VERIFICATION_CODE = API_ADDRESS + "api/send_msg.html"
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
+//search
 
+    const val GET_HISTORY_SEARCH = API_ADDRESS + "api/history_search.html"
+
+    const val GET_RECOMMEND_SEARCH = API_ADDRESS + "api/transfer/hot/search.html"
     //images
     const val GET_IMAGES = API_ADDRESS + "api/get_images.html"
 

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.MenuItem
 
-import com.puxiansheng.uio.order.dialog.SelectIndustryViewModel
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding

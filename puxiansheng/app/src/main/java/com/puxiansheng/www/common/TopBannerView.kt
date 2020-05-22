@@ -87,46 +87,46 @@ class TopBannerView : FrameLayout {
 
     fun setBannerImages(images: List<BannerImage>?) {
         images?.let {
-//            bannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556532613936&di=3769695217e3424f18c3d23966ecd4dc&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F04%2F19%2F70e2846ebc02ae10161f25bf7f5461a1.jpg")
-//            bannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556532665664&di=9ead9eb8a9fe2af9a01b0dd39f3e41f4&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F05%2F37%2F28%2F475a43591370453.jpg")
-//            bannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556532613934&di=0be1c6bbf0441bd19ef6d4e3ce799263&imgtype=0&src=http%3A%2F%2Fpic96.nipic.com%2Ffile%2F20160430%2F7036970_215739900000_2.jpg")
-//            bannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556532613936&di=4dd453940f49d9801826e6b820490957&imgtype=0&src=http%3A%2F%2Fpic161.nipic.com%2Ffile%2F20180410%2F26429156_154754410034_2.jpg")
-//            bannerList.add("https://pics7.baidu.com/feed/3bf33a87e950352a3726d2d6528450f4b0118bf3.jpeg?token=6e853ebadb1edc0e17378e8249cfebac&s=7167587ECE742C9A54B32FB80300B01A")
             bannerList.clear()
             for (i in images.indices) {
                 val imageUrl = images[i].imageUrl
                 bannerList.add(imageUrl)
-//                val bgImg =images[i].bgImgUrl
-//                    bgList.add(bgImg)
-                Log.d("---topbanner--", " i = " + i + " imageUrl = " + imageUrl)
             }
             count = bannerList.size
-            if(count>0){
+            if (count > 0) {
                 initBannerView()
             }
         }
     }
 
-  private fun initBannerView(){
-      colorList.clear()
-      for (i in 0..count + 1) {
-          val info = ColorInfo()
-          if (i == 0) {
-              info.imgUrl = bannerList[count - 1]
-          } else if (i == count + 1) {
-              info.imgUrl = bannerList[0]
-          } else {
-              info.imgUrl = bannerList[i - 1]
-          }
-          colorList.add(info)
-      }
-      imageLoader = BannerImageLoader(colorList)
-      binding.banner.setImageLoader(imageLoader)
+    private fun initBannerView() {
+        colorList.clear()
+        for (i in 0..count + 1) {
+            val info = ColorInfo()
+            if (i == 0) {
+                info.imgUrl = bannerList[count - 1]
+            } else if (i == count + 1) {
+                info.imgUrl = bannerList[0]
+            } else {
+                info.imgUrl = bannerList[i - 1]
+            }
+            colorList.add(info)
+        }
+        imageLoader = BannerImageLoader(colorList)
+        binding.banner.setImageLoader(imageLoader)
 
-      binding.banner.setImages(bannerList)
-      binding.banner.setDelayTime(3000)
-      binding.banner.setOnBannerListener { OnBannerListener { } }
-      binding.banner.start()
+        binding.banner.setImages(bannerList)
+        binding.banner.setDelayTime(3000)
+        binding.banner.setOnBannerListener { OnBannerListener { } }
+        binding.banner.start()
+    }
+
+    fun startBanner(){
+        binding.banner.startAutoPlay()
+    }
+
+     fun stopBanner(){
+        binding.banner.stopAutoPlay()
     }
 
     fun onImageClick(onImageClick: (image: BannerImage) -> Unit) {

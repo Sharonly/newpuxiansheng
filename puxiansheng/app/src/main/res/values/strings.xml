@@ -41,5 +41,6 @@
 
     <string name="message_title">通知消息</string>
     <string name="delete_history_title">确定清除全部历史记录吗？</string>
+    <string name="input_search_content">请输入您想搜索的内容</string>
 
 </resources>

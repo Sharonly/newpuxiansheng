@@ -46,7 +46,7 @@ class MineFragment : Fragment() {
             isLogin = true
             userAccount.text = get(API.LOGIN_NICK_NAME, "").toString()
             userPhone.text = get(API.LOGIN_USER_PHONE, "").toString()
-            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
+//            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
         } else {
             userAccount.text = "请登录"
             userPhone.text = ""
@@ -57,6 +57,13 @@ class MineFragment : Fragment() {
                 Navigation.findNavController(requireActivity(), R.id.homeNavHost)
                     .navigate(R.id.action_mainFragment_to_userSettingFragment)
             } else {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        userAccount.setOnClickListener {
+            if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -128,7 +135,6 @@ class MineFragment : Fragment() {
                 val intent = Intent(requireActivity(), OrderSoldOutActivity::class.java)
                 startActivity(intent)
             }
-
         }
 
 

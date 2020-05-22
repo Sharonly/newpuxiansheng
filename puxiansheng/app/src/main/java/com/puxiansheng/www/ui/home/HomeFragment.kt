@@ -29,8 +29,11 @@ import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderActivity
+import com.puxiansheng.www.ui.search.SearchActivity
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -66,9 +69,8 @@ class HomeFragment : Fragment() {
         }
 
         btSearch.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
-                R.id.action_mainFragment_to_searchFragment
-            )
+            val intent= Intent(requireActivity(), SearchActivity::class.java)
+            startActivity(intent)
         }
 
         resources.displayMetrics.widthPixels.times(0.65).let {
@@ -271,6 +273,16 @@ class HomeFragment : Fragment() {
             }
         })
     }.root
+
+    override fun onResume() {
+        super.onResume()
+        top_banner_view.startBanner()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        top_banner_view.stopBanner()
+    }
 
 
 }

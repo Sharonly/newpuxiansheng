@@ -4,4 +4,6 @@
         <attr name="border_width_new" format="dimension" />
         <attr name="border_color_new" format="color" />
     </declare-styleable>
+
+
 </resources>

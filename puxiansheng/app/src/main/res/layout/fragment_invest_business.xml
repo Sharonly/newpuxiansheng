@@ -69,7 +69,7 @@
                 android:layout_height="30dp"
                 android:layout_marginRight="12dp"
                 android:layout_toRightOf="@+id/button_back"
-                android:background="@drawable/bg_search"
+                android:background="@drawable/bg_search_home"
                 android:layout_below="@+id/statusbar"
                 android:clickable="true"
                 android:drawableLeft="@mipmap/search_iicon"

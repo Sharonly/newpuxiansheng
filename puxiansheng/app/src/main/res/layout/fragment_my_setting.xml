@@ -55,12 +55,11 @@
             android:layout_height="166dp"
             android:background="@mipmap/bg_user_info">
 
-            <ImageView
-                android:id="@+id/ic_user"
+            <com.puxiansheng.www.common.CircleImageView
+                android:id="@+id/user_icon"
                 android:layout_width="92dp"
                 android:layout_height="92dp"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true"
                 android:src="@mipmap/ic_user" />
 
             <ImageView

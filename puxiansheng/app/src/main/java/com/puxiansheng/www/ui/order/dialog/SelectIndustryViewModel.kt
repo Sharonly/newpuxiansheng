@@ -1,4 +1,4 @@
-package com.puxiansheng.uio.order.dialog
+package com.puxiansheng.www.ui.order.dialog
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

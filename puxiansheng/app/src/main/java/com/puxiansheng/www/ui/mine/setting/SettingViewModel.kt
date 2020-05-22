@@ -2,12 +2,16 @@ package com.puxiansheng.www.ui.mine.setting
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SettingViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,7 +30,27 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     var address: String? = null
     var cityId = 0
     var iconImg: String? = null
+    val toastMsg = MutableLiveData<String>()
+    val currentUser = MutableLiveData<User>()
 
+
+    suspend fun getUserInformationFromRemote() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        userRepository.requireRemoteUserInfo().let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.user else null
+//            if (apiRst.succeeded) {
+//                (apiRst as APIRst.Success).let { apiResp ->
+//                    if (apiResp.data.code == API.CODE_SUCCESS) apiResp.data.data?.user else null
+//                    if (apiResp.data.code == API.CODE_SUCCESS) apiResp.data.data?.let { userInfo ->
+//                        userInfo.user?.let { user ->
+//                            currentUser.postValue(user)
+//                        }
+//                    } else {
+//                        toastMsg.postValue(apiResp.data.msg)
+//                    }
+//                }
+//            }
+        }
+    }
     suspend fun submitUserInfo() =
         withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             userRepository.submitUserInfo(

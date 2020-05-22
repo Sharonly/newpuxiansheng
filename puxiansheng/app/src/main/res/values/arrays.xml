@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_view_spinner_values">
+        <item>转铺</item>
+        <item>找店</item>
+        <item>百科</item>
+        <item>消息</item>
+    </string-array>
+</resources>

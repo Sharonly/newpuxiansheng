@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.mine.favor
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,18 +24,14 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentInfoListBinding
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.launch
 
 class FavoriteInfoFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteInfoListViewModel
-    private var category = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        println("InfoListFragment with category=${category}")
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +52,7 @@ class FavoriteInfoFragment : Fragment() {
         }
 
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
-            it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_thin, null))
+            it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             list.addItemDecoration(it)
         }
 
@@ -99,12 +96,9 @@ class FavoriteInfoFragment : Fragment() {
                 binding.pageViews.text = infoItem?.pageViews.toString()
                 binding.icon.url(infoItem?.image ?: "")
                 binding.root.setOnClickListener {
-                    Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
-                        R.id.action_mainFragment_to_infoDetailFragment,
-                        Bundle().apply {
-                            putString("url", infoItem?.url)
-                        }
-                    )
+                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                    intent.putExtra("url", infoItem?.url)
+                    startActivity(intent)
                 }
             }
         }

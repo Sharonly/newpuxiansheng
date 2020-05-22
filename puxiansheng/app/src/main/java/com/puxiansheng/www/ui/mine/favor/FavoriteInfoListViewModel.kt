@@ -17,7 +17,6 @@ class FavoriteInfoListViewModel (application: Application) : AndroidViewModel(ap
     private val infoRepository = InfoRepository(InfoDatabase.getInstance(context).infoDao())
 
     private var currentPage = 1
-    private var infoType = 0
 
     private fun deleteInfoAll(
     ) = viewModelScope.launch(Dispatchers.IO) {
@@ -39,8 +38,6 @@ class FavoriteInfoListViewModel (application: Application) : AndroidViewModel(ap
             loadMore()
         }
     }
-
-
 
 
     suspend fun getFavorInfoFromRoom(

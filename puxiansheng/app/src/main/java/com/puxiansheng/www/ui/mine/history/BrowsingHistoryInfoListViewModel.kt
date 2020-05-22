@@ -78,7 +78,6 @@ class BrowsingHistoryInfoListViewModel (application: Application) : AndroidViewM
         infoRepository.insertInfoIntoRoom(
             info = *info
         )
-        Log.d("---histrory"," info = "+info)
     }
 
     suspend fun deleteAll() {}

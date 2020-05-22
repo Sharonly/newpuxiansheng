@@ -10,3 +10,8 @@ data class HttpRespUserInfo(
     @SerializedName("userinfo")
     val user: User? = null
 ) : Parcelable
+
+data class HttpUserInfo(
+    @SerializedName("result")
+    val user: User? = null
+)

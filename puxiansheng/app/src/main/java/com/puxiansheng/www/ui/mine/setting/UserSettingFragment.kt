@@ -13,11 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
+import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMySettingBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.coroutines.launch
 
 
@@ -36,11 +39,26 @@ class UserSettingFragment : AppFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentMySettingBinding.inflate(inflater).apply {
+        lifecycleScope.launch {
+            settingViewModel.getUserInformationFromRemote()?.let {
+                if (it is User) {
+                    userIcon.urlIcon(it.icon)
+                    inputNickName.setText(it.nickname)
+                    inputActualName.setText(it.actualName)
+                    if(it.userSex == 2){
+                        femle.isChecked = false
+                    }else{
+                        male.isChecked = true
+                    }
+                }
+            }
+        }
+
         buttonBack.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.homeNavHost).popBackStack()
         }
 
-        icUser.setOnClickListener {
+        userIcon.setOnClickListener {
             ChangeIconDialog().show(childFragmentManager, ChangeIconDialog::class.java.name)
         }
 
@@ -91,7 +109,7 @@ class UserSettingFragment : AppFragment() {
 //            settingViewModel.sex = 1
 //        }
 
-        userPhone.setText( SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString())
+        userPhone.setText(SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString())
 
         userLocation.text = SharedPreferencesUtil.get(API.USER_CITY_NAME, "").toString()
         userLocation.setOnClickListener {
@@ -117,22 +135,34 @@ class UserSettingFragment : AppFragment() {
                                 it1
                             )
                         }
-                        settingViewModel.sex?.let { it1 -> SharedPreferencesUtil.put(API.USER_SEX, it1) }
+                        settingViewModel.sex?.let { it1 ->
+                            SharedPreferencesUtil.put(
+                                API.USER_SEX,
+                                it1
+                            )
+                        }
                         settingViewModel.contactPhone?.let { it1 ->
                             SharedPreferencesUtil.put(
                                 API.LOGIN_USER_PHONE,
                                 it1
                             )
                         }
-                        settingViewModel.cityId?.let { it1 -> SharedPreferencesUtil.put(API.USER_CITY_ID, it1) }
+                        settingViewModel.cityId?.let { it1 ->
+                            SharedPreferencesUtil.put(
+                                API.USER_CITY_ID,
+                                it1
+                            )
+                        }
                         SharedPreferencesUtil.put(API.USER_CITY_NAME, userLocation.text)
                         Toast.makeText(requireActivity(), "保存成功", Toast.LENGTH_SHORT)
-                        Navigation.findNavController(requireActivity(), R.id.homeNavHost).popBackStack()
+                        Navigation.findNavController(requireActivity(), R.id.homeNavHost)
+                            .popBackStack()
                     }
                 }
             }
-
         }
+
+
 
         appModel.currentCity.observe(requireActivity(), Observer {
             userLocation.text = it.text
