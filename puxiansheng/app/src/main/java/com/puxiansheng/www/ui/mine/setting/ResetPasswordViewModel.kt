@@ -1,13 +1,11 @@
-package com.puxiansheng.uio.system
+package com.puxiansheng.www.ui.mine.setting
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
-import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +18,7 @@ class ResetPasswordViewModel(application: Application) : AndroidViewModel(applic
 
     var originalPassword = ""
     var newPassword = ""
+    var newSecondPassword = ""
 
     var toastMsg = MutableLiveData<String>()
 

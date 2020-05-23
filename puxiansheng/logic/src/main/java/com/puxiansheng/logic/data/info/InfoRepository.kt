@@ -13,11 +13,13 @@ class InfoRepository(infoDao: InfoDao) {
     fun getInfoByCategoryFromRemote(
         category: Int,
         page: Int,
-        city: String? = null
+        city: String? = null,
+        title:String? = null
     ) = remoteInfoRepository.getInfoByCategoryFromRemote(
         category = category,
         page = page,
-        city = city
+        city = city,
+        title = title
     )
 
     fun getInfoByCategoryFromRoom(

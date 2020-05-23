@@ -73,6 +73,8 @@
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.search.SearchActivity"/>
         <activity android:name=".ui.info.InfoDetailActivity"></activity>
+
+        <activity android:name=".ui.home.InvestBusinessActivity"/>
         <activity android:name=".ui.order.TransferInOrdersActivity" />
         <activity android:name=".ui.order.TransferOutOrderActivity" />
         <activity android:name=".ui.order.TransferSuccessOrderActivity"/>

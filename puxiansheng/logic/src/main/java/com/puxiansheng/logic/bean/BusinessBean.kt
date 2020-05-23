@@ -1,32 +1,81 @@
 package com.puxiansheng.logic.bean
 
+import androidx.recyclerview.widget.DiffUtil
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+
+@Entity(tableName = "table_business")
 data class BusinessBean(
-val code: Int,
-val `data`: Data,
-val msg: String
-)
+
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "_shop_id")
+        var shopID: Int = 0,
+
+        @ColumnInfo(name = "_id")
+        @SerializedName("id")
+        val id: Int = 0,
+
+        @ColumnInfo(name = "_name")
+        @SerializedName("name")
+        val name:  String = "",
 
 
-data class Data(
-        val `data`: List<Business>,
-        val this_page: String,
-        val total_page: Int
-)
+        @ColumnInfo(name = "_trades")
+        @SerializedName("trades")
+        val trades: String,
 
-data class Business(
-        val contact_phone: String,
-        val id: Int,
-        val investment: String,
-        val jump_param: String,
-        val jump_type: Int,
-        val jump_view: String,
-        val keywords: List<String>,
-        val large_img: String,
-        val large_img_alt: String,
-        val large_img_title: String,
-        val name: String,
-        val thumb_img: String,
-        val thumb_img_alt: String,
-        val thumb_img_title: String,
-        val trades: String
-)
+        @SerializedName("contact_phone")
+        @ColumnInfo(name = "_contact_phone")
+        val contact_phone: String = "",
+
+        @ColumnInfo(name = "_investment")
+        @SerializedName("investment")
+        val investment:  String = "",
+
+
+        @ColumnInfo(name = "_item_keywords")
+        @SerializedName("keywords")
+         var keywords :Array<String> ? =null,
+//        var keywords: List<String> ?= null,
+
+
+        @ColumnInfo(name = "_large_img")
+        @SerializedName("large_img")
+        val large_img:  String = "",
+
+        @ColumnInfo(name = "_large_img_alt")
+        @SerializedName("large_img_alt")
+        val large_img_alt:  String = "",
+
+        @ColumnInfo(name = "_large_img_title")
+        @SerializedName("large_img_title")
+        val large_img_title:  String = "",
+
+
+        @ColumnInfo(name = "_thumb_img")
+        @SerializedName("thumb_img")
+        val thumb_img:  String = "",
+
+        @ColumnInfo(name = "_thumb_img_alt")
+        @SerializedName("thumb_img_alt")
+        val thumb_img_alt:  String = "",
+
+        @ColumnInfo(name = "_thumb_img_title")
+        @SerializedName("thumb_img_title")
+        val thumb_img_title:  String = ""
+
+){
+        companion object {
+                val DIFF = object : DiffUtil.ItemCallback<BusinessBean>() {
+                        override fun areItemsTheSame(oldItem: BusinessBean, newItem: BusinessBean): Boolean {
+                                return oldItem == newItem
+                        }
+
+                        override fun areContentsTheSame(oldItem: BusinessBean, newItem: BusinessBean): Boolean {
+                                return oldItem.id == newItem.id
+                        }
+                }
+        }
+}

@@ -80,14 +80,6 @@ class HomeFragment : Fragment() {
                 appModel.pictureIntent(requireActivity(), image)
             }
 
-//            topBannerView.loop(
-//                ticker = ticker(
-//                    delayMillis = 1000 * 3,
-//                    initialDelayMillis = 1000 * 3,
-//                    context = lifecycleScope.coroutineContext
-//                ),
-//                coroutineScope = lifecycleScope
-//            )
         }
 
         simpleTransferOut.setOnClickListener {
@@ -101,9 +93,8 @@ class HomeFragment : Fragment() {
         }
 
         investmentBusiness.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
-                R.id.action_mainFragment_to_investBusinessFragment
-            )
+            val intent= Intent(requireActivity(), InvestBusinessActivity::class.java)
+            startActivity(intent)
         }
 
         fastTransferOut.setOnClickListener {

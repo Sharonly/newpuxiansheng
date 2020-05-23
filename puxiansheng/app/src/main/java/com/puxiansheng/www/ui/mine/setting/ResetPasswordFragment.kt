@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.uio.system.ResetPasswordViewModel
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentResetPasswordBinding
 
@@ -37,9 +36,37 @@ class ResetPasswordFragment : Fragment() {
         }
 
         resetPassword.setOnClickListener {
-            resetPasswordViewModel.resetPassword()
+            resetPasswordViewModel.originalPassword.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(requireActivity(), "请输入原密码", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            resetPasswordViewModel.newPassword.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(requireActivity(), "请输入新密码", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            resetPasswordViewModel.newSecondPassword.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(requireActivity(), "请再次输入新密码", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            if (resetPasswordViewModel.newPassword == resetPasswordViewModel.newSecondPassword) {
+                resetPasswordViewModel.resetPassword()
+            }else{
+                Toast.makeText(requireActivity(), "两次密码不相同", Toast.LENGTH_SHORT).show()
+            }
         }
 
+
+        inputOlderPassword.addTextChangedListener { editable ->
+            editable?.toString()?.let {
+                resetPasswordViewModel.originalPassword = it
+            }
+        }
         inputNewPassword.addTextChangedListener { editable ->
             editable?.toString()?.let {
                 resetPasswordViewModel.newPassword = it
@@ -48,12 +75,12 @@ class ResetPasswordFragment : Fragment() {
 
         inputPasswordAgain.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                resetPasswordViewModel.originalPassword = it
+                resetPasswordViewModel.newSecondPassword = it
             }
         }
 
         resetPasswordViewModel.toastMsg.observe(viewLifecycleOwner, Observer {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         })
 
         resetPasswordViewModel.resetResult.observe(viewLifecycleOwner, Observer {

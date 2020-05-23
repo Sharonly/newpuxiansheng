@@ -31,10 +31,10 @@ public final class UserDatabase_Impl extends UserDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(2) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `user_table` (`_user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_account` TEXT NOT NULL, `_token` TEXT NOT NULL, `_nickname` TEXT NOT NULL, `_sex` INTEGER NOT NULL, `_icon` TEXT NOT NULL, `_login_timestamp` INTEGER NOT NULL, `_login_state` INTEGER NOT NULL, `_user_contact_name` TEXT NOT NULL, `_user_contact_phone` TEXT NOT NULL, `_city_path_id` TEXT NOT NULL, `_view_path_city` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `user_table` (`_user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_account` TEXT NOT NULL, `_token` TEXT NOT NULL, `_nickname` TEXT NOT NULL, `_sex` INTEGER NOT NULL, `_icon` TEXT NOT NULL, `_login_timestamp` INTEGER NOT NULL, `_login_state` INTEGER NOT NULL, `_user_contact_name` TEXT NOT NULL, `_user_contact_phone` TEXT NOT NULL, `_city_path_id` TEXT NOT NULL, `cityId` INTEGER NOT NULL, `_view_path_city` TEXT NOT NULL)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_user_table__user_contact_phone` ON `user_table` (`_user_contact_phone`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '56552e92ba97d01fd80652ce947f0982')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e39b8831b1b500032a12b8d3afe5337')");
       }
 
       @Override
@@ -78,7 +78,7 @@ public final class UserDatabase_Impl extends UserDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsUserTable = new HashMap<String, TableInfo.Column>(12);
+        final HashMap<String, TableInfo.Column> _columnsUserTable = new HashMap<String, TableInfo.Column>(13);
         _columnsUserTable.put("_user_id", new TableInfo.Column("_user_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_account", new TableInfo.Column("_account", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_token", new TableInfo.Column("_token", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -90,6 +90,7 @@ public final class UserDatabase_Impl extends UserDatabase {
         _columnsUserTable.put("_user_contact_name", new TableInfo.Column("_user_contact_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_user_contact_phone", new TableInfo.Column("_user_contact_phone", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_city_path_id", new TableInfo.Column("_city_path_id", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("cityId", new TableInfo.Column("cityId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_view_path_city", new TableInfo.Column("_view_path_city", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysUserTable = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesUserTable = new HashSet<TableInfo.Index>(1);
@@ -103,7 +104,7 @@ public final class UserDatabase_Impl extends UserDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "56552e92ba97d01fd80652ce947f0982", "4e978e5b139f4af1f06855d60cf26fd1");
+    }, "8e39b8831b1b500032a12b8d3afe5337", "eb0e8377a7e5ecb7a4d62c2f6b9da38e");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

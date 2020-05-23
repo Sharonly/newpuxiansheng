@@ -1,7 +1,13 @@
 package com.puxiansheng.www.ui.order
 
+import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -15,6 +21,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import kotlinx.android.synthetic.main.activity_order_list.*
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
@@ -57,6 +64,22 @@ class TransferInOrdersActivity : MyBaseActivity() {
             onBackPressed()
         }
 
+        button_search.addTextChangedListener {
+            viewModel.title = it.toString()
+        }
+        button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard(search_content)
+                order_list.removeAllViews()
+                viewModel.refresh(
+                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                    )
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+
         button_sort.setOnClickListener {
 
             SelectSortTypeDialog(
@@ -80,7 +103,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
                 onSelectIndustry = { topMenuItem, secondMenuItem ->
                     selected_industry.visibility = View.VISIBLE
                     selected_industry.text =
-                        "${topMenuItem?.text ?: ""}${secondMenuItem?.text ?: ""}".apply {
+                        "${topMenuItem?.text ?: "行业"}${secondMenuItem?.text ?: ""}".apply {
                             if (this.isEmpty()) selected_industry.visibility = View.GONE else {
                                 viewModel.industryIDs = "" +
                                         "${topMenuItem?.menuID ?: ""}" +
@@ -97,7 +120,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
             SelectAreaDialog(
                 onSelectArea = {
                     selected_area.visibility = View.VISIBLE
-                    selected_area.text = (it?.text ?: "").apply {
+                    selected_area.text = (it?.text ?: "区域").apply {
                         if (this.isEmpty()) selected_area.visibility = View.GONE else {
                             viewModel.areaIDs = it?.nodeID.toString()
                         }
@@ -111,7 +134,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
             SelectSizeRangeDialog(
                 onSelectSize = {
                     selected_size.visibility = View.VISIBLE
-                    selected_size.text = (it?.text ?: "").apply {
+                    selected_size.text = (it?.text ?: "面积").apply {
                         if (this.isEmpty()) selected_size.visibility = View.GONE else {
                             viewModel.sizeRangeID = it?.menuID.toString()
                         }
@@ -196,5 +219,10 @@ class TransferInOrdersActivity : MyBaseActivity() {
         }
     }
 
+    fun hideKeyboard(view: View) {
+        val manager: InputMethodManager = view.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
 }

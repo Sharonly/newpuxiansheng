@@ -11,10 +11,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_empty_dracula"
+            android:drawableTop="@mipmap/bg_empty"
             android:gravity="center"
-            android:text="没有相关记录！"
-            android:textColor="@color/appMainAccent"
-            android:textSize="12sp" />
+            android:text="空空如也"
+            android:textColor="#989796"
+            android:textSize="14sp" />
     </LinearLayout>
 </layout>

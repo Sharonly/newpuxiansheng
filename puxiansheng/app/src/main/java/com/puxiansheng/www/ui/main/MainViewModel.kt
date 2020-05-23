@@ -26,6 +26,11 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.ui.home.HomeFragment
+import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.order.TransferInOrdersActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
+import com.puxiansheng.www.ui.order.TransferSuccessOrderActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.ticker
@@ -33,7 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
-class MainViewModel (application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = getApplication<Application>().applicationContext
     private val deviceRepository = DeviceRepository(DeviceDatabase.getInstance(context).deviceDao())
@@ -243,19 +248,23 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
             if (apiRst.succeeded) {
                 (apiRst as APIRst.Success).data.data?.locationNode?.let { node ->
                     currentCity.postValue(node)
-                    put(API.USER_CITY_ID,node.nodeID)
+                    put(API.USER_CITY_ID, node.nodeID)
                 }
             }
         }
     }
 
-    fun openAPK(fileSavePath:String){
-        var  file= File(Uri.parse(fileSavePath).getPath());
+    fun openAPK(fileSavePath: String) {
+        var file = File(Uri.parse(fileSavePath).getPath());
         var filePath = file.getAbsolutePath();
         var intent = Intent(Intent.ACTION_VIEW)
         var data: Uri
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
-            data = FileProvider.getUriForFile(context, "com.puxiansheng.www.fileProvider", File(filePath));
+            data = FileProvider.getUriForFile(
+                context,
+                "com.puxiansheng.www.fileProvider",
+                File(filePath)
+            );
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
         } else {
             data = Uri.fromFile(file);
@@ -263,7 +272,6 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
         intent.setDataAndType(data, "application/vnd.android.package-archive")
         context?.startActivity(intent)
     }
-
 
 
     fun openAPK(content: Uri) {
@@ -285,12 +293,12 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
 
     fun forceLogout() {
         currentUser.value?.copy(loginState = 0)?.let { user ->
-            put(API.LOGIN_USER_TOKEN,"")
-            put( API.LOGIN_NICK_NAME,"")
-            put( API.LOGIN_ACTUL_NAME,"")
-            put( API.LOGIN_USER_ICON,"")
-            put( API.LOGIN_USER_PHONE,"")
-            put( API.LOGIN_USER_STATE,0)
+            put(API.LOGIN_USER_TOKEN, "")
+            put(API.LOGIN_NICK_NAME, "")
+            put(API.LOGIN_ACTUL_NAME, "")
+            put(API.LOGIN_USER_ICON, "")
+            put(API.LOGIN_USER_PHONE, "")
+            put(API.LOGIN_USER_STATE, 0)
             API.setAuthToken(user.token)
             currentUser.postValue(user)
         }
@@ -303,90 +311,65 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
 
     fun saveLoginUser(): User? {
         var user: User? = User()
-        user?.token = get(API.LOGIN_USER_TOKEN,"") as String
-        user?.nickname =get(API.LOGIN_NICK_NAME,"") as String
-        user?.actualName =get(API.LOGIN_ACTUL_NAME,"") as String
-        user?.userPhoneNumber = get(API.LOGIN_USER_PHONE,"") as String
-        user?.loginState = get( API.LOGIN_USER_STATE,0) as Int
+        user?.token = get(API.LOGIN_USER_TOKEN, "") as String
+        user?.nickname = get(API.LOGIN_NICK_NAME, "") as String
+        user?.actualName = get(API.LOGIN_ACTUL_NAME, "") as String
+        user?.userPhoneNumber = get(API.LOGIN_USER_PHONE, "") as String
+        user?.loginState = get(API.LOGIN_USER_STATE, 0) as Int
         return user
     }
 
 
-    fun pictureIntent(context: Activity,image : BannerImage){
+    fun pictureIntent(context: Activity, image: BannerImage) {
         when (image.jump_type) {
-//            1 -> {
-//                when (image.jump_view) {
-//                        "index" ->
-//                    "transfer_list" ->
-//                        Navigation.findNavController(context, R.id.homeNavHost)
-//                            .navigate(
-//                                R.id.action_mainFragment_to_transferOutOrdersFragment,
-//                                Bundle().apply {
-//                                    putInt(Order.TRANSFER_TYPE, Order.TRANSFER_TYPE_OUT)
-//                                })
-//                    "find_list" ->
-//                        Navigation.findNavController(context, R.id.homeNavHost)
-//                            .navigate(
-//                                R.id.action_mainFragment_to_transferInOrdersFragment,
-//                                Bundle().apply {
-//                                    putInt(Order.TRANSFER_TYPE, Order.TRANSFER_TYPE_IN)
-//                                })
-//                    "activity_list" -> {//文章列表
-//                        childFragmentManager.beginTransaction().hide(appModel.lastFragment)
-//                            .show(
-//                                infoHomeFragment
-//                            ).commit()
-//                        lastFragment = infoHomeFragment
-//                    }
-//                    "user_center" -> {
-//                        childFragmentManager.beginTransaction().hide(appModel.lastFragment)
-//                            .show(
-//                                mineFragment
-//                            ).commit()
-//                        lastFragment = mineFragment
-//                    }
-//                    "shop_success" -> {//成功案例
-//                        Navigation.findNavController(context, R.id.homeNavHost)
-//                            .navigate(
-//                                R.id.action_mainFragment_to_successCaseFragment,
-//                                Bundle().apply {
-//                                    putInt(Order.TRANSFER_TYPE, Order.TRANSFER_TYPE_OUT)
-//                                })
-//                    }
-//                }
-//            }
-//            2 -> {//打开链接
-//                val intent = Intent(Intent.ACTION_VIEW)
-//                intent.data = Uri.parse(image.jump_param)
-//                context.startActivity(intent)
-//            }
-//            3 -> {//找店详情
-//                Navigation.findNavController(context, R.id.homeNavHost).navigate(
-//                    R.id.action_mainFragment_to_transferInOrderDetailFragment,
-//                    Bundle().apply {
-//                        putInt("shopID", image.jump_param?.toInt() ?: 0)
-//                    }
-//                )
-//            }
-//            4 -> {//转铺详情
-//                Navigation.findNavController(context, R.id.homeNavHost).navigate(
-//                    R.id.action_mainFragment_to_transferOutOrderDetailFragment,
-//                    Bundle().apply {
-//                        putInt("shopID", image.jump_param?.toInt() ?: 0)
-//                    }
-//                )
-//            }
-//            5 -> {//文章详情
-//                Navigation.findNavController(context, R.id.homeNavHost).navigate(
-//                    R.id.action_mainFragment_to_infoDetailFragment,
-//                    Bundle().apply {
-//                        putString("url", image.jump_param)
-//                    }
-//                )
-//            }
-//            6 -> {//跳转第三方
-//
-//            }
+            1 -> {
+                when (image.jump_view) {
+                    "index" -> {
+                    }
+                    "transfer_list" -> {
+                        val intent = Intent(context, TransferOutOrderActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                    "find_list" -> {
+                        val intent = Intent(context, TransferInOrdersActivity::class.java)
+                        context.startActivity(intent)
+                    }
+
+                    "activity_list" -> {//文章列表
+
+                    }
+                    "user_center" -> {
+
+                    }
+                    "shop_success" -> {//成功案例
+                        val intent = Intent(context, TransferSuccessOrderActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                }
+            }
+            2 -> {//打开链接
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(image.jump_param)
+                context.startActivity(intent)
+            }
+            3 -> {//找店详情
+                val intent = Intent(context, TransferInOrdersActivity::class.java)
+                intent.putExtra("shopID", image.jump_param?.toInt())
+                context.startActivity(intent)
+            }
+            4 -> {//转铺详情
+                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param?.toInt())
+                context.startActivity(intent)
+            }
+            5 -> {//文章详情
+                val intent = Intent(context, InfoDetailActivity::class.java)
+                intent.putExtra("url", image.jump_param)
+                context.startActivity(intent)
+            }
+            6 -> {//跳转第三方
+
+            }
         }
 
     }

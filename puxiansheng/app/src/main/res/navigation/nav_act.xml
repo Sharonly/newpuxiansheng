@@ -119,7 +119,7 @@
         android:label="SearchFragment" />
     <fragment
         android:id="@+id/investBusinessFragment"
-        android:name="com.puxiansheng.www.ui.home.InvestBusinessFragment"
+        android:name="com.puxiansheng.www.ui.home.InvestBusinessActivity"
         android:label="InvestBusinessFragment" />
 
     <fragment

@@ -24,6 +24,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
     var rentIDs = ""
     var sortBy = ""
     var sortType = ""
+    var title = ""
     var type = 0
 
     private fun deleteOrdersByType(
@@ -53,6 +54,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
 
     private fun getTransferOutOrdersFromRemote() {
         orderRepository.getTransferOutOrdersFromRemote(
+            title = title,
             page = currentPage,
             industry = industryIDs,
             size = sizeRangeID,

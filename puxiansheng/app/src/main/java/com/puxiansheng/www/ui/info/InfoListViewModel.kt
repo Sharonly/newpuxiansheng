@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.info
 import android.app.Application
 import androidx.lifecycle.*
 import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.data.info.InfoDatabase
 import com.puxiansheng.logic.data.info.InfoRepository
 import com.puxiansheng.util.http.APIRst
@@ -17,6 +18,7 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
     private val infoRepository = InfoRepository(InfoDatabase.getInstance(context).infoDao())
 
     private var currentPage = 1
+    var title = ""
 
     private fun deleteInfoByCategory(
         category: Int
@@ -24,10 +26,7 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
         infoRepository.deleteInfoByCategoryFromRoom(category = category)
     }
 
-    fun loadMore(
-        category: Int,
-        city: String? = null
-    ) = viewModelScope.launch(Dispatchers.IO) {
+    fun loadMore(category: Int, city: String? = null) = viewModelScope.launch(Dispatchers.IO) {
             getInfoByCategoryFromRemote(
                 category = category,
                 city = city)
@@ -56,14 +55,14 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
 
     private suspend fun getInfoByCategoryFromRemote(
         category: Int,
-        city: String? = null
+        city: String? = null,title:String? = null
     ) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO
     ) {
         infoRepository.getInfoByCategoryFromRemote(
             category = category,
             page = currentPage,
-            city = city
+            city = city,title = title
         ).let {
             if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList?.let { list ->
                 list.map {item ->
@@ -87,6 +86,12 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
             it
         }
     }
+
+
+
+//    fun getInfoByCategoryFromRoom(category: Int){
+//        infoRepository.getInfoByCategoryFromRoom(category = category)
+//    }
 
 
 

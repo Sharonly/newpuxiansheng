@@ -66,6 +66,7 @@ data class Shop(
     @ColumnInfo(name = "_labels")
     var labels: List<MenuItem>? = null,
 
+
     @ColumnInfo(name = "_facilities")
     var facilities: List<MenuItem>? = null,
 

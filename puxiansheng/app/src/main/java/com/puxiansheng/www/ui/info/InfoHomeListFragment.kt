@@ -40,7 +40,7 @@ class InfoHomeListFragment : AppFragment() {
     ): View? = rootView ?: FragmentInfoHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
+//        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 //isLoaded = true
                 infoListViewModel.getInfoCategoriesFromRemote()?.let {
@@ -57,7 +57,7 @@ class InfoHomeListFragment : AppFragment() {
                     tabs.setupWithViewPager(pager)
                 }
             }
-        })
+//        })
 
     }.root
 

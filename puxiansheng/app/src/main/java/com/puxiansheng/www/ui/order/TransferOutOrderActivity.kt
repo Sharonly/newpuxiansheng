@@ -1,6 +1,12 @@
 package com.puxiansheng.www.ui.order
 
+import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -14,6 +20,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import kotlinx.android.synthetic.main.activity_order_list.*
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
@@ -58,6 +65,20 @@ class TransferOutOrderActivity : MyBaseActivity() {
             onBackPressed()
         }
 
+        button_search.addTextChangedListener {
+            viewModel.title = it.toString()
+        }
+        button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard(search_content)
+                order_list.removeAllViews()
+                viewModel.refresh(
+                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                )
+                return@OnEditorActionListener true
+            }
+            false
+        })
 
         selected_industry.setOnClickListener {
             SelectIndustryDialog(
@@ -87,7 +108,7 @@ class TransferOutOrderActivity : MyBaseActivity() {
                         }
                     }
                     viewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID,"").toString()
+                        SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString()
                     )
                 }
             ).show(supportFragmentManager, SelectAreaDialog::class.java.name)
@@ -201,6 +222,12 @@ class TransferOutOrderActivity : MyBaseActivity() {
             )
             refresh.isRefreshing = false
         }
+    }
+
+    fun hideKeyboard(view: View) {
+        val manager: InputMethodManager = view.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 

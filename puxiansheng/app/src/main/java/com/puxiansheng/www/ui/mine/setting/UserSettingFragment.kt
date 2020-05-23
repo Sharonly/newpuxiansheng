@@ -45,10 +45,15 @@ class UserSettingFragment : AppFragment() {
                     userIcon.urlIcon(it.icon)
                     inputNickName.setText(it.nickname)
                     inputActualName.setText(it.actualName)
-                    if(it.userSex == 2){
-                        femle.isChecked = false
-                    }else{
+                    if (it.userSex == 2) {
+                        femle.isChecked = true
+                    } else {
                         male.isChecked = true
+                    }
+                    if (it.cityId != 0) {
+                        settingViewModel.cityId = it.cityId
+                    } else {
+                        settingViewModel.cityId = SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString().toInt()
                     }
                 }
             }
@@ -121,7 +126,6 @@ class UserSettingFragment : AppFragment() {
             lifecycleScope.launch {
                 settingViewModel.submitUserInfo()?.let {
                     if (it.code == API.CODE_SUCCESS) {
-
                         SharedPreferencesUtil.put(API.LOGIN_USER_ICON, "")
                         settingViewModel.nickName?.let { it1 ->
                             SharedPreferencesUtil.put(

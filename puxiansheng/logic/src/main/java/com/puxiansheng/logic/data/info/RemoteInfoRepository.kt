@@ -1,5 +1,6 @@
 package com.puxiansheng.logic.data.info
 
+import android.icu.text.CaseMap
 import android.util.Log
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.HttpRespHistoryInfoList
@@ -27,7 +28,7 @@ class RemoteInfoRepository {
     fun getInfoByCategoryFromRemote(
         category: Int,
         page: Int,
-        city: String? = null
+        city: String? = null,title: String? = null
     ): APIRst<APIResp<HttpRespInfoList>> =
         buildRequest(
             url = API.GET_INFO_LIST,
@@ -37,6 +38,9 @@ class RemoteInfoRepository {
             ).also { map ->
                 city?.let {
                     map["city"] = it
+                }
+                title?.let {
+                    map["title"] = it
                 }
 
                 map["sign"] = API.sign(

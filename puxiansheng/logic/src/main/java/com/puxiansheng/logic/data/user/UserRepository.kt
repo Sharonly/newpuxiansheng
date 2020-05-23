@@ -96,6 +96,7 @@ class UserRepository(userDao: UserDao) {
     )
 
     fun requireHistorySearch(type: Int,userId:String) = remoteUserRepository.requireHistorySearch(type = type,userId = userId)
+    fun deleteHistorySearch() = remoteUserRepository.deleteHistorySearch()
     fun requireRecommendSearch() = remoteUserRepository.requireRecommendSearch()
 
 

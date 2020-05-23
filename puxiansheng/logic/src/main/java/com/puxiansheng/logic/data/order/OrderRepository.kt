@@ -119,6 +119,7 @@ class OrderRepository(orderDao: OrderDao) {
     )
 
     fun getTransferOutOrdersFromRemote(
+        title: String = "",
         industry: String = "",
         size: String = "",
         area: String = "",
@@ -130,6 +131,7 @@ class OrderRepository(orderDao: OrderDao) {
         recommend: Int?,
         city: String?
     ) = remoteOrderRepository.getTransferOutOrdersFromRemote(
+        title = title,
         industry = industry,
         size = size,
         area = area,
@@ -143,6 +145,7 @@ class OrderRepository(orderDao: OrderDao) {
     )
 
     fun getTransferInOrdersFromRemote(
+        title: String,
         industry: String,
         size: String,
         area: String,
@@ -155,6 +158,7 @@ class OrderRepository(orderDao: OrderDao) {
         recommend: Int?,
         city: String? = null
     ) = remoteOrderRepository.getTransferInOrdersFromRemote(
+        title = title,
         industry = industry,
         size = size,
         area = area,

@@ -85,7 +85,7 @@ class TransferSuccessOrderActivity : MyBaseActivity() {
                         }
                     }
                     viewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID, "").toString()
+                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
                     )
                 }
             ).show(supportFragmentManager, SelectAreaDialog::class.java.name)

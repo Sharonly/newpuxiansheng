@@ -235,6 +235,7 @@ class RemoteOrderRepository {
      * request a list of transfer-out orders from remote server base on page key.
      * */
     fun getTransferOutOrdersFromRemote(
+        title: String,
         industry: String,
         size: String,
         area: String,
@@ -248,6 +249,7 @@ class RemoteOrderRepository {
     ): APIRst<APIResp<HttpRespOrders>> = buildRequest(
         url = API.GET_REMOTE_TRANSFER_OUT_ORDERS,
         fieldMap = mutableMapOf(
+            "title" to title,
             "industry_path" to industry,
             "acreage" to size,
             "area" to area,
@@ -282,6 +284,7 @@ class RemoteOrderRepository {
      * request a list of transfer-in orders from remote server base on page key.
      * */
     fun getTransferInOrdersFromRemote(
+        title: String,
         industry: String,
         size: String,
         area: String,
@@ -296,6 +299,7 @@ class RemoteOrderRepository {
     ): APIRst<APIResp<HttpRespOrders>> = buildRequest(
         url = API.GET_REMOTE_TRANSFER_IN_ORDERS,
         fieldMap = mutableMapOf(
+            "title" to title,
             "industry_path" to industry,
             "acreage" to size,
             "rent" to rent,

@@ -47,6 +47,10 @@ data class User(
     @SerializedName("city_path_id")
     var cityPathId: String = "",
 
+//    @ColumnInfo(name = "_city_id")
+    @SerializedName("city_id")
+    var cityId: Int = 0,
+
     @ColumnInfo(name = "_view_path_city")
     @SerializedName("view_path_city")
     var cityName: String = "",

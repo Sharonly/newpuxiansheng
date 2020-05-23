@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,8 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentHomeTransferListBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
@@ -52,7 +55,12 @@ class HomeTransferOutOrdersFragment  : AppFragment() {
 
         orderList.layoutManager = LinearLayoutManager(requireContext())
         orderList.adapter = RecommOrderAdapter(
-            type = Order.Type.TRANSFER_OUT.value()
+            type = Order.Type.TRANSFER_OUT.value(),
+            onItemSelect = {
+                val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
+                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                startActivity(intent)
+            }
         ).apply {
             LivePagedListBuilder<Int, Order>(
                 viewModel.getTransferOutOrdersFromLocal(),

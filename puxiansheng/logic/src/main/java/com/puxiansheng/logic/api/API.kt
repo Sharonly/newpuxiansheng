@@ -80,11 +80,15 @@ object API {
     const val GET_VERIFICATION_CODE = API_ADDRESS + "api/send_msg.html"
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
+
+    const val GET_JOIN_LIST = API_ADDRESS + "api/get_join.html"
 //search
 
-    const val GET_HISTORY_SEARCH = API_ADDRESS + "api/history_search.html"
-
+    const val GET_HISTORY_SEARCH =
+        API_ADDRESS + "api/history_search.html"///api/history/search/del.html
+    const val DELETE_HISTORY_SEARCH = API_ADDRESS + "api/history/search/del.html"
     const val GET_RECOMMEND_SEARCH = API_ADDRESS + "api/transfer/hot/search.html"
+
     //images
     const val GET_IMAGES = API_ADDRESS + "api/get_images.html"
 

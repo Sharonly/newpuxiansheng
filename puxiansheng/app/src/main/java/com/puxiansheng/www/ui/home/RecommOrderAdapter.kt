@@ -16,6 +16,7 @@ import kotlinx.android.extensions.LayoutContainer
 import java.lang.StringBuilder
 
 class RecommOrderAdapter(
+    private val onItemSelect: ((order: Order?) -> Unit)? = null,
     var type: Int
 ) : PagedListAdapter<Order, RecommOrderAdapter.OrderViewHolder>(Order.DIFF) {
     private var dataList: PagedList<Order>? = null
@@ -117,7 +118,7 @@ class RecommOrderAdapter(
 
 
             binding.root.setOnClickListener {
-
+                onItemSelect?.let { select -> select(item) }
             }
         }
     }
@@ -151,6 +152,9 @@ class RecommOrderAdapter(
                 binding.date.text = it
             }
 
+            binding.root.setOnClickListener {
+                onItemSelect?.let { select -> select(item) }
+            }
         }
     }
 

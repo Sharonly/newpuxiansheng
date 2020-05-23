@@ -35,7 +35,7 @@
                 android:layout_marginTop="15dp"
                 android:src="@mipmap/ic_back_white" />
 
-            <TextView
+            <EditText
                 android:id="@+id/button_search"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -48,8 +48,11 @@
                 android:layout_marginTop="15dp"
                 android:focusable="true"
                 android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:hint="@string/search_transfer_out"
-                android:textColor="@android:color/white"
+                android:textColor="@color/input_text_blank"
                 android:textSize="16sp" />
 
 

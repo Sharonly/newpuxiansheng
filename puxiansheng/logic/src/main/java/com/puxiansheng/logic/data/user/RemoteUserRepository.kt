@@ -3,6 +3,7 @@ package com.puxiansheng.logic.data.user
 import android.util.Log
 import com.puxiansheng.logic.BuildConfig
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.api.API.DELETE_HISTORY_SEARCH
 import com.puxiansheng.logic.api.API.DO_FAVORITE
 import com.puxiansheng.logic.api.API.DO_FORGET_PASSWORD
 import com.puxiansheng.logic.api.API.DO_LOGIN
@@ -252,6 +253,20 @@ class RemoteUserRepository {
         fieldMap = mutableMapOf(
             "user_id" to userId,
             "type" to type.toString()
+        ).also {
+            it["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+        },
+        method = METHOD.GET
+    ).let {
+        call(it)
+    }
+
+
+    fun deleteHistorySearch(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+        url = DELETE_HISTORY_SEARCH,
+        fieldMap = mutableMapOf<String,String>(
         ).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
