@@ -50,6 +50,9 @@ data class OrderDetailObject(
     @SerializedName("is_hot")
     var isHot: Int = 0,
 
+    @SerializedName("city_id")
+    var city_id: Long = 0,
+
     @SerializedName("is_recommend")
     var isRecommend: Int = 0,
 
@@ -149,6 +152,10 @@ data class OrderDetailObject(
 
     @SerializedName("checked")
     var state: Order.Companion.State? = null,
+
+    @SerializedName("view_status")
+    var status: Order.Companion.orderStatus? = null,
+
 
     @SerializedName("collect")
     var favorite: Int = 0,

@@ -68,14 +68,21 @@ class ReleasedTransferOutOrdersFragment : AppFragment() {
                 startActivity(intent)
             },
             onDelete = {
-                lifecycleScope.launch {
-                    viewModel.deleteTransferOutOrderFromRemote(it?.shop?.shopID.toString())
-                        ?.let { rst ->
-                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
-                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_OUT_PRIVATE.value(), it?.shop?.shopID)
+                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+                        viewModel.refresh()
+                    }
                 }
+//                lifecycleScope.launch {
+//                    viewModel.deleteTransferOutOrderFromRemote(it?.shop?.shopID.toString())
+//                        ?.let { rst ->
+//                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
+//                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                }
             }
 
         ).apply {

@@ -31,7 +31,7 @@ public final class BusinessDao_Impl implements BusinessDao {
     this.__insertionAdapterOfBusinessBean = new EntityInsertionAdapter<BusinessBean>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_business` (`_shop_id`,`_id`,`_name`,`_trades`,`_contact_phone`,`_investment`,`_item_keywords`,`_large_img`,`_large_img_alt`,`_large_img_title`,`_thumb_img`,`_thumb_img_alt`,`_thumb_img_title`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_business` (`_shop_id`,`_id`,`_name`,`_trades`,`_contact_phone`,`_investment`,`_large_img`,`_large_img_alt`,`_large_img_title`,`_thumb_img`,`_thumb_img_alt`,`_thumb_img_title`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -59,34 +59,34 @@ public final class BusinessDao_Impl implements BusinessDao {
           stmt.bindString(6, value.getInvestment());
         }
         if (value.getLarge_img() == null) {
-          stmt.bindNull(8);
+          stmt.bindNull(7);
         } else {
-          stmt.bindString(8, value.getLarge_img());
+          stmt.bindString(7, value.getLarge_img());
         }
         if (value.getLarge_img_alt() == null) {
-          stmt.bindNull(9);
+          stmt.bindNull(8);
         } else {
-          stmt.bindString(9, value.getLarge_img_alt());
+          stmt.bindString(8, value.getLarge_img_alt());
         }
         if (value.getLarge_img_title() == null) {
-          stmt.bindNull(10);
+          stmt.bindNull(9);
         } else {
-          stmt.bindString(10, value.getLarge_img_title());
+          stmt.bindString(9, value.getLarge_img_title());
         }
         if (value.getThumb_img() == null) {
-          stmt.bindNull(11);
+          stmt.bindNull(10);
         } else {
-          stmt.bindString(11, value.getThumb_img());
+          stmt.bindString(10, value.getThumb_img());
         }
         if (value.getThumb_img_alt() == null) {
-          stmt.bindNull(12);
+          stmt.bindNull(11);
         } else {
-          stmt.bindString(12, value.getThumb_img_alt());
+          stmt.bindString(11, value.getThumb_img_alt());
         }
         if (value.getThumb_img_title() == null) {
-          stmt.bindNull(13);
+          stmt.bindNull(12);
         } else {
-          stmt.bindString(13, value.getThumb_img_title());
+          stmt.bindString(12, value.getThumb_img_title());
         }
       }
     };
@@ -141,7 +141,6 @@ public final class BusinessDao_Impl implements BusinessDao {
             final int _cursorIndexOfTrades = CursorUtil.getColumnIndexOrThrow(cursor, "_trades");
             final int _cursorIndexOfContactPhone = CursorUtil.getColumnIndexOrThrow(cursor, "_contact_phone");
             final int _cursorIndexOfInvestment = CursorUtil.getColumnIndexOrThrow(cursor, "_investment");
-            final int _cursorIndexOfShopKeywords = CursorUtil.getColumnIndexOrThrow(cursor, "_item_keywords");
             final int _cursorIndexOfLargeImg = CursorUtil.getColumnIndexOrThrow(cursor, "_large_img");
             final int _cursorIndexOfLargeImgAlt = CursorUtil.getColumnIndexOrThrow(cursor, "_large_img_alt");
             final int _cursorIndexOfLargeImgTitle = CursorUtil.getColumnIndexOrThrow(cursor, "_large_img_title");
@@ -163,7 +162,6 @@ public final class BusinessDao_Impl implements BusinessDao {
               _tmpContact_phone = cursor.getString(_cursorIndexOfContactPhone);
               final String _tmpInvestment;
               _tmpInvestment = cursor.getString(_cursorIndexOfInvestment);
-              final String[] _tmpShop_Keywords;
               final String _tmpLarge_img;
               _tmpLarge_img = cursor.getString(_cursorIndexOfLargeImg);
               final String _tmpLarge_img_alt;
@@ -176,7 +174,7 @@ public final class BusinessDao_Impl implements BusinessDao {
               _tmpThumb_img_alt = cursor.getString(_cursorIndexOfThumbImgAlt);
               final String _tmpThumb_img_title;
               _tmpThumb_img_title = cursor.getString(_cursorIndexOfThumbImgTitle);
-              _item = new BusinessBean(_tmpShopID,_tmpId,_tmpName,_tmpTrades,_tmpContact_phone,_tmpInvestment,_tmpShop_Keywords,_tmpLarge_img,_tmpLarge_img_alt,_tmpLarge_img_title,_tmpThumb_img,_tmpThumb_img_alt,_tmpThumb_img_title);
+              _item = new BusinessBean(_tmpShopID,_tmpId,_tmpName,_tmpTrades,_tmpContact_phone,_tmpInvestment,_tmpLarge_img,_tmpLarge_img_alt,_tmpLarge_img_title,_tmpThumb_img,_tmpThumb_img_alt,_tmpThumb_img_title);
               _res.add(_item);
             }
             return _res;

@@ -52,6 +52,7 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:largeHeap="true"
         tools:targetApi="m">
@@ -75,6 +76,7 @@
         <activity android:name=".ui.info.InfoDetailActivity"></activity>
 
         <activity android:name=".ui.home.InvestBusinessActivity"/>
+        <activity android:name=".ui.home.InvestBusinessDetailActivity"/>
         <activity android:name=".ui.order.TransferInOrdersActivity" />
         <activity android:name=".ui.order.TransferOutOrderActivity" />
         <activity android:name=".ui.order.TransferSuccessOrderActivity"/>

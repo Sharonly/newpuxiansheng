@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.mine
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class MineFragment : Fragment() {
             isLogin = true
             userAccount.text = get(API.LOGIN_NICK_NAME, "").toString()
             userPhone.text = get(API.LOGIN_USER_PHONE, "").toString()
-//            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
+            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
         } else {
             userAccount.text = "请登录"
             userPhone.text = ""
@@ -151,7 +152,9 @@ class MineFragment : Fragment() {
                     isLogin = true
                     userAccount.text = user.nickname
                     userPhone.text = user.userPhoneNumber
-                    userIcon.urlIcon(user.icon)
+                    if(user.icon.isNotEmpty()) {
+                        userIcon.urlIcon(user.icon)
+                    }
                 } else {
                     isLogin = false
                     userAccount.text = "请登录"

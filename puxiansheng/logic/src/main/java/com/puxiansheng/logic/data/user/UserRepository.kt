@@ -84,7 +84,7 @@ class UserRepository(userDao: UserDao) {
 
     fun requireRemoteUserInfo() = remoteUserRepository.requireRemoteUserInfo()
 
-    fun submitUserInfo(nickName:String,sex:String,actulName: String,iconImg:String?,address: String?,cityId:String):APIRst<APIResp<HttpRespEmpty>> =
+    fun submitUserInfo(nickName:String,sex:String,actulName: String,iconImg:String?,address: String?,cityId:Int):APIRst<APIResp<HttpRespEmpty>> =
         remoteUserRepository.submitUserInfo(nickName = nickName,sex = sex,actualName = actulName,headerImg =iconImg ,address =address ,cityId = cityId)
 
     fun favorite(

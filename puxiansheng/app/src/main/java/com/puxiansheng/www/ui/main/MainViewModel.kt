@@ -315,7 +315,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         user?.nickname = get(API.LOGIN_NICK_NAME, "") as String
         user?.actualName = get(API.LOGIN_ACTUL_NAME, "") as String
         user?.userPhoneNumber = get(API.LOGIN_USER_PHONE, "") as String
+        user?.icon = get(API.LOGIN_USER_ICON,"") as String
         user?.loginState = get(API.LOGIN_USER_STATE, 0) as Int
+        user?.cityId = get(API.USER_CITY_ID, 0) as Int
+        user?.cityName = get(API.USER_CITY_NAME, "") as String
         return user
     }
 

@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.mine.setting
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -59,7 +60,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
                 actualName,
                 iconImg,
                 address,
-                cityId.toString()
+                cityId
             )
                 .let {
                     if (it.succeeded) (it as APIRst.Success).data else null

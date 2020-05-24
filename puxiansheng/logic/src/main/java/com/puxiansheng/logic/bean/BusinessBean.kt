@@ -35,10 +35,9 @@ data class BusinessBean(
         val investment:  String = "",
 
 
-        @ColumnInfo(name = "_item_keywords")
-        @SerializedName("keywords")
-         var keywords :Array<String> ? =null,
-//        var keywords: List<String> ?= null,
+//        @ColumnInfo(name = "_item_keywords")
+//        @SerializedName("keywords")
+//         var keywords :List<String>? =null,
 
 
         @ColumnInfo(name = "_large_img")

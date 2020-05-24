@@ -9,8 +9,7 @@
         android:layout_height="154dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:background="#fff"
-        android:theme="@style/Material">
+        android:background="@drawable/bg_dialog">
 
             <ImageView
                 android:id="@+id/shop_icon"
@@ -80,11 +79,11 @@
             android:layout_toRightOf="@+id/jine"
             android:layout_marginLeft="5dp"
             />
-        <Button
+        <TextView
             android:id="@+id/bt_consult"
             android:layout_width="78dp"
             android:layout_height="26dp"
-            android:background="@color/tab_orange"
+            android:background="@drawable/bg_bt_zixun_slected"
             android:text="立即咨询"
             android:textSize="13sp"
             android:textColor="@color/white"

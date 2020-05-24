@@ -8,3 +8,8 @@ data class HttpRespBusinessList(
     @SerializedName("data")
     val business:List<BusinessBean>? = null
 )
+
+data class  HttpRespBusinessDetail(
+    @SerializedName("data")
+    val businessObject:BusinessBean? = null
+)

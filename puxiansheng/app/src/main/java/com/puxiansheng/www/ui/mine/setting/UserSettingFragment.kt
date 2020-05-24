@@ -45,16 +45,22 @@ class UserSettingFragment : AppFragment() {
                     userIcon.urlIcon(it.icon)
                     inputNickName.setText(it.nickname)
                     inputActualName.setText(it.actualName)
+                    settingViewModel.nickName = it.nickname
+                    settingViewModel.actualName = it.actualName
+                    settingViewModel.contactPhone = it.userPhoneNumber
                     if (it.userSex == 2) {
                         femle.isChecked = true
+                        settingViewModel.sex = 2
                     } else {
                         male.isChecked = true
+                        settingViewModel.sex = 1
                     }
                     if (it.cityId != 0) {
                         settingViewModel.cityId = it.cityId
                     } else {
                         settingViewModel.cityId = SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString().toInt()
                     }
+                    settingViewModel.iconImg = it.icon
                 }
             }
         }
@@ -90,32 +96,17 @@ class UserSettingFragment : AppFragment() {
             resources.getDrawable(R.drawable.ic_sex_no_select)
         rgSex.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.male) {
-                Log.d("----sex--", " 男")
                 male.setCompoundDrawables(drawableSelected, null, null, null)
                 femle.setCompoundDrawables(drawableNoSelect, null, null, null)
-                settingViewModel.sex = 0
+                settingViewModel.sex = 1
             } else {
-                Log.d("----sex--", " 女")
                 male.setCompoundDrawables(drawableNoSelect, null, null, null)
                 femle.setCompoundDrawables(drawableSelected, null, null, null)
-                settingViewModel.sex = 1
+                settingViewModel.sex = 2
             }
-
         }
-//        male.setOnClickListener {
-//            male.setCompoundDrawables(drawableSelected, null, null, null)
-//            femle.setCompoundDrawables(drawableNoSelect, null, null, null)
-//            settingViewModel.sex = 0
-//        }
-//
-//        femle.setOnClickListener {
-//            male.setCompoundDrawables(drawableNoSelect, null, null, null)
-//            femle.setCompoundDrawables(drawableSelected, null, null, null)
-//            settingViewModel.sex = 1
-//        }
 
         userPhone.setText(SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString())
-
         userLocation.text = SharedPreferencesUtil.get(API.USER_CITY_NAME, "").toString()
         userLocation.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.homeNavHost)
@@ -125,6 +116,7 @@ class UserSettingFragment : AppFragment() {
         btSave.setOnClickListener {
             lifecycleScope.launch {
                 settingViewModel.submitUserInfo()?.let {
+
                     if (it.code == API.CODE_SUCCESS) {
                         SharedPreferencesUtil.put(API.LOGIN_USER_ICON, "")
                         settingViewModel.nickName?.let { it1 ->

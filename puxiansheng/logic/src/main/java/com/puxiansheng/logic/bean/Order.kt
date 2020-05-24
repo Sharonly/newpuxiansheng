@@ -4,7 +4,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "table_orders", indices = [Index(value = ["_shop_id", "_transfer_type"], unique = true)])
+@Entity(
+    tableName = "table_orders",
+    indices = [Index(value = ["_shop_id", "_transfer_type"], unique = true)]
+)
 data class Order(
 
     @ColumnInfo(name = "_order_type")
@@ -24,6 +27,9 @@ data class Order(
 
     @Embedded
     var state: State? = null,
+
+    @Embedded
+    var status: orderStatus? = null,
 
     @Ignore
     var serviceAgent: ServiceAgent? = null
@@ -49,6 +55,17 @@ data class Order(
             val text: String = "",
 
             @ColumnInfo(name = "_state_color")
+            @SerializedName(value = "color")
+            val color: String = ""
+        )
+
+
+        data class orderStatus(
+            @ColumnInfo(name = "_status_name")
+            @SerializedName(value = "name")
+            val text: String = "",
+
+            @ColumnInfo(name = "_status_color")
             @SerializedName(value = "color")
             val color: String = ""
         )

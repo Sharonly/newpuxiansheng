@@ -46,7 +46,7 @@ public final class OrderDao_Impl implements OrderDao {
     this.__insertionAdapterOfOrder = new EntityInsertionAdapter<Order>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`formattedFacilities`,`data_type`,`jump_type`,`jump_view`,`jump_param`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`_state_text`,`_state_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`formattedFacilities`,`data_type`,`jump_type`,`jump_view`,`jump_param`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`_state_text`,`_state_color`,`_status_name`,`_status_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -369,6 +369,22 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(62);
           stmt.bindNull(63);
         }
+        final Order.Companion.orderStatus _tmpStatus = value.getStatus();
+        if(_tmpStatus != null) {
+          if (_tmpStatus.getText() == null) {
+            stmt.bindNull(64);
+          } else {
+            stmt.bindString(64, _tmpStatus.getText());
+          }
+          if (_tmpStatus.getColor() == null) {
+            stmt.bindNull(65);
+          } else {
+            stmt.bindString(65, _tmpStatus.getColor());
+          }
+        } else {
+          stmt.bindNull(64);
+          stmt.bindNull(65);
+        }
       }
     };
     this.__preparedStmtOfDeleteAllByTransferType = new SharedSQLiteStatement(__db) {
@@ -483,6 +499,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
+            final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
+            final int _cursorIndexOfColor_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
@@ -661,6 +679,16 @@ public final class OrderDao_Impl implements OrderDao {
               }  else  {
                 _tmpState = null;
               }
+              final Order.Companion.orderStatus _tmpStatus;
+              if (! (cursor.isNull(_cursorIndexOfText_1) && cursor.isNull(_cursorIndexOfColor_1))) {
+                final String _tmpText_1;
+                _tmpText_1 = cursor.getString(_cursorIndexOfText_1);
+                final String _tmpColor_1;
+                _tmpColor_1 = cursor.getString(_cursorIndexOfColor_1);
+                _tmpStatus = new Order.Companion.orderStatus(_tmpText_1,_tmpColor_1);
+              }  else  {
+                _tmpStatus = null;
+              }
               _item = new Order();
               final long _tmpOrderID;
               _tmpOrderID = cursor.getLong(_cursorIndexOfOrderID);
@@ -674,6 +702,7 @@ public final class OrderDao_Impl implements OrderDao {
               _item.setShop(_tmpShop);
               _item.setShopOwner(_tmpShopOwner);
               _item.setState(_tmpState);
+              _item.setStatus(_tmpStatus);
               _res.add(_item);
             }
             return _res;
@@ -761,6 +790,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
+            final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
+            final int _cursorIndexOfColor_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
@@ -939,6 +970,16 @@ public final class OrderDao_Impl implements OrderDao {
               }  else  {
                 _tmpState = null;
               }
+              final Order.Companion.orderStatus _tmpStatus;
+              if (! (cursor.isNull(_cursorIndexOfText_1) && cursor.isNull(_cursorIndexOfColor_1))) {
+                final String _tmpText_1;
+                _tmpText_1 = cursor.getString(_cursorIndexOfText_1);
+                final String _tmpColor_1;
+                _tmpColor_1 = cursor.getString(_cursorIndexOfColor_1);
+                _tmpStatus = new Order.Companion.orderStatus(_tmpText_1,_tmpColor_1);
+              }  else  {
+                _tmpStatus = null;
+              }
               _item = new Order();
               final long _tmpOrderID;
               _tmpOrderID = cursor.getLong(_cursorIndexOfOrderID);
@@ -952,6 +993,7 @@ public final class OrderDao_Impl implements OrderDao {
               _item.setShop(_tmpShop);
               _item.setShopOwner(_tmpShopOwner);
               _item.setState(_tmpState);
+              _item.setStatus(_tmpStatus);
               _res.add(_item);
             }
             return _res;
@@ -1036,6 +1078,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
+            final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
+            final int _cursorIndexOfColor_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
@@ -1214,6 +1258,16 @@ public final class OrderDao_Impl implements OrderDao {
               }  else  {
                 _tmpState = null;
               }
+              final Order.Companion.orderStatus _tmpStatus;
+              if (! (cursor.isNull(_cursorIndexOfText_1) && cursor.isNull(_cursorIndexOfColor_1))) {
+                final String _tmpText_1;
+                _tmpText_1 = cursor.getString(_cursorIndexOfText_1);
+                final String _tmpColor_1;
+                _tmpColor_1 = cursor.getString(_cursorIndexOfColor_1);
+                _tmpStatus = new Order.Companion.orderStatus(_tmpText_1,_tmpColor_1);
+              }  else  {
+                _tmpStatus = null;
+              }
               _item = new Order();
               final long _tmpOrderID;
               _tmpOrderID = cursor.getLong(_cursorIndexOfOrderID);
@@ -1227,6 +1281,7 @@ public final class OrderDao_Impl implements OrderDao {
               _item.setShop(_tmpShop);
               _item.setShopOwner(_tmpShopOwner);
               _item.setState(_tmpState);
+              _item.setStatus(_tmpStatus);
               _res.add(_item);
             }
             return _res;

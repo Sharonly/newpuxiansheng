@@ -15,6 +15,7 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
+import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
 import com.tencent.mm.opensdk.utils.Log
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
@@ -193,13 +194,19 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferInOrderViewModel.toastMsg.observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            if(it.contains("保存成功")){
+                ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            }else if(it.contains("发布成功")){
+                ReleaseDialog(1).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            }else{
+                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            }
         })
 
         insertOrUpdateTransferInOrderViewModel.submitResult.observe(this, Observer {
-            if (it == API.CODE_SUCCESS) {
-                Log.d("---submit ", " =====CODE_SUCCESS ==== ")
-//                Navigation.findNavController(this, R.id.homeNavHost).navigateUp()
+            if (it != API.CODE_SUCCESS) {
+                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 

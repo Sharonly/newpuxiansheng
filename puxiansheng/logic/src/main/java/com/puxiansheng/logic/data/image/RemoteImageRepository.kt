@@ -1,5 +1,6 @@
 package com.puxiansheng.logic.data.image
 
+import android.util.Log
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.HttpRespBannerImages
 import com.puxiansheng.util.http.APIResp
@@ -18,6 +19,7 @@ class RemoteImageRepository {
             },
             method = METHOD.GET
         ).let {
+            Log.d("---img--","  it = "+it)
             API.call(it)
         }
 }

@@ -42,7 +42,7 @@ class MyHistoryActivity : MyBaseActivity() {
         bt_delete.setOnClickListener {
             DeleteOrderDialog(
                 getString(R.string.delete_history_title)
-            ).show(supportFragmentManager,
+            ,0).show(supportFragmentManager,
                 DeleteOrderDialog::class.java.name) }
     }
 

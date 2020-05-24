@@ -72,17 +72,10 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
                                 formattedRent = it.formattedRent,
                                 formattedSize = it.formattedSize,
                                 formattedFee = it.formattedTransferFee,
-                                formattedFinalLocationNode = it.formattedFinalLocationNode,
+                                formattedArea = it.formattedFinalLocationNode,
                                 formattedFinalIndustry = it.formattedFinalIndustry,
                                 formattedLocationNodes = it.formattedLocationNodes,
-                                formattedIndustry = it.formattedIndustry?.let { strList ->
-                                    val sb = StringBuilder()
-                                    strList.forEach { str ->
-                                        sb.append(str)
-                                        sb.append(" ")
-                                    }
-                                    sb.toString()
-                                } ?: ""
+                                formattedIndustry = it.view_category
                             ),
                             state = it.state
                         )

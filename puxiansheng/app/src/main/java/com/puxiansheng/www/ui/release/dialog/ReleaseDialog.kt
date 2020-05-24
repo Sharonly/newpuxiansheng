@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.release.dialog
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogReleaseSubmitTipsBinding
+import com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 
 class ReleaseDialog(private var type: Int) : DialogFragment() {
 
@@ -56,7 +59,10 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 btReturn.setTextColor(resources.getColor(R.color.release_fail_text_color))
             }
         }
-        btOk.setOnClickListener {  dismiss() }
+        btOk.setOnClickListener {
+            val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
+            startActivity(intent)
+            dismiss() }
         btReturn.setOnClickListener {  dismiss() }
 
     }.root

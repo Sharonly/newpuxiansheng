@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
+import com.puxiansheng.www.databinding.DialogSelectStateBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
 import kotlinx.android.extensions.LayoutContainer
 
@@ -24,7 +25,7 @@ class SelectStateRangeDialog(
     private val onSelectState: (stateMenuItem: String?) -> Unit
 ) : DialogFragment() {
     private lateinit var selectSizeRangeViewModel: SelectSizeRangeViewModel
-    private lateinit var binding: DialogSelectIndustryBinding
+    private lateinit var binding: DialogSelectStateBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,7 +55,7 @@ class SelectStateRangeDialog(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = DialogSelectIndustryBinding.inflate(inflater).apply {
+    ): View? = DialogSelectStateBinding.inflate(inflater).apply {
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
 

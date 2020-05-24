@@ -163,6 +163,7 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
+        Log.d("---login--","userinfo = "+it)
         call(it)
     }
 
@@ -189,25 +190,21 @@ class RemoteUserRepository {
     fun submitUserInfo(
         actualName: String,
         sex: String,
-        nickName: String, headerImg: String? = null,
+        nickName: String,
+        headerImg: String? = null,
         address: String? = null,
-        cityId: String
+        cityId: Int
     ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.SAVE_USER_INFO,
         fieldMap = mutableMapOf(
             "actual_name" to actualName,
             "sex" to sex,
             "nick_name" to nickName,
-            "city_path_id" to cityId
+            "city_id" to cityId.toString()
         ).also { map ->
             headerImg?.let {
                 if (it != "") {
                     map["header_img"] = headerImg
-                }
-            }
-            address?.let {
-                if (it != "") {
-                    map["baidu_address"] = address
                 }
             }
             map["sign"] =

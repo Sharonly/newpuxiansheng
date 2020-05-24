@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.mine.relase
 
+import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +25,7 @@ import com.puxiansheng.www.databinding.FragmentMineReleasedInnerFragmentBinding
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
+import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
 import kotlinx.coroutines.launch
 
 class ReleasedTransferInOrdersFragment : AppFragment() {
@@ -63,19 +65,27 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
             },
 
             onEdit = {
-                val intent = Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
+                val intent =
+                    Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
                 startActivity(intent)
             },
             onDelete = {
-                lifecycleScope.launch {
-                    viewModel.deleteTransferInOrderFromRemote(it?.shop?.shopID.toString())
-                        ?.let { rst ->
-                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
-                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shop?.shopID)
+                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+                        viewModel.refresh()
+                    }
                 }
+//                lifecycleScope.launch {
+//                    viewModel.deleteTransferInOrderFromRemote(it?.shop?.shopID.toString())
+//                        ?.let { rst ->
+//                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
+//                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                }
             }
 
         ).apply {

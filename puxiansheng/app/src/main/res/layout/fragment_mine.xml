@@ -14,11 +14,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.puxiansheng.www.common.StateBarView
-                android:id="@+id/app_status_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/appMain"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,7 +24,7 @@
                     android:id="@+id/icon_setting"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="38dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="18dp"
                     android:src="@mipmap/ic_set" />
@@ -40,7 +35,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="38dp"
                     android:src="@mipmap/ic_scan" />
 
                 <com.puxiansheng.www.common.CircleImageView
@@ -81,7 +76,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp">
+                android:layout_marginTop="55dp">
 
                 <TextView
                     android:id="@+id/bt_my_release"
@@ -208,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="115dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="135dp"
             android:layout_marginRight="16dp"
             android:elevation="20dp"
             android:background="@drawable/background_with_shadow"

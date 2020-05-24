@@ -174,7 +174,6 @@ class OrdersAdapter(
             item?.shop?.title?.let {
                 binding.title.text = it
             }
-            Log.d("industy","formattedIndustry 22 = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
             item?.shop?.formattedFinalLocationNode?.let { area ->
                 binding.area.text = area
             }
@@ -263,7 +262,6 @@ class OrdersAdapter(
             item?.shop?.title?.let {
                 binding.title.text = it
             }
-            Log.d("industy","formattedIndustry 22 = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
             item?.shop?.formattedFinalLocationNode?.let { area ->
                 binding.area.text = area
             }
@@ -358,12 +356,7 @@ class OrdersAdapter(
                 binding.title.text = it
             }
 
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
-            }
-
-            Log.d("industy","formattedIndustry = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
-            item?.shop?.formattedIndustry?.let { industry ->
+            item?.shop?.formattedFinalIndustry?.let { industry ->
                 binding.industry.text = industry
             }
 
@@ -377,6 +370,10 @@ class OrdersAdapter(
 
             item?.shop?.formattedDate?.let { date ->
                 binding.date.text = date
+            }
+
+            item?.shop?.formattedArea?.let { area ->
+                binding.area.text= area
             }
 
             binding.btDelete.setOnClickListener {

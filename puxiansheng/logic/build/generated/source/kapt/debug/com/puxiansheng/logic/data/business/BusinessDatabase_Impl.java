@@ -30,9 +30,9 @@ public final class BusinessDatabase_Impl extends BusinessDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(2) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_business` (`_shop_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_id` INTEGER NOT NULL, `_name` TEXT NOT NULL, `_trades` TEXT NOT NULL, `_contact_phone` TEXT NOT NULL, `_investment` TEXT NOT NULL, `_item_keywords` TEXT, `_large_img` TEXT NOT NULL, `_large_img_alt` TEXT NOT NULL, `_large_img_title` TEXT NOT NULL, `_thumb_img` TEXT NOT NULL, `_thumb_img_alt` TEXT NOT NULL, `_thumb_img_title` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_business` (`_shop_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_id` INTEGER NOT NULL, `_name` TEXT NOT NULL, `_trades` TEXT NOT NULL, `_contact_phone` TEXT NOT NULL, `_investment` TEXT NOT NULL, `_large_img` TEXT NOT NULL, `_large_img_alt` TEXT NOT NULL, `_large_img_title` TEXT NOT NULL, `_thumb_img` TEXT NOT NULL, `_thumb_img_alt` TEXT NOT NULL, `_thumb_img_title` TEXT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '18ec644783ffeb73f109ac105109b2ba')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6372485417e29492532c4ee8e9eb02c4')");
       }
 
       @Override
@@ -76,14 +76,13 @@ public final class BusinessDatabase_Impl extends BusinessDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsTableBusiness = new HashMap<String, TableInfo.Column>(13);
+        final HashMap<String, TableInfo.Column> _columnsTableBusiness = new HashMap<String, TableInfo.Column>(12);
         _columnsTableBusiness.put("_shop_id", new TableInfo.Column("_shop_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_id", new TableInfo.Column("_id", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_name", new TableInfo.Column("_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_trades", new TableInfo.Column("_trades", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_contact_phone", new TableInfo.Column("_contact_phone", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_investment", new TableInfo.Column("_investment", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableBusiness.put("_item_keywords", new TableInfo.Column("_item_keywords", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_large_img", new TableInfo.Column("_large_img", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_large_img_alt", new TableInfo.Column("_large_img_alt", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableBusiness.put("_large_img_title", new TableInfo.Column("_large_img_title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -101,7 +100,7 @@ public final class BusinessDatabase_Impl extends BusinessDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "18ec644783ffeb73f109ac105109b2ba", "d13c5eef47bf8c3e3c79bda05d73b139");
+    }, "6372485417e29492532c4ee8e9eb02c4", "ffe733d376cc28da3cdf5c8950e28ef3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

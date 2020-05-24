@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.release
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -34,7 +35,6 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
     var rent = ""
     var fee = ""
     var area = ""
-    var areatxt = ""
     var address = ""
     var exclusive = 0//rather can transfer without facility.
     var state = 0//rather the shop still running.
@@ -83,7 +83,7 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
             images = selectedImages.value?.let { set ->
                 val builder = StringBuilder()
                 set.map { image ->
-                    if (image.contains("http")) builder.append("$image,")
+                     builder.append("$image,")
                 }
 
                 if (builder.isNotEmpty()) {
@@ -170,17 +170,11 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
                             formattedSize = it.formattedSize,
                             formattedFee = it.formattedTransferFee,
                             formattedFinalIndustry = it.formattedFinalIndustry,
-                            formattedFinalLocationNode = it.formattedFinalLocationNode,
+                            formattedArea = it.formattedFinalLocationNode,
                             formattedLocationNodes = it.formattedLocationNodes,
                             formattedFacilities = it.formattedFacilities,
-                            formattedIndustry = it.formattedIndustry?.let { strList ->
-                                val sb = java.lang.StringBuilder()
-                                strList.forEach { str ->
-                                    sb.append(str)
-                                    sb.append(" ")
-                                }
-                                sb.toString()
-                            } ?: ""
+                            formattedIndustry = it.view_category
+
                         ), serviceAgent = ServiceAgent(
                             name = it.shopOwnerName,
                             phone = it.serviceAgentPhone

@@ -67,11 +67,11 @@ class ReleasedTransferInOrdersViewModel(application: Application) : AndroidViewM
                                 transferType = Order.Type.TRANSFER_IN_PRIVATE.value(),
                                 //formatted data
                                 formattedDate = it.formattedDate,
-                                formattedSize = it.view_acreage_un_prefix,
-                                formattedRent = it.view_rent_un_prefix,
+                                formattedSize = it.view_category,
+                                formattedRent = it.formattedRent,
                                 formattedFee = it.formattedTransferFee,
-                                formattedFinalIndustry = it.formattedFinalIndustry,
-                                formattedFinalLocationNode = it.formattedFinalLocationNode
+                                formattedFinalIndustry = it.view_category,
+                                formattedArea = it.formattedFinalLocationNode
                             ),
                             state = it.state
                         )

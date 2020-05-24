@@ -81,7 +81,8 @@ object API {
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
 
-    const val GET_JOIN_LIST = API_ADDRESS + "api/get_join.html"
+    const val GET_JOIN_LIST = API_ADDRESS + "api/get_join.html"///api/join/get_info.html
+    const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
 //search
 
     const val GET_HISTORY_SEARCH =

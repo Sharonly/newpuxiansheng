@@ -13,7 +13,7 @@
             android:layout_width="295dp"
             android:layout_height="199.5dp"
             android:background="@drawable/bg_dialog"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -50,7 +50,7 @@
             android:layout_width="295dp"
             android:layout_height="217.5dp"
             android:background="@drawable/bg_dialog"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
 

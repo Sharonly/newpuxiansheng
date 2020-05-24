@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -18,19 +17,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.logic.util.GlideImageEngine
 import com.puxiansheng.util.ext.SharedPreferencesUtil
-import com.puxiansheng.util.ext.url
 import com.puxiansheng.www.databinding.FragmentTransferOrderImgSelectorAddItemBinding
 import com.puxiansheng.www.databinding.FragmentTransferOrderImgSelectorItemBinding
 import com.puxiansheng.www.ui.main.MainViewModel
@@ -45,6 +40,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.common.drawableTop
+import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.DialogSelectiveFalitiesItemBinding
 import com.puxiansheng.www.ui.map.MapActivity
 import com.puxiansheng.www.ui.order.dialog.*
@@ -91,7 +87,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             requestCodePermissions
         )
         initView()
-
     }
 
 
@@ -188,8 +183,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                     "${topLevelItem?.menuID ?: 0},${secondLevelItem?.menuID ?: 0}"
                 button_select_industry.text =
                     "${topLevelItem?.text ?: "所有行业"} - ${secondLevelItem?.text ?: "所有类型"}"
-//                insertOrUpdateTransferOutOrderViewModel.topLevelItem = topLevelItem?.text
-//                insertOrUpdateTransferOutOrderViewModel.secondLevelItem = secondLevelItem?.text
             }).show(
                 supportFragmentManager,
                 SelectIndustryDialog::class.java.name
@@ -254,8 +247,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 it?.let { locationNode ->
                     insertOrUpdateTransferOutOrderViewModel.saveArea.postValue(locationNode)
                     button_select_area.text = locationNode.text
-//                    insertOrUpdateTransferOutOrderViewModel.area = locationNode.nodeID.toString()
-//                    insertOrUpdateTransferOutOrderViewModel.areatxt = locationNode.text
                 }
             }).show(
                 supportFragmentManager,
@@ -305,7 +296,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(list)
             }
         })
-
 
 
         edit_user_address.setOnClickListener {
@@ -359,10 +349,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                         "${it.elementAt(0)?.text ?: "所有行业"} - ${it.elementAt(1)?.text ?: "所有类型"}"
                 }
             }
-//            insertOrUpdateTransferOutOrderViewModel.industry =
-//                "${it.elementAt(0)?.menuID ?: 0},${it.elementAt(1)?.menuID ?: 0}"
-//            buttonSelectIndustry.text =
-//                "${it.elementAt(0)?.text ?: "所有行业"} - ${it.elementAt(1)?.text ?: "所有类型"}"
         })
 
         insertOrUpdateTransferOutOrderViewModel.isCanEmpty.observe(this, Observer {
@@ -379,9 +365,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             facilities_list.removeAllViews()
             val sb = StringBuilder()
             it.forEach { menuItem ->
-//                facilities.addView(Chip(facilities.context).apply {
-//                    text = menuItem.text
-//                })
                 sb.append(menuItem.menuID).append(",")
                 insertOrUpdateTransferOutOrderViewModel.facility = sb.substring(0, sb.lastIndex)
             }
@@ -392,11 +375,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             button_select_area.text = it.text
             insertOrUpdateTransferOutOrderViewModel.area = it.nodeID.toString()
         })
-
-//        insertOrUpdateTransferOutOrderViewModel.saveAddress.observe(viewLifecycleOwner, Observer {
-//            buttonSelectAddress.text = it
-//            insertOrUpdateTransferOutOrderViewModel.address = it
-//        })
 
 
         input_description.addTextChangedListener {
@@ -412,22 +390,19 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
 
-
-
         insertOrUpdateTransferOutOrderViewModel.toastMsg.observe(this, Observer {
-//            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             if(it.contains("保存成功")){
                 ReleaseDialog(0).show(supportFragmentManager,ReleaseDialog::class.java.name)
             }else if(it.contains("发布成功")){
                 ReleaseDialog(1).show(supportFragmentManager,ReleaseDialog::class.java.name)
+            }else{
+                ReleaseDialog(2).show(supportFragmentManager,ReleaseDialog::class.java.name)
             }
         })
 
         insertOrUpdateTransferOutOrderViewModel.submitResult.observe(this, Observer {
-            if (it == API.CODE_SUCCESS) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-                SharedPreferencesUtil.put("my_location", "")
-            }else{
+            if (it != API.CODE_SUCCESS) {
                 ReleaseDialog(2).show(supportFragmentManager,ReleaseDialog::class.java.name)
             }
         })
@@ -444,14 +419,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 insertOrUpdateTransferOutOrderViewModel.type = id
                             }
                             order.shop?.images?.let { images ->
-                                /*StringBuilder().apply {
-                                images.forEach { image ->
-                                    append(image).append(",")
-                                }
-                            }.apply {
-                                insertOrUpdateTransferOutOrderViewModel.images =
-                                    substring(0, lastIndex)
-                            }*/
                                 insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(
                                     images.toMutableSet()
                                 )
@@ -462,9 +429,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 insertOrUpdateTransferOutOrderViewModel.title = title
                             }
 
-                            /*order.shop?.images?.let {
-                            (imageSelector.adapter as ImageSelectorAdapter).update(it.toMutableList())
-                        }*/
 
                             order.shop?.size.toString().let { size ->
                                 button_select_size.setText(size)
@@ -499,13 +463,18 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 }
                             }
 
+                            order.shop?.formattedArea?.let { finalLocationNode ->
+                                button_select_area.text = finalLocationNode
+                            }
+
+
                             order.shop?.address?.let { addressObj ->
                                 edit_user_address.setText(addressObj.addressDetail)
                                 insertOrUpdateTransferOutOrderViewModel.address =
                                     addressObj.addressDetail
 
                                 addressObj.locationNodes?.let { locationNodes ->
-                                    if (locationNodes.size > 0) {
+                                    if (locationNodes.isNotEmpty()) {
                                         insertOrUpdateTransferOutOrderViewModel.area =
                                             locationNodes[locationNodes.size - 1].nodeID.toString()
                                     } else insertOrUpdateTransferOutOrderViewModel.area = ""
@@ -513,19 +482,15 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                             }
 
                             order.shop?.lng?.let {
-                                if (it == 0.0)
+                                if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lng = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
                             order.shop?.lat?.let {
-                                if (it == 0.0)
+                                if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lat = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
-                            }
-
-                            order.shop?.formattedFinalLocationNode?.let { finalLocationNode ->
-                                button_select_area.text = finalLocationNode
                             }
 
                             order.shop?.industry?.let { industry ->
@@ -540,16 +505,18 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 facilities_list.removeAllViews()
                                 val sb = StringBuilder()
                                 it.forEach { menuItem ->
-//                                    facilities.addView(Chip(facilities.context).apply {
-//                                        text = menuItem.text
-//                                    })
                                     sb.append(menuItem.menuID).append(",")
                                     insertOrUpdateTransferOutOrderViewModel.facility =
                                         sb.substring(0, sb.lastIndex)
                                 }
                             }
 
-
+                            order.shop?.floor?.let {
+                                insertOrUpdateTransferOutOrderViewModel.floor = it
+                                if(it != 0) {
+                                    button_input_floor.setText(it.toString())
+                                }
+                            }
 
                             order.shop?.description?.let { description ->
                                 input_description.setText(description)
@@ -601,7 +568,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
     inner class ImageSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        private val maxSelectable = 6
+        private val maxSelectable = 9
         private val viewTypeAdd = 0
         private val viewTypeImage = 1
         private val images = mutableListOf<String>()

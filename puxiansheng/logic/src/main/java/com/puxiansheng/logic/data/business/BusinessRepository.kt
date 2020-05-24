@@ -8,6 +8,8 @@ class BusinessRepository (businessDao: BusinessDao){
 
     fun requestRemoteBusiness(page: Int) = remoteRepository.requestBusinessList(page = page)
 
+    fun requestRemoteBusinessDetail(id: String) = remoteRepository.requestBusinessDetail(id = id)
+
     fun getBusinessFromRoom(
     ) = localBusinessRepository.getBusinessInfoFromRoom()
 

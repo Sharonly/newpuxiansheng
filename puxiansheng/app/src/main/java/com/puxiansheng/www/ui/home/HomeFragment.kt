@@ -114,29 +114,29 @@ class HomeFragment : Fragment() {
                 }
 
                 homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                    imgOne.url(banners[0].imageUrl)
-                    imgTwo.url(banners[1].imageUrl)
-                    imgThree.url(banners[2].imageUrl)
-                    imgFour.url(banners[3].imageUrl)
-                    imgOne.setOnClickListener {
+                    imgThree.url(banners[0].imageUrl)
+                    imgFour.url(banners[1].imageUrl)
+                    imgTwo.url(banners[2].imageUrl)
+                    imgOne.url(banners[3].imageUrl)
+                    imgThree.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[0]
                         )
                     }
-                    imgTwo.setOnClickListener {
+                    imgFour.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[1]
                         )
                     }
-                    imgThree.setOnClickListener {
+                    imgTwo.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[2]
                         )
                     }
-                    imgFour.setOnClickListener {
+                    imgOne.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[3]
@@ -200,36 +200,34 @@ class HomeFragment : Fragment() {
                     topBannerView.setBannerImages(banners)
                 }
                 homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                    imgOne.url(banners[0].imageUrl)
-                    imgTwo.url(banners[1].imageUrl)
-                    imgThree.url(banners[2].imageUrl)
-                    imgFour.url(banners[3].imageUrl)
-                    imgOne.setOnClickListener {
+                    imgThree.url(banners[0].imageUrl)
+                    imgFour.url(banners[1].imageUrl)
+                    imgTwo.url(banners[2].imageUrl)
+                    imgOne.url(banners[3].imageUrl)
+                    imgThree.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[0]
                         )
                     }
-                    imgTwo.setOnClickListener {
+                    imgFour.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[1]
                         )
                     }
-                    imgThree.setOnClickListener {
+                    imgTwo.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[2]
                         )
                     }
-                    imgFour.setOnClickListener {
+                    imgOne.setOnClickListener {
                         appModel.pictureIntent(
                             requireActivity(),
                             banners[3]
                         )
                     }
-
-
                 }
 
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
