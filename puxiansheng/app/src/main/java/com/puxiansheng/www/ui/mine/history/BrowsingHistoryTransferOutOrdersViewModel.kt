@@ -19,6 +19,7 @@ class BrowsingHistoryTransferOutOrdersViewModel(application: Application) : Andr
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     private var currentPage = 1
+    private var allShopId = ""
 
     private fun deleteOrdersByType(
         type: Int
@@ -45,8 +46,10 @@ class BrowsingHistoryTransferOutOrdersViewModel(application: Application) : Andr
     private fun getTransferOutOrdersBrowsingHistory() {
         orderRepository.getTransferOutOrdersBrowsingHistoryFromRemote(page = currentPage).let { apiRst ->
             if (apiRst.succeeded) {
+                val str = StringBuilder()
                 (apiRst as APIRst.Success).data.data?.data?.orders?.let { list ->
                     list.map {
+                        str.append(it.shopID).append(",")
                         Order(
                             orderType = Order.Type.TRANSFER_OUT_HISTORY.value(),
                             shop = Shop(
@@ -87,9 +90,12 @@ class BrowsingHistoryTransferOutOrdersViewModel(application: Application) : Andr
                         )
                     }.let { orderList ->
                         orderRepository.insertOrders(*orderList.toTypedArray())
+                        if(str.isNotEmpty())
+                        allShopId = str.substring(0, str.lastIndex)
                     }
                 }
                 currentPage += 1
+
             } else null
         }
     }
@@ -105,4 +111,17 @@ class BrowsingHistoryTransferOutOrdersViewModel(application: Application) : Andr
             }
         }
     }
+
+    suspend fun deleteHistoryTransferOutOrderFromRemote(
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.deleteAllHistoryTransferOutOrderFromRemote().let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
+
 }

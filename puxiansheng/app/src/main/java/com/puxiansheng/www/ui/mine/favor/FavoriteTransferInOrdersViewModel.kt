@@ -99,4 +99,17 @@ class FavoriteTransferInOrdersViewModel(application: Application) : AndroidViewM
             }
         }
     }
+
+
+    suspend fun deleteFavorTransferInOrderFromRemote(
+        shopID: String
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.deleteFavorTransferInOrderFromRemote(shopID = shopID).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
 }

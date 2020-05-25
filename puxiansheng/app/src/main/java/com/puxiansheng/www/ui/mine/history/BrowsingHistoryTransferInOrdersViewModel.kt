@@ -1,4 +1,4 @@
-package com.puxiansheng.uio.mine.record
+package com.puxiansheng.www.ui.mine.history
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,12 +13,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.StringBuilder
 
 class BrowsingHistoryTransferInOrdersViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     private var currentPage = 1
+    private var allShopId = ""
 
     private fun deleteOrdersByType(
         type: Int
@@ -82,6 +82,7 @@ class BrowsingHistoryTransferInOrdersViewModel(application: Application) : Andro
                     }
                 }
                 currentPage += 1
+
             } else null
         }
     }
@@ -97,4 +98,17 @@ class BrowsingHistoryTransferInOrdersViewModel(application: Application) : Andro
             }
         }
     }
+
+    suspend fun deleteHistoryTransferInOrderFromRemote(
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.deleteAllHistoryTransferInOrderFromRemote().let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
+
 }

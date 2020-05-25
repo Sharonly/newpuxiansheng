@@ -124,6 +124,11 @@ object API {
     const val DELETE_TRANSFER_IN_ORDER = API_ADDRESS + "api/user/del_find.html"
     const val DELETE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/user/del_transfer.html"
 
+    const val  DELETE_FAVOR_ORDER= API_ADDRESS + "api/user/collect_null.html"
+
+    const val DELETE_HISTORY_ORDER = API_ADDRESS + "api/new/clear_view_log.html"
+
+
     const val GET_EDIT_TRANSFER_OUT_ORDER =
         API_ADDRESS + "api/transfer_shop/edit_echo.html"//获取去编辑的转店
     const val GET_EDIT_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/edit_echo.html"//获取编辑的找店

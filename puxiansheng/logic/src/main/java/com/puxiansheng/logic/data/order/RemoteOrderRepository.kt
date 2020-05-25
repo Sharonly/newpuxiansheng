@@ -622,6 +622,80 @@ class RemoteOrderRepository {
         API.call(it)
     }
 
+
+    fun deleteFavorTransferOutOrderFromRemote(
+        shopID: String
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_FAVOR_ORDER,
+        fieldMap = mutableMapOf(
+            "id" to shopID,
+            "type" to "1"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+    fun deleteFavorTransferInOrderFromRemote(
+        shopID: String
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_FAVOR_ORDER,
+        fieldMap = mutableMapOf(
+            "id" to shopID,"type" to "2"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+
+    fun deleteHistroyTransferOutOrderFromRemote(
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_HISTORY_ORDER,
+        fieldMap = mutableMapOf(
+            "type" to "1"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+    fun deleteHistroyTransferInOrderFromRemote(
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_HISTORY_ORDER,
+        fieldMap = mutableMapOf(
+            "type" to "2"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+
     fun getFavoriteTransferOutOrdersFromRemote(
         page: Int
     ): APIRst<APIResp<HttpRespOrders>> = buildRequest(

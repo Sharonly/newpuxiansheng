@@ -13,7 +13,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
-import com.puxiansheng.uio.mine.record.BrowsingHistoryTransferInOrdersViewModel
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMineBrowsingHistoryInnerFragmentBinding

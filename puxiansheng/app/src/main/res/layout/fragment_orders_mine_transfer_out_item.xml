@@ -8,8 +8,7 @@
         android:layout_height="156dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/bg_dialog"
-        android:theme="@style/Material">
+        android:background="@drawable/bg_dialog">
 
 
         <androidx.cardview.widget.CardView

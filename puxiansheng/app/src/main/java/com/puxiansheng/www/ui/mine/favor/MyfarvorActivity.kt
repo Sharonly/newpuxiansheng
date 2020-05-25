@@ -4,8 +4,7 @@ import androidx.fragment.app.Fragment
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
-import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
-import kotlinx.android.synthetic.main.activity_my_history.*
+import kotlinx.android.synthetic.main.activity_my_favor.*
 
 class MyfarvorActivity : MyBaseActivity() {
 
@@ -20,7 +19,7 @@ class MyfarvorActivity : MyBaseActivity() {
     )
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_my_history
+        return R.layout.activity_my_favor
     }
 
     override fun business() {
@@ -42,10 +41,14 @@ class MyfarvorActivity : MyBaseActivity() {
         pager.offscreenPageLimit = 3
         tabs.setupWithViewPager(pager)
 
-//        bt_delete.setOnClickListener {
-//            DeleteOrderDialog(
-//                getString(R.string.delete_history_title)
-//            ).show(supportFragmentManager,
-//                DeleteOrderDialog::class.java.name) }
+        bt_delete.setOnClickListener {
+            if( bt_delete.text == "管理") {
+                bt_delete.text = "正在管理"
+                pager.setNoScroll(true)
+            }else{
+                bt_delete.text = "管理"
+                pager.setNoScroll(false)
+            }
+        }
     }
 }

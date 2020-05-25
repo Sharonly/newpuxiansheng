@@ -4,8 +4,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.puxiansheng.logic.bean.converter.ArtcleListConverter
+import com.puxiansheng.logic.bean.converter.MenuListConverter
+import com.puxiansheng.logic.bean.converter.StringListConverter
 
+@TypeConverters(StringListConverter::class)
 @Entity(tableName = "table_business")
 data class BusinessBean(
 
@@ -35,9 +40,9 @@ data class BusinessBean(
         val investment:  String = "",
 
 
-//        @ColumnInfo(name = "_item_keywords")
-//        @SerializedName("keywords")
-//         var keywords :List<String>? =null,
+        @ColumnInfo(name = "_item_keywords")
+        @SerializedName("keywords")
+         var keywords :List<String>? =null,
 
 
         @ColumnInfo(name = "_large_img")

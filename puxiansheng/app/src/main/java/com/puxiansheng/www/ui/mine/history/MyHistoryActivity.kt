@@ -1,6 +1,8 @@
 package com.puxiansheng.www.ui.mine.history
 
 import androidx.fragment.app.Fragment
+import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
@@ -13,6 +15,13 @@ class MyHistoryActivity : MyBaseActivity() {
     private val historyTransferOutFragment: Fragment = BrowsingHistoryTransferOutOrdersFragment()
     private val historyTransferInFragment: Fragment = BrowsingHistoryTransferInOrdersFragment()
     private val historyInfoFragment: Fragment = BrowsingHistoryInfoFragment()
+
+    private lateinit var historyInViewModel: BrowsingHistoryTransferInOrdersViewModel
+    private lateinit var historyOutViewModel: BrowsingHistoryTransferOutOrdersViewModel
+    private lateinit var historyInfoViewModel: BrowsingHistoryInfoListViewModel
+
+
+    private var selectType = 0
     private var fragments = listOf(
         historyTransferOutFragment,
         historyTransferInFragment,
@@ -39,11 +48,46 @@ class MyHistoryActivity : MyBaseActivity() {
         pager.offscreenPageLimit = 3
         tabs.setupWithViewPager(pager)
 
+        when(tabs.selectedTabPosition){
+            0 ->{
+                selectType = Order.Type.TRANSFER_OUT_HISTORY.value()
+            }
+           1 ->{
+                selectType = Order.Type.TRANSFER_IN_HISTORY.value()
+            }
+            2 ->{
+                selectType = InfoItem.Type.ARTICLE_HISTORY.value()
+            }
+
+        }
+
         bt_delete.setOnClickListener {
             DeleteOrderDialog(
-                getString(R.string.delete_history_title)
+                getString(R.string.delete_history_title),selectType
             ,0).show(supportFragmentManager,
-                DeleteOrderDialog::class.java.name) }
+                DeleteOrderDialog::class.java.name)
+
+            var deleteDialog = DeleteOrderDialog(
+                getString(R.string.delete_history_title),selectType
+                ,0)
+            deleteDialog.show(supportFragmentManager, DeleteOrderDialog::class.java.name)
+            deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                override fun onDiss() {
+                    when(selectType){
+                        Order.Type.TRANSFER_OUT_HISTORY.value() ->{
+                           historyOutViewModel.refresh()
+                        }
+                        Order.Type.TRANSFER_IN_HISTORY.value() ->{
+                            historyInViewModel.refresh()
+                        }
+                        InfoItem.Type.ARTICLE_HISTORY.value() ->{
+                            historyInfoViewModel.refresh()
+                        }
+
+                    }
+                }
+            }
+        }
     }
 
 }

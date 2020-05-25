@@ -47,7 +47,6 @@ class BrowsingHistoryInfoListViewModel (application: Application) : AndroidViewM
     ) {
         infoRepository.getFavorInfoFromRoom(
         ).let {
-            Log.d("---histrory ","getFavorInfoFromRoom .size =  "+it)
             it
         }
     }
@@ -58,15 +57,28 @@ class BrowsingHistoryInfoListViewModel (application: Application) : AndroidViewM
     ) {
         infoRepository.getHistoryInfoFromRemote( page = currentPage
         ).let {
-            Log.d("---histroy --","it"+it)
             if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList?.let { list ->
-                Log.d("---histrory ","infoListRemote .size =  "+list.size)
                 insertInfoIntoRoom(*list.toTypedArray())
                 currentPage += 1
                 list
             } else null
         }
     }
+
+     suspend fun deleteHistoryInfoFromRemote(
+    ) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        infoRepository.deleteHistoryInfoFromRemote(
+        ).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
 
 
 

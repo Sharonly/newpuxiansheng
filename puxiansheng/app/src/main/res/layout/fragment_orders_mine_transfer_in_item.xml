@@ -12,7 +12,7 @@
             android:layout_height="162dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/white">
+            android:background="@drawable/bg_dialog">
 
             <TextView
                 android:id="@+id/title"

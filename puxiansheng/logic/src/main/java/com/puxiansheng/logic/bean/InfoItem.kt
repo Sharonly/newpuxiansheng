@@ -63,4 +63,16 @@ data class InfoItem(
             }
         }
     }
+
+
+    enum class Type {
+        ARTICLE_FAVOR {
+            override fun value() = 20
+        },
+        ARTICLE_HISTORY {
+            override fun value() = 21
+
+        };
+        abstract fun value(): Int
+    }
 }

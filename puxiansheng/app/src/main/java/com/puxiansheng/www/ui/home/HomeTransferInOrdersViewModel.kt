@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.home
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.api.API
@@ -12,6 +13,7 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -19,9 +21,9 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
     private val context = getApplication<Application>().applicationContext
     private var currentPage = 1;
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
-    var currentCity  = SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString()
+    var currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
 
-    private fun deleteOrdersByType(
+     fun deleteOrdersByType(
         type: Int
     ) = viewModelScope.launch(Dispatchers.IO) {
         orderRepository.deleteOrdersByTypeFromRoom(type)
@@ -35,8 +37,9 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
     fun refresh(city: String) {
         currentCity = city
         currentPage = 1
-        deleteOrdersByType(type = Order.Type.TRANSFER_IN.value())
+        deleteOrdersByType(type = Order.Type.TRANSFER_IN_RECOMMEND.value())
         loadMore()
+        Log.d("---city--", "HomeTransferIn refresh = " + currentCity)
     }
 
     fun getTransferInOrdersFromLocal() =
@@ -69,7 +72,7 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
                         )
                     )
                 }?.let { orders ->
-//                    delay(500)
+                    delay(800)
                     orderRepository.insertOrders(*orders.toTypedArray())
                 }
             } else null

@@ -29,6 +29,10 @@ class InfoRepository(infoDao: InfoDao) {
     fun getFavorInfoFromRemote(page: Int) = remoteInfoRepository.getFavoriteInfoFromRemote(page = page)
     fun getHistoryInfoFromRemote(page: Int) = remoteInfoRepository.getHistoryInfoFromRemote(page = page)
 
+    fun deleteHistoryInfoFromRemote() = remoteInfoRepository.deleteAllHistroyInfoFromRemote()
+
+    fun deleteFavorInfoFromRemote(infoId: String) = remoteInfoRepository.deleteFavorInfoFromRemote(infoId = infoId)
+
     fun getFavorInfoFromRoom(
     ) = localInfoRepository.getFavorInfoFromRoom()
 

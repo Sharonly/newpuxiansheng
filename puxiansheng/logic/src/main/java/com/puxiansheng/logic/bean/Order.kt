@@ -106,6 +106,9 @@ data class Order(
         TRANSFER_IN_HISTORY {
             override fun value() = 9
         },
+        RECOMMEND_INFO{
+            override fun value() = 10
+        },
         EMPTY {
             override fun value() = 9999
         };

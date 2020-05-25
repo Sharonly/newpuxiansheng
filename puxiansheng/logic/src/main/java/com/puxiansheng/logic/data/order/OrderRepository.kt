@@ -282,6 +282,22 @@ class OrderRepository(orderDao: OrderDao) {
         shopID: String
     ) = remoteOrderRepository.deleteTransferInOrderFromRemote(shopID = shopID)
 
+    fun deleteFavorTransferOutOrderFromRemote(
+        shopID: String
+    ) = remoteOrderRepository.deleteFavorTransferOutOrderFromRemote(shopID = shopID)
+
+    fun deleteFavorTransferInOrderFromRemote(
+        shopID: String
+    ) = remoteOrderRepository.deleteFavorTransferInOrderFromRemote(shopID = shopID)
+
+
+    fun deleteAllHistoryTransferOutOrderFromRemote(
+    ) = remoteOrderRepository.deleteHistroyTransferOutOrderFromRemote()
+
+    fun deleteAllHistoryTransferInOrderFromRemote(
+    ) = remoteOrderRepository.deleteHistroyTransferInOrderFromRemote()
+
+
     fun getFavoriteTransferOutOrdersFromRemote(
         page: Int
     ) = remoteOrderRepository.getFavoriteTransferOutOrdersFromRemote(page = page)

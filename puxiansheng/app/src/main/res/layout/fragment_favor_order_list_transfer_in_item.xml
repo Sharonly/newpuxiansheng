@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <LinearLayout
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="155dp"
@@ -12,7 +19,7 @@
             android:layout_height="155dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/white">
+            android:background="@drawable/bg_dialog">
 
             <TextView
                 android:id="@+id/title"
@@ -166,4 +173,16 @@
             android:src="@mipmap/ic_jingpin" />
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/item_delete"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:background="#88ff0000"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+</LinearLayout>
 </layout>

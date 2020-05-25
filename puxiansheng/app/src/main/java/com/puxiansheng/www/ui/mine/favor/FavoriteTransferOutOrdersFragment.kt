@@ -16,6 +16,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMineBrowsingHistoryInnerFragmentBinding
+import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 
@@ -32,7 +33,7 @@ class FavoriteTransferOutOrdersFragment : AppFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentMineBrowsingHistoryInnerFragmentBinding.inflate(inflater).apply {
+    ): View? = FragmentMineFavorInnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         refresh.setOnRefreshListener {
@@ -46,7 +47,7 @@ class FavoriteTransferOutOrdersFragment : AppFragment() {
         }
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        list.adapter = OrdersAdapter(
+        list.adapter = FavorOrdersAdapter(
             type = Order.Type.TRANSFER_OUT_FAVORITE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)

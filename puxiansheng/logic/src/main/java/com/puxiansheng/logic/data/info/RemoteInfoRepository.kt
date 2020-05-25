@@ -93,4 +93,39 @@ class RemoteInfoRepository {
     }
 
 
+    fun deleteAllHistroyInfoFromRemote(
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_HISTORY_ORDER,
+        fieldMap = mutableMapOf(
+            "type" to "3"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+    fun deleteFavorInfoFromRemote(
+        infoId: String
+    ): APIRst<APIResp<String>> = buildRequest(
+        url = API.DELETE_FAVOR_ORDER,
+        fieldMap = mutableMapOf(
+            "id" to infoId,"type" to "3"
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
 }

@@ -97,4 +97,7 @@ class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
         println("ReleasedTransferOutOrdersFragment onDestroy")
         super.onDestroy()
     }
+
+
+
 }

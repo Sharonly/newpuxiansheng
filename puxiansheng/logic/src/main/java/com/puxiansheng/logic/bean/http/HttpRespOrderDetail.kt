@@ -4,10 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.puxiansheng.logic.bean.Address
-import com.puxiansheng.logic.bean.MenuItem
-import com.puxiansheng.logic.bean.Order
-import com.puxiansheng.logic.bean.Shop
+import com.puxiansheng.logic.bean.*
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
@@ -206,7 +203,7 @@ data class OrderDetailObject(
     var jump_param: String = "",
 
     @SerializedName("data")
-    val data: List<ArticleObject>? = null
+    var articles: List<ArticleBean>? = null
 
 )
 

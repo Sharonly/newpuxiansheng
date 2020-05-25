@@ -64,6 +64,20 @@ class FavoriteInfoListViewModel (application: Application) : AndroidViewModel(ap
         }
     }
 
+    suspend fun deleteFavorInfoFromRemote(
+        infoId:String
+    ) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        infoRepository.deleteFavorInfoFromRemote(infoId
+        ).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
 
 
     private suspend fun insertInfoIntoRoom(

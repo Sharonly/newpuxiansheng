@@ -3,13 +3,15 @@ package com.puxiansheng.logic.bean
 import android.os.Parcelable
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
+import com.puxiansheng.logic.bean.converter.ArtcleListConverter
 import com.puxiansheng.logic.bean.converter.MenuListConverter
 import com.puxiansheng.logic.bean.converter.StringListConverter
+import com.puxiansheng.logic.bean.http.ArticleObject
 import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
 
 @Parcelize
-@TypeConverters(MenuListConverter::class, StringListConverter::class)
+@TypeConverters(MenuListConverter::class, StringListConverter::class,ArtcleListConverter::class)
 data class Shop(
     @ColumnInfo(name = "_shop_id")
     var shopID: Long = 0,
@@ -24,7 +26,7 @@ data class Shop(
     var rent: Double = 0.0,
 
     @ColumnInfo(name = "_rent_view")
-    var rentView:String = "",
+    var rentView: String = "",
 
     @ColumnInfo(name = "_fee")
     var fee: Double = 0.0,
@@ -123,19 +125,22 @@ data class Shop(
     @ColumnInfo(name = "_formatted_final_location_node")
     var formattedFinalLocationNode: String = "",
 
-    @SerializedName("view_demand_ids")
+    @ColumnInfo(name = "_view_demand_ids")
     var formattedFacilities: List<MenuItem>? = null,
 
-    @SerializedName("data_type")
-var data_type: String = "",
+    @ColumnInfo(name = "_data_type")
+    var data_type: String = "",
 
-    @SerializedName("jump_type")
-var jump_type: Int = 0,
+    @ColumnInfo(name = "_jump_type")
+    var jump_type: Int = 0,
 
-    @SerializedName("jump_view")
-var jump_view: String = "",
+    @ColumnInfo(name = "_jump_view")
+    var jump_view: String = "",
 
-    @SerializedName("jump_param")
-var jump_param: String = ""
+    @ColumnInfo(name = "_jump_param")
+    var jump_param: String = "",
+
+    @ColumnInfo(name = "_article_list")
+    var articles: List<ArticleBean>? = null
 
 ) : Parcelable

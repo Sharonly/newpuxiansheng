@@ -24,6 +24,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentInfoListBinding
+import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ class FavoriteInfoFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentInfoListBinding.inflate(inflater).apply {
+    ): View? = FragmentMineFavorInnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         refresh.setOnRefreshListener {

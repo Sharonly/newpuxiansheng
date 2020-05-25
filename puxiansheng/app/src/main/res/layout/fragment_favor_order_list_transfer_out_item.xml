@@ -12,13 +12,21 @@
     <!--        android:orientation="horizontal"-->
     <!--        android:theme="@style/Material"-->
     <!--        android:gravity="center_vertical">-->
+    <LinearLayout
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/white">
+        android:background="@drawable/bg_dialog">
 
 
         <androidx.cardview.widget.CardView
@@ -138,8 +146,18 @@
             android:layout_marginRight="16.5dp"
             android:layout_alignParentEnd="true"
            />
-
-
     </RelativeLayout>
+
+        <TextView
+            android:id="@+id/item_delete"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="#88ff0000"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </layout>

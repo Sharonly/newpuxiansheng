@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,13 +54,15 @@ class HomeTransferInOrdersFragment  : AppFragment() {
 
         orderList.layoutManager = LinearLayoutManager(requireContext())
         orderList.adapter = RecommOrderAdapter(
-            type = Order.Type.TRANSFER_IN.value(),
+//            type = Order.Type.TRANSFER_IN.value(),
+            requireContext(),
         onItemSelect = {
             val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
             intent.putExtra("shopID", it?.shop?.shopID?.toInt())
             startActivity(intent)
         }
         ).apply {
+            viewModel.deleteOrdersByType(Order.Type.TRANSFER_IN_RECOMMEND.value())
             LivePagedListBuilder<Int, Order>(
                 viewModel.getTransferInOrdersFromLocal(),
                 PagedList.Config.Builder()
@@ -100,6 +103,7 @@ class HomeTransferInOrdersFragment  : AppFragment() {
 
 
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
+            Log.d("---city--","HomeTransferIn currentCity = "+it.text+"  city_id = "+it.nodeID)
             SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
             viewModel.currentCity = it.nodeID.toString()
             viewModel.refresh(it.nodeID.toString())
