@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_dialog">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18.5dp"
+                android:layout_marginTop="15dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/title"
+                android:layout_alignLeft="@+id/title"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/line_gray"/>
+
+            <TextView
+                android:id="@+id/txt_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/title"
+                android:layout_below="@+id/line1"
+                android:layout_marginTop="14dp"
+                android:text="区域"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_below="@+id/line1"
+                android:layout_toRightOf="@+id/txt_area"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/input_text_blank"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginLeft="160dp"
+                android:layout_below="@+id/line1"
+                android:layout_marginTop="14dp"
+                android:text="租金"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_below="@+id/line1"
+                android:layout_toRightOf="@+id/txt_rent"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/tab_orange"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/title"
+                android:layout_below="@+id/area"
+                android:layout_marginTop="14dp"
+                android:text="面积"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_below="@+id/area"
+                android:layout_toRightOf="@+id/txt_size"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/input_text_blank"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/txt_rent"
+                android:layout_below="@+id/txt_rent"
+                android:layout_marginTop="14dp"
+                android:text="行业"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_below="@+id/txt_rent"
+                android:layout_toRightOf="@+id/txt_industry"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/input_text_blank"
+                android:textSize="12sp" />
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/industry"
+                android:layout_marginTop="14dp"
+                android:layout_alignLeft="@+id/title"
+                android:layout_marginRight="16dp"
+                android:background="@color/line_gray" />
+
+            <TextView
+                android:id="@+id/labeled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/line2"
+                android:layout_alignLeft="@+id/line2"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/icon_time"
+                android:drawablePadding="4dp"
+                android:layout_alignTop="@+id/labeled"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/appMainAccent"
+                android:layout_marginRight="16dp"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+</layout>

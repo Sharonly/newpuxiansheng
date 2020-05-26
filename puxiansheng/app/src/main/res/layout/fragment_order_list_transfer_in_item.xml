@@ -4,8 +4,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="155dp"
-        android:background="@color/tanslate">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="18.5dp"
+                android:layout_marginRight="18.5dp"
                 android:layout_marginTop="15dp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -133,15 +133,43 @@
                 android:layout_marginRight="16dp"
                 android:background="@color/line_gray" />
 
-            <TextView
-                android:id="@+id/labeled"
+            <LinearLayout
+                android:id="@+id/layout_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_alignLeft="@+id/title"
                 android:layout_below="@+id/line2"
-                android:layout_alignLeft="@+id/line2"
-                android:text="推荐"
-                android:textSize="12sp" />
+                android:layout_marginTop="10dp">
+
+
+                <TextView
+                    android:id="@+id/is_hot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#FFFC868B"
+                    android:text="热门" />
+
+                <TextView
+                    android:id="@+id/is_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#FF6AD8B3"
+                    android:layout_marginLeft="5dp"
+                    android:text="推荐"
+                    />
+
+                <TextView
+                    android:id="@+id/is_good"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#FFF78934"
+                    android:layout_marginLeft="5dp"
+                    android:text="优质" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/date"
@@ -149,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/icon_time"
                 android:drawablePadding="4dp"
-                android:layout_alignTop="@+id/labeled"
+                android:layout_alignTop="@+id/layout_label"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/appMainAccent"
                 android:layout_marginRight="16dp"
@@ -158,6 +186,7 @@
         </RelativeLayout>
 
         <ImageView
+            android:id="@+id/ic_top"
             android:layout_width="36.5dp"
             android:layout_height="21.5dp"
             android:layout_gravity="top|right"

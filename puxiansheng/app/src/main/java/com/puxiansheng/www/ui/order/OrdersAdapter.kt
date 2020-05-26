@@ -1,10 +1,7 @@
 package com.puxiansheng.www.ui.order
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,11 +30,17 @@ class OrdersAdapter(
         LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
             when (viewType) {
                 R.layout.fragment_order_list_transfer_out_item -> TransferOutOrderViewHolder(it)
-                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
-                R.layout.fragment_favor_order_list_transfer_out_item ->FavorTransferOutOrderViewHolder(it)
-                R.layout.fragment_favor_order_list_transfer_in_item ->FavorTransferInOrderViewHolder(it)
                 R.layout.fragment_order_list_transfer_in_item -> TransferInOrderViewHolder(it)
+
+                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
                 R.layout.fragment_orders_mine_transfer_in_item -> MineTransferInOrderViewHolder(it)
+
+                R.layout.fragment_recommend_order_list_transfer_out_item -> RecommendTransferOutViewHolder(
+                    it
+                )
+                R.layout.fragment_recommend_order_list_transfer_in_item -> RecommendTransferInViewHolder(
+                    it
+                )
                 else -> EmptyOrderViewHolder(it)
             }
         }
@@ -61,19 +64,16 @@ class OrdersAdapter(
 
         if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
             return R.layout.fragment_order_list_empty
-
         return when (type) {
             Order.Type.TRANSFER_OUT.value() -> R.layout.fragment_order_list_transfer_out_item
+            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
+
+            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
             Order.Type.TRANSFER_OUT_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_out_item
 
-            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
-            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
+            Order.Type.TRANSFER_OUT_HISTORY.value() -> R.layout.fragment_recommend_order_list_transfer_out_item
+            Order.Type.TRANSFER_IN_HISTORY.value() -> R.layout.fragment_recommend_order_list_transfer_in_item
 
-            Order.Type.TRANSFER_OUT_HISTORY.value() -> R.layout.fragment_order_list_transfer_out_item
-            Order.Type.TRANSFER_IN_HISTORY.value() -> R.layout.fragment_order_list_transfer_in_item
-
-            Order.Type.TRANSFER_OUT_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_out_item
-            Order.Type.TRANSFER_IN_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_in_item
             else -> R.layout.fragment_order_list_empty
         }
     }
@@ -125,10 +125,40 @@ class OrdersAdapter(
                 binding.title.text = title
             }
 
-
             item?.shop?.images?.get(0)?.let { url ->
                 binding.shopIcon.url(url)
             }
+
+            item?.shop?.isHot?.let {
+//                var str = ""
+//                it.forEach { menuItem ->
+//                    menuItem.text
+//                    str += "<font color=\"menuItem.color\">menuItem.text</font>"
+//                }
+//                binding.labeled.text = (Html.fromHtml(str))
+                if(it == 1) {
+                    binding.isHot.visibility = View.VISIBLE
+                }else{
+                    binding.isHot.visibility = View.GONE
+                }
+            }
+
+            item?.shop?.isRecommend?.let {
+                if(it == 1) {
+                    binding.isRecommend.visibility = View.VISIBLE
+                }else{
+                    binding.isRecommend.visibility = View.GONE
+                }
+            }
+
+            item?.shop?.isLargeOrder?.let {
+                if(it == 1) {
+                    binding.isGood.visibility = View.VISIBLE
+                }else{
+                    binding.isGood.visibility = View.GONE
+                }
+            }
+
 
             item?.shop?.formattedDate?.let { date ->
                 binding.date.text = date
@@ -145,12 +175,19 @@ class OrdersAdapter(
             }
 
             item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+                binding.area.text = area
             }
 
             item?.shop?.formattedFinalIndustry?.let { industry ->
                 if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
                 binding.industry.text = industry
+            }
+
+            item?.shop?.isTop?.let {
+                it
+                if (it == 1) {
+                    binding.icTop.visibility = View.VISIBLE
+                }
             }
 
 //            item?.shop?.formattedFinalLocationNode?.let { location ->
@@ -174,6 +211,32 @@ class OrdersAdapter(
             item?.shop?.title?.let {
                 binding.title.text = it
             }
+
+            item?.shop?.isHot?.let {
+                if(it == 1) {
+                    binding.isHot.visibility = View.VISIBLE
+                }else{
+                    binding.isHot.visibility = View.GONE
+                }
+            }
+
+            item?.shop?.isRecommend?.let {
+                if(it == 1) {
+                    binding.isRecommend.visibility = View.VISIBLE
+                }else{
+                    binding.isRecommend.visibility = View.GONE
+                }
+            }
+
+            item?.shop?.isLargeOrder?.let {
+                if(it == 1) {
+                    binding.isGood.visibility = View.VISIBLE
+                }else{
+                    binding.isGood.visibility = View.GONE
+                }
+            }
+
+
             item?.shop?.formattedFinalLocationNode?.let { area ->
                 binding.area.text = area
             }
@@ -194,6 +257,13 @@ class OrdersAdapter(
                 binding.date.text = date
             }
 
+            item?.shop?.isTop?.let {
+                it
+                if (it == 1) {
+                    binding.icTop.visibility = View.VISIBLE
+                }
+            }
+
             binding.root.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
             }
@@ -201,50 +271,45 @@ class OrdersAdapter(
     }
 
 
-
-    inner class FavorTransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentFavorOrderListTransferOutItemBinding.bind(containerView)
+    inner class RecommendTransferOutViewHolder(override val containerView: View) :
+        OrdersAdapter.OrderViewHolder(containerView) {
+        private val binding = FragmentRecommendOrderListTransferOutItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
+            Log.d(
+                "---item--",
+                " ----RecommendTransferOutViewHolder--- formattedFinalIndustry = " + item?.shop?.formattedFinalIndustry + "  indusrt = " + item?.shop?.formattedIndustry
+            )
+            item?.shop?.image.let { it ->
+                it?.let { it1 -> binding.shopIcon.url(it1) }
+            }
+
             item?.shop?.title.let { title ->
                 binding.title.text = title
             }
 
-
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
+            item?.shop?.formattedIndustry.let { it ->
+                binding.industry.text = it
             }
 
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
+            item?.shop?.formattedSize.let { it ->
+                binding.size.text = it
             }
 
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
+            item?.shop?.formattedRent.let { it ->
+                binding.rent.text = it
             }
 
-            item?.shop?.formattedSize?.let { size ->
-                item.shop?.formattedFee?.let { fee ->
-                    binding.size.text = "$size"
-                }
+            item?.shop?.formattedArea.let { it ->
+                binding.area.text = it
             }
 
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+
+            item?.shop?.formattedDate.let { it ->
+                binding.date.text = it
             }
 
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
-            }
-
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
 
             binding.root.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
@@ -252,34 +317,34 @@ class OrdersAdapter(
         }
     }
 
-    inner class FavorTransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentFavorOrderListTransferInItemBinding.bind(containerView)
+    inner class RecommendTransferInViewHolder(override val containerView: View) :
+        OrdersAdapter.OrderViewHolder(containerView) {
+        private val binding = FragmentRecommendOrderListTransferInItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
-            item?.shop?.title?.let {
-                binding.title.text = it
+
+            item?.shop?.title.let { title ->
+                binding.title.text = title
             }
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
+            item?.shop?.formattedFinalLocationNode.let { it ->
+                binding.area.text = it
             }
 
-            item?.shop?.formattedIndustry?.let { industry ->
-                binding.industry.text = industry
+            item?.shop?.formattedRent.let { it ->
+                binding.rent.text = it
             }
 
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
+            item?.shop?.formattedSize.let { it ->
+                binding.size.text = it
             }
 
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
+            item?.shop?.formattedIndustry.let { it ->
+                binding.industry.text = it
             }
 
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
+            item?.shop?.formattedDate.let { it ->
+                binding.date.text = it
             }
 
             binding.root.setOnClickListener {
@@ -287,6 +352,7 @@ class OrdersAdapter(
             }
         }
     }
+
 
     inner class MineTransferOutOrderViewHolder(
         override val containerView: View
@@ -315,28 +381,21 @@ class OrdersAdapter(
                 binding.size.text = size
             }
 
-
-
             item?.shop?.formattedFinalIndustry?.let { industry ->
                 if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
                 binding.industry.text = industry
             }
 
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
             item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+                binding.area.text = area
             }
-
 
             binding.btEdit.setOnClickListener {
                 onEdit?.let { onEdit -> onEdit(item) }
             }
 
             binding.btDelete.setOnClickListener {
-                onDelete?.let { onDelete -> onDelete }
+                onDelete?.let { onDelete -> onDelete(item) }
             }
 
             binding.root.setOnClickListener {
@@ -373,7 +432,7 @@ class OrdersAdapter(
             }
 
             item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+                binding.area.text = area
             }
 
             binding.btDelete.setOnClickListener {

@@ -50,7 +50,7 @@ class ArticleTitleAdapter(
             binding.infoTitle.text = menuItem.title
             binding.root.setOnClickListener {
                 val intent = Intent(context, InfoDetailActivity::class.java)
-//                intent.putExtra("url", it?.)
+                intent.putExtra("url",menuItem.jump_param)
                 context.startActivity(intent)
             }
         }

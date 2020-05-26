@@ -21,7 +21,8 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
         dialog?.let {
             it.window?.let { window ->
                 window.setLayout(
-                    resources.displayMetrics.widthPixels.times(0.9).toInt(),
+//                    resources.displayMetrics.widthPixels.times(0.9).toInt(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
                 window.setGravity(Gravity.CENTER)

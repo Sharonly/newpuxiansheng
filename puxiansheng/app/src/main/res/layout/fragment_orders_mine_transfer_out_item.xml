@@ -43,15 +43,6 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/labeled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_alignLeft="@+id/title"
-            android:layout_marginTop="3dp"
-            android:text="热门"
-            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/industry"
@@ -59,9 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_gravity="start"
-            android:layout_alignTop="@+id/labeled"
-            android:layout_marginLeft="4.5dp"
-            android:layout_toRightOf="@+id/labeled"
+            android:layout_alignLeft="@+id/title"
+            android:layout_marginTop="3dp"
             android:textColor="@color/text_gray"
             android:textSize="12sp" />
 
@@ -70,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:layout_alignTop="@+id/labeled"
+            android:layout_alignTop="@+id/industry"
             android:layout_toRightOf="@+id/industry"
             android:text=" — "
             android:textColor="@color/text_gray"
@@ -92,7 +82,7 @@
             android:id="@+id/rent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/labeled"
+            android:layout_below="@+id/industry"
             android:layout_alignLeft="@+id/title"
             android:layout_marginTop="12dp"
             android:drawablePadding="4dp"

@@ -31,16 +31,20 @@ class FavorOrdersAdapter(
         LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
             mContext = parent.context
             when (viewType) {
-                R.layout.fragment_order_list_transfer_out_item -> TransferOutOrderViewHolder(it)
-                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
+//                R.layout.fragment_order_list_transfer_out_item -> TransferOutOrderViewHolder(it)
+//                R.layout.fragment_order_list_transfer_in_item -> TransferInOrderViewHolder(it)
+//
+//                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
+//                R.layout.fragment_orders_mine_transfer_in_item -> MineTransferInOrderViewHolder(it)
+
                 R.layout.fragment_favor_order_list_transfer_out_item -> FavorTransferOutOrderViewHolder(
                     it
                 )
                 R.layout.fragment_favor_order_list_transfer_in_item -> FavorTransferInOrderViewHolder(
                     it
                 )
-                R.layout.fragment_order_list_transfer_in_item -> TransferInOrderViewHolder(it)
-                R.layout.fragment_orders_mine_transfer_in_item -> MineTransferInOrderViewHolder(it)
+
+
                 else -> EmptyOrderViewHolder(it)
             }
         }
@@ -66,14 +70,11 @@ class FavorOrdersAdapter(
             return R.layout.fragment_order_list_empty
 
         return when (type) {
-            Order.Type.TRANSFER_OUT.value() -> R.layout.fragment_order_list_transfer_out_item
-            Order.Type.TRANSFER_OUT_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_out_item
-
-            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
-            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
-
-            Order.Type.TRANSFER_OUT_HISTORY.value() -> R.layout.fragment_order_list_transfer_out_item
-            Order.Type.TRANSFER_IN_HISTORY.value() -> R.layout.fragment_order_list_transfer_in_item
+//            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
+//            Order.Type.TRANSFER_OUT.value() -> R.layout.fragment_order_list_transfer_out_item
+//
+//            Order.Type.TRANSFER_OUT_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_out_item
+//            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
 
             Order.Type.TRANSFER_OUT_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_out_item
             Order.Type.TRANSFER_IN_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_in_item
@@ -117,93 +118,6 @@ class FavorOrdersAdapter(
     }
 
 
-    inner class TransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrderListTransferOutItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n")
-        override fun bind(item: Order?) {
-            item?.shop?.title.let { title ->
-                binding.title.text = title
-            }
-
-
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                item.shop?.formattedFee?.let { fee ->
-                    binding.size.text = "$size"
-                }
-            }
-
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text = area
-            }
-
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
-            }
-
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
-
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
-
-    inner class TransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrderListTransferInItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n")
-        override fun bind(item: Order?) {
-            item?.shop?.title?.let {
-                binding.title.text = it
-            }
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
-            }
-
-            item?.shop?.formattedIndustry?.let { industry ->
-                binding.industry.text = industry
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
-
-
     inner class FavorTransferOutOrderViewHolder(
         override val containerView: View
     ) : OrderViewHolder(containerView) {
@@ -238,8 +152,7 @@ class FavorOrdersAdapter(
                 binding.area.text = area
             }
 
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
+            item?.shop?.formattedIndustry?.let { industry ->
                 binding.industry.text = industry
             }
 
@@ -391,6 +304,9 @@ class FavorOrdersAdapter(
         }
     }
 
+
+
+
     inner class EmptyOrderViewHolder(
         override val containerView: View
     ) : OrderViewHolder(containerView) {
@@ -399,13 +315,5 @@ class FavorOrdersAdapter(
 
         }
     }
-//
-//    fun drawLableBg(){
-//        val mutableBitmap: Bitmap = imageBitmap.copy(Bitmap.Config.ARGB_8888, true)
-//        val canvas = Canvas(mutableBitmap)
-//        var paint = Paint
-//        paint.setStyle(Paint.Style.STROKE)//空心矩形框
-//        paint.setColor(Color.RED);
-//        canvas.drawRect(RectF(10F, 10F, 300F, 100F), paint)
-//    }
+
 }

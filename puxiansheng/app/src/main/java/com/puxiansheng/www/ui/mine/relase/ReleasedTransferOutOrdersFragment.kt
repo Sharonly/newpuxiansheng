@@ -75,14 +75,6 @@ class ReleasedTransferOutOrdersFragment : AppFragment() {
                         viewModel.refresh()
                     }
                 }
-//                lifecycleScope.launch {
-//                    viewModel.deleteTransferOutOrderFromRemote(it?.shop?.shopID.toString())
-//                        ?.let { rst ->
-//                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
-//                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                }
             }
 
         ).apply {

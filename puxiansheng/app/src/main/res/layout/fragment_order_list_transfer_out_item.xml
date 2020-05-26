@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="123.5dp"-->
-    <!--        android:layout_marginLeft="9.5dp"-->
-    <!--        android:layout_marginRight="9.5dp"-->
-    <!--        android:background="#fff"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:theme="@style/Material"-->
-    <!--        android:gravity="center_vertical">-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +13,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/bg_dialog">
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/layout_icon"
@@ -50,18 +43,47 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="18.5dp"
             android:layout_toRightOf="@+id/layout_icon"
             android:layout_marginTop="9dp"/>
 
-        <TextView
-            android:id="@+id/labeled"
+        <LinearLayout
+            android:id="@+id/layout_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_alignLeft="@+id/title"
             android:layout_below="@+id/title"
+            android:layout_marginTop="3dp">
+
+
+        <TextView
+            android:id="@+id/is_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="热门"
-            android:layout_marginTop="3dp"/>
+            android:textColor="#FFFC868B"
+            android:text="热门" />
+
+        <TextView
+            android:id="@+id/is_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#FF6AD8B3"
+            android:layout_marginLeft="5dp"
+            android:text="推荐"
+            />
+
+        <TextView
+            android:id="@+id/is_good"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#FFF78934"
+            android:layout_marginLeft="5dp"
+            android:text="优质" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/industry"
@@ -73,8 +95,7 @@
             android:layout_marginLeft="4.5dp"
             android:textColor="@color/text_gray"
             android:textSize="12sp"
-            android:text="餐饮"
-            android:layout_toRightOf="@+id/labeled"/>
+            android:layout_toRightOf="@+id/layout_label"/>
 
         <TextView
             android:id="@+id/line"
@@ -103,7 +124,7 @@
             android:id="@+id/rent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/labeled"
+            android:layout_below="@+id/industry"
             android:drawablePadding="4dp"
             android:textColor="#FF5722"
             android:textSize="14sp"
@@ -136,10 +157,21 @@
             android:textSize="12sp"
             android:layout_alignTop="@+id/area"
             android:layout_marginRight="16.5dp"
-            android:layout_alignParentEnd="true"
-           />
+            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/ic_top"
+        android:layout_width="36.5dp"
+        android:layout_height="21.5dp"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="11.5dp"
+        android:src="@mipmap/ic_jingpin" />
+
+</FrameLayout>
 
 </layout>

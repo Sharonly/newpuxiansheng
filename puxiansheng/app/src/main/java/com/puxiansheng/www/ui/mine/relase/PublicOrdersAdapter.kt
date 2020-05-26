@@ -1,16 +1,10 @@
 package com.puxiansheng.www.ui.mine.relase
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
@@ -20,72 +14,49 @@ import kotlinx.android.extensions.LayoutContainer
 
 
 class PublicOrdersAdapter(
-    //定义加载数据显示的几种状态
-    var type: Int,
-    private val TYPE_LOAD_ALL_COMPLETE: Int = 1003,
     private val onItemSelect: ((order: Order?) -> Unit)? = null,
-    private val onEdit: ((order: Order?) -> Unit)? = null,
-    private val onDelete: ((order: Order?) -> Unit)? = null,
-    private val onRefresh: ((order: Order?) -> Unit)? = null
-) : PagedListAdapter<Order, PublicOrdersAdapter.OrderViewHolder>(Order.DIFF) {
-    private var dataList: PagedList<Order>? = null
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder =
+    private var dataList: List<Order>
+) :  RecyclerView.Adapter<PublicOrdersAdapter.OrderViewHolder>() {
+    var type: Int = 0
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PublicOrdersAdapter.OrderViewHolder =
         LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
             when (viewType) {
-                R.layout.fragment_order_list_transfer_out_item -> TransferOutOrderViewHolder(it)
-                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
-                R.layout.fragment_favor_order_list_transfer_out_item ->FavorTransferOutOrderViewHolder(it)
-                R.layout.fragment_favor_order_list_transfer_in_item ->FavorTransferInOrderViewHolder(it)
-                R.layout.fragment_order_list_transfer_in_item -> TransferInOrderViewHolder(it)
-                R.layout.fragment_orders_mine_transfer_in_item -> MineTransferInOrderViewHolder(it)
+                R.layout.fragment_orders_public_transfer_out_item -> PublicTransferOutViewHolder(it)
+                R.layout.fragment_orders_public_transfer_in_item -> PublicTransferInViewHolder(it)
                 else -> EmptyOrderViewHolder(it)
             }
-        }
 
+        }
 
     fun getDataCount(): Int {
         return dataList?.size ?: 0
     }
 
-    override fun submitList(pagedList: PagedList<Order>?) {
-        dataList = pagedList!!
-        super.submitList(pagedList)
-    }
-
     override fun getItemCount(): Int {
-        if (type == Order.Type.EMPTY.value()) return 1 + super.getItemCount()
-        return super.getItemCount()
+        if (type == Order.Type.EMPTY.value()) return 1 + dataList.size
+        return dataList.size
     }
 
-    override fun getItemViewType(position: Int): Int {
+    fun setMenuData(listData: List<Order>) {
+        dataList = listData.toMutableList()
+        Log.d("---public--"," dataList = "+dataList?.size)
+        notifyDataSetChanged()
+    }
 
-        if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
-            return R.layout.fragment_order_list_empty
 
-        return when (type) {
-            Order.Type.TRANSFER_OUT.value() -> R.layout.fragment_order_list_transfer_out_item
-            Order.Type.TRANSFER_OUT_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_out_item
+//    override fun getItemCount(): Int {
+//        if (type == Order.Type.EMPTY.value()) return 1 + super.getItemCount()
+//        return super.getItemCount()
+//    }
 
-            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
-            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
-
-            Order.Type.TRANSFER_OUT_HISTORY.value() -> R.layout.fragment_order_list_transfer_out_item
-            Order.Type.TRANSFER_IN_HISTORY.value() -> R.layout.fragment_order_list_transfer_in_item
-
-            Order.Type.TRANSFER_OUT_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_out_item
-            Order.Type.TRANSFER_IN_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_in_item
-            else -> R.layout.fragment_order_list_empty
+    override fun onBindViewHolder(holder: PublicOrdersAdapter.OrderViewHolder, position: Int) {
+        if (type != Order.Type.EMPTY.value()) {
+            holder.bind(dataList!![position])
         }
     }
-
-    override fun onBindViewHolder(
-        holder: OrderViewHolder,
-        position: Int
-    ) {
-        if (type != Order.Type.EMPTY.value())
-            holder.bind(getItem(position))
-    }
-
 
     abstract inner class OrderViewHolder(
         override val containerView: View
@@ -93,96 +64,63 @@ class PublicOrdersAdapter(
         abstract fun bind(item: Order?)
     }
 
-    inner class LoadingViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-
-        override fun bind(item: Order?) {
-
+    override fun getItemViewType(position: Int): Int {
+        if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
+            return R.layout.fragment_order_list_empty
+        if (!dataList.isNullOrEmpty()) {
+            return when (dataList?.get(position)?.shop?.data_type) {
+                "transfer_shop" -> R.layout.fragment_orders_public_transfer_out_item
+                "find_shop" -> R.layout.fragment_orders_public_transfer_in_item
+                else -> R.layout.fragment_order_list_empty
+            }
         }
+        return R.layout.fragment_order_list_empty
     }
 
 
-    inner class TransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrderListTransferOutItemBinding.bind(containerView)
+    inner class PublicTransferOutViewHolder(override val containerView: View) :
+        OrderViewHolder(containerView) {
+        private val binding = FragmentOrdersPublicTransferOutItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
-            item?.shop?.title.let { title ->
-                binding.title.text = title
+            item?.shop?.image.let { it ->
+                it?.let { it1 -> binding.shopIcon.url(it1) }
             }
 
-
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                item.shop?.formattedFee?.let { fee ->
-                    binding.size.text = "$size"
+            item?.shop?.isVip.let {
+                if(it == 1){
+                    binding.isVip.visibility = View.VISIBLE
+                }else{
+                    binding.isVip.visibility = View.INVISIBLE
                 }
             }
 
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+            item?.shop?.title.let { title ->
+                binding.title.text = title
             }
 
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
+            item?.shop?.category_acreage.let { it ->
+                binding.industryAndSize.text = it
             }
 
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
+//            item?.shop?.formattedSize.let { it ->
+//                binding.size.text = it
 //            }
 
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
-
-    inner class TransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrderListTransferInItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n")
-        override fun bind(item: Order?) {
-            item?.shop?.title?.let {
-                binding.title.text = it
-            }
-            Log.d("industy","formattedIndustry 22 = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
+            item?.shop?.formattedRent.let { it ->
+                binding.rent.text = it
             }
 
-            item?.shop?.formattedIndustry?.let { industry ->
-                binding.industry.text = industry
+            item?.shop?.formattedArea.let { it ->
+                binding.area.text = it
             }
 
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
+
+            item?.shop?.formattedDate.let { it ->
+                binding.date.text = it
             }
 
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
 
             binding.root.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
@@ -190,12 +128,9 @@ class PublicOrdersAdapter(
         }
     }
 
-
-
-    inner class FavorTransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentFavorOrderListTransferOutItemBinding.bind(containerView)
+    inner class PublicTransferInViewHolder(override val containerView: View) :
+        OrderViewHolder(containerView) {
+        private val binding = FragmentOrdersPublicTransferInItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
@@ -203,74 +138,32 @@ class PublicOrdersAdapter(
                 binding.title.text = title
             }
 
-
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                item.shop?.formattedFee?.let { fee ->
-                    binding.size.text = "$size"
+            item?.shop?.isVip.let {
+                if(it == 1){
+                    binding.isVip.visibility = View.VISIBLE
+                }else{
+                    binding.isVip.visibility = View.INVISIBLE
                 }
             }
 
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
+            item?.shop?.formattedArea.let { it ->
+                binding.area.text = it
             }
 
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
+            item?.shop?.formattedRent.let { it ->
+                binding.rent.text = it
             }
 
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
-
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
-
-    inner class FavorTransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentFavorOrderListTransferInItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n")
-        override fun bind(item: Order?) {
-            item?.shop?.title?.let {
-                binding.title.text = it
-            }
-            Log.d("industy","formattedIndustry 22 = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
+            item?.shop?.formattedSize.let { it ->
+                binding.size.text = it
             }
 
-            item?.shop?.formattedIndustry?.let { industry ->
-                binding.industry.text = industry
+            item?.shop?.formattedIndustry.let { it ->
+                binding.industry.text = it
             }
 
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
+            item?.shop?.formattedDate.let { it ->
+                binding.date.text = it
             }
 
             binding.root.setOnClickListener {
@@ -279,123 +172,11 @@ class PublicOrdersAdapter(
         }
     }
 
-    inner class MineTransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrdersMineTransferOutItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n", "Range")
-        override fun bind(item: Order?) {
-            item?.shop?.title.let { title ->
-                binding.title.text = title
-            }
-
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
-            }
-
-
-
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
-            }
-
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text= area
-            }
-
-
-            binding.btEdit.setOnClickListener {
-                onEdit?.let { onEdit -> onEdit(item) }
-            }
-
-            binding.btDelete.setOnClickListener {
-                onDelete?.let { onDelete -> onDelete }
-            }
-
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
-
-    inner class MineTransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
-        private val binding = FragmentOrdersMineTransferInItemBinding.bind(containerView)
-
-        @SuppressLint("SetTextI18n", "Range")
-        override fun bind(item: Order?) {
-            item?.shop?.title?.let {
-                binding.title.text = it
-            }
-
-            item?.shop?.formattedFinalLocationNode?.let { area ->
-                binding.area.text = area
-            }
-
-            Log.d("industy","formattedIndustry = "+ item?.shop?.formattedIndustry+"   indusry = "+item?.shop?.industry+"  finalindustry = "+item?.shop?.formattedFinalIndustry)
-            item?.shop?.formattedIndustry?.let { industry ->
-                binding.industry.text = industry
-            }
-
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
-
-            item?.shop?.formattedSize?.let { size ->
-                binding.size.text = size
-            }
-
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
-
-            binding.btDelete.setOnClickListener {
-                onDelete?.let { onDelete -> onDelete(item) }
-            }
-            binding.btEdit.setOnClickListener {
-                onEdit?.let { onEdit -> onEdit(item) }
-            }
-
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
-            }
-        }
-    }
 
     inner class EmptyOrderViewHolder(
         override val containerView: View
-    ) : OrderViewHolder(containerView) {
-
+    ) : PublicOrdersAdapter.OrderViewHolder(containerView) {
         override fun bind(item: Order?) {
-
         }
     }
-//
-//    fun drawLableBg(){
-//        val mutableBitmap: Bitmap = imageBitmap.copy(Bitmap.Config.ARGB_8888, true)
-//        val canvas = Canvas(mutableBitmap)
-//        var paint = Paint
-//        paint.setStyle(Paint.Style.STROKE)//空心矩形框
-//        paint.setColor(Color.RED);
-//        canvas.drawRect(RectF(10F, 10F, 300F, 100F), paint)
-//    }
 }

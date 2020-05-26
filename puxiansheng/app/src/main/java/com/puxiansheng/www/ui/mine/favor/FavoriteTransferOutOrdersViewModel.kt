@@ -74,14 +74,7 @@ class FavoriteTransferOutOrdersViewModel(application: Application) : AndroidView
                                 formattedSize = it.formattedSize,
                                 formattedFee = it.formattedTransferFee,
                                 formattedLocationNodes = it.formattedLocationNodes,
-                                formattedIndustry = it.formattedIndustry?.let { strList ->
-                                    val sb = StringBuilder()
-                                    strList.forEach { str ->
-                                        sb.append(str)
-                                        sb.append(" ")
-                                    }
-                                    sb.toString()
-                                } ?: ""
+                                formattedIndustry = it.formattedFinalIndustry
                             ),
                             state = it.state
                         )

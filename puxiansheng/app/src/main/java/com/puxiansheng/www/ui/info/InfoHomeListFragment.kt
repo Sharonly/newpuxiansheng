@@ -40,6 +40,10 @@ class InfoHomeListFragment : AppFragment() {
     ): View? = rootView ?: FragmentInfoHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
+        buttonBack.setOnClickListener {
+
+        }
+
 //        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 //isLoaded = true

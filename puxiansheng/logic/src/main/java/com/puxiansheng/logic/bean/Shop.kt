@@ -55,6 +55,17 @@ data class Shop(
     @ColumnInfo(name = "_exclusive")
     var includeFacilities: Int = 0,
 
+    @ColumnInfo(name = "_is_top")
+    var isTop: Int = 0,
+
+    @ColumnInfo(name = "_is_hot")
+    var isHot: Int = 0,
+
+    @ColumnInfo(name = "_is_recommend")
+    var isRecommend: Int = 0,
+
+    @ColumnInfo(name = "_is_large_order")
+    var isLargeOrder: Int = 0,
 
     @ColumnInfo(name = "_image")
     var image: String = "",
@@ -75,6 +86,9 @@ data class Shop(
     @ColumnInfo(name = "_allfacilities")
     var allFacilities: List<MenuItem>? = null,
 
+//    @ColumnInfo(name = "_view_list_statsus")
+//    var listStatus: List<MenuItem>? = null,
+
     @ColumnInfo(name = "_description")
     var description: String = "",
 
@@ -94,6 +108,9 @@ data class Shop(
     var isSuccess: Int = 0,
 
     //formatted data
+
+    @ColumnInfo(name = "_category_acreage")
+    var category_acreage:String = "",
 
     @ColumnInfo(name = "_formatted_area")
     var formattedArea: String = "",
@@ -127,6 +144,9 @@ data class Shop(
 
     @ColumnInfo(name = "_view_demand_ids")
     var formattedFacilities: List<MenuItem>? = null,
+
+    @ColumnInfo(name = "_is_vip")
+    var isVip:Int = 0,
 
     @ColumnInfo(name = "_data_type")
     var data_type: String = "",

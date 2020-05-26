@@ -55,7 +55,7 @@ class DeleteOrderDialog(
         dialog?.let {
             it.window?.let { window ->
                 window.setLayout(
-                    resources.displayMetrics.widthPixels.times(1).toInt(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
                 window.setGravity(Gravity.CENTER)

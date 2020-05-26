@@ -57,17 +57,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/order_list"
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:background="@color/bg_order_list" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp" />
 
         </LinearLayout>
 </layout>

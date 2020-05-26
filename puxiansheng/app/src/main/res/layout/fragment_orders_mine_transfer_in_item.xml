@@ -177,13 +177,5 @@
 
         </RelativeLayout>
 
-<!--        <ImageView-->
-<!--            android:layout_width="36.5dp"-->
-<!--            android:layout_height="21.5dp"-->
-<!--            android:layout_gravity="top|right"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:layout_marginRight="11.5dp"-->
-<!--            android:src="@mipmap/ic_jingpin" />-->
 
-<!--    </FrameLayout>-->
 </layout>

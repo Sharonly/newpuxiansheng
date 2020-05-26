@@ -815,6 +815,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
+        Log.d("---public--","getSoldOutFromRemote it = "+it)
         API.call(it)
     }
 

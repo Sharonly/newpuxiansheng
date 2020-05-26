@@ -50,7 +50,7 @@ public final class OrderDao_Impl implements OrderDao {
     this.__insertionAdapterOfOrder = new EntityInsertionAdapter<Order>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`_view_demand_ids`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_article_list`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`_state_text`,`_state_color`,`_status_name`,`_status_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_is_top`,`_is_hot`,`_is_recommend`,`_is_large_order`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_category_acreage`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`_view_demand_ids`,`_is_vip`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_article_list`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`_state_text`,`_state_color`,`_status_name`,`_status_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -93,167 +93,177 @@ public final class OrderDao_Impl implements OrderDao {
           }
           stmt.bindLong(15, _tmpShop.getRunningState());
           stmt.bindLong(16, _tmpShop.getIncludeFacilities());
+          stmt.bindLong(17, _tmpShop.isTop());
+          stmt.bindLong(18, _tmpShop.isHot());
+          stmt.bindLong(19, _tmpShop.isRecommend());
+          stmt.bindLong(20, _tmpShop.isLargeOrder());
           if (_tmpShop.getImage() == null) {
-            stmt.bindNull(17);
+            stmt.bindNull(21);
           } else {
-            stmt.bindString(17, _tmpShop.getImage());
+            stmt.bindString(21, _tmpShop.getImage());
           }
           final String _tmp;
           _tmp = __stringListConverter.fromArrayList(_tmpShop.getImages());
           if (_tmp == null) {
-            stmt.bindNull(18);
+            stmt.bindNull(22);
           } else {
-            stmt.bindString(18, _tmp);
+            stmt.bindString(22, _tmp);
           }
-          stmt.bindLong(19, _tmpShop.getFloor());
+          stmt.bindLong(23, _tmpShop.getFloor());
           final String _tmp_1;
           _tmp_1 = __menuListConverter.toString(_tmpShop.getLabels());
           if (_tmp_1 == null) {
-            stmt.bindNull(20);
+            stmt.bindNull(24);
           } else {
-            stmt.bindString(20, _tmp_1);
+            stmt.bindString(24, _tmp_1);
           }
           final String _tmp_2;
           _tmp_2 = __menuListConverter.toString(_tmpShop.getFacilities());
           if (_tmp_2 == null) {
-            stmt.bindNull(21);
+            stmt.bindNull(25);
           } else {
-            stmt.bindString(21, _tmp_2);
+            stmt.bindString(25, _tmp_2);
           }
           final String _tmp_3;
           _tmp_3 = __menuListConverter.toString(_tmpShop.getAllFacilities());
           if (_tmp_3 == null) {
-            stmt.bindNull(22);
-          } else {
-            stmt.bindString(22, _tmp_3);
-          }
-          if (_tmpShop.getDescription() == null) {
-            stmt.bindNull(23);
-          } else {
-            stmt.bindString(23, _tmpShop.getDescription());
-          }
-          if (_tmpShop.getDescriptionUrl() == null) {
-            stmt.bindNull(24);
-          } else {
-            stmt.bindString(24, _tmpShop.getDescriptionUrl());
-          }
-          if (_tmpShop.getEnvironment() == null) {
-            stmt.bindNull(25);
-          } else {
-            stmt.bindString(25, _tmpShop.getEnvironment());
-          }
-          if (_tmpShop.getReason() == null) {
             stmt.bindNull(26);
           } else {
-            stmt.bindString(26, _tmpShop.getReason());
+            stmt.bindString(26, _tmp_3);
           }
-          stmt.bindLong(27, _tmpShop.getTransferType());
-          stmt.bindLong(28, _tmpShop.isSuccess());
-          if (_tmpShop.getFormattedArea() == null) {
+          if (_tmpShop.getDescription() == null) {
+            stmt.bindNull(27);
+          } else {
+            stmt.bindString(27, _tmpShop.getDescription());
+          }
+          if (_tmpShop.getDescriptionUrl() == null) {
+            stmt.bindNull(28);
+          } else {
+            stmt.bindString(28, _tmpShop.getDescriptionUrl());
+          }
+          if (_tmpShop.getEnvironment() == null) {
             stmt.bindNull(29);
           } else {
-            stmt.bindString(29, _tmpShop.getFormattedArea());
+            stmt.bindString(29, _tmpShop.getEnvironment());
           }
-          if (_tmpShop.getFormattedDate() == null) {
+          if (_tmpShop.getReason() == null) {
             stmt.bindNull(30);
           } else {
-            stmt.bindString(30, _tmpShop.getFormattedDate());
+            stmt.bindString(30, _tmpShop.getReason());
           }
-          if (_tmpShop.getFormattedSize() == null) {
-            stmt.bindNull(31);
+          stmt.bindLong(31, _tmpShop.getTransferType());
+          stmt.bindLong(32, _tmpShop.isSuccess());
+          if (_tmpShop.getCategory_acreage() == null) {
+            stmt.bindNull(33);
           } else {
-            stmt.bindString(31, _tmpShop.getFormattedSize());
+            stmt.bindString(33, _tmpShop.getCategory_acreage());
           }
-          if (_tmpShop.getFormattedRent() == null) {
-            stmt.bindNull(32);
-          } else {
-            stmt.bindString(32, _tmpShop.getFormattedRent());
-          }
-          stmt.bindLong(33, _tmpShop.getFormattedPageViews());
-          if (_tmpShop.getFormattedFee() == null) {
+          if (_tmpShop.getFormattedArea() == null) {
             stmt.bindNull(34);
           } else {
-            stmt.bindString(34, _tmpShop.getFormattedFee());
+            stmt.bindString(34, _tmpShop.getFormattedArea());
           }
-          if (_tmpShop.getFormattedLocationNodes() == null) {
+          if (_tmpShop.getFormattedDate() == null) {
             stmt.bindNull(35);
           } else {
-            stmt.bindString(35, _tmpShop.getFormattedLocationNodes());
+            stmt.bindString(35, _tmpShop.getFormattedDate());
           }
-          if (_tmpShop.getFormattedIndustry() == null) {
+          if (_tmpShop.getFormattedSize() == null) {
             stmt.bindNull(36);
           } else {
-            stmt.bindString(36, _tmpShop.getFormattedIndustry());
+            stmt.bindString(36, _tmpShop.getFormattedSize());
           }
-          if (_tmpShop.getFormattedFinalIndustry() == null) {
+          if (_tmpShop.getFormattedRent() == null) {
             stmt.bindNull(37);
           } else {
-            stmt.bindString(37, _tmpShop.getFormattedFinalIndustry());
+            stmt.bindString(37, _tmpShop.getFormattedRent());
+          }
+          stmt.bindLong(38, _tmpShop.getFormattedPageViews());
+          if (_tmpShop.getFormattedFee() == null) {
+            stmt.bindNull(39);
+          } else {
+            stmt.bindString(39, _tmpShop.getFormattedFee());
+          }
+          if (_tmpShop.getFormattedLocationNodes() == null) {
+            stmt.bindNull(40);
+          } else {
+            stmt.bindString(40, _tmpShop.getFormattedLocationNodes());
+          }
+          if (_tmpShop.getFormattedIndustry() == null) {
+            stmt.bindNull(41);
+          } else {
+            stmt.bindString(41, _tmpShop.getFormattedIndustry());
+          }
+          if (_tmpShop.getFormattedFinalIndustry() == null) {
+            stmt.bindNull(42);
+          } else {
+            stmt.bindString(42, _tmpShop.getFormattedFinalIndustry());
           }
           if (_tmpShop.getFormattedFinalLocationNode() == null) {
-            stmt.bindNull(38);
+            stmt.bindNull(43);
           } else {
-            stmt.bindString(38, _tmpShop.getFormattedFinalLocationNode());
+            stmt.bindString(43, _tmpShop.getFormattedFinalLocationNode());
           }
           final String _tmp_4;
           _tmp_4 = __menuListConverter.toString(_tmpShop.getFormattedFacilities());
           if (_tmp_4 == null) {
-            stmt.bindNull(39);
+            stmt.bindNull(44);
           } else {
-            stmt.bindString(39, _tmp_4);
+            stmt.bindString(44, _tmp_4);
           }
+          stmt.bindLong(45, _tmpShop.isVip());
           if (_tmpShop.getData_type() == null) {
-            stmt.bindNull(40);
+            stmt.bindNull(46);
           } else {
-            stmt.bindString(40, _tmpShop.getData_type());
+            stmt.bindString(46, _tmpShop.getData_type());
           }
-          stmt.bindLong(41, _tmpShop.getJump_type());
+          stmt.bindLong(47, _tmpShop.getJump_type());
           if (_tmpShop.getJump_view() == null) {
-            stmt.bindNull(42);
+            stmt.bindNull(48);
           } else {
-            stmt.bindString(42, _tmpShop.getJump_view());
+            stmt.bindString(48, _tmpShop.getJump_view());
           }
           if (_tmpShop.getJump_param() == null) {
-            stmt.bindNull(43);
+            stmt.bindNull(49);
           } else {
-            stmt.bindString(43, _tmpShop.getJump_param());
+            stmt.bindString(49, _tmpShop.getJump_param());
           }
           final String _tmp_5;
           _tmp_5 = __artcleListConverter.toString(_tmpShop.getArticles());
           if (_tmp_5 == null) {
-            stmt.bindNull(44);
+            stmt.bindNull(50);
           } else {
-            stmt.bindString(44, _tmp_5);
+            stmt.bindString(50, _tmp_5);
           }
           final Address _tmpAddress = _tmpShop.getAddress();
           if(_tmpAddress != null) {
             final String _tmp_6;
             _tmp_6 = __locationNodeListConverter.toString(_tmpAddress.getLocationNodes());
             if (_tmp_6 == null) {
-              stmt.bindNull(45);
+              stmt.bindNull(51);
             } else {
-              stmt.bindString(45, _tmp_6);
+              stmt.bindString(51, _tmp_6);
             }
             if (_tmpAddress.getAddressDetail() == null) {
-              stmt.bindNull(46);
+              stmt.bindNull(52);
             } else {
-              stmt.bindString(46, _tmpAddress.getAddressDetail());
+              stmt.bindString(52, _tmpAddress.getAddressDetail());
             }
-            stmt.bindLong(47, _tmpAddress.getPostCode());
+            stmt.bindLong(53, _tmpAddress.getPostCode());
             final Coordinates _tmpCoordinates = _tmpAddress.getCoordinates();
             if(_tmpCoordinates != null) {
-              stmt.bindDouble(48, _tmpCoordinates.getLatitude());
-              stmt.bindDouble(49, _tmpCoordinates.getLongitude());
+              stmt.bindDouble(54, _tmpCoordinates.getLatitude());
+              stmt.bindDouble(55, _tmpCoordinates.getLongitude());
             } else {
-              stmt.bindNull(48);
-              stmt.bindNull(49);
+              stmt.bindNull(54);
+              stmt.bindNull(55);
             }
           } else {
-            stmt.bindNull(45);
-            stmt.bindNull(46);
-            stmt.bindNull(47);
-            stmt.bindNull(48);
-            stmt.bindNull(49);
+            stmt.bindNull(51);
+            stmt.bindNull(52);
+            stmt.bindNull(53);
+            stmt.bindNull(54);
+            stmt.bindNull(55);
           }
         } else {
           stmt.bindNull(4);
@@ -302,61 +312,61 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(47);
           stmt.bindNull(48);
           stmt.bindNull(49);
-        }
-        final User _tmpShopOwner = value.getShopOwner();
-        if(_tmpShopOwner != null) {
-          stmt.bindLong(50, _tmpShopOwner.getUserID());
-          if (_tmpShopOwner.getAccount() == null) {
-            stmt.bindNull(51);
-          } else {
-            stmt.bindString(51, _tmpShopOwner.getAccount());
-          }
-          if (_tmpShopOwner.getToken() == null) {
-            stmt.bindNull(52);
-          } else {
-            stmt.bindString(52, _tmpShopOwner.getToken());
-          }
-          if (_tmpShopOwner.getNickname() == null) {
-            stmt.bindNull(53);
-          } else {
-            stmt.bindString(53, _tmpShopOwner.getNickname());
-          }
-          stmt.bindLong(54, _tmpShopOwner.getUserSex());
-          if (_tmpShopOwner.getIcon() == null) {
-            stmt.bindNull(55);
-          } else {
-            stmt.bindString(55, _tmpShopOwner.getIcon());
-          }
-          stmt.bindLong(56, _tmpShopOwner.getLoginTimestamp());
-          stmt.bindLong(57, _tmpShopOwner.getLoginState());
-          if (_tmpShopOwner.getActualName() == null) {
-            stmt.bindNull(58);
-          } else {
-            stmt.bindString(58, _tmpShopOwner.getActualName());
-          }
-          if (_tmpShopOwner.getUserPhoneNumber() == null) {
-            stmt.bindNull(59);
-          } else {
-            stmt.bindString(59, _tmpShopOwner.getUserPhoneNumber());
-          }
-          if (_tmpShopOwner.getCityPathId() == null) {
-            stmt.bindNull(60);
-          } else {
-            stmt.bindString(60, _tmpShopOwner.getCityPathId());
-          }
-          stmt.bindLong(61, _tmpShopOwner.getCityId());
-          if (_tmpShopOwner.getCityName() == null) {
-            stmt.bindNull(62);
-          } else {
-            stmt.bindString(62, _tmpShopOwner.getCityName());
-          }
-        } else {
           stmt.bindNull(50);
           stmt.bindNull(51);
           stmt.bindNull(52);
           stmt.bindNull(53);
           stmt.bindNull(54);
           stmt.bindNull(55);
+        }
+        final User _tmpShopOwner = value.getShopOwner();
+        if(_tmpShopOwner != null) {
+          stmt.bindLong(56, _tmpShopOwner.getUserID());
+          if (_tmpShopOwner.getAccount() == null) {
+            stmt.bindNull(57);
+          } else {
+            stmt.bindString(57, _tmpShopOwner.getAccount());
+          }
+          if (_tmpShopOwner.getToken() == null) {
+            stmt.bindNull(58);
+          } else {
+            stmt.bindString(58, _tmpShopOwner.getToken());
+          }
+          if (_tmpShopOwner.getNickname() == null) {
+            stmt.bindNull(59);
+          } else {
+            stmt.bindString(59, _tmpShopOwner.getNickname());
+          }
+          stmt.bindLong(60, _tmpShopOwner.getUserSex());
+          if (_tmpShopOwner.getIcon() == null) {
+            stmt.bindNull(61);
+          } else {
+            stmt.bindString(61, _tmpShopOwner.getIcon());
+          }
+          stmt.bindLong(62, _tmpShopOwner.getLoginTimestamp());
+          stmt.bindLong(63, _tmpShopOwner.getLoginState());
+          if (_tmpShopOwner.getActualName() == null) {
+            stmt.bindNull(64);
+          } else {
+            stmt.bindString(64, _tmpShopOwner.getActualName());
+          }
+          if (_tmpShopOwner.getUserPhoneNumber() == null) {
+            stmt.bindNull(65);
+          } else {
+            stmt.bindString(65, _tmpShopOwner.getUserPhoneNumber());
+          }
+          if (_tmpShopOwner.getCityPathId() == null) {
+            stmt.bindNull(66);
+          } else {
+            stmt.bindString(66, _tmpShopOwner.getCityPathId());
+          }
+          stmt.bindLong(67, _tmpShopOwner.getCityId());
+          if (_tmpShopOwner.getCityName() == null) {
+            stmt.bindNull(68);
+          } else {
+            stmt.bindString(68, _tmpShopOwner.getCityName());
+          }
+        } else {
           stmt.bindNull(56);
           stmt.bindNull(57);
           stmt.bindNull(58);
@@ -364,38 +374,44 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(60);
           stmt.bindNull(61);
           stmt.bindNull(62);
+          stmt.bindNull(63);
+          stmt.bindNull(64);
+          stmt.bindNull(65);
+          stmt.bindNull(66);
+          stmt.bindNull(67);
+          stmt.bindNull(68);
         }
         final Order.Companion.State _tmpState = value.getState();
         if(_tmpState != null) {
           if (_tmpState.getText() == null) {
-            stmt.bindNull(63);
+            stmt.bindNull(69);
           } else {
-            stmt.bindString(63, _tmpState.getText());
+            stmt.bindString(69, _tmpState.getText());
           }
           if (_tmpState.getColor() == null) {
-            stmt.bindNull(64);
+            stmt.bindNull(70);
           } else {
-            stmt.bindString(64, _tmpState.getColor());
+            stmt.bindString(70, _tmpState.getColor());
           }
         } else {
-          stmt.bindNull(63);
-          stmt.bindNull(64);
+          stmt.bindNull(69);
+          stmt.bindNull(70);
         }
         final Order.Companion.orderStatus _tmpStatus = value.getStatus();
         if(_tmpStatus != null) {
           if (_tmpStatus.getText() == null) {
-            stmt.bindNull(65);
+            stmt.bindNull(71);
           } else {
-            stmt.bindString(65, _tmpStatus.getText());
+            stmt.bindString(71, _tmpStatus.getText());
           }
           if (_tmpStatus.getColor() == null) {
-            stmt.bindNull(66);
+            stmt.bindNull(72);
           } else {
-            stmt.bindString(66, _tmpStatus.getColor());
+            stmt.bindString(72, _tmpStatus.getColor());
           }
         } else {
-          stmt.bindNull(65);
-          stmt.bindNull(66);
+          stmt.bindNull(71);
+          stmt.bindNull(72);
         }
       }
     };
@@ -464,6 +480,10 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "view_can_empty");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
+            final int _cursorIndexOfIsTop = CursorUtil.getColumnIndexOrThrow(cursor, "_is_top");
+            final int _cursorIndexOfIsHot = CursorUtil.getColumnIndexOrThrow(cursor, "_is_hot");
+            final int _cursorIndexOfIsRecommend = CursorUtil.getColumnIndexOrThrow(cursor, "_is_recommend");
+            final int _cursorIndexOfIsLargeOrder = CursorUtil.getColumnIndexOrThrow(cursor, "_is_large_order");
             final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(cursor, "_image");
             final int _cursorIndexOfImages = CursorUtil.getColumnIndexOrThrow(cursor, "_images");
             final int _cursorIndexOfFloor = CursorUtil.getColumnIndexOrThrow(cursor, "_floor");
@@ -476,6 +496,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfReason = CursorUtil.getColumnIndexOrThrow(cursor, "_reason");
             final int _cursorIndexOfTransferType = CursorUtil.getColumnIndexOrThrow(cursor, "_transfer_type");
             final int _cursorIndexOfIsSuccess = CursorUtil.getColumnIndexOrThrow(cursor, "_is_success");
+            final int _cursorIndexOfCategoryAcreage = CursorUtil.getColumnIndexOrThrow(cursor, "_category_acreage");
             final int _cursorIndexOfFormattedArea = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_area");
             final int _cursorIndexOfFormattedDate = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_date");
             final int _cursorIndexOfFormattedSize = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_size");
@@ -487,6 +508,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
             final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfIsVip = CursorUtil.getColumnIndexOrThrow(cursor, "_is_vip");
             final int _cursorIndexOfDataType = CursorUtil.getColumnIndexOrThrow(cursor, "_data_type");
             final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_type");
             final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_view");
@@ -518,7 +540,7 @@ public final class OrderDao_Impl implements OrderDao {
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -545,6 +567,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRunningState = cursor.getInt(_cursorIndexOfRunningState);
                 final int _tmpIncludeFacilities;
                 _tmpIncludeFacilities = cursor.getInt(_cursorIndexOfIncludeFacilities);
+                final int _tmpIsTop;
+                _tmpIsTop = cursor.getInt(_cursorIndexOfIsTop);
+                final int _tmpIsHot;
+                _tmpIsHot = cursor.getInt(_cursorIndexOfIsHot);
+                final int _tmpIsRecommend;
+                _tmpIsRecommend = cursor.getInt(_cursorIndexOfIsRecommend);
+                final int _tmpIsLargeOrder;
+                _tmpIsLargeOrder = cursor.getInt(_cursorIndexOfIsLargeOrder);
                 final String _tmpImage;
                 _tmpImage = cursor.getString(_cursorIndexOfImage);
                 final List<String> _tmpImages;
@@ -577,6 +607,8 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpTransferType = cursor.getInt(_cursorIndexOfTransferType);
                 final int _tmpIsSuccess;
                 _tmpIsSuccess = cursor.getInt(_cursorIndexOfIsSuccess);
+                final String _tmpCategory_acreage;
+                _tmpCategory_acreage = cursor.getString(_cursorIndexOfCategoryAcreage);
                 final String _tmpFormattedArea;
                 _tmpFormattedArea = cursor.getString(_cursorIndexOfFormattedArea);
                 final String _tmpFormattedDate;
@@ -601,6 +633,8 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmp_4;
                 _tmp_4 = cursor.getString(_cursorIndexOfFormattedFacilities);
                 _tmpFormattedFacilities = __menuListConverter.toObject(_tmp_4);
+                final int _tmpIsVip;
+                _tmpIsVip = cursor.getInt(_cursorIndexOfIsVip);
                 final String _tmpData_type;
                 _tmpData_type = cursor.getString(_cursorIndexOfDataType);
                 final int _tmpJump_type;
@@ -637,7 +671,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpCategory_acreage,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
               }  else  {
                 _tmpShop = null;
               }
@@ -760,6 +794,10 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "view_can_empty");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
+            final int _cursorIndexOfIsTop = CursorUtil.getColumnIndexOrThrow(cursor, "_is_top");
+            final int _cursorIndexOfIsHot = CursorUtil.getColumnIndexOrThrow(cursor, "_is_hot");
+            final int _cursorIndexOfIsRecommend = CursorUtil.getColumnIndexOrThrow(cursor, "_is_recommend");
+            final int _cursorIndexOfIsLargeOrder = CursorUtil.getColumnIndexOrThrow(cursor, "_is_large_order");
             final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(cursor, "_image");
             final int _cursorIndexOfImages = CursorUtil.getColumnIndexOrThrow(cursor, "_images");
             final int _cursorIndexOfFloor = CursorUtil.getColumnIndexOrThrow(cursor, "_floor");
@@ -772,6 +810,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfReason = CursorUtil.getColumnIndexOrThrow(cursor, "_reason");
             final int _cursorIndexOfTransferType = CursorUtil.getColumnIndexOrThrow(cursor, "_transfer_type");
             final int _cursorIndexOfIsSuccess = CursorUtil.getColumnIndexOrThrow(cursor, "_is_success");
+            final int _cursorIndexOfCategoryAcreage = CursorUtil.getColumnIndexOrThrow(cursor, "_category_acreage");
             final int _cursorIndexOfFormattedArea = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_area");
             final int _cursorIndexOfFormattedDate = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_date");
             final int _cursorIndexOfFormattedSize = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_size");
@@ -783,6 +822,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
             final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfIsVip = CursorUtil.getColumnIndexOrThrow(cursor, "_is_vip");
             final int _cursorIndexOfDataType = CursorUtil.getColumnIndexOrThrow(cursor, "_data_type");
             final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_type");
             final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_view");
@@ -814,7 +854,7 @@ public final class OrderDao_Impl implements OrderDao {
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -841,6 +881,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRunningState = cursor.getInt(_cursorIndexOfRunningState);
                 final int _tmpIncludeFacilities;
                 _tmpIncludeFacilities = cursor.getInt(_cursorIndexOfIncludeFacilities);
+                final int _tmpIsTop;
+                _tmpIsTop = cursor.getInt(_cursorIndexOfIsTop);
+                final int _tmpIsHot;
+                _tmpIsHot = cursor.getInt(_cursorIndexOfIsHot);
+                final int _tmpIsRecommend;
+                _tmpIsRecommend = cursor.getInt(_cursorIndexOfIsRecommend);
+                final int _tmpIsLargeOrder;
+                _tmpIsLargeOrder = cursor.getInt(_cursorIndexOfIsLargeOrder);
                 final String _tmpImage;
                 _tmpImage = cursor.getString(_cursorIndexOfImage);
                 final List<String> _tmpImages;
@@ -873,6 +921,8 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpTransferType = cursor.getInt(_cursorIndexOfTransferType);
                 final int _tmpIsSuccess;
                 _tmpIsSuccess = cursor.getInt(_cursorIndexOfIsSuccess);
+                final String _tmpCategory_acreage;
+                _tmpCategory_acreage = cursor.getString(_cursorIndexOfCategoryAcreage);
                 final String _tmpFormattedArea;
                 _tmpFormattedArea = cursor.getString(_cursorIndexOfFormattedArea);
                 final String _tmpFormattedDate;
@@ -897,6 +947,8 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmp_4;
                 _tmp_4 = cursor.getString(_cursorIndexOfFormattedFacilities);
                 _tmpFormattedFacilities = __menuListConverter.toObject(_tmp_4);
+                final int _tmpIsVip;
+                _tmpIsVip = cursor.getInt(_cursorIndexOfIsVip);
                 final String _tmpData_type;
                 _tmpData_type = cursor.getString(_cursorIndexOfDataType);
                 final int _tmpJump_type;
@@ -933,7 +985,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpCategory_acreage,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
               }  else  {
                 _tmpShop = null;
               }
@@ -1053,6 +1105,10 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "view_can_empty");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
+            final int _cursorIndexOfIsTop = CursorUtil.getColumnIndexOrThrow(cursor, "_is_top");
+            final int _cursorIndexOfIsHot = CursorUtil.getColumnIndexOrThrow(cursor, "_is_hot");
+            final int _cursorIndexOfIsRecommend = CursorUtil.getColumnIndexOrThrow(cursor, "_is_recommend");
+            final int _cursorIndexOfIsLargeOrder = CursorUtil.getColumnIndexOrThrow(cursor, "_is_large_order");
             final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(cursor, "_image");
             final int _cursorIndexOfImages = CursorUtil.getColumnIndexOrThrow(cursor, "_images");
             final int _cursorIndexOfFloor = CursorUtil.getColumnIndexOrThrow(cursor, "_floor");
@@ -1065,6 +1121,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfReason = CursorUtil.getColumnIndexOrThrow(cursor, "_reason");
             final int _cursorIndexOfTransferType = CursorUtil.getColumnIndexOrThrow(cursor, "_transfer_type");
             final int _cursorIndexOfIsSuccess = CursorUtil.getColumnIndexOrThrow(cursor, "_is_success");
+            final int _cursorIndexOfCategoryAcreage = CursorUtil.getColumnIndexOrThrow(cursor, "_category_acreage");
             final int _cursorIndexOfFormattedArea = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_area");
             final int _cursorIndexOfFormattedDate = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_date");
             final int _cursorIndexOfFormattedSize = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_size");
@@ -1076,6 +1133,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
             final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfIsVip = CursorUtil.getColumnIndexOrThrow(cursor, "_is_vip");
             final int _cursorIndexOfDataType = CursorUtil.getColumnIndexOrThrow(cursor, "_data_type");
             final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_type");
             final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_view");
@@ -1107,7 +1165,7 @@ public final class OrderDao_Impl implements OrderDao {
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfArticles) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -1134,6 +1192,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRunningState = cursor.getInt(_cursorIndexOfRunningState);
                 final int _tmpIncludeFacilities;
                 _tmpIncludeFacilities = cursor.getInt(_cursorIndexOfIncludeFacilities);
+                final int _tmpIsTop;
+                _tmpIsTop = cursor.getInt(_cursorIndexOfIsTop);
+                final int _tmpIsHot;
+                _tmpIsHot = cursor.getInt(_cursorIndexOfIsHot);
+                final int _tmpIsRecommend;
+                _tmpIsRecommend = cursor.getInt(_cursorIndexOfIsRecommend);
+                final int _tmpIsLargeOrder;
+                _tmpIsLargeOrder = cursor.getInt(_cursorIndexOfIsLargeOrder);
                 final String _tmpImage;
                 _tmpImage = cursor.getString(_cursorIndexOfImage);
                 final List<String> _tmpImages;
@@ -1166,6 +1232,8 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpTransferType = cursor.getInt(_cursorIndexOfTransferType);
                 final int _tmpIsSuccess;
                 _tmpIsSuccess = cursor.getInt(_cursorIndexOfIsSuccess);
+                final String _tmpCategory_acreage;
+                _tmpCategory_acreage = cursor.getString(_cursorIndexOfCategoryAcreage);
                 final String _tmpFormattedArea;
                 _tmpFormattedArea = cursor.getString(_cursorIndexOfFormattedArea);
                 final String _tmpFormattedDate;
@@ -1190,6 +1258,8 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmp_4;
                 _tmp_4 = cursor.getString(_cursorIndexOfFormattedFacilities);
                 _tmpFormattedFacilities = __menuListConverter.toObject(_tmp_4);
+                final int _tmpIsVip;
+                _tmpIsVip = cursor.getInt(_cursorIndexOfIsVip);
                 final String _tmpData_type;
                 _tmpData_type = cursor.getString(_cursorIndexOfDataType);
                 final int _tmpJump_type;
@@ -1226,7 +1296,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpRentView,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpViewOpening,_tmpViewCanEmpty,_tmpRunningState,_tmpIncludeFacilities,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpCategory_acreage,_tmpFormattedArea,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param,_tmpArticles);
               }  else  {
                 _tmpShop = null;
               }

@@ -44,14 +44,26 @@ data class OrderDetailObject(
     @SerializedName("is_top")
     var isTop: Int = 0,
 
+
+    @SerializedName("is_vip")
+    var isVip: Int = 0,
+
     @SerializedName("is_hot")
     var isHot: Int = 0,
+
+    @SerializedName("is_recommend")
+    var isRecommend: Int = 0,
+
+    @SerializedName("is_large_order")
+    var isLargeOrder: Int = 0,
+
+//    @SerializedName("view_list_statsus")
+//    var viewListStatus:List<MenuItem> ?= null,
 
     @SerializedName("city_id")
     var city_id: Long = 0,
 
-    @SerializedName("is_recommend")
-    var isRecommend: Int = 0,
+
 
     @SerializedName("transfer_fee")
     var fee: Double = 0.0,
