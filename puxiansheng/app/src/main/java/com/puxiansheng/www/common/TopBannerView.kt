@@ -1,5 +1,6 @@
 package com.puxiansheng.www.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
@@ -37,6 +38,7 @@ class TopBannerView : FrameLayout {
     init {
         binding = TopBannerViewBinding.inflate(LayoutInflater.from(context), this, true).apply {
             banner.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                @SuppressLint("ResourceAsColor")
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
@@ -61,10 +63,13 @@ class TopBannerView : FrameLayout {
                     )
                     if (vibrantColor != null) {
                         bgBanner.setBackgroundColor(vibrantColor)
+                    }else{
+                        bgBanner.setBackgroundColor(R.color.appMain)
                     }
 //                    MainActivity.setStatusBarColor(this@MainActivity, vibrantColor)
                 }
 
+                @SuppressLint("ResourceAsColor")
                 override fun onPageSelected(position: Int) {
                     // 第一次,延时加载才能拿到颜色
                     if (isInit) {
@@ -74,7 +79,6 @@ class TopBannerView : FrameLayout {
                             if (vibrantColor != null) {
                                 bgBanner.setBackgroundColor(vibrantColor)
                             }
-//                            bgBanner.setImageDrawable(resources.getDrawable(R.mipmap.bg_banner_blue))
                         }, 200)
                     }
                 }

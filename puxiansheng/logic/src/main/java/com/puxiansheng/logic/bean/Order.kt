@@ -109,9 +109,9 @@ data class Order(
         RECOMMEND_INFO{
             override fun value() = 10
         },
-//        USER_PUBLIC_IN {
-//            override fun value() = 11
-//        },
+        USER_PUBLIC_ORDER {
+            override fun value() = 11
+        },
 //        USER_PUBLIC_OUT {
 //            override fun value() = 12
 //        },

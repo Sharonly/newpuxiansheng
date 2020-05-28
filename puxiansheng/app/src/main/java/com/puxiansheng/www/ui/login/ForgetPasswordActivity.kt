@@ -13,19 +13,18 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.Regular
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_FORGET_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_RESET_PASSWORD
-import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_forget_password.*
+import kotlinx.android.synthetic.main.activity_forget_password.button_back
 import kotlinx.android.synthetic.main.activity_forget_password.requestVerificationCode
 import kotlinx.android.synthetic.main.layout_login_by_password.*
 import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ForgetPasswordActivity  : AppCompatActivity(R.layout.activity_forget_password) {
+class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_password) {
     var context: Context = this@ForgetPasswordActivity
     private lateinit var loginViewModel: LoginViewModel
 
@@ -38,6 +37,10 @@ class ForgetPasswordActivity  : AppCompatActivity(R.layout.activity_forget_passw
 
 
     private fun initView(){
+        button_back.setOnClickListener {
+            onBackPressed()
+        }
+
         input_account.addTextChangedListener { editable ->
             editable?.toString()?.let {
                 loginViewModel.userAccount = it

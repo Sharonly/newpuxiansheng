@@ -17,10 +17,8 @@ import kotlinx.android.extensions.LayoutContainer
 class RecommendOrderAdapter(
     private var list: List<RecommendOrderShop>,  private val onItemSelect: ((order: RecommendOrderShop?) -> Unit)? = null
     ) : RecyclerView.Adapter<RecommendOrderAdapter.OrderItemViewHolder>() {
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): RecommendOrderAdapter.OrderItemViewHolder = OrderItemViewHolder(
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendOrderAdapter.OrderItemViewHolder = OrderItemViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.recommend_order_item,
                 parent,

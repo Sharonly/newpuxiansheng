@@ -25,6 +25,7 @@ import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentHomeBinding
+import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
@@ -63,9 +64,8 @@ class HomeFragment : Fragment() {
         }
 
         buttonSelectLocation.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
-                R.id.action_mainFragment_to_locationFragment
-            )
+            val intent = Intent(requireActivity(), LocationActivity::class.java)
+            startActivity(intent)
         }
 
         btSearch.setOnClickListener {

@@ -82,6 +82,8 @@ class UserRepository(userDao: UserDao) {
 
     fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> = remoteUserRepository.submitSuggestion(content = content)
 
+    fun getRequestType() = remoteUserRepository.getRequestType()
+
     fun requireRemoteUserInfo() = remoteUserRepository.requireRemoteUserInfo()
 
     fun submitUserInfo(nickName:String,sex:String,actulName: String,iconImg:String?,address: String?,cityId:Int):APIRst<APIResp<HttpRespEmpty>> =
@@ -98,6 +100,8 @@ class UserRepository(userDao: UserDao) {
     fun requireHistorySearch(type: Int,userId:String) = remoteUserRepository.requireHistorySearch(type = type,userId = userId)
     fun deleteHistorySearch() = remoteUserRepository.deleteHistorySearch()
     fun requireRecommendSearch() = remoteUserRepository.requireRecommendSearch()
+
+    fun releaseCount() = remoteUserRepository.getReleaseCountFromRemote()
 
 
     fun bindMobileNumber(

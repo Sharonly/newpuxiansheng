@@ -46,14 +46,16 @@ class OrdersAdapter(
         }
 
 
-    fun getDataCount(): Int {
-        return dataList?.size ?: 0
-    }
 
     override fun submitList(pagedList: PagedList<Order>?) {
         dataList = pagedList!!
         super.submitList(pagedList)
     }
+
+    fun getDataCount(): Int {
+        return dataList?.size ?: 0
+    }
+
 
     override fun getItemCount(): Int {
         if (type == Order.Type.EMPTY.value()) return 1 + super.getItemCount()

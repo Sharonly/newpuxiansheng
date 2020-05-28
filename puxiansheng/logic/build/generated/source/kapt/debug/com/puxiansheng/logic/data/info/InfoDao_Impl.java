@@ -35,7 +35,7 @@ public final class InfoDao_Impl implements InfoDao {
     this.__insertionAdapterOfInfoItem = new EntityInsertionAdapter<InfoItem>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_info` (`_id`,`_user_id`,`_info_id`,`_title`,`_release_date`,`_image`,`_category`,`_author`,`_url`,`_page_views`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_info` (`_id`,`_user_id`,`_info_id`,`_title`,`_release_date`,`_image`,`_category`,`_author`,`_url`,`_page_views`,`_jump_param`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -70,6 +70,11 @@ public final class InfoDao_Impl implements InfoDao {
           stmt.bindString(9, value.getUrl());
         }
         stmt.bindLong(10, value.getPageViews());
+        if (value.getJump_param() == null) {
+          stmt.bindNull(11);
+        } else {
+          stmt.bindString(11, value.getJump_param());
+        }
       }
     };
     this.__preparedStmtOfDeleteAllFromRoom = new SharedSQLiteStatement(__db) {
@@ -175,6 +180,7 @@ public final class InfoDao_Impl implements InfoDao {
             final int _cursorIndexOfAuthor = CursorUtil.getColumnIndexOrThrow(cursor, "_author");
             final int _cursorIndexOfUrl = CursorUtil.getColumnIndexOrThrow(cursor, "_url");
             final int _cursorIndexOfPageViews = CursorUtil.getColumnIndexOrThrow(cursor, "_page_views");
+            final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_param");
             final List<InfoItem> _res = new ArrayList<InfoItem>(cursor.getCount());
             while(cursor.moveToNext()) {
               final InfoItem _item;
@@ -198,7 +204,9 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpUrl = cursor.getString(_cursorIndexOfUrl);
               final int _tmpPageViews;
               _tmpPageViews = cursor.getInt(_cursorIndexOfPageViews);
-              _item = new InfoItem(_tmpItemID,_tmpUserId,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews);
+              final String _tmpJump_param;
+              _tmpJump_param = cursor.getString(_cursorIndexOfJumpParam);
+              _item = new InfoItem(_tmpItemID,_tmpUserId,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
               _res.add(_item);
             }
             return _res;
@@ -228,6 +236,7 @@ public final class InfoDao_Impl implements InfoDao {
             final int _cursorIndexOfAuthor = CursorUtil.getColumnIndexOrThrow(cursor, "_author");
             final int _cursorIndexOfUrl = CursorUtil.getColumnIndexOrThrow(cursor, "_url");
             final int _cursorIndexOfPageViews = CursorUtil.getColumnIndexOrThrow(cursor, "_page_views");
+            final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(cursor, "_jump_param");
             final List<InfoItem> _res = new ArrayList<InfoItem>(cursor.getCount());
             while(cursor.moveToNext()) {
               final InfoItem _item;
@@ -251,7 +260,9 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpUrl = cursor.getString(_cursorIndexOfUrl);
               final int _tmpPageViews;
               _tmpPageViews = cursor.getInt(_cursorIndexOfPageViews);
-              _item = new InfoItem(_tmpItemID,_tmpUserId,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews);
+              final String _tmpJump_param;
+              _tmpJump_param = cursor.getString(_cursorIndexOfJumpParam);
+              _item = new InfoItem(_tmpItemID,_tmpUserId,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
               _res.add(_item);
             }
             return _res;

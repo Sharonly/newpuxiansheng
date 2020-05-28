@@ -45,7 +45,12 @@ data class InfoItem(
 
     @SerializedName("view_count")
     @ColumnInfo(name = "_page_views")
-    val pageViews: Int = 0
+    val pageViews: Int = 0,
+
+    @SerializedName("jump_param")
+    @ColumnInfo(name = "_jump_param")
+    val jump_param: String = ""
+
 //@SerializedName("new_view_count")
 //@ColumnInfo(name = "_page_views")
 //val pageViews: Int = 0
@@ -73,6 +78,7 @@ data class InfoItem(
             override fun value() = 21
 
         };
+
         abstract fun value(): Int
     }
 }

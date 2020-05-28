@@ -10,6 +10,7 @@ import com.puxiansheng.logic.data.order.OrderRepository
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,6 +19,18 @@ class OrderProcessingViewModel (application: Application) : AndroidViewModel(app
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
 
 
+    fun refresh() {
+        viewModelScope.launch {
+            loadMore()
+        }
+    }
+
+    fun loadMore(
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        getRemoteUserDealOrders()
+
+    }
+
     suspend fun getRemoteUserDealOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserProcessingOrder().let { apiRst ->
@@ -25,6 +38,7 @@ class OrderProcessingViewModel (application: Application) : AndroidViewModel(app
                     it.map { shop ->
                         try {
                             Order(
+                                status = shop.status,
                                 shop = Shop(
                                     shopID = shop.shopID,
                                     title = shop.title,

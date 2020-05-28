@@ -85,8 +85,7 @@ object API {
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
 //search
 
-    const val GET_HISTORY_SEARCH =
-        API_ADDRESS + "api/history_search.html"///api/history/search/del.html
+    const val GET_HISTORY_SEARCH = API_ADDRESS + "api/history_search.html"
     const val DELETE_HISTORY_SEARCH = API_ADDRESS + "api/history/search/del.html"
     const val GET_RECOMMEND_SEARCH = API_ADDRESS + "api/transfer/hot/search.html"
 
@@ -140,6 +139,8 @@ object API {
 
 
     const val SUBMIT_SUGGESTION = API_ADDRESS + "api/feedback_submit.html"
+    const val GET_REQUEST_TYPE = API_ADDRESS+"api/get_feedback_cate.html"
+
     const val GET_FAVORITE = API_ADDRESS + "api/user/collect_log.html"
     const val GET_HISTORY = API_ADDRESS + "api/user/view_log.html"
 
@@ -160,6 +161,7 @@ object API {
 
     //some simple data apis
     const val GET_HOME_PAGE_STATISTICS_DATA = API_ADDRESS + "api/shop/statistics.html"
+    const val GET_USER_RELEASE_COUNT = API_ADDRESS + "api/user/release/count.html"
     const val GET_SERVICE_LINK = API_ADDRESS + "api/config/kf_url.html"
 
 

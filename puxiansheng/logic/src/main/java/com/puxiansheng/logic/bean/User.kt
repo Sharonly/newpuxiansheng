@@ -55,6 +55,8 @@ data class User(
     @SerializedName("view_path_city")
     var cityName: String = "",
 
+    @SerializedName("view_city_path_id")
+    var userCityPath: String = "",
 
     @Ignore
     var password: String = "",

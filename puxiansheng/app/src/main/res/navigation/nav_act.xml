@@ -109,11 +109,6 @@
         android:label="UserSuggestFragment"/>
 
     <fragment
-        android:id="@+id/locationFragment"
-        android:name="com.puxiansheng.www.ui.main.LocationFragment"
-        android:label="LocationFragment" />
-
-    <fragment
         android:id="@+id/searchFragment"
         android:name="com.puxiansheng.www.ui.search.SearchActivity"
         android:label="SearchFragment" />
@@ -162,7 +157,7 @@
 
     <fragment
         android:id="@+id/userSettingFragment"
-        android:name="com.puxiansheng.www.ui.mine.setting.UserSettingFragment"
+        android:name="com.puxiansheng.www.ui.mine.setting.UserSettingActivity"
         android:label="UserSettingFragment">
 
         <action

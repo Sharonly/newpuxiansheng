@@ -132,7 +132,7 @@
 
             </LinearLayout>
 
-            <ImageView
+            <com.puxiansheng.www.common.ImageSwitcher
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -218,7 +218,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/transferring_out"
+                    android:id="@+id/public_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -245,7 +245,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/transferring_in"
+                    android:id="@+id/finish_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -272,11 +272,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/transferred"
+                    android:id="@+id/processing_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:padding="5.1dp"
                     android:text="0"
                     android:textColor="@color/input_text_blank"
                     android:textSize="23sp"

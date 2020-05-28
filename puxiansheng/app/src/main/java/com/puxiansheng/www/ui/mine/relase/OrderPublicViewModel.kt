@@ -28,6 +28,7 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
                     it.map { shop ->
                         try {
                             Order(
+                                status = shop.status,
                                 shop = Shop(
                                     shopID = shop.shopID,
                                     title = shop.title,
@@ -41,11 +42,11 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
                                     isHot = shop.isHot,
                                     isRecommend = shop.isRecommend,
                                     isLargeOrder = shop.isLargeOrder,
+                                    isVip = shop.isVip,
                                     image = shop.image,
                                     images = shop.images,
                                     floor = shop.floor,
                                     reason = shop.reason,
-                                    isVip = shop.isVip,
                                     category_acreage = shop.categoryAcreage,
                                     data_type = shop.data_type,
                                     jump_type = shop.jump_type,

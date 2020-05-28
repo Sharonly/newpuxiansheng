@@ -93,7 +93,7 @@ class BrowsingHistoryInfoFragment : Fragment() {
                 binding.icon.url(infoItem?.image ?: "")
                 binding.root.setOnClickListener {
                     val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
-                    intent.putExtra("url", infoItem?.url)
+                    intent.putExtra("url", infoItem?.jump_param)
                     startActivity(intent)
                 }
             }

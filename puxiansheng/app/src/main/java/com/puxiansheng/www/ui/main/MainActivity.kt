@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
@@ -28,6 +29,7 @@ import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -51,6 +53,10 @@ class MainActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
+            appModel?.currentCity?.postValue(it)
+        })
+
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         ActivityCompat.requestPermissions(
             this,

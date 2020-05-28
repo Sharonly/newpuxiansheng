@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
@@ -24,6 +25,8 @@ import com.puxiansheng.www.ui.mine.favor.MyfarvorActivity
 import com.puxiansheng.www.ui.mine.relase.OrderProcessingActivity
 import com.puxiansheng.www.ui.mine.relase.OrderPublicActivity
 import com.puxiansheng.www.ui.mine.relase.OrderSoldOutActivity
+import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
+import kotlinx.coroutines.launch
 
 class MineFragment : Fragment() {
     private lateinit var mineViewModel: MineViewModel
@@ -53,10 +56,24 @@ class MineFragment : Fragment() {
             userPhone.text = ""
         }
 
+        lifecycleScope.launch {
+            mineViewModel.getReleaseCount()?.let {
+                publicData.text = it.releaseData.toString()
+                processingData.text = it.processingData.toString()
+                finishData.text = it.finishData.toString()
+            }
+
+            mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
+                Log.d("---img--"," banners = "+banners.size)
+                banner.setImages(banners)
+            }
+        }
+
+
         userIcon.setOnClickListener {
             if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
-                Navigation.findNavController(requireActivity(), R.id.homeNavHost)
-                    .navigate(R.id.action_mainFragment_to_userSettingFragment)
+                val intent = Intent(requireActivity(), UserSettingActivity::class.java)
+                startActivity(intent)
             } else {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -146,13 +163,14 @@ class MineFragment : Fragment() {
         }
 
 
+
         appModel.currentUser?.observe(requireActivity(), Observer { user ->
             user?.let {
                 if (it.isLogin) {
                     isLogin = true
                     userAccount.text = user.nickname
                     userPhone.text = user.userPhoneNumber
-                    if(user.icon.isNotEmpty()) {
+                    if (user.icon.isNotEmpty()) {
                         userIcon.urlIcon(user.icon)
                     }
                 } else {

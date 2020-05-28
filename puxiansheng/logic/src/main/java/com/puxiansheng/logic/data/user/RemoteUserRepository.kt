@@ -15,16 +15,14 @@ import com.puxiansheng.logic.api.API.DO_REGISTER
 import com.puxiansheng.logic.api.API.DO_RESET_PASSWORD
 import com.puxiansheng.logic.api.API.GET_HISTORY_SEARCH
 import com.puxiansheng.logic.api.API.GET_RECOMMEND_SEARCH
+import com.puxiansheng.logic.api.API.GET_REQUEST_TYPE
 import com.puxiansheng.logic.api.API.GET_USER_INFO
 import com.puxiansheng.logic.api.API.call
 import com.puxiansheng.logic.api.API.callForJson
 import com.puxiansheng.logic.api.API.callAny
 import com.puxiansheng.logic.api.API.sign
 import com.puxiansheng.logic.bean.HttpSearchObject
-import com.puxiansheng.logic.bean.http.HttpRespEmpty
-import com.puxiansheng.logic.bean.http.HttpRespFavorite
-import com.puxiansheng.logic.bean.http.HttpRespUserInfo
-import com.puxiansheng.logic.bean.http.HttpUserInfo
+import com.puxiansheng.logic.bean.http.*
 import com.puxiansheng.util.http.*
 
 class RemoteUserRepository {
@@ -163,7 +161,7 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---login--","userinfo = "+it)
+        Log.d("---login--", "userinfo = " + it)
         call(it)
     }
 
@@ -224,6 +222,19 @@ class RemoteUserRepository {
         call(it)
     }
 
+    fun getRequestType(): APIRst<APIResp<HttpRespMenuDate>> = buildRequest(
+        url = GET_REQUEST_TYPE,
+        fieldMap = mutableMapOf<String, String>().also {
+            it["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+        },
+        method = METHOD.GET
+    ).let {
+        Log.d("---request--"," getRequestType it = "+it )
+        call(it)
+    }
+
+
     fun bindMobileNumber(
         phone: String,
         code: String,
@@ -244,7 +255,7 @@ class RemoteUserRepository {
 
 
     fun requireHistorySearch(
-        userId:String,type: Int
+        userId: String, type: Int
     ): APIRst<APIResp<HttpSearchObject>> = buildRequest(
         url = GET_HISTORY_SEARCH,
         fieldMap = mutableMapOf(
@@ -263,7 +274,7 @@ class RemoteUserRepository {
     fun deleteHistorySearch(
     ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = DELETE_HISTORY_SEARCH,
-        fieldMap = mutableMapOf<String,String>(
+        fieldMap = mutableMapOf<String, String>(
         ).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
@@ -277,13 +288,32 @@ class RemoteUserRepository {
     fun requireRecommendSearch(
     ): APIRst<APIResp<HttpSearchObject>> = buildRequest(
         url = GET_RECOMMEND_SEARCH,
-        fieldMap = mutableMapOf<String,String>(
+        fieldMap = mutableMapOf<String, String>(
         ).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
         },
         method = METHOD.GET
     ).let {
+
         call(it)
     }
+
+
+    fun getReleaseCountFromRemote(): APIRst<APIResp<HttpRespReleaseCountData>> =
+        buildRequest(
+            url = API.GET_USER_RELEASE_COUNT,
+            fieldMap = mutableMapOf<String, String>().also {
+                it["sign"] = API.sign(
+                    signatureToken = API.currentSignatureToken,
+                    fieldMap = it,
+                    method = "GET"
+                )
+            },
+            method = METHOD.GET
+        ).let {
+            Log.d("---count--", " it =" + it)
+            API.call(it)
+        }
+
 }

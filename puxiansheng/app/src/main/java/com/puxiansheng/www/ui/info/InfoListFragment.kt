@@ -72,7 +72,7 @@ class InfoListFragment : Fragment() {
 
         InfoListAdapter(onItemSelect = {info ->
             val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
-                    intent.putExtra("url", info?.url)
+                    intent.putExtra("url", info?.jump_param)
                     startActivity(intent)
         }).let { adapter ->
             list.adapter = adapter

@@ -244,7 +244,7 @@ class SearchActivity : MyBaseActivity() {
         } else if (searchViewModel.type == 2) {
             InfoListAdapter(onItemSelect = { info ->
                 val intent = Intent(this@SearchActivity, InfoDetailActivity::class.java)
-                intent.putExtra("url", info?.url)
+                intent.putExtra("url", info?.jump_param)
                 startActivity(intent)
             }).let { adapter ->
                 list.adapter = adapter

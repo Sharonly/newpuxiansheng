@@ -232,7 +232,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/user_phone"
+                android:id="@+id/input_user_phone"
                 android:layout_width="200dp"
                 android:layout_height="54dp"
                 android:layout_alignTop="@+id/txt_phone"
@@ -248,7 +248,7 @@
                 android:id="@+id/line5"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_below="@+id/user_phone"
+                android:layout_below="@+id/input_user_phone"
                 android:background="@color/line_gray" />
 
             <TextView

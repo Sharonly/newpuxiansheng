@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
-import com.puxiansheng.www.databinding.FragmentOrderListBinding
 import com.puxiansheng.www.ui.main.MainViewModel
-import kotlinx.android.synthetic.main.fragment_info_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -41,7 +40,7 @@ class InfoHomeListFragment : AppFragment() {
         lifecycleOwner = viewLifecycleOwner
 
         buttonBack.setOnClickListener {
-
+            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigateUp()
         }
 
 //        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {

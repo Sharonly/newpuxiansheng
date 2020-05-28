@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.ui.mine.relase.adapter.ReleaseStateOrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.synthetic.main.activity_my_pulished.*
 import kotlinx.coroutines.launch
@@ -43,14 +44,23 @@ class OrderProcessingActivity : MyBaseActivity() {
 
             lifecycleScope.launch {
                 viewModel.getRemoteUserDealOrders().let {
-                    Log.d("---public--"," it = "+it?.size)
-                    order_list.adapter = PublicOrdersAdapter(
-                        onItemSelect = {
-                            val intent = Intent(this@OrderProcessingActivity, TransferOutOrderDetailActivity::class.java)
-                            intent.putExtra("shopID", it?.shop?.shopID?.toInt())
-                            startActivity(intent)
-                        }, dataList = it as List<Order>
-                    )
+                    var orderType :Int = Order.Type.EMPTY.value()
+                    if(!it.isNullOrEmpty()){
+                        orderType =  Order.Type.USER_PUBLIC_ORDER.value()
+                    }
+                    order_list.adapter =
+                        ReleaseStateOrdersAdapter(
+                            this@OrderProcessingActivity,
+                            onItemDelete = {
+                                var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shop?.shopID)
+                                deleteDialog.show(supportFragmentManager, DeleteOrderDialog::class.java.name)
+                                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                                    override fun onDiss() {
+                                            viewModel.refresh()
+                                    }
+                                }
+                            }, dataList = it as List<Order>, type = orderType
+                        )
                 }
             }
         }

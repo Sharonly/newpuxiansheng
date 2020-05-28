@@ -59,6 +59,10 @@ class LoginActivity : MyBaseActivity() {
     }
 
     private fun initView() {
+        button_back.setOnClickListener {
+            onBackPressed()
+        }
+
         tab_login.setOnClickListener {
             tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F);
             tab_login.setTextColor(resources.getColor(R.color.black))

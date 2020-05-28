@@ -12,6 +12,11 @@ android {
         }
     }
 
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
+
     signingConfigs {
         pxs {
             storeFile file("D:/LXX_WorkProject/key/PXS_JKS.jks")

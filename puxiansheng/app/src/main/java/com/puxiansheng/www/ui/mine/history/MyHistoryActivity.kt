@@ -83,7 +83,6 @@ class MyHistoryActivity : MyBaseActivity() {
                         InfoItem.Type.ARTICLE_HISTORY.value() ->{
                             historyInfoViewModel.refresh()
                         }
-
                     }
                 }
             }

@@ -16,7 +16,7 @@ class MyReleaseAllActivity :MyBaseActivity(){
 
 
     private fun initView(){
-        pager.adapter = ReleasedOrdersAdapter(
+        pager.adapter = ReleasedOrdersPagerAdapter(
             fragmentManager = supportFragmentManager,
             lifecycle = this.lifecycle
         )
