@@ -63,10 +63,14 @@ class UserRepository(userDao: UserDao) {
 
     fun forgetPassword(
         userAccount: String,
-        verificationCode: String?
+        verificationCode: String,
+        password :String,
+        newPassword: String
     )= remoteUserRepository.forgetPassword(
         userAccount = userAccount,
-        code = verificationCode
+        code = verificationCode,
+        password = password,
+        newPassword = newPassword
     )
 
 
@@ -83,6 +87,10 @@ class UserRepository(userDao: UserDao) {
     fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> = remoteUserRepository.submitSuggestion(content = content)
 
     fun getRequestType() = remoteUserRepository.getRequestType()
+
+    fun getRequestList() = remoteUserRepository.getRequestList()
+
+    fun getUserCallBack() = remoteUserRepository.getUserCallBack()
 
     fun requireRemoteUserInfo() = remoteUserRepository.requireRemoteUserInfo()
 

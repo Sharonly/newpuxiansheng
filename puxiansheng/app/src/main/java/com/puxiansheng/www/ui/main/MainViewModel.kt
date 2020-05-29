@@ -312,7 +312,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun saveLoginUser(): User? {
         var user: User? = User()
         user?.token = get(API.LOGIN_USER_TOKEN, "") as String
-        user?.nickname = get(API.LOGIN_NICK_NAME, "") as String
+        user?.name = get(API.LOGIN_NICK_NAME, "") as String
         user?.actualName = get(API.LOGIN_ACTUL_NAME, "") as String
         user?.userPhoneNumber = get(API.LOGIN_USER_PHONE, "") as String
         user?.icon = get(API.LOGIN_USER_ICON,"") as String

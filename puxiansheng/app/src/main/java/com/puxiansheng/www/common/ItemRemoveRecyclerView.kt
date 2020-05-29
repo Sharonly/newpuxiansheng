@@ -52,6 +52,7 @@ class ItemRemoveRecyclerView @JvmOverloads constructor(
     private val mVelocityTracker: VelocityTracker
     private val mScroller: Scroller
     private var mListener: OnItemClickListener? = null
+
     override fun onTouchEvent(e: MotionEvent): Boolean {
         mVelocityTracker.addMovement(e)
         val x = e.x.toInt()
@@ -60,8 +61,7 @@ class ItemRemoveRecyclerView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> if (mDeleteBtnState == 0) {
                 val view = findChildViewUnder(x.toFloat(), y.toFloat()) ?: return false
                 val viewHolder = getChildViewHolder(view) as RemoveViewHolder
-                mItemLayout =
-                    viewHolder.getView<View>(R.id.item_layout) as LinearLayout
+                mItemLayout = viewHolder.getView<View>(R.id.item_layout) as LinearLayout
                 curSelectPosition = viewHolder.adapterPosition
                 if (null != mItemLayout) //                        mReaded = (TextView) mItemLayout.findViewById(R.id.item_readed);
                     mDelete =

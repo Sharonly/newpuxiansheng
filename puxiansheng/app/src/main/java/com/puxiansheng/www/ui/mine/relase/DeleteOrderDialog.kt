@@ -114,12 +114,11 @@ class DeleteOrderDialog(
                             }
                     }
 
-
                     Order.Type.TRANSFER_IN_FAVORITE.value() -> {
                         favorInViewModel.deleteFavorTransferInOrderFromRemote(shopID = shopId.toString())
                             ?.let { rst ->
                                 if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                         .show()
                                 dismiss()
                                 listener?.onDiss()
@@ -130,39 +129,42 @@ class DeleteOrderDialog(
                         favorOutViewModel.deleteFavorTransferOutOrderFromRemote(shopID = shopId.toString())
                             ?.let { rst ->
                                 if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                         .show()
                                 dismiss()
                                 listener?.onDiss()
                             }
                     }
+
 
                     InfoItem.Type.ARTICLE_FAVOR.value() -> {
                         favorInfoViewModel.deleteFavorInfoFromRemote(shopId.toString())
                             ?.let { rst ->
                                 if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                         .show()
                                 dismiss()
                                 listener?.onDiss()
                             }
                     }
 
-                    Order.Type.TRANSFER_IN_HISTORY.value() -> {
-                        historyInViewModel.deleteHistoryTransferInOrderFromRemote()?.let { rst ->
+                    Order.Type.TRANSFER_OUT_HISTORY.value() -> {
+                        historyOutViewModel.deleteHistoryTransferOutOrderFromRemote()?.let { rst ->
                             if (rst.code == API.CODE_SUCCESS)
-                                Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                     .show()
                             dismiss()
                             listener?.onDiss()
                         }
                     }
 
-                    Order.Type.TRANSFER_OUT_HISTORY.value() -> {
-                        historyOutViewModel.deleteHistoryTransferOutOrderFromRemote()?.let { rst ->
-                            if (rst.code == API.CODE_SUCCESS)
-                                Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+
+                    Order.Type.TRANSFER_IN_HISTORY.value() -> {
+                        historyInViewModel.deleteHistoryTransferInOrderFromRemote()?.let { rst ->
+                            if (rst.code == API.CODE_SUCCESS) {
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                     .show()
+                            }
                             dismiss()
                             listener?.onDiss()
                         }
@@ -171,7 +173,7 @@ class DeleteOrderDialog(
                     InfoItem.Type.ARTICLE_HISTORY.value() -> {
                         historyInfoViewModel.deleteHistoryInfoFromRemote()?.let { rst ->
                             if (rst.code == API.CODE_SUCCESS)
-                                Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
                                     .show()
                             dismiss()
                             listener?.onDiss()

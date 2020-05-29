@@ -68,7 +68,7 @@ object API {
     const val DO_LOGIN_BY_PHONE = API_ADDRESS + "api/sms_login.html"
     const val DO_LOGIN_BY_WECHAT = API_ADDRESS + "api/wechat_login.html"
     const val DO_REGISTER = API_ADDRESS + "api/register.html"
-    const val DO_FORGET_PASSWORD = API_ADDRESS + "api/no_password.html"
+    const val DO_FORGET_PASSWORD = API_ADDRESS + "api/user_change_pwd.html"
 
     const val DO_LOGOUT = API_ADDRESS + "api/login_out.html"
     const val DO_BIND_MOBILE_NUMBER = API_ADDRESS + "api/auth/bind_phone.html"
@@ -83,6 +83,7 @@ object API {
 
     const val GET_JOIN_LIST = API_ADDRESS + "api/get_join.html"///api/join/get_info.html
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
+    const val SUBMIT_JOIN_INFO = API_ADDRESS + "api/join/submit.html"
 //search
 
     const val GET_HISTORY_SEARCH = API_ADDRESS + "api/history_search.html"
@@ -140,6 +141,8 @@ object API {
 
     const val SUBMIT_SUGGESTION = API_ADDRESS + "api/feedback_submit.html"
     const val GET_REQUEST_TYPE = API_ADDRESS+"api/get_feedback_cate.html"
+    const val GET_REQUEST_LIST = API_ADDRESS+"api/get_problems.html"
+    const val GET_USER_CALLBACK = API_ADDRESS+"api/my_feedback.html"
 
     const val GET_FAVORITE = API_ADDRESS + "api/user/collect_log.html"
     const val GET_HISTORY = API_ADDRESS + "api/user/view_log.html"
@@ -163,6 +166,8 @@ object API {
     const val GET_HOME_PAGE_STATISTICS_DATA = API_ADDRESS + "api/shop/statistics.html"
     const val GET_USER_RELEASE_COUNT = API_ADDRESS + "api/user/release/count.html"
     const val GET_SERVICE_LINK = API_ADDRESS + "api/config/kf_url.html"
+
+    const val GET_CONFIG_URL = API_ADDRESS+"api/config.html"
 
 
     private val interceptor = HttpInterceptor("", "")

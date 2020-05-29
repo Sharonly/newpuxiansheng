@@ -19,7 +19,10 @@ data class User(
 
     @ColumnInfo(name = "_nickname")
     @SerializedName("name")
-    var nickname: String = "",
+    var name: String = "",
+
+    @SerializedName("nick_name")
+    var nickName: String = "",
 
     @ColumnInfo(name = "_sex")
     @SerializedName("sex")

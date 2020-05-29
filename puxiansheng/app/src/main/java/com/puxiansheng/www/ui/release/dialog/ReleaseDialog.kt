@@ -21,7 +21,6 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
         dialog?.let {
             it.window?.let { window ->
                 window.setLayout(
-//                    resources.displayMetrics.widthPixels.times(0.9).toInt(),
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
@@ -51,6 +50,7 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 dialogIcon.setImageResource(R.mipmap.ic_release_success)
                 title.text = "恭喜您！发布成功"
                 btReturn.setTextColor(resources.getColor(R.color.release_success_text_color))
+                btReturn.text = "确定"
             }
             2 -> {//发布失败
                 layoutSubmit.visibility = View.VISIBLE
@@ -58,13 +58,23 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 dialogIcon.setImageResource(R.mipmap.ic_release_fail)
                 title.text = "哎呀！发布失败"
                 btReturn.setTextColor(resources.getColor(R.color.release_fail_text_color))
+                btReturn.text = "返回"
             }
         }
         btOk.setOnClickListener {
             val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
             startActivity(intent)
-            dismiss() }
-        btReturn.setOnClickListener {  dismiss() }
+            dismiss()
+        }
+        btReturn.setOnClickListener {
+            when (type) {
+                1 -> {
+                    val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            dismiss()
+        }
 
     }.root
 }

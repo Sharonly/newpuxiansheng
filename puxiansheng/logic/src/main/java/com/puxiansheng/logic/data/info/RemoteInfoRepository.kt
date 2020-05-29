@@ -3,10 +3,7 @@ package com.puxiansheng.logic.data.info
 import android.icu.text.CaseMap
 import android.util.Log
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.logic.bean.http.HttpRespHistoryInfoList
-import com.puxiansheng.logic.bean.http.HttpRespInfoCategory
-import com.puxiansheng.logic.bean.http.HttpRespInfoList
-import com.puxiansheng.logic.bean.http.HttpRespOrders
+import com.puxiansheng.logic.bean.http.*
 import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.METHOD
@@ -94,10 +91,10 @@ class RemoteInfoRepository {
 
 
     fun deleteAllHistroyInfoFromRemote(
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_HISTORY_ORDER,
         fieldMap = mutableMapOf(
-            "type" to "3"
+            "type" to "2"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -112,10 +109,10 @@ class RemoteInfoRepository {
 
     fun deleteFavorInfoFromRemote(
         infoId: String
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_FAVOR_ORDER,
         fieldMap = mutableMapOf(
-            "id" to infoId,"type" to "3"
+            "id" to infoId,"type" to "2"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,

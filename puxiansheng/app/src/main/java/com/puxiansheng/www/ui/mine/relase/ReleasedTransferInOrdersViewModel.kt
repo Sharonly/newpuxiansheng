@@ -67,7 +67,7 @@ class ReleasedTransferInOrdersViewModel(application: Application) : AndroidViewM
                                 transferType = Order.Type.TRANSFER_IN_PRIVATE.value(),
                                 //formatted data
                                 formattedDate = it.formattedDate,
-                                formattedSize = it.view_category,
+                                formattedSize = it.formattedSize,
                                 formattedRent = it.formattedRent,
                                 formattedFee = it.formattedTransferFee,
                                 formattedFinalIndustry = it.view_category,

@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
-import com.puxiansheng.www.databinding.FragmentMineBrowsingHistoryInnerFragmentBinding
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
-import com.puxiansheng.www.ui.order.OrdersAdapter
+import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 
 class FavoriteTransferInOrdersFragment : AppFragment() {
@@ -53,6 +52,14 @@ class FavoriteTransferInOrdersFragment : AppFragment() {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
                 startActivity(intent)
+            },onDelete = {
+                var deleteDialog = DeleteOrderDialog("确定要删除该条收藏吗？",Order.Type.TRANSFER_IN_FAVORITE.value(), it?.shop?.shopID)
+                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+                        viewModel.refresh()
+                    }
+                }
             }
         ).apply {
             LivePagedListBuilder<Int, Order>(

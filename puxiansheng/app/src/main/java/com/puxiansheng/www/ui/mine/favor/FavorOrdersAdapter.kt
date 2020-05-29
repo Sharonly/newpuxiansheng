@@ -161,6 +161,10 @@ class FavorOrdersAdapter(
 //                binding.area.text = location
 //            }
 
+            binding.itemDelete.setOnClickListener {
+                onDelete?.let { select -> select(item) }
+            }
+
             binding.root.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
             }
@@ -195,6 +199,10 @@ class FavorOrdersAdapter(
 
             item?.shop?.formattedDate?.let { date ->
                 binding.date.text = date
+            }
+
+            binding.itemDelete.setOnClickListener {
+                onDelete?.let { select -> select(item) }
             }
 
             binding.root.setOnClickListener {

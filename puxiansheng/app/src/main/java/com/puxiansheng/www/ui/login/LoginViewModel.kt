@@ -43,6 +43,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var userAccount: String = ""
     var userPassword: String = ""
     var newPassword: String = ""
+    var newPasswordAgain: String = ""
     var verificationCode: String = ""
     var wechatLoginCode: String = ""
 
@@ -71,24 +72,35 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
             MODE_LOGIN_WITH_CODE -> {
-                userRepository.loginByPhoneNum(userAccount = userAccount, verificationCode = verificationCode)
+                userRepository.loginByPhoneNum(
+                    userAccount = userAccount,
+                    verificationCode = verificationCode
+                )
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
-            MODE_LOGIN_WITH_WECHAT ->{
+            MODE_LOGIN_WITH_WECHAT -> {
                 userRepository.loginByWeChat(wechatCode = wechatLoginCode)
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
-            MODE_REGISTER ->{
-                userRepository.register(userAccount = userAccount, verificationCode = verificationCode)
+            MODE_REGISTER -> {
+                userRepository.register(
+                    userAccount = userAccount,
+                    verificationCode = verificationCode
+                )
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
 
-            MODE_FORGET_PASSWORD ->{
-                userRepository.forgetPassword(userAccount = userAccount, verificationCode = verificationCode)
+            MODE_FORGET_PASSWORD -> {
+                userRepository.forgetPassword(
+                    userAccount = userAccount,
+                    verificationCode = verificationCode,
+                    password = newPassword,
+                    newPassword = newPasswordAgain
+                )
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
 
-            MODE_RESET_PASSWORD ->{
+            MODE_RESET_PASSWORD -> {
 //                userRepository.resetPassword(userAccount = userAccount, verificationCode = verificationCode)
 //                    .let { apiRst -> dealLoginDate(apiRst) }
 
@@ -100,7 +112,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
 
     }.await()
-
 
 
 //    suspend fun register() = viewModelScope.async(Dispatchers.IO) {
@@ -143,7 +154,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 //                }
 //            }
 //    }
-
 
 
     suspend fun dealLoginDate(apiRst: APIRst<Response>) = viewModelScope.async(Dispatchers.IO) {

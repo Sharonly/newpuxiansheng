@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.mine.setting
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,10 +37,22 @@ class SettingFragment:AppFragment() {
             Navigation.findNavController(requireActivity(), R.id.homeNavHost).popBackStack()
         }
 
+        lifecycleScope.launch {
+            settingViewModel.getConfigInfo()?.let {
+                configInfo ->
+
+                userCompany.setOnClickListener {
+                    val intent = Intent(requireActivity(), AboutUsActivity::class.java)
+                    intent.putExtra("url", configInfo.about_us_url)
+                    startActivity(intent)
+                }
+            }
+        }
+
         userPhoneNum.text = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE,"").toString()
         userPhoneNum.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost)
-                .navigate(R.id.action_settingFragment_to_userSettingFragment)
+            val intent = Intent(requireActivity(), UserSettingActivity::class.java)
+            startActivity(intent)
         }
         changePassword.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.homeNavHost)
@@ -51,9 +64,7 @@ class SettingFragment:AppFragment() {
 //                .navigate(R.id.action_settingFragment_to_userSuggestFragment)
 //        }
 
-//        userCompany.setOnClickListener {
-//
-//        }
+
 
         var myAppInfo = context?.applicationContext?.packageManager?.getPackageInfo(context?.packageName, 0)
         currenVersion.text =   myAppInfo?.versionName

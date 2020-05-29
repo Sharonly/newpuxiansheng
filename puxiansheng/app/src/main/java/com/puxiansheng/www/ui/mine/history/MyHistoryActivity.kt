@@ -1,6 +1,9 @@
 package com.puxiansheng.www.ui.mine.history
 
+import android.util.Log
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
@@ -8,8 +11,9 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import kotlinx.android.synthetic.main.activity_my_history.*
+import java.util.*
 
-class MyHistoryActivity : MyBaseActivity() {
+class MyHistoryActivity : MyBaseActivity(){
 
     private var tabTitles = listOf<String>("转铺", "找铺", "资讯")
     private val historyTransferOutFragment: Fragment = BrowsingHistoryTransferOutOrdersFragment()
@@ -36,7 +40,7 @@ class MyHistoryActivity : MyBaseActivity() {
         initView()
     }
 
-    private fun initView(){
+    private fun initView() {
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -48,39 +52,48 @@ class MyHistoryActivity : MyBaseActivity() {
         pager.offscreenPageLimit = 3
         tabs.setupWithViewPager(pager)
 
-        when(tabs.selectedTabPosition){
-            0 ->{
-                selectType = Order.Type.TRANSFER_OUT_HISTORY.value()
-            }
-           1 ->{
-                selectType = Order.Type.TRANSFER_IN_HISTORY.value()
-            }
-            2 ->{
-                selectType = InfoItem.Type.ARTICLE_HISTORY.value()
+
+        tabs.addOnTabSelectedListener(object : OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
             }
 
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        selectType = Order.Type.TRANSFER_OUT_HISTORY.value()
+                    }
+                    1 -> {
+                        selectType = Order.Type.TRANSFER_IN_HISTORY.value()
+                    }
+                    2 -> {
+                        selectType = InfoItem.Type.ARTICLE_HISTORY.value()
+                    }
+                }
+            }
+
+        })
 
         bt_delete.setOnClickListener {
-            DeleteOrderDialog(
-                getString(R.string.delete_history_title),selectType
-            ,0).show(supportFragmentManager,
-                DeleteOrderDialog::class.java.name)
-
+            Log.d("--11-delete", " selectType = " + selectType)
             var deleteDialog = DeleteOrderDialog(
-                getString(R.string.delete_history_title),selectType
-                ,0)
+                getString(R.string.delete_history_title), selectType
+                , 0
+            )
             deleteDialog.show(supportFragmentManager, DeleteOrderDialog::class.java.name)
             deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                 override fun onDiss() {
-                    when(selectType){
-                        Order.Type.TRANSFER_OUT_HISTORY.value() ->{
-                           historyOutViewModel.refresh()
+                    when (selectType) {
+                        Order.Type.TRANSFER_OUT_HISTORY.value() -> {
+                            historyOutViewModel.refresh()
                         }
-                        Order.Type.TRANSFER_IN_HISTORY.value() ->{
+                        Order.Type.TRANSFER_IN_HISTORY.value() -> {
                             historyInViewModel.refresh()
                         }
-                        InfoItem.Type.ARTICLE_HISTORY.value() ->{
+                        InfoItem.Type.ARTICLE_HISTORY.value() -> {
                             historyInfoViewModel.refresh()
                         }
                     }
@@ -88,5 +101,7 @@ class MyHistoryActivity : MyBaseActivity() {
             }
         }
     }
+
+
 
 }

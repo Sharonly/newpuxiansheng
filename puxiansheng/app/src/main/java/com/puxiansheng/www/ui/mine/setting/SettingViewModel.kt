@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.logic.data.common.CommonDataRepository
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
 import com.puxiansheng.util.http.APIRst
@@ -18,6 +19,7 @@ import kotlinx.coroutines.withContext
 class SettingViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val userRepository = UserRepository(UserDatabase.getInstance(context).userDao())
+    private val commonDataRepository = CommonDataRepository()
 
     /*suspend fun logout(user: User) = viewModelScope.launch(Dispatchers.IO) {
         //userRepository.insertUser(user)
@@ -33,6 +35,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     var iconImg: String? = null
     val toastMsg = MutableLiveData<String>()
     val currentUser = MutableLiveData<User>()
+    var configTitle = ""
 
 
     suspend fun getUserInformationFromRemote() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -74,4 +77,13 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             if (it.succeeded) (it as APIRst.Success).data else null
         }
     }
+
+    suspend fun getConfigInfo() = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        commonDataRepository.getConfigUrlRemote(name = configTitle).let {
+            if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
+        }
+    }
+
 }

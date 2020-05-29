@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
-import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogMoreManagerBinding
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailViewModel
@@ -31,11 +30,13 @@ class MoreManagerDialog(
     private val isfavorite: Int
 ) : DialogFragment() {
     private lateinit var binding: DialogMoreManagerBinding
-    private lateinit var viewModel: TransferOutOrderDetailViewModel
+    private lateinit var outViewModel: TransferOutOrderDetailViewModel
+//    private lateinit var inViewModel: TransferInOrderDetailViewModel
+//    private lateinit var businessViewModel: InvestBusnessViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[TransferOutOrderDetailViewModel::class.java]
+        outViewModel = ViewModelProvider(this)[TransferOutOrderDetailViewModel::class.java]
         isCancelable = true
     }
 
@@ -70,7 +71,7 @@ class MoreManagerDialog(
         btFavor.setOnClickListener {
             if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                 lifecycleScope.launch {
-                    viewModel.favorite(
+                    outViewModel.favorite(
                         objectID = shopID,
                         type = type
                     )?.let { result ->

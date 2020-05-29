@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -59,9 +60,7 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
         }
         input_password_again.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                if(it!=loginViewModel.newPassword){
-                    Toast.makeText(context, "两次密码不一致", Toast.LENGTH_SHORT).show()
-                }
+                loginViewModel.newPasswordAgain = it
             }
         }
 
@@ -76,6 +75,7 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
                     if (it == API.CODE_SUCCESS) {
                         loginViewModel.startCountDown()
                         requestVerificationCode.isEnabled = false
+                        input_vertoken.requestFocus()
                     }
                 }
             }
@@ -97,43 +97,34 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
                     }
                 }
 
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    loginViewModel.loginByType(MODE_FORGET_PASSWORD)?.let {
-                        if (it is User) {
-                            input_account.visibility = View.GONE
-                            layout_vertoken.visibility = View.GONE
-                            txt_new_password.visibility = View.VISIBLE
-                            layout_password_again.visibility = View.VISIBLE
-                            ic_eye_show.visibility = View.VISIBLE
+                input_account.visibility = View.GONE
+                layout_vertoken.visibility = View.GONE
+                txt_new_password.visibility = View.VISIBLE
+                layout_password_again.visibility = View.VISIBLE
+                ic_eye_show.visibility = View.VISIBLE
                             bt_go_to.text = "确认"
-                        }
-                    }
-                }
 
             }else if(bt_go_to.text=="确认"){
-                loginViewModel.userAccount.let {
-                    if (!Regular.isPhoneNumber(it)) {
-                        input_user_account.error = resources.getString(R.string.login_error_account)
-                        return@setOnClickListener
-                    }
-                }
-
-                loginViewModel.verificationCode.let {
-                    if (it.length != 6 && txt_message_token.visibility == View.VISIBLE) {
-                        txt_message_token.error = resources.getString(R.string.login_error_code)
-                        return@setOnClickListener
-                    }
-                }
-
                 loginViewModel.newPassword.let {
-                    if (!Regular.isPassword(it) && input_user_password.visibility == View.VISIBLE) {
+                    if (!Regular.isPassword(it)) {
                         input_user_password.error = resources.getString(R.string.login_error_password)
                         return@setOnClickListener
                     }
                 }
+
+                loginViewModel.newPasswordAgain.let {
+                    if (!Regular.isPassword(it)) {
+                        input_password_again.error = resources.getString(R.string.login_error_password)
+                        return@setOnClickListener
+                    }
+                }
+
+                if(loginViewModel.newPasswordAgain!=loginViewModel.newPassword){
+                    Toast.makeText(context, "两次密码不一致", Toast.LENGTH_SHORT).show()
+                }
+
                 lifecycleScope.launch(Dispatchers.IO) {
-                    loginViewModel.loginByType(MODE_RESET_PASSWORD)?.let {
+                    loginViewModel.loginByType(MODE_FORGET_PASSWORD)?.let {
                         if (it is User) {
                             PasswordChangeDialog().show(
                                 supportFragmentManager,
@@ -144,12 +135,20 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
             }
         }
 
+        ic_eye_close.setOnClickListener {
+            input_password_again.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
+        }
+        ic_eye_show.setOnClickListener {
+            input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        }
 
 
         loginViewModel.toastMsg.observe(this@ForgetPasswordActivity, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
+
         loginViewModel.countDown.observe(this@ForgetPasswordActivity, Observer {
             if (it == 0) {
                 requestVerificationCode.text = "获取验证码"

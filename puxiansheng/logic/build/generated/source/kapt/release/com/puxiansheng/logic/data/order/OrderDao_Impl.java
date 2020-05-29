@@ -50,7 +50,7 @@ public final class OrderDao_Impl implements OrderDao {
     this.__insertionAdapterOfOrder = new EntityInsertionAdapter<Order>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_is_top`,`_is_hot`,`_is_recommend`,`_is_large_order`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_category_acreage`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`_view_demand_ids`,`_is_vip`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_article_list`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`_state_text`,`_state_color`,`_status_name`,`_status_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_rent_view`,`_fee`,`_lng`,`_lat`,`_industry`,`view_opening`,`view_can_empty`,`_running_state`,`_exclusive`,`_is_top`,`_is_hot`,`_is_recommend`,`_is_large_order`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_category_acreage`,`_formatted_area`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`_view_demand_ids`,`_is_vip`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_article_list`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`userCityPath`,`_state_text`,`_state_color`,`_status_name`,`_status_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -366,6 +366,11 @@ public final class OrderDao_Impl implements OrderDao {
           } else {
             stmt.bindString(68, _tmpShopOwner.getCityName());
           }
+          if (_tmpShopOwner.getUserCityPath() == null) {
+            stmt.bindNull(69);
+          } else {
+            stmt.bindString(69, _tmpShopOwner.getUserCityPath());
+          }
         } else {
           stmt.bindNull(56);
           stmt.bindNull(57);
@@ -380,38 +385,39 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(66);
           stmt.bindNull(67);
           stmt.bindNull(68);
+          stmt.bindNull(69);
         }
         final Order.Companion.State _tmpState = value.getState();
         if(_tmpState != null) {
           if (_tmpState.getText() == null) {
-            stmt.bindNull(69);
-          } else {
-            stmt.bindString(69, _tmpState.getText());
-          }
-          if (_tmpState.getColor() == null) {
             stmt.bindNull(70);
           } else {
-            stmt.bindString(70, _tmpState.getColor());
+            stmt.bindString(70, _tmpState.getText());
+          }
+          if (_tmpState.getColor() == null) {
+            stmt.bindNull(71);
+          } else {
+            stmt.bindString(71, _tmpState.getColor());
           }
         } else {
-          stmt.bindNull(69);
           stmt.bindNull(70);
+          stmt.bindNull(71);
         }
         final Order.Companion.orderStatus _tmpStatus = value.getStatus();
         if(_tmpStatus != null) {
           if (_tmpStatus.getText() == null) {
-            stmt.bindNull(71);
-          } else {
-            stmt.bindString(71, _tmpStatus.getText());
-          }
-          if (_tmpStatus.getColor() == null) {
             stmt.bindNull(72);
           } else {
-            stmt.bindString(72, _tmpStatus.getColor());
+            stmt.bindString(72, _tmpStatus.getText());
+          }
+          if (_tmpStatus.getColor() == null) {
+            stmt.bindNull(73);
+          } else {
+            stmt.bindString(73, _tmpStatus.getColor());
           }
         } else {
-          stmt.bindNull(71);
           stmt.bindNull(72);
+          stmt.bindNull(73);
         }
       }
     };
@@ -532,6 +538,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
             final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
@@ -676,7 +683,7 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpShop = null;
               }
               final User _tmpShopOwner;
-              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName))) {
+              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName) && cursor.isNull(_cursorIndexOfUserCityPath))) {
                 _tmpShopOwner = new User();
                 final int _tmpUserID;
                 _tmpUserID = cursor.getInt(_cursorIndexOfUserID);
@@ -717,6 +724,9 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmpCityName;
                 _tmpCityName = cursor.getString(_cursorIndexOfCityName);
                 _tmpShopOwner.setCityName(_tmpCityName);
+                final String _tmpUserCityPath;
+                _tmpUserCityPath = cursor.getString(_cursorIndexOfUserCityPath);
+                _tmpShopOwner.setUserCityPath(_tmpUserCityPath);
               }  else  {
                 _tmpShopOwner = null;
               }
@@ -846,6 +856,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
             final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
@@ -990,7 +1001,7 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpShop = null;
               }
               final User _tmpShopOwner;
-              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName))) {
+              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName) && cursor.isNull(_cursorIndexOfUserCityPath))) {
                 _tmpShopOwner = new User();
                 final int _tmpUserID;
                 _tmpUserID = cursor.getInt(_cursorIndexOfUserID);
@@ -1031,6 +1042,9 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmpCityName;
                 _tmpCityName = cursor.getString(_cursorIndexOfCityName);
                 _tmpShopOwner.setCityName(_tmpCityName);
+                final String _tmpUserCityPath;
+                _tmpUserCityPath = cursor.getString(_cursorIndexOfUserCityPath);
+                _tmpShopOwner.setUserCityPath(_tmpUserCityPath);
               }  else  {
                 _tmpShopOwner = null;
               }
@@ -1157,6 +1171,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
             final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
             final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_path_city");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final int _cursorIndexOfText_1 = CursorUtil.getColumnIndexOrThrow(cursor, "_status_name");
@@ -1301,7 +1316,7 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpShop = null;
               }
               final User _tmpShopOwner;
-              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName))) {
+              if (! (cursor.isNull(_cursorIndexOfUserID) && cursor.isNull(_cursorIndexOfAccount) && cursor.isNull(_cursorIndexOfToken) && cursor.isNull(_cursorIndexOfNickname) && cursor.isNull(_cursorIndexOfUserSex) && cursor.isNull(_cursorIndexOfIcon) && cursor.isNull(_cursorIndexOfLoginTimestamp) && cursor.isNull(_cursorIndexOfLoginState) && cursor.isNull(_cursorIndexOfActualName) && cursor.isNull(_cursorIndexOfUserPhoneNumber) && cursor.isNull(_cursorIndexOfCityPathId) && cursor.isNull(_cursorIndexOfCityId) && cursor.isNull(_cursorIndexOfCityName) && cursor.isNull(_cursorIndexOfUserCityPath))) {
                 _tmpShopOwner = new User();
                 final int _tmpUserID;
                 _tmpUserID = cursor.getInt(_cursorIndexOfUserID);
@@ -1342,6 +1357,9 @@ public final class OrderDao_Impl implements OrderDao {
                 final String _tmpCityName;
                 _tmpCityName = cursor.getString(_cursorIndexOfCityName);
                 _tmpShopOwner.setCityName(_tmpCityName);
+                final String _tmpUserCityPath;
+                _tmpUserCityPath = cursor.getString(_cursorIndexOfUserCityPath);
+                _tmpShopOwner.setUserCityPath(_tmpUserCityPath);
               }  else  {
                 _tmpShopOwner = null;
               }

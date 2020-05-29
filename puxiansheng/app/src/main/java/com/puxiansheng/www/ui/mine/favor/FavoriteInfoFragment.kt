@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -20,12 +19,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
-import com.puxiansheng.www.databinding.FragmentInfoItemBinding
-import com.puxiansheng.www.databinding.FragmentInfoListBinding
+import com.puxiansheng.www.databinding.FragmentFavorInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.launch
 
@@ -59,7 +59,16 @@ class FavoriteInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        InfoListAdapter().let { adapter ->
+        InfoListAdapter(onDelete = {
+            var deleteDialog = DeleteOrderDialog("确定要删除该条收藏资讯吗？",
+                InfoItem.Type.ARTICLE_FAVOR.value(), it?.itemID)
+            deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+            deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                override fun onDiss() {
+                    viewModel.refresh()
+                }
+            }
+        }).let { adapter ->
             list.adapter = adapter
             lifecycleScope.launch {
                 LivePagedListBuilder<Int, InfoItem>(
@@ -82,13 +91,13 @@ class FavoriteInfoFragment : Fragment() {
         viewModel.refresh()
     }.root
 
-    inner class InfoListAdapter : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
+    inner class InfoListAdapter( private val onDelete: ((infoItem: InfoItem?) -> Unit)? = null) : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
         InfoItem.DIFF
     ) {
         inner class InfoViewHolder(
             override val containerView: View
         ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-            private val binding = FragmentInfoItemBinding.bind(containerView)
+            private val binding = FragmentFavorInfoItemBinding.bind(containerView)
 
             @SuppressLint("SetTextI18n")
             fun bind(infoItem: InfoItem?) {
@@ -101,6 +110,10 @@ class FavoriteInfoFragment : Fragment() {
                     intent.putExtra("url", infoItem?.jump_param)
                     startActivity(intent)
                 }
+
+                binding.itemDelete.setOnClickListener {
+                    onDelete?.let { select -> select(infoItem) }
+                }
             }
         }
 
@@ -108,7 +121,7 @@ class FavoriteInfoFragment : Fragment() {
             parent: ViewGroup,
             viewType: Int
         ) = InfoViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.fragment_info_item, parent, false)
+            LayoutInflater.from(context).inflate(R.layout.fragment_favor_info_item, parent, false)
         )
 
         override fun onBindViewHolder(

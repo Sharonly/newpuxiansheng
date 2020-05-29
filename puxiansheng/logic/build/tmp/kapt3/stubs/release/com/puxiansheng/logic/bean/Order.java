@@ -174,7 +174,7 @@ public final class Order {
         return false;
     }
     
-    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u0014\n\u0002\u0018\u0002\n\u0002\u0010\u0010\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\r\b\u0086\u0001\u0018\u00002\b\u0012\u0004\u0012\u00020\u00000\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002J\b\u0010\u0003\u001a\u00020\u0004H&j\u0002\b\u0005j\u0002\b\u0006j\u0002\b\u0007j\u0002\b\bj\u0002\b\tj\u0002\b\nj\u0002\b\u000bj\u0002\b\fj\u0002\b\rj\u0002\b\u000ej\u0002\b\u000fj\u0002\b\u0010\u00a8\u0006\u0011"}, d2 = {"Lcom/puxiansheng/logic/bean/Order$Type;", "", "(Ljava/lang/String;I)V", "value", "", "TRANSFER_OUT", "TRANSFER_IN", "TRANSFER_OUT_PRIVATE", "TRANSFER_IN_PRIVATE", "TRANSFER_OUT_RECOMMEND", "TRANSFER_IN_RECOMMEND", "TRANSFER_OUT_FAVORITE", "TRANSFER_IN_FAVORITE", "TRANSFER_OUT_HISTORY", "TRANSFER_IN_HISTORY", "RECOMMEND_INFO", "EMPTY", "logic_release"})
+    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u0014\n\u0002\u0018\u0002\n\u0002\u0010\u0010\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u000e\b\u0086\u0001\u0018\u00002\b\u0012\u0004\u0012\u00020\u00000\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002J\b\u0010\u0003\u001a\u00020\u0004H&j\u0002\b\u0005j\u0002\b\u0006j\u0002\b\u0007j\u0002\b\bj\u0002\b\tj\u0002\b\nj\u0002\b\u000bj\u0002\b\fj\u0002\b\rj\u0002\b\u000ej\u0002\b\u000fj\u0002\b\u0010j\u0002\b\u0011\u00a8\u0006\u0012"}, d2 = {"Lcom/puxiansheng/logic/bean/Order$Type;", "", "(Ljava/lang/String;I)V", "value", "", "TRANSFER_OUT", "TRANSFER_IN", "TRANSFER_OUT_PRIVATE", "TRANSFER_IN_PRIVATE", "TRANSFER_OUT_RECOMMEND", "TRANSFER_IN_RECOMMEND", "TRANSFER_OUT_FAVORITE", "TRANSFER_IN_FAVORITE", "TRANSFER_OUT_HISTORY", "TRANSFER_IN_HISTORY", "RECOMMEND_INFO", "USER_PUBLIC_ORDER", "EMPTY", "logic_release"})
     public static enum Type {
         /*public static final*/ TRANSFER_OUT /* = new @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u0010\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\b\n\u0000\b\u00c6\u0001\u0018\u00002\u00020\u0001J\b\u0010\u0002\u001a\u00020\u0003H\u0016\u00a8\u0006\u0004"}, d2 = {"Lcom/puxiansheng/logic/bean/Order$Type$TRANSFER_OUT;", "Lcom/puxiansheng/logic/bean/Order$Type;", "value", "", "logic_release"}) TRANSFER_OUT(){
             
@@ -294,6 +294,17 @@ public final class Order {
             }
             
             RECOMMEND_INFO() {
+                super();
+            }
+        } */,
+        /*public static final*/ USER_PUBLIC_ORDER /* = new @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u0010\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\b\n\u0000\b\u00c6\u0001\u0018\u00002\u00020\u0001J\b\u0010\u0002\u001a\u00020\u0003H\u0016\u00a8\u0006\u0004"}, d2 = {"Lcom/puxiansheng/logic/bean/Order$Type$USER_PUBLIC_ORDER;", "Lcom/puxiansheng/logic/bean/Order$Type;", "value", "", "logic_release"}) USER_PUBLIC_ORDER(){
+            
+            @java.lang.Override()
+            public int value() {
+                return 0;
+            }
+            
+            USER_PUBLIC_ORDER() {
                 super();
             }
         } */,

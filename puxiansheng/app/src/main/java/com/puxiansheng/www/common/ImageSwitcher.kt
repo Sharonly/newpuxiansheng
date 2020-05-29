@@ -88,7 +88,7 @@ class ImageSwitcher : FrameLayout {
                 scaleType = ImageView.ScaleType.FIT_XY
                 layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             }.let {
-                it.url(images[position].imageUrl)
+                it.urlBg(images[position].imageUrl)
                 it.setOnClickListener {
                     onImageClick?.let {
                         it(images[position])

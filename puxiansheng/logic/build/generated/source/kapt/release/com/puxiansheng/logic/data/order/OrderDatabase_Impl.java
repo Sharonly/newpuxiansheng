@@ -31,10 +31,10 @@ public final class OrderDatabase_Impl extends OrderDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(2) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_orders` (`_order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_order_type` INTEGER NOT NULL, `_favorite` INTEGER NOT NULL, `_shop_id` INTEGER, `_title` TEXT, `_size` REAL, `_rent` REAL, `_rent_view` TEXT, `_fee` REAL, `_lng` REAL, `_lat` REAL, `_industry` TEXT, `view_opening` TEXT, `view_can_empty` TEXT, `_running_state` INTEGER, `_exclusive` INTEGER, `_is_top` INTEGER, `_is_hot` INTEGER, `_is_recommend` INTEGER, `_is_large_order` INTEGER, `_image` TEXT, `_images` TEXT, `_floor` INTEGER, `_labels` TEXT, `_facilities` TEXT, `_allfacilities` TEXT, `_description` TEXT, `_description_url` TEXT, `_environment` TEXT, `_reason` TEXT, `_transfer_type` INTEGER, `_is_success` INTEGER, `_category_acreage` TEXT, `_formatted_area` TEXT, `_formatted_date` TEXT, `_formatted_size` TEXT, `_formatted_rent` TEXT, `_formatted_page_views` INTEGER, `_formatted_fee` TEXT, `_formatted_location_nodes` TEXT, `_formatted_industry` TEXT, `_formatted_final_industry` TEXT, `_formatted_final_location_node` TEXT, `_view_demand_ids` TEXT, `_is_vip` INTEGER, `_data_type` TEXT, `_jump_type` INTEGER, `_jump_view` TEXT, `_jump_param` TEXT, `_article_list` TEXT, `_location_nodes` TEXT, `_address_description` TEXT, `_post_code` INTEGER, `_latitude` REAL, `_longitude` REAL, `_user_id` INTEGER, `_account` TEXT, `_token` TEXT, `_nickname` TEXT, `_sex` INTEGER, `_icon` TEXT, `_login_timestamp` INTEGER, `_login_state` INTEGER, `_user_contact_name` TEXT, `_user_contact_phone` TEXT, `_city_path_id` TEXT, `cityId` INTEGER, `_view_path_city` TEXT, `_state_text` TEXT, `_state_color` TEXT, `_status_name` TEXT, `_status_color` TEXT)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_orders` (`_order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_order_type` INTEGER NOT NULL, `_favorite` INTEGER NOT NULL, `_shop_id` INTEGER, `_title` TEXT, `_size` REAL, `_rent` REAL, `_rent_view` TEXT, `_fee` REAL, `_lng` REAL, `_lat` REAL, `_industry` TEXT, `view_opening` TEXT, `view_can_empty` TEXT, `_running_state` INTEGER, `_exclusive` INTEGER, `_is_top` INTEGER, `_is_hot` INTEGER, `_is_recommend` INTEGER, `_is_large_order` INTEGER, `_image` TEXT, `_images` TEXT, `_floor` INTEGER, `_labels` TEXT, `_facilities` TEXT, `_allfacilities` TEXT, `_description` TEXT, `_description_url` TEXT, `_environment` TEXT, `_reason` TEXT, `_transfer_type` INTEGER, `_is_success` INTEGER, `_category_acreage` TEXT, `_formatted_area` TEXT, `_formatted_date` TEXT, `_formatted_size` TEXT, `_formatted_rent` TEXT, `_formatted_page_views` INTEGER, `_formatted_fee` TEXT, `_formatted_location_nodes` TEXT, `_formatted_industry` TEXT, `_formatted_final_industry` TEXT, `_formatted_final_location_node` TEXT, `_view_demand_ids` TEXT, `_is_vip` INTEGER, `_data_type` TEXT, `_jump_type` INTEGER, `_jump_view` TEXT, `_jump_param` TEXT, `_article_list` TEXT, `_location_nodes` TEXT, `_address_description` TEXT, `_post_code` INTEGER, `_latitude` REAL, `_longitude` REAL, `_user_id` INTEGER, `_account` TEXT, `_token` TEXT, `_nickname` TEXT, `_sex` INTEGER, `_icon` TEXT, `_login_timestamp` INTEGER, `_login_state` INTEGER, `_user_contact_name` TEXT, `_user_contact_phone` TEXT, `_city_path_id` TEXT, `cityId` INTEGER, `_view_path_city` TEXT, `userCityPath` TEXT, `_state_text` TEXT, `_state_color` TEXT, `_status_name` TEXT, `_status_color` TEXT)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_table_orders__shop_id__transfer_type` ON `table_orders` (`_shop_id`, `_transfer_type`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0a13de01665098c89a5ee641e518fd1f')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcf0f503aeb8daae75c3ebce30690145')");
       }
 
       @Override
@@ -78,7 +78,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsTableOrders = new HashMap<String, TableInfo.Column>(72);
+        final HashMap<String, TableInfo.Column> _columnsTableOrders = new HashMap<String, TableInfo.Column>(73);
         _columnsTableOrders.put("_order_id", new TableInfo.Column("_order_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_order_type", new TableInfo.Column("_order_type", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_favorite", new TableInfo.Column("_favorite", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -147,6 +147,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         _columnsTableOrders.put("_city_path_id", new TableInfo.Column("_city_path_id", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("cityId", new TableInfo.Column("cityId", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_view_path_city", new TableInfo.Column("_view_path_city", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("userCityPath", new TableInfo.Column("userCityPath", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_state_text", new TableInfo.Column("_state_text", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_state_color", new TableInfo.Column("_state_color", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_status_name", new TableInfo.Column("_status_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -163,7 +164,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "0a13de01665098c89a5ee641e518fd1f", "e279343b59c8a470cbe3cd3c3df9a30f");
+    }, "bcf0f503aeb8daae75c3ebce30690145", "f448f842490edc769ceaf96753ebfdbf");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

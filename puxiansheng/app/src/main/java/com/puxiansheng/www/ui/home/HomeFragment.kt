@@ -3,14 +3,12 @@ package com.puxiansheng.www.ui.home
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -18,23 +16,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayoutMediator
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentHomeBinding
+import com.puxiansheng.www.ui.business.InvestBusinessActivity
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
 import com.puxiansheng.www.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -98,11 +97,13 @@ class HomeFragment : Fragment() {
         }
 
         fastTransferOut.setOnClickListener {
-
+            val intent = Intent(requireActivity(), FastTransferOutActivity::class.java)
+            startActivity(intent)
         }
 
         fastTransferIn.setOnClickListener {
-
+            val intent = Intent(requireActivity(), FastTransferInActivity::class.java)
+            startActivity(intent)
         }
 
         refresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.appMain))

@@ -45,11 +45,9 @@ class ReleaseFragment : AppFragment() {
         lifecycleOwner = viewLifecycleOwner
 
         fastRelease.setOnClickListener {
-//            Navigation.findNavController(
-//            requireActivity(),
-//            R.id.homeNavHost
-//        ).navigate(R.id.action_insertOrUpdateTransferInOrderFragment_to_loginFragment)
+
         }
+
         transferOut.setOnClickListener {
             name = SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
             phone = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()

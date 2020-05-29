@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.mine.favor
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -41,14 +42,16 @@ class MyfarvorActivity : MyBaseActivity() {
         pager.offscreenPageLimit = 3
         tabs.setupWithViewPager(pager)
 
-        bt_delete.setOnClickListener {
-            if( bt_delete.text == "管理") {
-                bt_delete.text = "正在管理"
-                pager.setNoScroll(true)
-            }else{
-                bt_delete.text = "管理"
-                pager.setNoScroll(false)
-            }
-        }
+        pager.setNoScroll(true)
+        bt_delete.visibility = View.INVISIBLE
+//        bt_delete.setOnClickListener {
+//            if( bt_delete.text == "管理") {
+//                bt_delete.text = "正在管理"
+//                pager.setNoScroll(true)
+//            }else{
+//                bt_delete.text = "管理"
+//                pager.setNoScroll(false)
+//            }
+//        }
     }
 }

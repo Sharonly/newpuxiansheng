@@ -51,11 +51,11 @@ class LoginActivity : MyBaseActivity() {
 
     override fun business() {
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        initView()
     }
 
     override fun onResume() {
         super.onResume()
+        initView()
     }
 
     private fun initView() {
@@ -210,7 +210,7 @@ class LoginActivity : MyBaseActivity() {
                             )
                             SharedPreferencesUtil.put(
                                 API.LOGIN_NICK_NAME,
-                                it.nickname
+                                it.name
                             )
                             SharedPreferencesUtil.put(
                                 API.LOGIN_ACTUL_NAME,
@@ -297,7 +297,7 @@ class LoginActivity : MyBaseActivity() {
                                 )
                                 SharedPreferencesUtil.put(
                                     API.LOGIN_NICK_NAME,
-                                    result.nickname
+                                    result.name
                                 )
                                 SharedPreferencesUtil.put(
                                     API.LOGIN_ACTUL_NAME,

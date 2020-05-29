@@ -26,6 +26,12 @@ class UserSuggestViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    suspend  fun getRequestList() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        userRepository.getRequestList().let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.list else null
+        }
+    }
+
     fun submitSuggest() = viewModelScope.launch(Dispatchers.IO) {
         userRepository.submitSuggestion(
             content = suggesttion
@@ -36,6 +42,12 @@ class UserSuggestViewModel(application: Application) : AndroidViewModel(applicat
             } else {
                 toastMsg.postValue((it as APIRst.Error).exception.message)
             }
+        }
+    }
+
+    suspend fun getRequestCallBack() = withContext(context = viewModelScope.coroutineContext+Dispatchers.IO){
+        userRepository.getUserCallBack().let {apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.list else null
         }
     }
 

@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.order
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.bean.Order
@@ -37,6 +38,7 @@ class TransferInOrdersViewModel(application: Application) : AndroidViewModel(app
     }
 
     fun refresh(city: String) {
+        Log.d("---search--"," getTransferInOrdersFromRemote ---- ")
         currentCity = city
         currentPage = 1
         deleteOrdersByType(type = Order.Type.TRANSFER_IN.value())

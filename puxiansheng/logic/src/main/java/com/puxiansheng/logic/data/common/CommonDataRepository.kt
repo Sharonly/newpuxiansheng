@@ -6,4 +6,6 @@ class CommonDataRepository {
     fun getStatisticsDataFromRemote() = remoteCommonDataRepository.getStatisticsDataFromRemote()
 
     fun getServiceLinkFromRemote() = remoteCommonDataRepository.getServiceLinkFromRemote()
+
+    fun getConfigUrlRemote(name:String) = remoteCommonDataRepository.getConfigUrl(name = name)
 }

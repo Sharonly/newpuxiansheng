@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.order
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.bean.Order
@@ -43,6 +44,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
     }
 
     fun refresh(city: String) {
+        Log.d("---search--"," getTransfeOUT--OrdersFromRemote ---- ")
         currentCity = city
         currentPage = 1
         deleteOrdersByType(type = Order.Type.TRANSFER_OUT.value())

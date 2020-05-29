@@ -186,9 +186,10 @@ class OrdersAdapter(
             }
 
             item?.shop?.isTop?.let {
-                it
                 if (it == 1) {
                     binding.icTop.visibility = View.VISIBLE
+                }else{
+                    binding.icTop.visibility = View.GONE
                 }
             }
 
@@ -260,9 +261,10 @@ class OrdersAdapter(
             }
 
             item?.shop?.isTop?.let {
-                it
                 if (it == 1) {
                     binding.icTop.visibility = View.VISIBLE
+                }else{
+                    binding.icTop.visibility = View.GONE
                 }
             }
 
@@ -279,10 +281,6 @@ class OrdersAdapter(
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
-            Log.d(
-                "---item--",
-                " ----RecommendTransferOutViewHolder--- formattedFinalIndustry = " + item?.shop?.formattedFinalIndustry + "  indusrt = " + item?.shop?.formattedIndustry
-            )
             item?.shop?.image.let { it ->
                 it?.let { it1 -> binding.shopIcon.url(it1) }
             }

@@ -67,11 +67,11 @@ class UserSettingActivity : MyBaseActivity() {
              settingViewModel.getUserInformationFromRemote()?.let {
                  if (it is User) {
                      user_icon.urlIcon(it.icon)
-                     input_nick_name.setText(it.nickname)
+                     input_nick_name.setText(it.nickName)
                      input_actual_name.setText(it.actualName)
                      input_user_phone.setText(it.userPhoneNumber)
                      user_location.text = it.userCityPath
-                     settingViewModel.nickName = it.nickname
+                     settingViewModel.nickName = it.nickName
                      settingViewModel.actualName = it.actualName
                      settingViewModel.contactPhone = it.userPhoneNumber
                      if (it.userSex == 2) {

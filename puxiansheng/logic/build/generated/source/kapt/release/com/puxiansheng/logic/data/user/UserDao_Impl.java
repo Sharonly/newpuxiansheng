@@ -29,7 +29,7 @@ public final class UserDao_Impl implements UserDao {
     this.__insertionAdapterOfUser = new EntityInsertionAdapter<User>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`userCityPath`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -78,6 +78,11 @@ public final class UserDao_Impl implements UserDao {
           stmt.bindNull(13);
         } else {
           stmt.bindString(13, value.getCityName());
+        }
+        if (value.getUserCityPath() == null) {
+          stmt.bindNull(14);
+        } else {
+          stmt.bindString(14, value.getUserCityPath());
         }
       }
     };
@@ -128,6 +133,7 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_path_id");
           final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityId");
           final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_path_city");
+          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "userCityPath");
           final User _result;
           if(_cursor.moveToFirst()) {
             _result = new User();
@@ -170,6 +176,9 @@ public final class UserDao_Impl implements UserDao {
             final String _tmpCityName;
             _tmpCityName = _cursor.getString(_cursorIndexOfCityName);
             _result.setCityName(_tmpCityName);
+            final String _tmpUserCityPath;
+            _tmpUserCityPath = _cursor.getString(_cursorIndexOfUserCityPath);
+            _result.setUserCityPath(_tmpUserCityPath);
           } else {
             _result = null;
           }
@@ -204,6 +213,7 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_path_id");
           final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityId");
           final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_path_city");
+          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "userCityPath");
           final User _result;
           if(_cursor.moveToFirst()) {
             _result = new User();
@@ -246,6 +256,9 @@ public final class UserDao_Impl implements UserDao {
             final String _tmpCityName;
             _tmpCityName = _cursor.getString(_cursorIndexOfCityName);
             _result.setCityName(_tmpCityName);
+            final String _tmpUserCityPath;
+            _tmpUserCityPath = _cursor.getString(_cursorIndexOfUserCityPath);
+            _result.setUserCityPath(_tmpUserCityPath);
           } else {
             _result = null;
           }

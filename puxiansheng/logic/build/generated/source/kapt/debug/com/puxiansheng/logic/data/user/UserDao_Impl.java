@@ -29,7 +29,7 @@ public final class UserDao_Impl implements UserDao {
     this.__insertionAdapterOfUser = new EntityInsertionAdapter<User>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_nickname`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`userCityPath`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_nickname`,`nickName`,`_sex`,`_icon`,`_login_timestamp`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`cityId`,`_view_path_city`,`userCityPath`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -45,44 +45,49 @@ public final class UserDao_Impl implements UserDao {
         } else {
           stmt.bindString(3, value.getToken());
         }
-        if (value.getNickname() == null) {
+        if (value.getName() == null) {
           stmt.bindNull(4);
         } else {
-          stmt.bindString(4, value.getNickname());
+          stmt.bindString(4, value.getName());
         }
-        stmt.bindLong(5, value.getUserSex());
+        if (value.getNickName() == null) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, value.getNickName());
+        }
+        stmt.bindLong(6, value.getUserSex());
         if (value.getIcon() == null) {
-          stmt.bindNull(6);
+          stmt.bindNull(7);
         } else {
-          stmt.bindString(6, value.getIcon());
+          stmt.bindString(7, value.getIcon());
         }
-        stmt.bindLong(7, value.getLoginTimestamp());
-        stmt.bindLong(8, value.getLoginState());
+        stmt.bindLong(8, value.getLoginTimestamp());
+        stmt.bindLong(9, value.getLoginState());
         if (value.getActualName() == null) {
-          stmt.bindNull(9);
-        } else {
-          stmt.bindString(9, value.getActualName());
-        }
-        if (value.getUserPhoneNumber() == null) {
           stmt.bindNull(10);
         } else {
-          stmt.bindString(10, value.getUserPhoneNumber());
+          stmt.bindString(10, value.getActualName());
         }
-        if (value.getCityPathId() == null) {
+        if (value.getUserPhoneNumber() == null) {
           stmt.bindNull(11);
         } else {
-          stmt.bindString(11, value.getCityPathId());
+          stmt.bindString(11, value.getUserPhoneNumber());
         }
-        stmt.bindLong(12, value.getCityId());
-        if (value.getCityName() == null) {
-          stmt.bindNull(13);
+        if (value.getCityPathId() == null) {
+          stmt.bindNull(12);
         } else {
-          stmt.bindString(13, value.getCityName());
+          stmt.bindString(12, value.getCityPathId());
         }
-        if (value.getUserCityPath() == null) {
+        stmt.bindLong(13, value.getCityId());
+        if (value.getCityName() == null) {
           stmt.bindNull(14);
         } else {
-          stmt.bindString(14, value.getUserCityPath());
+          stmt.bindString(14, value.getCityName());
+        }
+        if (value.getUserCityPath() == null) {
+          stmt.bindNull(15);
+        } else {
+          stmt.bindString(15, value.getUserCityPath());
         }
       }
     };
@@ -123,7 +128,8 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_id");
           final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(_cursor, "_account");
           final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(_cursor, "_token");
-          final int _cursorIndexOfNickname = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "nickName");
           final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "_sex");
           final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon");
           final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_timestamp");
@@ -146,9 +152,12 @@ public final class UserDao_Impl implements UserDao {
             final String _tmpToken;
             _tmpToken = _cursor.getString(_cursorIndexOfToken);
             _result.setToken(_tmpToken);
-            final String _tmpNickname;
-            _tmpNickname = _cursor.getString(_cursorIndexOfNickname);
-            _result.setNickname(_tmpNickname);
+            final String _tmpName;
+            _tmpName = _cursor.getString(_cursorIndexOfName);
+            _result.setName(_tmpName);
+            final String _tmpNickName;
+            _tmpNickName = _cursor.getString(_cursorIndexOfNickName);
+            _result.setNickName(_tmpNickName);
             final int _tmpUserSex;
             _tmpUserSex = _cursor.getInt(_cursorIndexOfUserSex);
             _result.setUserSex(_tmpUserSex);
@@ -203,7 +212,8 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_id");
           final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(_cursor, "_account");
           final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(_cursor, "_token");
-          final int _cursorIndexOfNickname = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "nickName");
           final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "_sex");
           final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon");
           final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_timestamp");
@@ -226,9 +236,12 @@ public final class UserDao_Impl implements UserDao {
             final String _tmpToken;
             _tmpToken = _cursor.getString(_cursorIndexOfToken);
             _result.setToken(_tmpToken);
-            final String _tmpNickname;
-            _tmpNickname = _cursor.getString(_cursorIndexOfNickname);
-            _result.setNickname(_tmpNickname);
+            final String _tmpName;
+            _tmpName = _cursor.getString(_cursorIndexOfName);
+            _result.setName(_tmpName);
+            final String _tmpNickName;
+            _tmpNickName = _cursor.getString(_cursorIndexOfNickName);
+            _result.setNickName(_tmpNickName);
             final int _tmpUserSex;
             _tmpUserSex = _cursor.getInt(_cursorIndexOfUserSex);
             _result.setUserSex(_tmpUserSex);

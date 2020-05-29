@@ -9,6 +9,12 @@ data class BannerImage(
     @SerializedName("img")
     val imageUrl: String = "",
 
+    @SerializedName("img_height")
+    val imageHeight: Int = 0,
+
+    @SerializedName("img_width")
+    val imageWidth: Int = 0,
+
     @SerializedName("bg_images")
     val bgImgUrl: String = "",
 

@@ -1,0 +1,149 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:theme="@style/Material">
+
+        <LinearLayout
+            android:id="@+id/topContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.puxiansheng.www.common.ScrollTextView
+                android:id="@+id/appStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/button_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:adjustViewBounds="true"
+                    android:padding="18dp"
+                    android:src="@mipmap/ic_back_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="用户反馈"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/top_bar_title_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/bt_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:adjustViewBounds="true"
+                    android:padding="23dp"
+                    android:src="@mipmap/ic_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的问题"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/input_text_blank"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_input_suggest">
+
+            <Spinner
+                android:id="@+id/type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:spinnerMode="dropdown"
+                android:paddingLeft="6dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/input_suggest"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_input_suggest"
+            android:hint="请输入您的建议"
+            android:gravity="top"
+            android:textSize="@dimen/item_title_text_size"
+            android:textColor="@android:color/black"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/submit_suggest"
+            android:layout_width="80dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:background="@drawable/bg_bt_login_slected" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/line_gray"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/input_text_blank"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="16dp"
+            android:text="常见问题"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/quest_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+</layout>

@@ -81,6 +81,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
             onBackPressed()
         }
         lifecycleScope.launch {
+//            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))
             viewModel.requestTransferOutOrderDetail(intent.getIntExtra("shopID", 0).toString())
                 ?.let { order ->
 //                    if(order.shop?.images?.size == 0)
@@ -144,8 +145,11 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
                     if (order.shop?.isSuccess == 1) {
                         img_success.visibility = View.VISIBLE
+                        recommend_orders.visibility = View.GONE
                     } else {
                         img_success.visibility = View.GONE
+                        recommend_orders.visibility = View.VISIBLE
+
                     }
 
                     bt_more.setOnClickListener {
@@ -207,24 +211,25 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 }
 
 
-            recommend_orders.layoutManager =
-                GridLayoutManager(this@TransferOutOrderDetailActivity, 2)
-            recommend_orders.adapter = RecommendOrderAdapter(mutableListOf(), onItemSelect = {
-                val intent = Intent(
-                    this@TransferOutOrderDetailActivity,
-                    TransferOutOrderDetailActivity::class.java
-                )
-                intent.putExtra("shopID", it?.shopID?.toInt())
-                startActivity(intent)
-            })
-
-            viewModel.requestUserLikeShopList(
-                cityId.toString(),
-                intent.getIntExtra("shopID", 0).toString()
-            )?.let {
-                (recommend_orders.adapter as RecommendOrderAdapter).setMenuData(it)
+            if (recommend_orders.visibility == View.VISIBLE) {
+                recommend_orders.layoutManager =
+                    GridLayoutManager(this@TransferOutOrderDetailActivity, 2)
+                recommend_orders.adapter =
+                    RecommendOrderAdapter(mutableListOf(), onItemSelect = {
+                        val intent = Intent(
+                            this@TransferOutOrderDetailActivity,
+                            TransferOutOrderDetailActivity::class.java
+                        )
+                        intent.putExtra("shopID", it?.shopID?.toInt())
+                        startActivity(intent)
+                    })
+                viewModel.requestUserLikeShopList(
+                    cityId.toString(),
+                    intent.getIntExtra("shopID", 0).toString()
+                )?.let {
+                    (recommend_orders.adapter as RecommendOrderAdapter).setMenuData(it)
+                }
             }
-
 
         }
 

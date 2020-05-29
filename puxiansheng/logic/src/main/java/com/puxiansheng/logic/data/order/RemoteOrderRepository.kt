@@ -625,11 +625,11 @@ class RemoteOrderRepository {
 
     fun deleteFavorTransferOutOrderFromRemote(
         shopID: String
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_FAVOR_ORDER,
         fieldMap = mutableMapOf(
             "id" to shopID,
-            "type" to "1"
+            "type" to "0"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -644,10 +644,10 @@ class RemoteOrderRepository {
 
     fun deleteFavorTransferInOrderFromRemote(
         shopID: String
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_FAVOR_ORDER,
         fieldMap = mutableMapOf(
-            "id" to shopID,"type" to "2"
+            "id" to shopID,"type" to "1"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -662,10 +662,10 @@ class RemoteOrderRepository {
 
 
     fun deleteHistroyTransferOutOrderFromRemote(
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_HISTORY_ORDER,
         fieldMap = mutableMapOf(
-            "type" to "1"
+            "type" to "0"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -679,10 +679,10 @@ class RemoteOrderRepository {
     }
 
     fun deleteHistroyTransferInOrderFromRemote(
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_HISTORY_ORDER,
         fieldMap = mutableMapOf(
-            "type" to "2"
+            "type" to "1"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,

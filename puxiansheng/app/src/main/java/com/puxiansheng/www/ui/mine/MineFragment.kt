@@ -26,6 +26,7 @@ import com.puxiansheng.www.ui.mine.relase.OrderProcessingActivity
 import com.puxiansheng.www.ui.mine.relase.OrderPublicActivity
 import com.puxiansheng.www.ui.mine.relase.OrderSoldOutActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
+import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
 import kotlinx.coroutines.launch
 
 class MineFragment : Fragment() {
@@ -158,8 +159,8 @@ class MineFragment : Fragment() {
 
         btMyKefu.setOnClickListener { }
         btRequest.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost)
-                .navigate(R.id.action_mainFragment_to_userSuggestFragment)
+            val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -168,7 +169,7 @@ class MineFragment : Fragment() {
             user?.let {
                 if (it.isLogin) {
                     isLogin = true
-                    userAccount.text = user.nickname
+                    userAccount.text = user.name?:user.nickName
                     userPhone.text = user.userPhoneNumber
                     if (user.icon.isNotEmpty()) {
                         userIcon.urlIcon(user.icon)

@@ -15,7 +15,9 @@ import com.puxiansheng.logic.api.API.DO_REGISTER
 import com.puxiansheng.logic.api.API.DO_RESET_PASSWORD
 import com.puxiansheng.logic.api.API.GET_HISTORY_SEARCH
 import com.puxiansheng.logic.api.API.GET_RECOMMEND_SEARCH
+import com.puxiansheng.logic.api.API.GET_REQUEST_LIST
 import com.puxiansheng.logic.api.API.GET_REQUEST_TYPE
+import com.puxiansheng.logic.api.API.GET_USER_CALLBACK
 import com.puxiansheng.logic.api.API.GET_USER_INFO
 import com.puxiansheng.logic.api.API.call
 import com.puxiansheng.logic.api.API.callForJson
@@ -66,11 +68,15 @@ class RemoteUserRepository {
 
     fun forgetPassword(
         userAccount: String,
-        code: String?
+        code: String,
+        password: String,
+        newPassword: String
     ) = buildRequest(
         url = DO_FORGET_PASSWORD, fieldMap = mutableMapOf(
             "name" to userAccount,
-            "code" to (code ?: "")
+            "code" to code,
+            "password" to password,
+            "new_password" to newPassword
         ).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")
@@ -230,7 +236,29 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---request--"," getRequestType it = "+it )
+        Log.d("---request--", " getRequestType it = " + it)
+        call(it)
+    }
+
+    fun getRequestList(): APIRst<APIResp<HttpRespRequest>> = buildRequest(
+        url = GET_REQUEST_LIST,
+        fieldMap = mutableMapOf<String, String>().also {
+            it["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+        },
+        method = METHOD.GET
+    ).let {
+        Log.d("---request--", " getRequestList = " + it)
+        call(it)
+    }
+
+    fun getUserCallBack(): APIRst<APIResp<HttpRespRequest>> = buildRequest(
+        url = GET_USER_CALLBACK,
+        fieldMap = mutableMapOf<String, String>().also {
+            it["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+        }, method = METHOD.GET
+    ).let {
         call(it)
     }
 

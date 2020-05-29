@@ -22,17 +22,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.BusinessBean
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.ui.business.BusinessAdapter
+import com.puxiansheng.www.ui.business.ConsultDialog
+import com.puxiansheng.www.ui.business.InvestBusinessDetailActivity
+import com.puxiansheng.www.ui.business.InvestBusnessViewModel
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.InfoListAdapter
 import com.puxiansheng.www.ui.info.InfoListViewModel
 import com.puxiansheng.www.ui.order.*
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.fragment_invest_business.*
 import kotlinx.coroutines.launch
 
 
@@ -41,8 +47,8 @@ class SearchActivity : MyBaseActivity() {
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var orderOutViewModel: TransferOutOrdersViewModel
     private lateinit var orderInViewModel: TransferInOrdersViewModel
-    private lateinit var articleViewModel: InfoListViewModel
-    var typeList = listOf("转铺", "找店", "百科", "消息")
+    private lateinit var businessViewModel: InvestBusnessViewModel
+    var typeList = listOf("转铺", "找店", "加盟")
 
     override fun getLayoutId(): Int {
         return R.layout.activity_search
@@ -52,7 +58,7 @@ class SearchActivity : MyBaseActivity() {
         searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         orderOutViewModel = ViewModelProvider(this)[TransferOutOrdersViewModel::class.java]
         orderInViewModel = ViewModelProvider(this)[TransferInOrdersViewModel::class.java]
-        articleViewModel = ViewModelProvider(this)[InfoListViewModel::class.java]
+        businessViewModel = ViewModelProvider(this)[InvestBusnessViewModel::class.java]
 
         lifecycleScope.launch {
             searchViewModel.getHistorySearch()?.let { it ->
@@ -73,10 +79,11 @@ class SearchActivity : MyBaseActivity() {
         }
 
         bt_cancel.setOnClickListener {
+            search_content.setText("")
             orderOutViewModel.title = ""
             orderInViewModel.title = ""
-            articleViewModel.title = ""
-            if(list.isVisible){
+            businessViewModel.title = ""
+            if (list.isVisible) {
                 list.removeAllViews()
                 layout_recommend.visibility = View.VISIBLE
                 search_refresh.visibility = View.GONE
@@ -87,7 +94,7 @@ class SearchActivity : MyBaseActivity() {
             when (searchViewModel.type) {
                 0 -> orderOutViewModel.title = it.toString()
                 1 -> orderInViewModel.title = it.toString()
-                2 -> articleViewModel.title = it.toString()
+                2 -> businessViewModel.title = it.toString()
             }
 
             searchViewModel.searchTitle = it.toString()
@@ -98,11 +105,11 @@ class SearchActivity : MyBaseActivity() {
                 hideKeyboard(search_content)
                 layout_recommend.visibility = View.GONE
                 search_refresh.visibility = View.VISIBLE
-                list.removeAllViews()
                 Log.d(
                     "---search",
                     " IME_ACTION_SEARCH  searchViewModel.type = " + searchViewModel.type
                 )
+                list.removeAllViews()
                 when (searchViewModel.type) {
                     0 -> orderOutViewModel.refresh(
                         SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
@@ -110,12 +117,9 @@ class SearchActivity : MyBaseActivity() {
                     1 -> orderInViewModel.refresh(
                         SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
                     )
-                    2 -> articleViewModel.refresh(0)
-                    3 -> orderOutViewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                    )
-
+                    2 -> businessViewModel.refresh()
                 }
+                getDateList()
                 return@OnEditorActionListener true
             }
             false
@@ -135,16 +139,63 @@ class SearchActivity : MyBaseActivity() {
                 1 -> orderInViewModel.refresh(
                     SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
                 )
-                2 -> articleViewModel.refresh(0)
-                3 -> orderOutViewModel.refresh(
-                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                )
+                2 -> businessViewModel.refresh()
             }
             search_refresh.isRefreshing = false
+            getDateList()
         }
 
         list.layoutManager = LinearLayoutManager(this@SearchActivity)
 
+        var arrayAdapter = ArrayAdapter(this, R.layout.item_select, typeList)
+        type_spinner.adapter = arrayAdapter
+        arrayAdapter.setDropDownViewResource(R.layout.item_pulldown_select)
+
+        bt_delete.setOnClickListener {
+            searchViewModel.deleteHistorySearch()
+        }
+
+        searchViewModel.toastMsg.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        searchViewModel.deleteResult.observe(this, Observer {
+            if (it == API.CODE_SUCCESS) {
+                history_list.removeAllViews()
+            }
+        })
+
+        type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                //切换选择
+                searchViewModel.type = position
+                Log.d("---search", "  searchViewModel.type = " + searchViewModel.type)
+                list.removeAllViews()
+                when (searchViewModel.type) {
+                    0 -> orderOutViewModel.refresh(
+                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                    )
+                    1 -> orderInViewModel.refresh(
+                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                    )
+                    2 -> businessViewModel.refresh()
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+    }
+
+
+    fun getDateList(){
         if (searchViewModel.type == 0) {
             list.adapter = OrdersAdapter(
                 type = Order.Type.TRANSFER_OUT.value(),
@@ -242,22 +293,27 @@ class SearchActivity : MyBaseActivity() {
                 }
             }
         } else if (searchViewModel.type == 2) {
-            InfoListAdapter(onItemSelect = { info ->
-                val intent = Intent(this@SearchActivity, InfoDetailActivity::class.java)
-                intent.putExtra("url", info?.jump_param)
+            BusinessAdapter(onItemSelect = { info ->
+                val intent = Intent(
+                    this@SearchActivity,
+                    InvestBusinessDetailActivity::class.java
+                )
+                intent.putExtra("id", info?.id)
                 startActivity(intent)
-            }).let { adapter ->
+            },
+                onItemCall = {
+                    ConsultDialog().show(supportFragmentManager, ConsultDialog::class.java.name)
+                }).let { adapter ->
                 list.adapter = adapter
                 lifecycleScope.launch {
-                    LivePagedListBuilder<Int, InfoItem>(
-                        articleViewModel.getInfoByCategoryFromRoom(category = 0),
+                    LivePagedListBuilder<Int, BusinessBean>(
+                        businessViewModel.getBusinesssFromLocal(),
                         5
                     ).apply {
-                        setBoundaryCallback(object : PagedList.BoundaryCallback<InfoItem>() {
-                            override fun onItemAtEndLoaded(itemAtEnd: InfoItem) {
+                        setBoundaryCallback(object : PagedList.BoundaryCallback<BusinessBean>() {
+                            override fun onItemAtEndLoaded(itemAtEnd: BusinessBean) {
                                 super.onItemAtEndLoaded(itemAtEnd)
-                                articleViewModel.loadMore(
-                                    category = 0
+                                businessViewModel.loadMore(
                                 )
                             }
                         })
@@ -268,41 +324,6 @@ class SearchActivity : MyBaseActivity() {
             }
         }
 
-
-        var arrayAdapter = ArrayAdapter(this, R.layout.item_select, typeList)
-        type_spinner.adapter = arrayAdapter
-        arrayAdapter.setDropDownViewResource(R.layout.item_pulldown_select)
-
-        bt_delete.setOnClickListener {
-            searchViewModel.deleteHistorySearch()
-        }
-
-        searchViewModel.toastMsg.observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        })
-
-        searchViewModel.deleteResult.observe(this, Observer {
-            if (it == API.CODE_SUCCESS) {
-                history_list.removeAllViews()
-            }
-        })
-
-        type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                //切换选择
-                searchViewModel.type = position
-                Log.d("---search", "  searchViewModel.type = " + searchViewModel.type)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
     }
 
     fun hideKeyboard(view: View) {
