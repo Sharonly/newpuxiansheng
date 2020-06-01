@@ -12,7 +12,7 @@ class HttpInterceptor(
     private var authToken: String
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = chain.request().let {
-//        Log.d("----77"," it.url = "+it.url+"   Authorization = "+authToken+"   signatureToken ="+signatureToken)
+//        Log.d("----token"," it.url = "+it.url+"   Authorization = "+authToken+"   signatureToken ="+signatureToken)
         Request.Builder()
             .url(it.url)
             .method(it.method, it.body)

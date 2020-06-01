@@ -44,7 +44,6 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
     }
 
     fun refresh(city: String) {
-        Log.d("---search--"," getTransfeOUT--OrdersFromRemote ---- ")
         currentCity = city
         currentPage = 1
         deleteOrdersByType(type = Order.Type.TRANSFER_OUT.value())
@@ -63,6 +62,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
             area = areaIDs,
             sortBy = sortBy,
             sortType = sortType,
+            rent = rentIDs,
             hot = null,
             top = null,
             recommend = null,
@@ -82,7 +82,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 address = shop.address,
                                 industry = shop.industry,
                                 runningState = shop.runningState,
-//                                includeFacilities = shop.includeFacilities,
+                                includeFacilities = shop.includeFacilities,
                                 isTop = shop.isTop,
                                 isHot = shop.isHot,
                                 isRecommend = shop.isRecommend,
@@ -117,12 +117,14 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
 
     private fun getTransferSuccessFromRemote() {
         orderRepository.getTransferSuccessFromRemote(
+            title = title,
             page = currentPage,
             industry = industryIDs,
             size = sizeRangeID,
             area = areaIDs,
             sortBy = sortBy,
             sortType = sortType,
+            rent = rentIDs,
             hot = null,
             top = null,
             recommend = null,
@@ -142,7 +144,10 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 address = shop.address,
                                 industry = shop.industry,
                                 runningState = shop.runningState,
-                                includeFacilities = shop.includeFacilities,
+                                isTop = shop.isTop,
+                                isHot = shop.isHot,
+                                isRecommend = shop.isRecommend,
+                                isLargeOrder = shop.isLargeOrder,
                                 image = shop.image,
                                 images = shop.images,
                                 floor = shop.floor,
@@ -153,7 +158,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 environment = shop.environment,
                                 reason = shop.reason,
                                 transferType = Order.Type.TRANSFER_OUT.value(),
-
+                                formattedArea = shop.area_point_str,
                                 formattedDate = shop.formattedDate,
                                 formattedSize = shop.formattedSize,
                                 formattedRent = shop.formattedRent,

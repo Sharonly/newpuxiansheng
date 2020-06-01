@@ -48,6 +48,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:src="@mipmap/search_iicon"
+                android:layout_marginLeft="-15dp"
                 android:layout_gravity="center_vertical" />
 
             <EditText

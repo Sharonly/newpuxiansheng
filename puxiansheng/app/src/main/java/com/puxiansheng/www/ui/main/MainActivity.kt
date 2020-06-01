@@ -109,20 +109,25 @@ class MainActivity : MyBaseActivity() {
         })
 
 
-        lifecycleScope.launch {
-            appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
-                if (it.code == API.CODE_SUCCESS) {
-                    Log.d("---ADVERT--"," it?.data?.banners = "+it?.data?.banners?.size)
-                    if (it?.data?.banners?.isNotEmpty()!!) {
-                        AdvertmentDialog(context = this@MainActivity, baners = it?.data?.banners!!).show(
-                            supportFragmentManager,
-                            AdvertmentDialog::class.java.name
-                        )
+        appModel?.currentAdvert?.observe(this@MainActivity,Observer {
+            it?.let {
+                if(it == 1){
+                    lifecycleScope.launch {
+                        appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
+                            if (it.code == API.CODE_SUCCESS) {
+                                Log.d("---ADVERT--"," it?.data?.banners = "+it?.data?.banners?.size)
+                                if (it?.data?.banners?.isNotEmpty()!!) {
+                                    AdvertmentDialog(context = this@MainActivity, baners = it?.data?.banners!!).show(
+                                        supportFragmentManager,
+                                        AdvertmentDialog::class.java.name
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-
+        })
 
 
         appModel?.currentNewPackage?.observe(this@MainActivity, Observer {

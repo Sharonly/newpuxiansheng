@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,10 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentHomeBinding
 import com.puxiansheng.www.ui.business.InvestBusinessActivity
+import com.puxiansheng.www.ui.info.InfoPagerAdapter
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.puxiansheng.www.ui.message.MessagePagerAdapter
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderActivity
@@ -43,6 +44,14 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var appModel: MainViewModel
     var isLoading = false
+    private var tabTitles = listOf("精品店铺", "找店需求")
+    private val favoriteTransferOutFragment: Fragment = HomeTransferOutOrdersFragment()
+    private val favoriteTransferInFragment: Fragment = HomeTransferInOrdersFragment()
+    private var fragments = listOf<Fragment>(
+        favoriteTransferOutFragment,
+        favoriteTransferInFragment
+    )
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -179,6 +188,14 @@ class HomeFragment : Fragment() {
                 }
             }).attach()
 
+//        pager.adapter = MessagePagerAdapter(
+//            fragmentManager = childFragmentManager,
+//            fragments = fragments,
+//            titles = tabTitles
+//        )
+//        pager.offscreenPageLimit = 2
+//        tabs.setupWithViewPager(pager)
+
         scroll.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (scrollY in 0..255) {
                 appStatusBar.setBackgroundColor(Color.argb(scrollY, 247, 137, 52))
@@ -259,6 +276,15 @@ class HomeFragment : Fragment() {
                             else -> ""
                         }
                     }).attach()
+
+//                pager.adapter = InfoPagerAdapter(
+//                    fragmentManager = childFragmentManager,
+//                    fragments = fragments,
+//                    titles = tabTitles
+//                )
+//                pager.offscreenPageLimit = 2
+//                tabs.setupWithViewPager(pager)
+
             }
         })
     }.root

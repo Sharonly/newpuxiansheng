@@ -95,17 +95,20 @@ class OrderRepository(orderDao: OrderDao) {
     )
 
     fun getTransferSuccessFromRemote(
+        title: String = "",
         industry: String = "",
         size: String = "",
         area: String = "",
         sortBy: String = "",
         sortType: String = "",
+        rent: String = "",
         page: Int,
         hot: Int?,
         top: Int?,
         recommend: Int?,
         city: String?
     ) = remoteOrderRepository.getTransferSuccessFromRemote(
+        title = title,
         industry = industry,
         size = size,
         area = area,
@@ -115,7 +118,8 @@ class OrderRepository(orderDao: OrderDao) {
         hot = hot,
         top = top,
         recommend = recommend,
-        city = city
+        city = city,
+        rent = rent
     )
 
     fun getTransferOutOrdersFromRemote(
@@ -125,6 +129,7 @@ class OrderRepository(orderDao: OrderDao) {
         area: String = "",
         sortBy: String = "",
         sortType: String = "",
+        rent: String = "",
         page: Int,
         hot: Int?,
         top: Int?,
@@ -141,7 +146,8 @@ class OrderRepository(orderDao: OrderDao) {
         hot = hot,
         top = top,
         recommend = recommend,
-        city = city
+        city = city,
+        rent = rent
     )
 
     fun getTransferInOrdersFromRemote(
@@ -212,6 +218,10 @@ class OrderRepository(orderDao: OrderDao) {
         shopID: String
     ) = remoteOrderRepository.getEditTransferOutOrderDetailFromRemote(
         shopID = shopID
+    )
+
+    fun getSaveTransferOutOrderDetailFromRemote(
+    ) = remoteOrderRepository.getSaveTransferOutOrderDetailFromRemote(
     )
 
     fun getTransferInOrderDetailFromRemote(

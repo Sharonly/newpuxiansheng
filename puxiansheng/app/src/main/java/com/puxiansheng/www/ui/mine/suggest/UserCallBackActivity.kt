@@ -18,6 +18,7 @@ class UserCallBackActivity : MyBaseActivity() {
 
     override fun business() {
         userSuggestViewModel = ViewModelProvider(this)[UserSuggestViewModel::class.java]
+        initView()
     }
 
 

@@ -237,7 +237,6 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---request--", " getRequestType it = " + it)
         call(it)
     }
 
@@ -249,7 +248,6 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---request--", " getRequestList = " + it)
         call(it)
     }
 
@@ -260,6 +258,7 @@ class RemoteUserRepository {
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
         }, method = METHOD.GET
     ).let {
+        Log.d("---callback--"," it = "+it)
         call(it)
     }
 

@@ -26,9 +26,8 @@ import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-class HomeTransferOutOrdersFragment : AppFragment() {
+
+class HomeTransferOutOrdersFragment : AppFragment()  {
 
     private lateinit var viewModel: HomeTransferOutOrdersViewModel
     private lateinit var appModel: MainViewModel
@@ -70,7 +69,6 @@ class HomeTransferOutOrdersFragment : AppFragment() {
         })
 
         var adapter = RecommOrderAdapter(
-//            type = Order.Type.TRANSFER_OUT.value(),
             requireContext(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
@@ -84,7 +82,6 @@ class HomeTransferOutOrdersFragment : AppFragment() {
                     if (adapter.getDataCount() == 0) {
                         adapter.type = Order.Type.EMPTY.value()
                         adapter.notifyDataSetChanged()
-//                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
                     }
                 }
                 if (loadType == PagedList.LoadType.REFRESH) {
@@ -103,55 +100,12 @@ class HomeTransferOutOrdersFragment : AppFragment() {
         orderList.layoutManager = LinearLayoutManager(requireContext())
         orderList.adapter = adapter
 
-//        orderList.adapter = RecommOrderAdapter(
-//            type = Order.Type.TRANSFER_OUT.value(),
-//            onItemSelect = {
-//                val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-//                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
-//                startActivity(intent)
-//            }
-//        ).apply {
-//        LivePagedListBuilder<Int, Order>(
-//            viewModel.getTransferOutOrdersFromLocal(),
-//            PagedList.Config.Builder()
-//                .setEnablePlaceholders(true)
-//                .setPageSize(20)
-//                .setInitialLoadSizeHint(20)
-//                .build()
-//        ).let { pageBuilder ->
-//            pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
-//                override fun onItemAtEndLoaded(itemAtEnd: Order) {
-//                    super.onItemAtEndLoaded(itemAtEnd)
-//                    viewModel.loadMore()
-//                }
-//            })
-//            addLoadStateListener { loadType, _, _ ->
-//                if (loadType == PagedList.LoadType.END) {
-//                    if (getDataCount() == 0) {
-//                        type = Order.Type.EMPTY.value()
-//                        notifyDataSetChanged()
-////                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
-//                    }
-//                }
-//                if (loadType == PagedList.LoadType.REFRESH) {
-//                    if (type != Order.Type.TRANSFER_OUT.value()) {
-//                        type = Order.Type.TRANSFER_OUT.value()
-//                        notifyDataSetChanged()
-//                    }
-//                }
-//            }
-//
-//            pageBuilder.build().observe(viewLifecycleOwner, Observer {
-//                submitList(it)
-//                notifyDataSetChanged()
-//            })
-//        }
-//        }
-
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
             SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
             viewModel.refresh(it.nodeID.toString())
         })
+
+//        viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
 
     }.root
 

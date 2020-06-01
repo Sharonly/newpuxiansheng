@@ -1,6 +1,12 @@
 package com.puxiansheng.www.ui.order
 
+import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -57,6 +63,21 @@ class TransferSuccessOrderActivity : MyBaseActivity() {
         }
 
         button_search.hint = "成功案例搜索"
+        button_search.addTextChangedListener {
+            viewModel.title = it.toString()
+        }
+        button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
+                hideKeyboard(button_search)
+                order_list.removeAllViews()
+                viewModel.refresh(
+                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                )
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
         selected_industry.setOnClickListener {
             SelectIndustryDialog(
                 onSelectIndustry = { topMenuItem, secondMenuItem ->
@@ -204,5 +225,10 @@ class TransferSuccessOrderActivity : MyBaseActivity() {
         }
     }
 
+    fun hideKeyboard(view: View) {
+        val manager: InputMethodManager = view.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
 }

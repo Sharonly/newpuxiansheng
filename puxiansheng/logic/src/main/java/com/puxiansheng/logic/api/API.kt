@@ -104,7 +104,7 @@ object API {
     const val GET_USER_LIKE_SHOP = API_ADDRESS + "api/transfer/get_user_like.html"
 
     //info apis
-    const val GET_INFO_CATEGORY = API_ADDRESS + "api/article/get_cate.html"
+    const val GET_INFO_CATEGORY = API_ADDRESS + "api/article/get_cate_new.html"
     const val GET_INFO_LIST = API_ADDRESS + "api/article/get_list.html"
 
     //message
@@ -142,6 +142,10 @@ object API {
     const val GET_EDIT_TRANSFER_OUT_ORDER =
         API_ADDRESS + "api/transfer_shop/edit_echo.html"//获取去编辑的转店
     const val GET_EDIT_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/edit_echo.html"//获取编辑的找店
+
+    const val GET_SAVE_TRANSFER_OUT_ORDER =
+        API_ADDRESS + "api/transfer/shop_submit_echo.html"
+
 
     const val GET_RECOMMEND_TRANSFER_OUT_ORDER =
         API_ADDRESS + "api/transfer/get_new_recommend.html"//首页推荐转店

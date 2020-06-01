@@ -58,17 +58,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/simple_transfer_out"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawableTop="@mipmap/icon_zhuandain"
-                            android:drawablePadding="8dp"
-                            android:gravity="center"
-                            android:text="转店"
-                            android:textSize="13sp" />
-
-                        <TextView
                             android:id="@+id/simple_transfer_in"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -76,8 +65,21 @@
                             android:drawableTop="@mipmap/icon_zhaodian"
                             android:drawablePadding="8dp"
                             android:gravity="center"
-                            android:text="找店"
+                            android:text="找店选址"
                             android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/simple_transfer_out"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_zhuandain"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="商铺转让"
+                            android:textSize="13sp" />
+
+
 
                         <TextView
                             android:id="@+id/investment_business"
@@ -214,6 +216,7 @@
 
                     </LinearLayout>
 
+
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs"
                         android:layout_width="match_parent"
@@ -222,19 +225,20 @@
                         app:tabIndicator="@drawable/tablayout_indicator_thin"
                         app:tabIndicatorColor="@color/tab_orange"
                         app:tabIndicatorFullWidth="true"
-                        app:tabMode="fixed">
+                        app:tabMode="fixed"/>
 
-                    </com.google.android.material.tabs.TabLayout>
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/order_pager"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp" />
+                        android:layout_height="500dp"
+                        android:layout_marginTop="1dp"/>
 
-                    <!--        <androidx.viewpager.widget.ViewPager-->
-                    <!--            android:id="@+id/order_pager"-->
-                    <!--            android:layout_width="match_parent"-->
-                    <!--            android:layout_height="match_parent"/>-->
+<!--                            <com.puxiansheng.www.common.AutoHeightViewPager-->
+<!--                                android:id="@+id/pager"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:background="@color/appMain"/>-->
 
 
                 </LinearLayout>

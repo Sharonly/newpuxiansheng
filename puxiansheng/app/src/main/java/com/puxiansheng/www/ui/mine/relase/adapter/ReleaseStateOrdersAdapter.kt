@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
@@ -111,6 +112,9 @@ class ReleaseStateOrdersAdapter(
             item?.status?.let { status ->
                 binding.status.text = status.text
                 binding.status.setTextColor(Color.parseColor(status.color))
+                if(status.text == "未审核"){
+                    binding.btRefresh.visibility =  View.INVISIBLE
+                }
             }
 
             item?.shop?.formattedArea.let { it ->
@@ -138,11 +142,11 @@ class ReleaseStateOrdersAdapter(
             binding.btEdit.setOnClickListener {
                 if (orderType == 0) {
                     val intent = Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
                     context.startActivity(intent)
                 } else if (orderType == 1) {
                     val intent = Intent(context, InsertOrUpdateTransferInOrderActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
                     context.startActivity(intent)
                 }
             }
@@ -160,11 +164,11 @@ class ReleaseStateOrdersAdapter(
             binding.root.setOnClickListener {
                 if (orderType == 0) {
                     val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
                     context.startActivity(intent)
                 } else if (orderType == 1) {
                     val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
                     context.startActivity(intent)
                 }
             }

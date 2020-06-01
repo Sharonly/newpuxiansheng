@@ -75,7 +75,12 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
                                 formattedArea = it.formattedFinalLocationNode,
                                 formattedFinalIndustry = it.formattedFinalIndustry,
                                 formattedLocationNodes = it.formattedLocationNodes,
-                                formattedIndustry = it.view_category
+                                formattedIndustry = it.view_category,
+                                data_type = it.data_type,
+                                jump_type = it.jump_type,
+                                jump_view = it.jump_view,
+                                jump_param = it.jump_param,
+                                articles = it.articles
                             ),
                             state = it.state
                         )

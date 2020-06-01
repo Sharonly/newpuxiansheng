@@ -104,23 +104,26 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
             floor = floor
         ).let { apiRst ->
             if (apiRst.succeeded) {
-                (apiRst as APIRst.Success).data.data?.submitResult?.let {
+                (apiRst as APIRst.Success).data.data?.let {
+                    Log.d("---submit--"," apiRst.data.msg = "+apiRst.data.msg+"  code = "+apiRst.data.code)
                     toastMsg.postValue(apiRst.data.msg)
-                    apiRst.data.data?.submitResult?.id?.let { shopID ->
-                        selectedImages.value?.let { imageSet ->
-                            if (imageSet.size > 0)
-                                imageSet.map { imageUrl ->
-                                    imageUrl
-                                }.let { urls ->
-                                    uploadImage(imageUrls = urls, refID = shopID)
-                                }
-                        }
-                        submitResult.postValue(apiRst.data.code)
-                    }
+                    submitResult.postValue(apiRst.data.code)
+//                    apiRst.data.data?.submitResult?.id?.let { shopID ->
+//                        selectedImages.value?.let { imageSet ->
+//                            if (imageSet.size > 0)
+//                                imageSet.map { imageUrl ->
+//                                    imageUrl
+//                                }.let { urls ->
+//                                    uploadImage(imageUrls = urls, refID = shopID)
+//                                }
+//                        }
+//
+//                    }
                 }
             } else {
                 (apiRst as APIRst.Error)
                 toastMsg.postValue(apiRst.exception.message)
+                Log.d("---submit--APIRst.Error"," apiRst.data.msg = "+apiRst.exception.message)
             }
         }
     }
@@ -141,6 +144,60 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
         shopID: String
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
         orderRepository.getEditTransferOutOrderDetailFromRemote(shopID = shopID).let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.obj?.let {
+                try {
+                    Order(
+                        favorite = it.favorite,
+                        shop = Shop(
+                            shopID = it.shopID,
+                            title = it.title,
+                            size = it.size,
+                            rent = it.rent,
+                            fee = it.fee,
+                            address = it.address,
+                            industry = it.industry,
+                            runningState = it.runningState,
+                            includeFacilities = it.includeFacilities,
+                            images = it.images,
+                            floor = it.floor,
+                            facilities = it.facilities,
+                            description = it.description,
+                            descriptionUrl = it.descriptionUrl,
+                            environment = it.environment,
+                            reason = it.reason,
+                            isSuccess = it.isSuccess,
+                            //formatted data
+                            formattedDate = it.formattedDate,
+                            formattedPageViews = it.formattedPageViews,
+                            formattedRent = it.formattedRent,
+                            formattedSize = it.formattedSize,
+                            formattedFee = it.formattedTransferFee,
+                            formattedFinalIndustry = it.formattedFinalIndustry,
+                            formattedArea = it.formattedFinalLocationNode,
+                            formattedLocationNodes = it.formattedLocationNodes,
+                            formattedFacilities = it.formattedFacilities,
+                            formattedIndustry = it.view_category
+
+                        ), serviceAgent = ServiceAgent(
+                            name = it.shopOwnerName,
+                            phone = it.serviceAgentPhone
+                        ), shopOwner = User(
+                            actualName = it.shopOwnerName,
+                            userPhoneNumber = it.shopOwnerPhoneNumbr
+                        )
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            } else null
+        }
+    }
+
+
+
+    suspend fun requestSaveTransferOutOrderDetail(
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.getSaveTransferOutOrderDetailFromRemote().let { apiRst ->
             if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.obj?.let {
                 try {
                     Order(

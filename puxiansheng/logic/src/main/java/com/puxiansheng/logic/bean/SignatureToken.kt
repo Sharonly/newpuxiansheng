@@ -17,5 +17,15 @@ data class SignatureToken(
     val token: String? = "",
 
     @SerializedName("new_package")
-    val newPackage: NewPackage? = null
+    val newPackage: NewPackage? = null,
+
+    @SerializedName("ad_list")
+    val adList: AdObject? = null
+
+) : Parcelable
+
+@Parcelize
+data class AdObject(
+    @SerializedName("api_index_pop_up_ads")
+    val adInfo: Int = 0
 ) : Parcelable

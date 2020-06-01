@@ -85,7 +85,7 @@ class RemoteOrderRepository {
         facility: String? = null,
         reason: String? = null,
         label: String? = null
-    ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.SUBMIT_TRANSFER_OUT_ORDER,
         fieldMap = mutableMapOf(
             "id" to type,
@@ -188,11 +188,13 @@ class RemoteOrderRepository {
      * request a list of transfer-out orders from remote server base on page key.
      * */
     fun getTransferSuccessFromRemote(
+        title: String,
         industry: String,
         size: String,
         area: String,
         sortBy: String,
         sortType: String,
+        rent: String,
         page: Int,
         hot: Int?,
         top: Int?,
@@ -201,12 +203,14 @@ class RemoteOrderRepository {
     ): APIRst<APIResp<HttpRespOrders>> = buildRequest(
         url = API.GET_REMOTE_TRANSFER_SUCCESS_ORDERS,
         fieldMap = mutableMapOf(
+            "title" to title,
             "industry_path" to industry,
             "acreage" to size,
             "area" to area,
             "sort_field" to sortBy,
             "sort" to sortType.toString(),
-            "page" to page.toString()
+            "page" to page.toString(),
+            "rent" to rent
         ).also { map ->
             city?.let {
                 map["city"] = city
@@ -241,6 +245,7 @@ class RemoteOrderRepository {
         area: String,
         sortBy: String,
         sortType: String,
+        rent: String,
         page: Int,
         hot: Int?,
         top: Int?,
@@ -255,7 +260,8 @@ class RemoteOrderRepository {
             "area" to area,
             "sort_field" to sortBy,
             "sort" to sortType.toString(),
-            "page" to page.toString()
+            "page" to page.toString(),
+            "rent" to rent
         ).also { map ->
             city?.let {
                 map["city"] = city
@@ -348,6 +354,23 @@ class RemoteOrderRepository {
     ).let {
         API.call(it)
     }
+
+    fun getSaveTransferOutOrderDetailFromRemote(
+    ): APIRst<APIResp<HttpRespOrderDetail>> = buildRequest(
+        url = API.GET_SAVE_TRANSFER_OUT_ORDER,
+        fieldMap = mutableMapOf<String,String>().also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+
 
     fun getTransferOutOrderDetailFromRemote(
         shopID: String

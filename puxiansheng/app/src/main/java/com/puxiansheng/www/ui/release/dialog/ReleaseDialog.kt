@@ -62,8 +62,6 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
             }
         }
         btOk.setOnClickListener {
-            val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
-            startActivity(intent)
             dismiss()
         }
         btReturn.setOnClickListener {

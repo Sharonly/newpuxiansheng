@@ -17,6 +17,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_info_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -61,7 +62,6 @@ class InfoHomeListFragment : AppFragment() {
             false
         })
 
-//        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 //isLoaded = true
                 infoListViewModel.getInfoCategoriesFromRemote()?.let {
@@ -77,12 +77,7 @@ class InfoHomeListFragment : AppFragment() {
                     pager.offscreenPageLimit = 5
                     tabs.setupWithViewPager(pager)
                 }
-
-
-
-
             }
-//        })
 
     }.root
 

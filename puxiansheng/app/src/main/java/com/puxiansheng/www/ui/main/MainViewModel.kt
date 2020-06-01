@@ -68,6 +68,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val currentSignatureToken = MutableLiveData<String>()
     val currentSignatureTokenCode = MutableLiveData<Int>()
     val currentNewPackage = MutableLiveData<NewPackage>()
+    val currentAdvert = MutableLiveData<Int>()
 
 
     val saveAddress = MutableLiveData<String>()
@@ -106,6 +107,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     apiResult.data.data?.newPackage?.let {
                         currentNewPackage.postValue(it)
                     }
+                    apiResult.data.data?.adList?.adInfo.let {
+                        currentAdvert.postValue(it)
+                    }
+
                 } else {
                     ticker.receive()
                 }

@@ -71,12 +71,22 @@ class SearchActivity : MyBaseActivity() {
 
             searchViewModel.getRecommendSearch()?.let {
                 it.forEach { menuItem ->
-                    recommend_list.addView(Chip(history_list.context).apply {
+                    recommend_list.addView(Chip(recommend_list.context).apply {
                         text = menuItem.name
                     })
+                    Chip(recommend_list.context).setOnClickListener {
+                        Log.d("---Chip","=====OnClickListener "+menuItem.name)
+                        search_content.setText(menuItem.name)
+                    }
+
                 }
+
+
             }
         }
+
+
+
 
         bt_cancel.setOnClickListener {
             search_content.setText("")
@@ -88,6 +98,7 @@ class SearchActivity : MyBaseActivity() {
                 layout_recommend.visibility = View.VISIBLE
                 search_refresh.visibility = View.GONE
             }
+            finish()
         }
 
         search_content.addTextChangedListener {

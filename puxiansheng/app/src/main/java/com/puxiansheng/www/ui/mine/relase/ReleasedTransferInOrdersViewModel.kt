@@ -71,7 +71,11 @@ class ReleasedTransferInOrdersViewModel(application: Application) : AndroidViewM
                                 formattedRent = it.formattedRent,
                                 formattedFee = it.formattedTransferFee,
                                 formattedFinalIndustry = it.view_category,
-                                formattedArea = it.formattedFinalLocationNode
+                                formattedArea = it.formattedFinalLocationNode,
+                                data_type = it.data_type,
+                                jump_type = it.jump_type,
+                                jump_view = it.jump_view,
+                                jump_param = it.jump_param
                             ),
                             state = it.state
                         )
