@@ -20,7 +20,6 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import kotlinx.android.synthetic.main.activity_order_list.*
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
@@ -69,8 +68,8 @@ class TransferOutOrderActivity : MyBaseActivity() {
             viewModel.title = it.toString()
         }
         button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                hideKeyboard(search_content)
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
+                hideKeyboard(button_search)
                 order_list.removeAllViews()
                 viewModel.refresh(
                     SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()

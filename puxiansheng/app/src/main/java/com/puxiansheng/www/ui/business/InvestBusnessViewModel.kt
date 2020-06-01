@@ -41,7 +41,6 @@ class InvestBusnessViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun refresh() {
-        Log.d("---search--"," BusinessByType ---- ")
         currentPage = 1
         deleteBusinessByType()
         loadMore()

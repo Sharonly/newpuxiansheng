@@ -26,6 +26,7 @@ class UserSuggestActivity : MyBaseActivity() {
 
     override fun business() {
         userSuggestViewModel = ViewModelProvider(this)[UserSuggestViewModel::class.java]
+        initView()
     }
 
 
@@ -82,7 +83,7 @@ class UserSuggestActivity : MyBaseActivity() {
 
         userSuggestViewModel.suggestResult.observe(this, Observer {
             if (it == API.CODE_SUCCESS) {
-                Navigation.findNavController(this, R.id.homeNavHost).navigateUp()
+               onBackPressed()
             }
         })
 

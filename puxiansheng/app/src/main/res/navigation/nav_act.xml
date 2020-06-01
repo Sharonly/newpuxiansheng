@@ -55,10 +55,12 @@
             app:destination="@+id/myfarvorFragment" />
 
         <action
-            android:id="@+id/action_mainFragment_to_userSuggestFragment"
-            app:destination="@id/userSuggestFragment" />
+            android:id="@+id/action_mainFragment_to_serviceFragment"
+            app:destination="@id/serviceFragment" />
 
     </fragment>
+
+
 
     <fragment
         android:id="@+id/navigation_home"
@@ -104,9 +106,9 @@
 
     </fragment>
     <fragment
-        android:id="@+id/userSuggestFragment"
-        android:name="com.puxiansheng.www.ui.mine.suggest.UserSuggestFragment"
-        android:label="UserSuggestFragment"/>
+        android:id="@+id/serviceFragment"
+        android:name="com.puxiansheng.www.ui.mine.ServiceActivity"
+        android:label="ServiceFragment"/>
 
     <fragment
         android:id="@+id/searchFragment"

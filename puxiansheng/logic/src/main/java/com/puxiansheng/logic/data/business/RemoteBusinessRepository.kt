@@ -1,5 +1,6 @@
 package com.puxiansheng.logic.data.business
 
+import android.util.Log
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BusinessBean
 import com.puxiansheng.logic.bean.http.HttpRespBusinessList
@@ -11,17 +12,13 @@ import com.puxiansheng.util.http.buildRequest
 
 class RemoteBusinessRepository {
 
-    fun requestBusinessList(title:String? = null,page: Int): APIRst<APIResp<HttpRespBusinessList>> =
+    fun requestBusinessList(title:String,page: Int): APIRst<APIResp<HttpRespBusinessList>> =
         buildRequest(
             url = API.GET_JOIN_LIST, fieldMap = mutableMapOf(
-                "page" to page.toString()
-            ).also { map ->
-                title?.let {
-                    if (it != "") {
-                        map["title"] = title
-                    }
-                }
-                map["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = map, method = "GET")
+                "page" to page.toString(),
+                "title" to title
+            ).also {
+                it["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
             },
             method = METHOD.GET
         ).let {

@@ -83,23 +83,16 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="1.5dp" />
 
-            <TextView
-                android:id="@+id/tips"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FB6066"
-                android:textSize="12sp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp" />
 
             <TextView
-                android:id="@+id/reason"
+                android:id="@+id/txt_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#989796"
+                android:textColor="@color/text_gray"
                 android:textSize="12sp"
+                android:text="消息详情"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="29dp" />
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/content"
@@ -118,11 +111,11 @@
                 android:textColor="#989796"
                 android:textSize="12sp"
                 android:layout_gravity="right"
-                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="18dp" />
 
             <TextView
-                android:id="@+id/change"
+                android:id="@+id/button_one"
                 android:layout_width="50dp"
                 android:layout_height="26dp"
                 android:textColor="#F78934"
@@ -132,8 +125,9 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="27dp"
                 android:layout_marginBottom="9dp"
+                android:text="1"
                 android:layout_marginRight="16dp"
-                android:text="修改"/>
+                android:background="@drawable/bg_bt_message_edit"/>
 
         </LinearLayout>
 

@@ -31,20 +31,12 @@ class FavorOrdersAdapter(
         LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
             mContext = parent.context
             when (viewType) {
-//                R.layout.fragment_order_list_transfer_out_item -> TransferOutOrderViewHolder(it)
-//                R.layout.fragment_order_list_transfer_in_item -> TransferInOrderViewHolder(it)
-//
-//                R.layout.fragment_orders_mine_transfer_out_item -> MineTransferOutOrderViewHolder(it)
-//                R.layout.fragment_orders_mine_transfer_in_item -> MineTransferInOrderViewHolder(it)
-
                 R.layout.fragment_favor_order_list_transfer_out_item -> FavorTransferOutOrderViewHolder(
                     it
                 )
                 R.layout.fragment_favor_order_list_transfer_in_item -> FavorTransferInOrderViewHolder(
                     it
                 )
-
-
                 else -> EmptyOrderViewHolder(it)
             }
         }
@@ -70,12 +62,6 @@ class FavorOrdersAdapter(
             return R.layout.fragment_order_list_empty
 
         return when (type) {
-//            Order.Type.TRANSFER_IN.value() -> R.layout.fragment_order_list_transfer_in_item
-//            Order.Type.TRANSFER_OUT.value() -> R.layout.fragment_order_list_transfer_out_item
-//
-//            Order.Type.TRANSFER_OUT_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_out_item
-//            Order.Type.TRANSFER_IN_PRIVATE.value() -> R.layout.fragment_orders_mine_transfer_in_item
-
             Order.Type.TRANSFER_OUT_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_out_item
             Order.Type.TRANSFER_IN_FAVORITE.value() -> R.layout.fragment_favor_order_list_transfer_in_item
             else -> R.layout.fragment_order_list_empty

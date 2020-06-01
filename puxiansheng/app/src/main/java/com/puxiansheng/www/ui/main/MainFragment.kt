@@ -59,7 +59,7 @@ class MainFragment : NavHostFragment() {
 
             binding.bottomNavBar?.itemIconTintList = null
             binding.bottomNavBar?.setupWithNavController(navController)
-            adjustNavigationIcoSize(binding.bottomNavBar);
+//            adjustNavigationIcoSize(binding.bottomNavBar);
 
             binding.bottomNavBar.setOnNavigationItemSelectedListener {
                 when (it.itemId) {

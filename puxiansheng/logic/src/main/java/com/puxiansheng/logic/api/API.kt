@@ -81,7 +81,7 @@ object API {
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
 
-    const val GET_JOIN_LIST = API_ADDRESS + "api/get_join.html"///api/join/get_info.html
+    const val GET_JOIN_LIST = API_ADDRESS + "api/join/get_list.html"
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
     const val SUBMIT_JOIN_INFO = API_ADDRESS + "api/join/submit.html"
 //search
@@ -92,9 +92,13 @@ object API {
 
     //images
     const val GET_IMAGES = API_ADDRESS + "api/get_images.html"
+    const val GET_IMAGE = API_ADDRESS + "get_images_info.html"
 
     //marquee
     const val GET_HEADLINE = API_ADDRESS + "api/get_headlines.html"
+
+    const val GET_ADVERT = API_ADDRESS + "api/ad/get_list.html"
+    const val SUBMIT_ADVERT = API_ADDRESS +"api/ad/ad_report.html"
 
     //get user like
     const val GET_USER_LIKE_SHOP = API_ADDRESS + "api/transfer/get_user_like.html"
@@ -102,6 +106,12 @@ object API {
     //info apis
     const val GET_INFO_CATEGORY = API_ADDRESS + "api/article/get_cate.html"
     const val GET_INFO_LIST = API_ADDRESS + "api/article/get_list.html"
+
+    //message
+    const val GET_MESSAGE_CATEGORY = API_ADDRESS + "api/notice/get_cate_list.html"
+    const val GET_MESSAGE_LIST = API_ADDRESS + "api/notice/get_msg_list.html"
+    const val GET_MESSAGE_DETAIL = API_ADDRESS + "api/notice/get_info.html"
+
 
     //locations apis
     const val GET_AREA_BY_CITY_ID = API_ADDRESS + "api/area/list.html"

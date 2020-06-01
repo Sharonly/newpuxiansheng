@@ -53,11 +53,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-    suspend fun getServiceLink() = withContext(Dispatchers.IO) {
-        commonDataRepository.getServiceLinkFromRemote().let {
-            return@let if (it.succeeded) (it as APIRst.Success).data.data?.link else null
-        }
-    }
+
 
 
 

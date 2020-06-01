@@ -15,8 +15,8 @@ class SystemRepository(private val systemDao: SystemDao) {
     fun insertOrUpdateSystemConfig(config: SystemConfig) =
         localSystemConfigRepository.insertOrUpdateLocalSystemConfig(config = config)
 
-    fun requireSignatureToken(device: Device): APIRst<APIResp<SignatureToken>> =
-        remoteSystemConfigRepository.requestSignatureToken(device)
+    fun requireSignatureToken(device: Device,registrationId:String): APIRst<APIResp<SignatureToken>> =
+        remoteSystemConfigRepository.requestSignatureToken(device,registrationId = registrationId)
 
 
     fun requestVerificationCode(

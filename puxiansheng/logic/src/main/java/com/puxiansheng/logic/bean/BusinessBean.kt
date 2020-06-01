@@ -39,24 +39,9 @@ data class BusinessBean(
         @SerializedName("investment")
         val investment:  String = "",
 
-
         @ColumnInfo(name = "_item_keywords")
         @SerializedName("keywords")
          var keywords :List<String>? =null,
-
-
-        @ColumnInfo(name = "_large_img")
-        @SerializedName("large_img")
-        val large_img:  String = "",
-
-        @ColumnInfo(name = "_large_img_alt")
-        @SerializedName("large_img_alt")
-        val large_img_alt:  String = "",
-
-        @ColumnInfo(name = "_large_img_title")
-        @SerializedName("large_img_title")
-        val large_img_title:  String = "",
-
 
         @ColumnInfo(name = "_thumb_img")
         @SerializedName("thumb_img")
@@ -68,9 +53,21 @@ data class BusinessBean(
 
         @ColumnInfo(name = "_thumb_img_title")
         @SerializedName("thumb_img_title")
-        val thumb_img_title:  String = ""
+        val thumb_img_title:  String = "",
 
-){
+        @ColumnInfo(name = "_jump_type")
+        @SerializedName("jump_type")
+        var jump_type: Int = 0,
+
+        @ColumnInfo(name = "_jump_view")
+        @SerializedName("jump_view")
+        var jump_view: String = "",
+
+        @ColumnInfo(name = "_jump_param")
+        @SerializedName("jump_param")
+        var jump_param: String = ""
+
+        ){
         companion object {
                 val DIFF = object : DiffUtil.ItemCallback<BusinessBean>() {
                         override fun areItemsTheSame(oldItem: BusinessBean, newItem: BusinessBean): Boolean {

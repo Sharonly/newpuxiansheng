@@ -1,12 +1,8 @@
 package com.puxiansheng.logic.bean.http
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.puxiansheng.logic.bean.*
-import java.math.BigDecimal
-import java.text.DecimalFormat
 
 data class HttpRespOrderDetail(
     @SerializedName("result")

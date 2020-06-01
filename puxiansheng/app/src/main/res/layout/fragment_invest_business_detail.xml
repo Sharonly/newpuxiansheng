@@ -63,104 +63,112 @@
         </LinearLayout>
 
 
-        <ScrollView
+
+        <WebView
+            android:id="@+id/info_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_marginTop="75dp">
+            android:layout_marginTop="75dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/image_switcher"
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:scaleType="fitXY"/>
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="none"-->
+<!--            android:layout_marginTop="75dp">-->
 
-<!--                <com.puxiansheng.www.common.ImageSwitcher-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <ImageView-->
 <!--                    android:id="@+id/image_switcher"-->
 <!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="210dp" />-->
+<!--                    android:layout_height="210dp"-->
+<!--                    android:scaleType="fitXY"/>-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/img_index"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="312dp"-->
-<!--                    android:layout_marginTop="164dp"-->
-<!--                    android:text="1/5"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="12sp"-->
-<!--                    android:textStyle="bold" />-->
+<!--&lt;!&ndash;                <com.puxiansheng.www.common.ImageSwitcher&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/image_switcher"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="210dp" />&ndash;&gt;-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="-20dp"
-                    android:background="@drawable/bg_transfer_detail"
-                    android:orientation="vertical">
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/img_index"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_marginLeft="312dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_marginTop="164dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="1/5"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="12sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textStyle="bold" />&ndash;&gt;-->
 
-                    <TextView
-                        android:id="@+id/shop_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="25dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/input_text_blank"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="-20dp"-->
+<!--                    android:background="@drawable/bg_transfer_detail"-->
+<!--                    android:orientation="vertical">-->
 
-
-
-                        <TextView
-                            android:id="@+id/shop_industry"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="15dp"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/invest_money"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="15dp"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/page_views"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:textSize="12sp" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/shop_title"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="16dp"-->
+<!--                        android:layout_marginTop="25dp"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textColor="@color/input_text_blank"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold" />-->
 
 
-                    <TextView
-                        android:id="@+id/shop_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="25dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/input_text_blank"
-                        android:text="项目信息"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/shop_industry"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="16dp"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:textSize="14sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/invest_money"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="16dp"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:textSize="14sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/page_views"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp"-->
+<!--                            android:textSize="12sp" />-->
 
 
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
+<!--                    <TextView-->
+<!--                        android:id="@+id/shop_info"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="16dp"-->
+<!--                        android:layout_marginTop="25dp"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textColor="@color/input_text_blank"-->
+<!--                        android:text="项目信息"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--        </ScrollView>-->
 
         <LinearLayout
             android:layout_width="match_parent"

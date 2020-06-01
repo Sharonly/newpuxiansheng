@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil
@@ -21,6 +22,7 @@ import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 
 class ReleaseFragment : AppFragment() {
     private lateinit var releaseViewModel: ReleaseViewModel
@@ -44,8 +46,10 @@ class ReleaseFragment : AppFragment() {
     ): View? = rootView ?: FragmentReleaseBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        fastRelease.setOnClickListener {
-
+        lifecycleScope.launch {
+            releaseViewModel.requestBannerImage("api_issue_shop_images")?.let { banners ->
+//                topBannerView.setBannerImages(banners)
+            }
         }
 
         transferOut.setOnClickListener {

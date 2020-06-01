@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +22,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
 import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
+import com.puxiansheng.www.ui.mine.setting.ChangeIconDialog
+import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +54,16 @@ class MainActivity : MyBaseActivity() {
     private var currentTokenCode: Int = 0
 
     override fun getLayoutId(): Int {
-       return R.layout.activity_home
+        return R.layout.activity_home
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        val stringExtra = intent?.getStringExtra("name")
+        Log.e("---intent", "name = " + stringExtra)
+
+
     }
 
     override fun business() {
@@ -93,6 +107,23 @@ class MainActivity : MyBaseActivity() {
                 }
             }
         })
+
+
+        lifecycleScope.launch {
+            appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
+                if (it.code == API.CODE_SUCCESS) {
+                    Log.d("---ADVERT--"," it?.data?.banners = "+it?.data?.banners?.size)
+                    if (it?.data?.banners?.isNotEmpty()!!) {
+                        AdvertmentDialog(context = this@MainActivity, baners = it?.data?.banners!!).show(
+                            supportFragmentManager,
+                            AdvertmentDialog::class.java.name
+                        )
+                    }
+                }
+            }
+        }
+
+
 
         appModel?.currentNewPackage?.observe(this@MainActivity, Observer {
             it?.let {
@@ -142,7 +173,12 @@ class MainActivity : MyBaseActivity() {
         })
 
         appModel?.requireLocalDevice()?.observe(this@MainActivity, Observer {
-            it?.let { appModel?.refreshSignatureToken(it) } ?: appModel?.requireDevice()
+            it?.let {
+                appModel?.refreshSignatureToken(
+                    it,
+                    get("registration_id", "") as String
+                )
+            } ?: appModel?.requireDevice()
         })
 
         API.logoutSignal.observe(this@MainActivity, Observer {
@@ -163,14 +199,10 @@ class MainActivity : MyBaseActivity() {
     }
 
 
-
-
     override fun onDestroy() {
         appModel = null
         super.onDestroy()
     }
-
-
 
 
 }

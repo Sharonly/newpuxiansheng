@@ -132,14 +132,14 @@
 
             </LinearLayout>
 
-            <com.puxiansheng.www.common.ImageSwitcher
+            <ImageView
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginLeft="13dp"
                 android:layout_marginRight="13dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/banner_dark_blue" />
+                android:src="@mipmap/banner_invest_business" />
 
             <TextView
                 android:id="@+id/bt_request"

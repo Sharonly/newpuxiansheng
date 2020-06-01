@@ -19,7 +19,6 @@ class RemoteInfoMarqueeRepository {
             },
             method = METHOD.GET
         ).let {
-            Log.d("---marquee--"," it ="+it)
             API.call(it)
         }
 }

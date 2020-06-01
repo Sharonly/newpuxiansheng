@@ -27,7 +27,7 @@ class RemoteSystemRepository {
      * require signature token from remote server for common http request signature.
      * */
     fun requestSignatureToken(
-        device: Device
+        device: Device, registrationId: String? = null
     ): APIRst<APIResp<SignatureToken>> = buildRequest(
         url = GET_TOKEN,
         fieldMap = mutableMapOf(
@@ -36,8 +36,14 @@ class RemoteSystemRepository {
             "channel" to device.manufacturer,
             "device_no" to device.uid,
             "version" to API_VERSION
-        ).also {
-            it["sign"] = sign(signatureToken = null, fieldMap = it, method = "POST")
+        ).also { map ->
+            registrationId?.let {
+                if (it != "") {
+                    map["registration_id"] = it
+                }
+            }
+            Log.d("---device--", " device = " + device+" registrationId = "+registrationId)
+            map["sign"] = sign(signatureToken = null, fieldMap = map, method = "POST")
         }
     ).let {
         call(it)
@@ -48,7 +54,7 @@ class RemoteSystemRepository {
         key: String,
         code: String,
         type: String
-    )= buildRequest(
+    ) = buildRequest(
         url = GET_VERIFICATION_CODE,
         fieldMap = mutableMapOf(
             "phone" to phoneNumber,

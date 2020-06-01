@@ -38,9 +38,8 @@ class SettingFragment:AppFragment() {
         }
 
         lifecycleScope.launch {
-            settingViewModel.getConfigInfo()?.let {
+            settingViewModel.getConfigInfo("about_us_url")?.let {
                 configInfo ->
-
                 userCompany.setOnClickListener {
                     val intent = Intent(requireActivity(), AboutUsActivity::class.java)
                     intent.putExtra("url", configInfo.about_us_url)

@@ -78,10 +78,10 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    suspend fun getConfigInfo() = withContext(
+    suspend fun getConfigInfo(name:String) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO
     ) {
-        commonDataRepository.getConfigUrlRemote(name = configTitle).let {
+        commonDataRepository.getConfigUrlRemote(name = name).let {
             if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
         }
     }

@@ -15,8 +15,11 @@ import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
+import com.puxiansheng.www.common.url
+import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMineBinding
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.mine.history.MyHistoryActivity
@@ -25,8 +28,10 @@ import com.puxiansheng.www.ui.mine.favor.MyfarvorActivity
 import com.puxiansheng.www.ui.mine.relase.OrderProcessingActivity
 import com.puxiansheng.www.ui.mine.relase.OrderPublicActivity
 import com.puxiansheng.www.ui.mine.relase.OrderSoldOutActivity
+import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
+import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.coroutines.launch
 
 class MineFragment : Fragment() {
@@ -65,8 +70,16 @@ class MineFragment : Fragment() {
             }
 
             mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
-                Log.d("---img--"," banners = "+banners.size)
-                banner.setImages(banners)
+                banner.urlBg(banners.imageUrl)
+            }
+
+
+            mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
+                btMyKefu.setOnClickListener {
+                    val intent = Intent(context, ServiceActivity::class.java)
+                    intent.putExtra("url", configInfo.api_kf_url)
+                    startActivity(intent)
+                }
             }
         }
 
@@ -157,7 +170,7 @@ class MineFragment : Fragment() {
         }
 
 
-        btMyKefu.setOnClickListener { }
+
         btRequest.setOnClickListener {
             val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
             startActivity(intent)
@@ -169,7 +182,7 @@ class MineFragment : Fragment() {
             user?.let {
                 if (it.isLogin) {
                     isLogin = true
-                    userAccount.text = user.name?:user.nickName
+                    userAccount.text = user.name ?: user.nickName
                     userPhone.text = user.userPhoneNumber
                     if (user.icon.isNotEmpty()) {
                         userIcon.urlIcon(user.icon)

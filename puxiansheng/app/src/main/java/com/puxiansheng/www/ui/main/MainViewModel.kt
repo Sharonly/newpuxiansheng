@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
@@ -14,6 +15,7 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.*
 import com.puxiansheng.logic.data.device.DeviceDatabase
 import com.puxiansheng.logic.data.device.DeviceRepository
+import com.puxiansheng.logic.data.image.ImageRepository
 import com.puxiansheng.logic.data.location.LocationRepository
 import com.puxiansheng.logic.data.menu.MenuDatabase
 import com.puxiansheng.logic.data.menu.MenuRepository
@@ -21,6 +23,7 @@ import com.puxiansheng.logic.data.system.SystemDatabase
 import com.puxiansheng.logic.data.system.SystemRepository
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.util.http.APIRst
@@ -36,6 +39,7 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -48,6 +52,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val menuRepository =
         MenuRepository(MenuDatabase.getInstance(context).menuDao())
     private val locationRepository = LocationRepository()
+    private val imageRepository = ImageRepository()
 
     private val ticker = ticker(
         delayMillis = 1000 * 60 * 3,
@@ -63,6 +68,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val currentSignatureToken = MutableLiveData<String>()
     val currentSignatureTokenCode = MutableLiveData<Int>()
     val currentNewPackage = MutableLiveData<NewPackage>()
+
 
     val saveAddress = MutableLiveData<String>()
 
@@ -87,9 +93,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      *
      * @param device the basic device information.
      */
-    fun getSignatureTokenFromRemote(device: Device) =
+    fun getSignatureTokenFromRemote(device: Device,registrationId:String) =
         viewModelScope.launch(Dispatchers.IO) {
-            systemRepository.requireSignatureToken(device).let { apiResult ->
+            systemRepository.requireSignatureToken(device,registrationId = registrationId).let { apiResult ->
                 if (apiResult.succeeded) {
                     apiResult as APIRst.Success
                     apiResult.data.data?.token?.let {
@@ -109,9 +115,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * automatically refresh the signature token by every three minutes.
      * */
-    fun refreshSignatureToken(device: Device) = viewModelScope.launch {
+    fun refreshSignatureToken(device: Device,registrationId: String) = viewModelScope.launch {
         ticker.consumeEach {
-            getSignatureTokenFromRemote(device)
+            getSignatureTokenFromRemote(device,registrationId = registrationId)
         }
     }
 
@@ -254,6 +260,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    suspend fun requestAdvertImages(where: String) =
+        withContext(Dispatchers.IO) {
+            imageRepository.requestAdvertImages(where).let {
+                return@let if (it.succeeded) (it as APIRst.Success).data else null
+            }
+        }
+
+    suspend fun submitAdvertImages(where: String) =
+        withContext(Dispatchers.IO) {
+            imageRepository.SubmitAdvertImages(where).let {
+                return@let if (it.succeeded) (it as APIRst.Success).data else null
+            }
+        }
+
+
+
     fun openAPK(fileSavePath: String) {
         var file = File(Uri.parse(fileSavePath).getPath());
         var filePath = file.getAbsolutePath();
@@ -324,6 +346,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun pictureIntent(context: Activity, image: BannerImage) {
+        Log.d("---jump--"," pictureIntent ")
         when (image.jump_type) {
             1 -> {
                 when (image.jump_view) {
@@ -369,9 +392,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", image.jump_param)
                 context.startActivity(intent)
-            }
-            6 -> {//跳转第三方
-
             }
         }
 

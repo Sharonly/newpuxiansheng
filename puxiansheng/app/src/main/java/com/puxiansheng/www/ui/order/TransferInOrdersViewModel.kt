@@ -38,7 +38,6 @@ class TransferInOrdersViewModel(application: Application) : AndroidViewModel(app
     }
 
     fun refresh(city: String) {
-        Log.d("---search--"," getTransferInOrdersFromRemote ---- ")
         currentCity = city
         currentPage = 1
         deleteOrdersByType(type = Order.Type.TRANSFER_IN.value())

@@ -90,12 +90,25 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     }
 
 
-
     private fun initView() {
         bt_back.setOnClickListener {
             onBackPressed()
         }
 
+        insertOrUpdateTransferOutOrderViewModel.contactName =
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+        insertOrUpdateTransferOutOrderViewModel.contactPhone =
+            SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+
+        input_name.setText(insertOrUpdateTransferOutOrderViewModel.contactName)
+        input_phone.setText(insertOrUpdateTransferOutOrderViewModel.contactPhone)
+
+        input_name.addTextChangedListener {
+            insertOrUpdateTransferOutOrderViewModel.contactName = it.toString()
+        }
+        input_phone.addTextChangedListener {
+            insertOrUpdateTransferOutOrderViewModel.contactPhone = it.toString()
+        }
 
         submit.setOnClickListener {
             insertOrUpdateTransferOutOrderViewModel.title.let {
@@ -148,8 +161,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 }
             }
 
-            insertOrUpdateTransferOutOrderViewModel.contactName = SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME,"").toString()
-            insertOrUpdateTransferOutOrderViewModel.contactPhone = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE,"").toString()
+
 
 
             insertOrUpdateTransferOutOrderViewModel.industry.let {
@@ -312,12 +324,11 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             }
 
         }
-        button_input_floor.addTextChangedListener{
-            if(insertOrUpdateTransferOutOrderViewModel.floor != 0){
+        button_input_floor.addTextChangedListener {
+            if (insertOrUpdateTransferOutOrderViewModel.floor != 0) {
                 insertOrUpdateTransferOutOrderViewModel.floor = it.toString().toInt()
             }
         }
-
 
 
 //        list获取图片
@@ -392,18 +403,18 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
         insertOrUpdateTransferOutOrderViewModel.toastMsg.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            if(it.contains("保存成功")){
-                ReleaseDialog(0).show(supportFragmentManager,ReleaseDialog::class.java.name)
-            }else if(it.contains("发布成功")){
-                ReleaseDialog(1).show(supportFragmentManager,ReleaseDialog::class.java.name)
-            }else{
-                ReleaseDialog(2).show(supportFragmentManager,ReleaseDialog::class.java.name)
+            if (it.contains("保存成功")) {
+                ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            } else if (it.contains("发布成功")) {
+                ReleaseDialog(1).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            } else {
+                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
         insertOrUpdateTransferOutOrderViewModel.submitResult.observe(this, Observer {
             if (it != API.CODE_SUCCESS) {
-                ReleaseDialog(2).show(supportFragmentManager,ReleaseDialog::class.java.name)
+                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
@@ -497,6 +508,16 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 insertOrUpdateTransferOutOrderViewModel.industry = industry
                             }
 
+                            order.shopOwner?.actualName?.let {
+                                input_name.setText(it)
+                                insertOrUpdateTransferOutOrderViewModel.contactName = it
+                            }
+
+                            order.shopOwner?.userPhoneNumber?.let {
+                                input_phone.setText(it)
+                                insertOrUpdateTransferOutOrderViewModel.contactPhone = it
+                            }
+
                             order.shop?.formattedFinalIndustry?.let { finalIndustry ->
                                 button_select_industry.text = finalIndustry
                             }
@@ -513,7 +534,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
                             order.shop?.floor?.let {
                                 insertOrUpdateTransferOutOrderViewModel.floor = it
-                                if(it != 0) {
+                                if (it != 0) {
                                     button_input_floor.setText(it.toString())
                                 }
                             }
@@ -708,7 +729,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         override fun onProviderDisabled(provider: String?) {
         }
     };
-
 
 
 }

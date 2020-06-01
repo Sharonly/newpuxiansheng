@@ -1,16 +1,15 @@
 package com.puxiansheng.logic.bean
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
+import com.puxiansheng.logic.bean.converter.MenuListConverter
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "table_menu", indices = [Index(value = ["_menu_id", "_type"], unique = true)])
 @Parcelize
+
 data class MenuItem(
 
     @ColumnInfo(name = "_menu_id")
@@ -28,6 +27,9 @@ data class MenuItem(
     @ColumnInfo(name = "_text")
     var text: String = "",
 
+    @SerializedName("text")
+    var btText: String = "",
+
     @SerializedName("color")
     @ColumnInfo(name = "_color")
     var color: String = "",
@@ -36,6 +38,15 @@ data class MenuItem(
     @ColumnInfo(name = "_value")
     @SerializedName("value")
     var value: Int = 0,
+
+    @SerializedName("jump_type")
+    var jump_type: Int = 0,
+
+    @SerializedName("jump_view")
+    var jump_view: String = "",
+
+    @SerializedName("jump_param")
+    var jump_param: String = "",
 
     @SerializedName("icon")
     @ColumnInfo(name = "_icon_enable")

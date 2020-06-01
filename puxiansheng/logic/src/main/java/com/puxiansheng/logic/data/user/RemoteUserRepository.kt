@@ -126,6 +126,7 @@ class RemoteUserRepository {
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")
         }
     ).let {
+        Log.d("---login--","DO_LOGIN_BY_WECHAT it = "+it)
         callForJson(it)
     }
 
@@ -340,7 +341,6 @@ class RemoteUserRepository {
             },
             method = METHOD.GET
         ).let {
-            Log.d("---count--", " it =" + it)
             API.call(it)
         }
 

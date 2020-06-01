@@ -36,8 +36,8 @@
                 android:layout_below="@+id/appStatusBar"
                 android:src="@mipmap/ic_back_white" />
 
-            <TextView
-                android:id="@+id/button_search"
+            <EditText
+                android:id="@+id/bt_search"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginRight="12dp"

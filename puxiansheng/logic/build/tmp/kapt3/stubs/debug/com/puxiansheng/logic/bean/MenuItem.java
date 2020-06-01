@@ -4,7 +4,7 @@ import java.lang.System;
 
 @kotlinx.android.parcel.Parcelize()
 @androidx.room.Entity(tableName = "table_menu", indices = {@androidx.room.Index(unique = true, value = {"_menu_id", "_type"})})
-@kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000<\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\t\n\u0000\n\u0002\u0010\b\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0002\b+\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u0087\b\u0018\u00002\u00020\u0001:\u0001>BU\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0005\u0012\b\b\u0002\u0010\u0006\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0007\u001a\u00020\b\u0012\b\b\u0002\u0010\t\u001a\u00020\b\u0012\b\b\u0002\u0010\n\u001a\u00020\u0005\u0012\b\b\u0002\u0010\u000b\u001a\u00020\b\u0012\b\b\u0002\u0010\f\u001a\u00020\b\u00a2\u0006\u0002\u0010\rJ\t\u0010)\u001a\u00020\u0003H\u00c6\u0003J\t\u0010*\u001a\u00020\u0005H\u00c6\u0003J\t\u0010+\u001a\u00020\u0003H\u00c6\u0003J\t\u0010,\u001a\u00020\bH\u00c6\u0003J\t\u0010-\u001a\u00020\bH\u00c6\u0003J\t\u0010.\u001a\u00020\u0005H\u00c6\u0003J\t\u0010/\u001a\u00020\bH\u00c6\u0003J\t\u00100\u001a\u00020\bH\u00c6\u0003JY\u00101\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00052\b\b\u0002\u0010\u0006\u001a\u00020\u00032\b\b\u0002\u0010\u0007\u001a\u00020\b2\b\b\u0002\u0010\t\u001a\u00020\b2\b\b\u0002\u0010\n\u001a\u00020\u00052\b\b\u0002\u0010\u000b\u001a\u00020\b2\b\b\u0002\u0010\f\u001a\u00020\bH\u00c6\u0001J\t\u00102\u001a\u00020\u0005H\u00d6\u0001J\u0013\u00103\u001a\u0002042\b\u00105\u001a\u0004\u0018\u000106H\u00d6\u0003J\t\u00107\u001a\u00020\u0005H\u00d6\u0001J\t\u00108\u001a\u00020\bH\u00d6\u0001J\u0019\u00109\u001a\u00020:2\u0006\u0010;\u001a\u00020<2\u0006\u0010=\u001a\u00020\u0005H\u00d6\u0001R\u001e\u0010\t\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u000e\u0010\u000f\"\u0004\b\u0010\u0010\u0011R\u001e\u0010\f\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0012\u0010\u000f\"\u0004\b\u0013\u0010\u0011R\u001e\u0010\u000b\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0014\u0010\u000f\"\u0004\b\u0015\u0010\u0011R$\u0010\u0016\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u0014\n\u0000\u0012\u0004\b\u0017\u0010\u0018\u001a\u0004\b\u0019\u0010\u001a\"\u0004\b\u001b\u0010\u001cR\u001e\u0010\u0002\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001d\u0010\u001a\"\u0004\b\u001e\u0010\u001cR\u001e\u0010\u0006\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001f\u0010\u001a\"\u0004\b \u0010\u001cR\u001e\u0010\u0007\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b!\u0010\u000f\"\u0004\b\"\u0010\u0011R\u001e\u0010\u0004\u001a\u00020\u00058\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b#\u0010$\"\u0004\b%\u0010&R\u001e\u0010\n\u001a\u00020\u00058\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\'\u0010$\"\u0004\b(\u0010&\u00a8\u0006?"}, d2 = {"Lcom/puxiansheng/logic/bean/MenuItem;", "Landroid/os/Parcelable;", "menuID", "", "type", "", "parentID", "text", "", "color", "value", "icon_enable", "icon_disable", "(JIJLjava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V", "getColor", "()Ljava/lang/String;", "setColor", "(Ljava/lang/String;)V", "getIcon_disable", "setIcon_disable", "getIcon_enable", "setIcon_enable", "itemID", "itemID$annotations", "()V", "getItemID", "()J", "setItemID", "(J)V", "getMenuID", "setMenuID", "getParentID", "setParentID", "getText", "setText", "getType", "()I", "setType", "(I)V", "getValue", "setValue", "component1", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "copy", "describeContents", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "TYPE", "logic_debug"})
+@kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000<\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\t\n\u0000\n\u0002\u0010\b\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0002\b;\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u0087\b\u0018\u00002\u00020\u0001:\u0001NB}\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0005\u0012\b\b\u0002\u0010\u0006\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0007\u001a\u00020\b\u0012\b\b\u0002\u0010\t\u001a\u00020\b\u0012\b\b\u0002\u0010\n\u001a\u00020\b\u0012\b\b\u0002\u0010\u000b\u001a\u00020\u0005\u0012\b\b\u0002\u0010\f\u001a\u00020\u0005\u0012\b\b\u0002\u0010\r\u001a\u00020\b\u0012\b\b\u0002\u0010\u000e\u001a\u00020\b\u0012\b\b\u0002\u0010\u000f\u001a\u00020\b\u0012\b\b\u0002\u0010\u0010\u001a\u00020\b\u00a2\u0006\u0002\u0010\u0011J\t\u00105\u001a\u00020\u0003H\u00c6\u0003J\t\u00106\u001a\u00020\bH\u00c6\u0003J\t\u00107\u001a\u00020\bH\u00c6\u0003J\t\u00108\u001a\u00020\bH\u00c6\u0003J\t\u00109\u001a\u00020\u0005H\u00c6\u0003J\t\u0010:\u001a\u00020\u0003H\u00c6\u0003J\t\u0010;\u001a\u00020\bH\u00c6\u0003J\t\u0010<\u001a\u00020\bH\u00c6\u0003J\t\u0010=\u001a\u00020\bH\u00c6\u0003J\t\u0010>\u001a\u00020\u0005H\u00c6\u0003J\t\u0010?\u001a\u00020\u0005H\u00c6\u0003J\t\u0010@\u001a\u00020\bH\u00c6\u0003J\u0081\u0001\u0010A\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00052\b\b\u0002\u0010\u0006\u001a\u00020\u00032\b\b\u0002\u0010\u0007\u001a\u00020\b2\b\b\u0002\u0010\t\u001a\u00020\b2\b\b\u0002\u0010\n\u001a\u00020\b2\b\b\u0002\u0010\u000b\u001a\u00020\u00052\b\b\u0002\u0010\f\u001a\u00020\u00052\b\b\u0002\u0010\r\u001a\u00020\b2\b\b\u0002\u0010\u000e\u001a\u00020\b2\b\b\u0002\u0010\u000f\u001a\u00020\b2\b\b\u0002\u0010\u0010\u001a\u00020\bH\u00c6\u0001J\t\u0010B\u001a\u00020\u0005H\u00d6\u0001J\u0013\u0010C\u001a\u00020D2\b\u0010E\u001a\u0004\u0018\u00010FH\u00d6\u0003J\t\u0010G\u001a\u00020\u0005H\u00d6\u0001J\t\u0010H\u001a\u00020\bH\u00d6\u0001J\u0019\u0010I\u001a\u00020J2\u0006\u0010K\u001a\u00020L2\u0006\u0010M\u001a\u00020\u0005H\u00d6\u0001R\u001e\u0010\t\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0012\u0010\u0013\"\u0004\b\u0014\u0010\u0015R\u001e\u0010\n\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0016\u0010\u0013\"\u0004\b\u0017\u0010\u0015R\u001e\u0010\u0010\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0018\u0010\u0013\"\u0004\b\u0019\u0010\u0015R\u001e\u0010\u000f\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001a\u0010\u0013\"\u0004\b\u001b\u0010\u0015R$\u0010\u001c\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u0014\n\u0000\u0012\u0004\b\u001d\u0010\u001e\u001a\u0004\b\u001f\u0010 \"\u0004\b!\u0010\"R\u001e\u0010\u000e\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b#\u0010\u0013\"\u0004\b$\u0010\u0015R\u001e\u0010\f\u001a\u00020\u00058\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b%\u0010&\"\u0004\b\'\u0010(R\u001e\u0010\r\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b)\u0010\u0013\"\u0004\b*\u0010\u0015R\u001e\u0010\u0002\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b+\u0010 \"\u0004\b,\u0010\"R\u001e\u0010\u0006\u001a\u00020\u00038\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b-\u0010 \"\u0004\b.\u0010\"R\u001e\u0010\u0007\u001a\u00020\b8\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b/\u0010\u0013\"\u0004\b0\u0010\u0015R\u001e\u0010\u0004\u001a\u00020\u00058\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b1\u0010&\"\u0004\b2\u0010(R\u001e\u0010\u000b\u001a\u00020\u00058\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b3\u0010&\"\u0004\b4\u0010(\u00a8\u0006O"}, d2 = {"Lcom/puxiansheng/logic/bean/MenuItem;", "Landroid/os/Parcelable;", "menuID", "", "type", "", "parentID", "text", "", "btText", "color", "value", "jump_type", "jump_view", "jump_param", "icon_enable", "icon_disable", "(JIJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", "getBtText", "()Ljava/lang/String;", "setBtText", "(Ljava/lang/String;)V", "getColor", "setColor", "getIcon_disable", "setIcon_disable", "getIcon_enable", "setIcon_enable", "itemID", "itemID$annotations", "()V", "getItemID", "()J", "setItemID", "(J)V", "getJump_param", "setJump_param", "getJump_type", "()I", "setJump_type", "(I)V", "getJump_view", "setJump_view", "getMenuID", "setMenuID", "getParentID", "setParentID", "getText", "setText", "getType", "setType", "getValue", "setValue", "component1", "component10", "component11", "component12", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "component9", "copy", "describeContents", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "TYPE", "logic_debug"})
 public final class MenuItem implements android.os.Parcelable {
     @androidx.room.ColumnInfo(name = "_id")
     @androidx.room.PrimaryKey(autoGenerate = true)
@@ -22,12 +22,23 @@ public final class MenuItem implements android.os.Parcelable {
     @com.google.gson.annotations.SerializedName(value = "name")
     private java.lang.String text;
     @org.jetbrains.annotations.NotNull()
+    @com.google.gson.annotations.SerializedName(value = "text")
+    private java.lang.String btText;
+    @org.jetbrains.annotations.NotNull()
     @androidx.room.ColumnInfo(name = "_color")
     @com.google.gson.annotations.SerializedName(value = "color")
     private java.lang.String color;
     @androidx.room.ColumnInfo(name = "_value")
     @com.google.gson.annotations.SerializedName(value = "value")
     private int value;
+    @com.google.gson.annotations.SerializedName(value = "jump_type")
+    private int jump_type;
+    @org.jetbrains.annotations.NotNull()
+    @com.google.gson.annotations.SerializedName(value = "jump_view")
+    private java.lang.String jump_view;
+    @org.jetbrains.annotations.NotNull()
+    @com.google.gson.annotations.SerializedName(value = "jump_param")
+    private java.lang.String jump_param;
     @org.jetbrains.annotations.NotNull()
     @androidx.room.ColumnInfo(name = "_icon_enable")
     @com.google.gson.annotations.SerializedName(value = "icon")
@@ -80,6 +91,15 @@ public final class MenuItem implements android.os.Parcelable {
     }
     
     @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getBtText() {
+        return null;
+    }
+    
+    public final void setBtText(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
     public final java.lang.String getColor() {
         return null;
     }
@@ -93,6 +113,31 @@ public final class MenuItem implements android.os.Parcelable {
     }
     
     public final void setValue(int p0) {
+    }
+    
+    public final int getJump_type() {
+        return 0;
+    }
+    
+    public final void setJump_type(int p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getJump_view() {
+        return null;
+    }
+    
+    public final void setJump_view(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getJump_param() {
+        return null;
+    }
+    
+    public final void setJump_param(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
     }
     
     @org.jetbrains.annotations.NotNull()
@@ -115,7 +160,10 @@ public final class MenuItem implements android.os.Parcelable {
     
     public MenuItem(long menuID, int type, long parentID, @org.jetbrains.annotations.NotNull()
     java.lang.String text, @org.jetbrains.annotations.NotNull()
-    java.lang.String color, int value, @org.jetbrains.annotations.NotNull()
+    java.lang.String btText, @org.jetbrains.annotations.NotNull()
+    java.lang.String color, int value, int jump_type, @org.jetbrains.annotations.NotNull()
+    java.lang.String jump_view, @org.jetbrains.annotations.NotNull()
+    java.lang.String jump_param, @org.jetbrains.annotations.NotNull()
     java.lang.String icon_enable, @org.jetbrains.annotations.NotNull()
     java.lang.String icon_disable) {
         super();
@@ -147,24 +195,46 @@ public final class MenuItem implements android.os.Parcelable {
         return null;
     }
     
-    public final int component6() {
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String component6() {
+        return null;
+    }
+    
+    public final int component7() {
+        return 0;
+    }
+    
+    public final int component8() {
         return 0;
     }
     
     @org.jetbrains.annotations.NotNull()
-    public final java.lang.String component7() {
+    public final java.lang.String component9() {
         return null;
     }
     
     @org.jetbrains.annotations.NotNull()
-    public final java.lang.String component8() {
+    public final java.lang.String component10() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String component11() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String component12() {
         return null;
     }
     
     @org.jetbrains.annotations.NotNull()
     public final com.puxiansheng.logic.bean.MenuItem copy(long menuID, int type, long parentID, @org.jetbrains.annotations.NotNull()
     java.lang.String text, @org.jetbrains.annotations.NotNull()
-    java.lang.String color, int value, @org.jetbrains.annotations.NotNull()
+    java.lang.String btText, @org.jetbrains.annotations.NotNull()
+    java.lang.String color, int value, int jump_type, @org.jetbrains.annotations.NotNull()
+    java.lang.String jump_view, @org.jetbrains.annotations.NotNull()
+    java.lang.String jump_param, @org.jetbrains.annotations.NotNull()
     java.lang.String icon_enable, @org.jetbrains.annotations.NotNull()
     java.lang.String icon_disable) {
         return null;

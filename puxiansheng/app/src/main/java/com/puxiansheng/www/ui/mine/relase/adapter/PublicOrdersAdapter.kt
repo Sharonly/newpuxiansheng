@@ -42,7 +42,6 @@ class PublicOrdersAdapter(
 
     fun setMenuData(listData: List<Order>) {
         dataList = listData.toMutableList()
-        Log.d("---public--"," dataList = "+dataList?.size)
         notifyDataSetChanged()
     }
 

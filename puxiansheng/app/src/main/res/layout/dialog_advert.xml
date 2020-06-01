@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/tanslate">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
+            android:gravity="center_horizontal">
+
+            <com.puxiansheng.www.common.ImageSwitcher
+                android:id="@+id/img_switcher"
+                android:layout_width="322dp"
+                android:layout_height="400dp" />
+
+            <ImageView
+                android:id="@+id/bt_close"
+                android:layout_width="37dp"
+                android:layout_height="87dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/img_switcher"
+                android:src="@mipmap/ic_close_quxiao" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

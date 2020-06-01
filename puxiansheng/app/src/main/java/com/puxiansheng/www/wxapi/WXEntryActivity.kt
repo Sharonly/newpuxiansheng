@@ -3,8 +3,10 @@ package com.puxiansheng.www.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.ui.login.LoginActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
@@ -33,11 +35,12 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
     }
 
     override fun onResp(baseResp: BaseResp) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
 
         when (baseResp.errCode) {
             BaseResp.ErrCode.ERR_OK -> if (baseResp.type == RETURN_MSG_TYPE_LOGIN) {
                 val code = (baseResp as SendAuth.Resp).code
+                Log.d("login","code = "+code)
                 intent.putExtra("authCode", code.toString())
                 //sendBroadcast(intent)
             }

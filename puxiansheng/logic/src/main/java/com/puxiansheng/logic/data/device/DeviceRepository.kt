@@ -1,9 +1,11 @@
 package com.puxiansheng.logic.data.device
 
 import android.os.Build
+import android.provider.Settings
 import androidx.lifecycle.LiveData
 import com.puxiansheng.logic.BuildConfig
 import com.puxiansheng.logic.bean.Device
+import com.puxiansheng.util.BaseApplication
 
 class DeviceRepository(private val deviceDao: DeviceDao) {
 
@@ -25,7 +27,7 @@ class DeviceRepository(private val deviceDao: DeviceDao) {
 
     private fun getLocalDevice(): Device {
         return Device(
-            uid = Build.ID,
+            uid = getIMEI(),
             manufacturer = Build.MANUFACTURER,
             hardware = Build.HARDWARE,
             model = Build.MODEL,
@@ -36,5 +38,10 @@ class DeviceRepository(private val deviceDao: DeviceDao) {
         ).apply {
             if (BuildConfig.DEBUG) println("new device : $this")
         }
+    }
+
+
+    fun getIMEI():String{
+        return Settings.System.getString(BaseApplication.getAppContext().contentResolver, Settings.System.ANDROID_ID)
     }
 }

@@ -7,3 +7,9 @@ data class HttpRespBannerImages(
     @SerializedName("result")
     val banners:List<BannerImage>? = null
 )
+
+
+data class HttpRespBanner(
+    @SerializedName("result")
+    val bannerImg:BannerImage? = null
+)

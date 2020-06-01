@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_industry
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_size
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_description
+import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_name
+import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_phone
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_title
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.submit
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,6 +51,21 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
     private fun initView() {
         button_back.setOnClickListener {
             onBackPressed()
+        }
+
+        insertOrUpdateTransferInOrderViewModel.contactName =
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+        insertOrUpdateTransferInOrderViewModel.contactPhone =
+            SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+
+        input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
+        input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
+
+        input_name.addTextChangedListener {
+            insertOrUpdateTransferInOrderViewModel.contactName = it.toString()
+        }
+        input_phone.addTextChangedListener {
+            insertOrUpdateTransferInOrderViewModel.contactPhone = it.toString()
         }
 
         list_facilities.layoutManager = GridLayoutManager(this, 6)
@@ -245,6 +262,17 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                                             locationNodes[locationNodes.size - 1].nodeID.toString()
                                     } else insertOrUpdateTransferInOrderViewModel.area = ""
                                 }
+                            }
+
+
+                            order.shopOwner?.actualName?.let {
+                                input_name.setText(it)
+                                insertOrUpdateTransferInOrderViewModel.contactName = it
+                            }
+
+                            order.shopOwner?.userPhoneNumber?.let {
+                                input_phone.setText(it)
+                                insertOrUpdateTransferInOrderViewModel.contactPhone = it
                             }
 
                             order.shop?.formattedRent?.let { finalLocationNode ->

@@ -27,6 +27,7 @@ import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PAS
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
 import com.puxiansheng.www.ui.main.MainActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_login_by_password.*
 import kotlinx.android.synthetic.main.layout_register.*
@@ -235,6 +236,10 @@ class LoginActivity : MyBaseActivity() {
             }
         }
 
+//        applicationContext?.let {
+//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
+//        }
+
         wechat_login.setOnClickListener {
             WechatAPI.instance?.sendReq(
                 SendAuth.Req().apply {
@@ -276,50 +281,60 @@ class LoginActivity : MyBaseActivity() {
 
         loginViewModel.wechatCode.observe(this@LoginActivity, Observer { weChatCode ->
             weChatCode?.let { code ->
+                Log.d(
+                    "---login--",
+                    "loginViewModel.wechatLoginCode= " + loginViewModel.wechatLoginCode
+                )
                 loginViewModel.wechatLoginCode = code
-                loginViewModel.wechatCode.postValue(null)
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
-                        ?.let { result ->
-                            loginViewModel.wechatLoginCode = ""
-                            if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
-
+//                loginViewModel.wechatCode.postValue(null)
+                if (loginViewModel.wechatLoginCode.isNotEmpty()) {
+                    lifecycleScope.launch() {
+                        loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
+                            ?.let { result ->
+                                Log.d("---login--", "result= " + result)
+                                loginViewModel.wechatLoginCode = ""
+//                            if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
+//                                Log.d("---login--","HttpRespBindMobilePhone= ")
+//                            } else
+                                if (result is User) {
+                                    Log.d("---login--", "is User")
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_USER_ID,
+                                        result.userID
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_USER_TOKEN,
+                                        result.token
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_NICK_NAME,
+                                        result.name
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_ACTUL_NAME,
+                                        result.actualName
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_USER_ICON,
+                                        result.icon
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_USER_PHONE,
+                                        result.userPhoneNumber
+                                    )
+                                    SharedPreferencesUtil.put(
+                                        API.LOGIN_USER_STATE,
+                                        1
+                                    )
+//                                API.setAuthToken(result.token)
+                                    LiveDataBus.get().with("user")?.value = result
+                                    val intent =
+                                        Intent(this@LoginActivity, MainActivity::class.java)
+                                    Log.d("---login--", "MainActivity user= " + result)
+                                    startActivity(intent)
+                                }
                             }
-                            if (result is User) {
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_USER_ID,
-                                    result.userID
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_USER_TOKEN,
-                                    result.token
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_NICK_NAME,
-                                    result.name
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_ACTUL_NAME,
-                                    result.actualName
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_USER_ICON,
-                                    result.icon
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_USER_PHONE,
-                                    result.userPhoneNumber
-                                )
-                                SharedPreferencesUtil.put(
-                                    API.LOGIN_USER_STATE,
-                                    1
-                                )
-                                API.setAuthToken(result.token)
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                startActivity(intent)
-                            }
-                        }
+                    }
                 }
             }
         })
@@ -331,5 +346,6 @@ class LoginActivity : MyBaseActivity() {
         setIntent(intent)
         loginViewModel?.wechatCode?.postValue(intent?.extras?.getString("authCode"))
     }
+
 
 }

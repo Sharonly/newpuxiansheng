@@ -71,6 +71,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 userRepository.loginByPass(userAccount = userAccount, userPassword = userPassword)
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
+
             MODE_LOGIN_WITH_CODE -> {
                 userRepository.loginByPhoneNum(
                     userAccount = userAccount,
@@ -158,10 +159,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun dealLoginDate(apiRst: APIRst<Response>) = viewModelScope.async(Dispatchers.IO) {
         if (apiRst.succeeded) {
+            Log.d("--login","apiRst.succeeded ")
             if (com.puxiansheng.util.BuildConfig.DEBUG) println("apiRst.succeeded === ")
             (apiRst as APIRst.Success).let { apiResp ->
                 apiResp.data.body?.string()?.let { body ->
-                    if (com.puxiansheng.util.BuildConfig.DEBUG) printJson("ResponseBody === $body")
+                    if (com.puxiansheng.util.BuildConfig.DEBUG) printJson("login ResponseBody === $body")
                     toastMsg.postValue(JSONObject(body).optString("msg"))
                     when (JSONObject(body).optInt("code", 0)) {
                         API.CODE_SUCCESS -> {

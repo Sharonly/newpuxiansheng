@@ -61,6 +61,7 @@ class InvestBusinessActivity : MyBaseActivity(){
                     InvestBusinessDetailActivity::class.java
                 )
                 intent.putExtra("id", info?.id)
+                intent.putExtra("url", info?.jump_param)
                 startActivity(intent)
             },
                 onItemCall = {

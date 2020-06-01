@@ -232,7 +232,6 @@ class HomeFragment : Fragment() {
                 }
 
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
-                    Log.d("---marquee--", "infos = " + infos.size)
                     var i = 0
                     while (i < infos.size) {
                         pxsHeadline.text = infos[i].title

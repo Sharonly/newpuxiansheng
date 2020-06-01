@@ -7,7 +7,7 @@ class BusinessRepository (businessDao: BusinessDao){
     private val remoteRepository = RemoteBusinessRepository()
     private val localBusinessRepository = LocalBusinessRepository(businessDao = businessDao)
 
-    fun requestRemoteBusiness(page: Int,title :String?) = remoteRepository.requestBusinessList(page = page, title= title)
+    fun requestRemoteBusiness(page: Int,title :String) = remoteRepository.requestBusinessList(page = page, title= title)
 
     fun requestRemoteBusinessDetail(id: String) = remoteRepository.requestBusinessDetail(id = id)
 

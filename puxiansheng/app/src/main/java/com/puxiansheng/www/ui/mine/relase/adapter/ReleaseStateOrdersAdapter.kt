@@ -102,6 +102,9 @@ class ReleaseStateOrdersAdapter(
                     binding.btRefresh.visibility = View.GONE
                 } else {
                     binding.isVip.visibility = View.INVISIBLE
+                    binding.btDelete.visibility = View.VISIBLE
+                    binding.btEdit.visibility = View.VISIBLE
+                    binding.btRefresh.visibility = View.VISIBLE
                 }
             }
 
