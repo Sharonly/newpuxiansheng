@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class HttpRespUrlLink(
     @SerializedName("result")
-    val urls: ConfigBean? = null
+    val urls: String = ""
 )
 
 data class ConfigBean(

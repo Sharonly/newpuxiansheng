@@ -12,6 +12,7 @@ import com.puxiansheng.logic.api.API.GET_SYSTEM_CONFIG
 import com.puxiansheng.logic.api.API.call
 import com.puxiansheng.logic.api.API.callForJson
 import com.puxiansheng.logic.api.API.sign
+import com.puxiansheng.logic.api.API.signNew
 import com.puxiansheng.logic.bean.SignatureToken
 import com.puxiansheng.logic.bean.Device
 import com.puxiansheng.logic.bean.http.HttpRespEmpty
@@ -26,6 +27,29 @@ class RemoteSystemRepository {
     /**
      * require signature token from remote server for common http request signature.
      * */
+//    fun requestSignatureToken(
+//        device: Device, registrationId: String? = null
+//    ): APIRst<APIResp<SignatureToken>> = buildRequest(
+//        url = GET_TOKEN,
+//        fieldMap = mutableMapOf(
+//            "appid" to API_APP_ID,
+//            "secret" to API_SECRET,
+//            "channel" to device.manufacturer,
+//            "device_no" to device.uid,
+//            "version" to API_VERSION
+//        ).also { map ->
+//            registrationId?.let {
+//                if (it != "") {
+//                    map["registration_id"] = it
+//                }
+//            }
+//            Log.d("---device--", " device = " + device+" registrationId = "+registrationId)
+//            map["sign"] = sign(signatureToken = null, fieldMap = map, method = "POST")
+//        }
+//    ).let {
+//        call(it)
+//    }
+
     fun requestSignatureToken(
         device: Device, registrationId: String? = null
     ): APIRst<APIResp<SignatureToken>> = buildRequest(
@@ -43,7 +67,7 @@ class RemoteSystemRepository {
                 }
             }
             Log.d("---device--", " device = " + device+" registrationId = "+registrationId)
-            map["sign"] = sign(signatureToken = null, fieldMap = map, method = "POST")
+            map["sign"] = signNew(signatureToken = null, fieldMap = map, method = "POST")
         }
     ).let {
         call(it)

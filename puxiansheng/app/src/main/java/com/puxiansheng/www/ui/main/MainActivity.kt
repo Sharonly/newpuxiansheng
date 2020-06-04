@@ -69,6 +69,7 @@ class MainActivity : MyBaseActivity() {
     override fun business() {
         LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
             appModel?.currentCity?.postValue(it)
+            API.setCityId(it.nodeID.toString())
         })
 
         appModel = ViewModelProvider(this)[MainViewModel::class.java]

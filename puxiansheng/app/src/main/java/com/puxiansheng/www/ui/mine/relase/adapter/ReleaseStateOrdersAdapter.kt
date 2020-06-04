@@ -112,8 +112,16 @@ class ReleaseStateOrdersAdapter(
             item?.status?.let { status ->
                 binding.status.text = status.text
                 binding.status.setTextColor(Color.parseColor(status.color))
-                if(status.text == "未审核"){
+                if(status.text == "已发布" || status.text == "已过期"){
+                    binding.btRefresh.visibility =  View.VISIBLE
+                }else{
                     binding.btRefresh.visibility =  View.INVISIBLE
+                }
+
+                if(status.text == "已下架" || status.text == "已完结" || status.text == "已成交"){
+                    binding.btRefresh.visibility =  View.INVISIBLE
+                }else{
+                    binding.btRefresh.visibility =  View.VISIBLE
                 }
             }
 

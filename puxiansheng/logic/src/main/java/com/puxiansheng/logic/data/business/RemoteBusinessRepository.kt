@@ -40,11 +40,13 @@ class RemoteBusinessRepository {
 
 
     fun submitBusinessUserInfo(
+        id:String,
         name: String,
         phone: String
     ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.SUBMIT_JOIN_INFO,
         fieldMap = mutableMapOf(
+            "id" to id,
             "name" to name,
             "phone" to phone
         ).also {

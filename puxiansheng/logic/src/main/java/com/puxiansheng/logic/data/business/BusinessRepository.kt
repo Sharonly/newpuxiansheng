@@ -18,5 +18,5 @@ class BusinessRepository (businessDao: BusinessDao){
 
     fun insertBusinessInfo(vararg business: BusinessBean) = localBusinessRepository.insertBusinessInfoIntoRoom(*business)
 
-    fun submitBusinessUserInfo(name: String,phone: String) = remoteRepository.submitBusinessUserInfo(name = name,phone = phone)
+    fun submitBusinessUserInfo(id:String,name: String,phone: String) = remoteRepository.submitBusinessUserInfo(id = id,name = name,phone = phone)
 }

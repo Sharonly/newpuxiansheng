@@ -52,15 +52,15 @@ class MineFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = FragmentMineBinding.inflate(inflater).apply {
 
-        if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
-            isLogin = true
-            userAccount.text = get(API.LOGIN_NICK_NAME, "").toString()
-            userPhone.text = get(API.LOGIN_USER_PHONE, "").toString()
-            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
-        } else {
-            userAccount.text = "请登录"
-            userPhone.text = ""
-        }
+//        if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+//            isLogin = true
+//            userAccount.text = get(API.LOGIN_NICK_NAME, "").toString()
+//            userPhone.text = get(API.LOGIN_USER_PHONE, "").toString()
+//            userIcon.urlIcon(get(API.LOGIN_USER_ICON, "").toString())
+//        } else {
+//            userAccount.text = "请登录"
+//            userPhone.text = ""
+//        }
 
         lifecycleScope.launch {
             mineViewModel.getReleaseCount()?.let {
@@ -77,10 +77,11 @@ class MineFragment : Fragment() {
             mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
                 btMyKefu.setOnClickListener {
                     val intent = Intent(context, ServiceActivity::class.java)
-                    intent.putExtra("url", configInfo.api_kf_url)
+                    intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
             }
+
         }
 
 

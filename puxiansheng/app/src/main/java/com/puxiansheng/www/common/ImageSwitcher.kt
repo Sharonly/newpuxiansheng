@@ -46,6 +46,7 @@ class ImageSwitcher : FrameLayout {
 
                 override fun onPageSelected(position: Int) {
                     this@ImageSwitcher.position = position
+                    setCurrentPos(position)
                 }
             })
         }
@@ -56,6 +57,18 @@ class ImageSwitcher : FrameLayout {
             this.images = it
             position = 0
             binding.imagePager.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    fun setCurrentPos(pos: Int){
+        position = pos
+    }
+
+    fun getCurrentPos():Int{
+        if(images.isNotEmpty()) {
+            return position + 1
+        }else{
+            return 1
         }
     }
 

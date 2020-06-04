@@ -60,8 +60,8 @@ class InvestBusnessViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    suspend fun submitUserInfo(name: String, phone: String) = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO){
-        businessRepository.submitBusinessUserInfo(name, phone)
+    suspend fun submitUserInfo(id:String,name: String, phone: String) = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO){
+        businessRepository.submitBusinessUserInfo(id,name, phone)
             .let {
                 if (it.succeeded) (it as APIRst.Success).data else null
             }

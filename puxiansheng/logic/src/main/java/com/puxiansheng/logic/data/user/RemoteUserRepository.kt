@@ -144,13 +144,17 @@ class RemoteUserRepository {
     }
 
     fun resetPassword(
-        originalPassword: String,
+        password: String,
+        userId: String,
+        newPasswordAgain: String,
         newPassword: String
     ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = DO_RESET_PASSWORD,
         fieldMap = mutableMapOf(
-            "password" to originalPassword,
-            "new_password" to newPassword
+            "user_Id" to userId,
+            "new_password" to newPassword,
+            "password" to password,
+            "new_password2" to newPasswordAgain
         ).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")

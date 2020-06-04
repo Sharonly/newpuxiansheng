@@ -23,7 +23,7 @@ class UserRepository(userDao: UserDao) {
         newPassword: String?,
         verificationCode: String?,
         wechatCode: String?
-    )= remoteUserRepository.login(
+    ) = remoteUserRepository.login(
         userAccount = userAccount,
         userPassword = userPassword,
         verificationCode = verificationCode,
@@ -34,7 +34,7 @@ class UserRepository(userDao: UserDao) {
     fun loginByPass(
         userAccount: String,
         userPassword: String?
-    )= remoteUserRepository.loginByPass(
+    ) = remoteUserRepository.loginByPass(
         userAccount = userAccount,
         userPassword = userPassword
     )
@@ -42,21 +42,21 @@ class UserRepository(userDao: UserDao) {
     fun loginByPhoneNum(
         userAccount: String,
         verificationCode: String?
-    )= remoteUserRepository.loginByPhoneNum(
+    ) = remoteUserRepository.loginByPhoneNum(
         userAccount = userAccount,
         code = verificationCode
     )
 
     fun loginByWeChat(
         wechatCode: String
-    )= remoteUserRepository.loginByWeChat(
+    ) = remoteUserRepository.loginByWeChat(
         weChatCode = wechatCode
     )
 
     fun register(
         userAccount: String,
         verificationCode: String?
-    )= remoteUserRepository.register(
+    ) = remoteUserRepository.register(
         userAccount = userAccount,
         code = verificationCode
     )
@@ -64,9 +64,9 @@ class UserRepository(userDao: UserDao) {
     fun forgetPassword(
         userAccount: String,
         verificationCode: String,
-        password :String,
+        password: String,
         newPassword: String
-    )= remoteUserRepository.forgetPassword(
+    ) = remoteUserRepository.forgetPassword(
         userAccount = userAccount,
         code = verificationCode,
         password = password,
@@ -77,14 +77,19 @@ class UserRepository(userDao: UserDao) {
     fun logout() = remoteUserRepository.logout()
 
     fun resetPassword(
-        originalPassword: String,
+        password: String,
+        userId: String,
+        newPasswordAgain: String,
         newPassword: String
     ): APIRst<APIResp<HttpRespEmpty>> = remoteUserRepository.resetPassword(
-        originalPassword = originalPassword,
-        newPassword = newPassword
+        userId = userId,
+        newPassword = newPassword,
+        newPasswordAgain = newPasswordAgain,
+        password = password
     )
 
-    fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> = remoteUserRepository.submitSuggestion(content = content)
+    fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> =
+        remoteUserRepository.submitSuggestion(content = content)
 
     fun getRequestType() = remoteUserRepository.getRequestType()
 
@@ -94,8 +99,22 @@ class UserRepository(userDao: UserDao) {
 
     fun requireRemoteUserInfo() = remoteUserRepository.requireRemoteUserInfo()
 
-    fun submitUserInfo(nickName:String,sex:String,actulName: String,iconImg:String?,address: String?,cityId:Int):APIRst<APIResp<HttpRespEmpty>> =
-        remoteUserRepository.submitUserInfo(nickName = nickName,sex = sex,actualName = actulName,headerImg =iconImg ,address =address ,cityId = cityId)
+    fun submitUserInfo(
+        nickName: String,
+        sex: String,
+        actulName: String,
+        iconImg: String?,
+        address: String?,
+        cityId: Int
+    ): APIRst<APIResp<HttpRespEmpty>> =
+        remoteUserRepository.submitUserInfo(
+            nickName = nickName,
+            sex = sex,
+            actualName = actulName,
+            headerImg = iconImg,
+            address = address,
+            cityId = cityId
+        )
 
     fun favorite(
         objectID: String,
@@ -105,7 +124,9 @@ class UserRepository(userDao: UserDao) {
         type = type
     )
 
-    fun requireHistorySearch(type: Int,userId:String) = remoteUserRepository.requireHistorySearch(type = type,userId = userId)
+    fun requireHistorySearch(type: Int, userId: String) =
+        remoteUserRepository.requireHistorySearch(type = type, userId = userId)
+
     fun deleteHistorySearch() = remoteUserRepository.deleteHistorySearch()
     fun requireRecommendSearch() = remoteUserRepository.requireRecommendSearch()
 
@@ -114,7 +135,7 @@ class UserRepository(userDao: UserDao) {
 
     fun bindMobileNumber(
         phone: String,
-        code:String,
+        code: String,
         id: String
     ) = remoteUserRepository.bindMobileNumber(
         phone = phone,

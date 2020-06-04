@@ -314,7 +314,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             if (insertOrUpdateTransferOutOrderViewModel.address.isNotEmpty()) {
                 edit_user_address.inputType = InputType.TYPE_CLASS_TEXT
             } else {
-                edit_user_address.inputType = InputType.TYPE_NULL;
+                edit_user_address.inputType = InputType.TYPE_NULL
             }
         }
 
@@ -403,7 +403,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
         insertOrUpdateTransferOutOrderViewModel.toastMsg.observe(this, Observer {
             Log.d("---submit","toastMsg = "+it)
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             if (it.contains("保存成功")) {
                 ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
             } else if (it.contains("发布成功")) {

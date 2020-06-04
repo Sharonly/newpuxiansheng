@@ -72,7 +72,7 @@ object API {
 
     const val DO_LOGOUT = API_ADDRESS + "api/login_out.html"
     const val DO_BIND_MOBILE_NUMBER = API_ADDRESS + "api/auth/bind_phone.html"
-    const val DO_RESET_PASSWORD = API_ADDRESS + "api/reset_pwd.html"
+    const val DO_RESET_PASSWORD = API_ADDRESS + "api/user_change/edit_pwd.html"
     const val DO_FAVORITE = API_ADDRESS + "api/set_collect.html"
     const val GET_USER_INFO = API_ADDRESS + "api/get_userinfo.html"
     const val GET_SYSTEM_CONFIG = API_ADDRESS + "api/config.html"
@@ -184,7 +184,7 @@ object API {
     const val GET_CONFIG_URL = API_ADDRESS+"api/config.html"
 
 
-    private val interceptor = HttpInterceptor("", "")
+    private val interceptor = HttpInterceptor("", "","")
 
     val logoutSignal = MutableLiveData<Int>()
 
@@ -202,6 +202,7 @@ object API {
 
     var currentSignatureToken = ""
     var currentAuthToken = ""
+    var cityid = ""
 
     fun setSignatureToken(token: String) {
         currentSignatureToken = token
@@ -211,6 +212,11 @@ object API {
     fun setAuthToken(token: String) {
         currentAuthToken = token
         interceptor.setAuthToken(token)
+    }
+
+    fun setCityId(id:String){
+        cityid = id
+        interceptor.setCityId(id)
     }
 
     fun callForJson(
@@ -258,6 +264,28 @@ object API {
             append(it.key).append(it.value)
         }
         append(method)
+        if (!signatureToken.isNullOrEmpty()) append(signatureToken)
+    }.toString().also {
+        if (BuildConfig.DEBUG) println("API.sign() {original sign string = $it}")
+    }.md5(null).also {
+        if (BuildConfig.DEBUG) println("API.sign() {md5 sign string = $it}")
+    }
+
+    fun signNew(
+        signatureToken: String?,
+        fieldMap: MutableMap<String, String>,
+        method: String
+    ): String = StringBuilder().apply {
+        if (!signatureToken.isNullOrEmpty()) append(signatureToken)
+//            append(it.key).append(it.value)//"${key}->${map[key]}"
+        var appStr = fieldMap["appid"]
+        var channelStr = fieldMap["channel"]
+        var deviceNoStr = fieldMap["device_no"]
+        var secretStr = fieldMap["secret"]
+        var versionStr = fieldMap["version"]
+        append("appid").append(appStr).append("channel").append(channelStr).append("device_no").append(deviceNoStr).append("secret").append(secretStr).append("version").append(versionStr)
+        var ss=  append(method)
+        if (BuildConfig.DEBUG) println("API.sign() {original no signatureToken "+ss.toString())
         if (!signatureToken.isNullOrEmpty()) append(signatureToken)
     }.toString().also {
         if (BuildConfig.DEBUG) println("API.sign() {original sign string = $it}")

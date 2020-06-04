@@ -33,9 +33,6 @@ import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
-import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.button_back
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.expand_description
@@ -93,7 +90,9 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                             BannerImage(imageUrl = url)
                         }?.let { list ->
                             image_switcher.setImages(list)
+                            img_index.text = image_switcher.getCurrentPos().toString()+"/"+list.size
                         }
+
                     }
 
                     shop_title.text = order.shop?.title

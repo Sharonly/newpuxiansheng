@@ -180,16 +180,15 @@
                             android:layout_marginLeft="17dp"
                             android:src="@mipmap/words" />
 
-                        <TextView
+                        <com.puxiansheng.www.common.TextSwitchView
                             android:id="@+id/pxs_headline"
-                            android:layout_width="match_parent"
-                            android:layout_height="53.5dp"
+                            android:layout_width="237dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
                             android:layout_marginRight="12dp"
-                            android:drawableRight="@mipmap/icon_arrow"
-                            android:drawablePadding="15dp"
-                            android:ellipsize="marquee"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="14dp"
                             android:focusable="true"
                             android:gravity="center_vertical"
                             android:marqueeRepeatLimit="1"
@@ -197,6 +196,12 @@
                             android:textColor="#252525"
                             android:textSize="11.9sp" />
 
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="53.5dp"
+                            android:src="@mipmap/icon_arrow"
+                            android:layout_marginRight="12dp" />
 <!--                        <com.puxiansheng.www.common.ScrollTextView-->
 <!--                            android:id="@+id/pxs_headline"-->
 <!--                            android:layout_width="match_parent"-->

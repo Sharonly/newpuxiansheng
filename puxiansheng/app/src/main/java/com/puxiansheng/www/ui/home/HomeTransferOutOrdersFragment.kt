@@ -20,6 +20,7 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentHomeTransferListBinding
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
@@ -71,9 +72,16 @@ class HomeTransferOutOrdersFragment : AppFragment()  {
         var adapter = RecommOrderAdapter(
             requireContext(),
             onItemSelect = {
-                val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
-                startActivity(intent)
+                if(it?.shop?.data_type == "list_data"){
+                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                    intent.putExtra("url", it?.shop?.jump_param)
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
+                    intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                    startActivity(intent)
+                }
+
             }
         )
 

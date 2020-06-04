@@ -9,7 +9,8 @@ import org.json.JSONObject
 
 class HttpInterceptor(
     private var signatureToken: String,
-    private var authToken: String
+    private var authToken: String,
+    private var cityId: String
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = chain.request().let {
 //        Log.d("----token"," it.url = "+it.url+"   Authorization = "+authToken+"   signatureToken ="+signatureToken)
@@ -18,6 +19,7 @@ class HttpInterceptor(
             .method(it.method, it.body)
             .addHeader("Authorization", authToken)
             .addHeader("SignToken", signatureToken)
+            .addHeader("city_id", cityId)
     }.let {
         val resp = chain.proceed(it.build())
         val originalBody = resp.body?.string()
@@ -37,6 +39,8 @@ class HttpInterceptor(
     fun setAuthToken(token: String) {
         authToken = token
     }
-
+    fun setCityId(id: String) {
+        cityId = id
+    }
 
 }

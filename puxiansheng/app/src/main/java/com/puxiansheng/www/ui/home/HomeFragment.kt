@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -22,10 +23,8 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentHomeBinding
 import com.puxiansheng.www.ui.business.InvestBusinessActivity
-import com.puxiansheng.www.ui.info.InfoPagerAdapter
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
-import com.puxiansheng.www.ui.message.MessagePagerAdapter
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderActivity
@@ -155,18 +154,25 @@ class HomeFragment : Fragment() {
 
                 }
 
+
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
-                    var i = 0
-                    while (i < infos.size) {
-                        pxsHeadline.text = infos[i].title
-                        delay(7000)
-                        if (i == infos.size - 1) {
-                            i = 0
-                        } else {
-                            i++
-                        }
+                    pxsHeadline.setResources(infos)
+                    pxsHeadline.setTextStillTime(3000)
+
+                    pxsHeadline.setOnItemClickListener{
+                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
+//                        appModel.
                     }
                 }
+//                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
+//                    var i = 0
+//                    while (i < infos.size) {
+//                        pxsHeadline.setCurrentText(infos[i].title)
+//                        delay(4000)
+//                    }
+//                    pxsHeadline.setResources(infos)
+//                    pxsHeadline.setTextStillTime(3000);
+//                }
             }
             refresh.isRefreshing = false
         }
@@ -249,15 +255,11 @@ class HomeFragment : Fragment() {
                 }
 
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
-                    var i = 0
-                    while (i < infos.size) {
-                        pxsHeadline.text = infos[i].title
-                        delay(10000)
-                        if (i == infos.size - 1) {
-                            i = 0
-                        } else {
-                            i++
-                        }
+                    pxsHeadline.setResources(infos)
+                    pxsHeadline.setTextStillTime(3000)
+                    pxsHeadline.setOnItemClickListener{
+                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
+//                        appModel.
                     }
                 }
                 pxsHeadline.isSelected = true

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
@@ -43,21 +44,23 @@ class MessageHomeListFragment : AppFragment() {
     ): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        lifecycleScope.launch {
-            //isLoaded = true
-            messageListViewModel.getMessageCategoriesFromRemote()?.let {
-                messagePager.adapter = InfoPagerAdapter(
-                    fragmentManager = childFragmentManager,
-                    fragments = it.map { category ->
-                        MessageListFragment.newInstance(category = category.menuID.toInt())
-                    },
-                    titles = it.map { text ->
-                        text.text
-                    })
-                messagePager.offscreenPageLimit = 3
-                tabs.setupWithViewPager(messagePager)
+        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
+            lifecycleScope.launch {
+                //isLoaded = true
+                messageListViewModel.getMessageCategoriesFromRemote()?.let {
+                    messagePager.adapter = InfoPagerAdapter(
+                        fragmentManager = childFragmentManager,
+                        fragments = it.map { category ->
+                            MessageListFragment.newInstance(category = category.menuID.toInt())
+                        },
+                        titles = it.map { text ->
+                            text.text
+                        })
+                    messagePager.offscreenPageLimit = 3
+                    tabs.setupWithViewPager(messagePager)
+                }
             }
-        }
+        })
 
     }.root
 

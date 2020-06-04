@@ -57,18 +57,17 @@ class ReleaseFragment : AppFragment() {
             phone = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
 
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
-                if (name.isNotEmpty() && phone.isNotEmpty()) {
+//                if (name.isNotEmpty() && phone.isNotEmpty()) {
                     val intent =
                         Intent(
                             requireActivity(),
                             InsertOrUpdateTransferOutOrderActivity::class.java
                         )
                     startActivity(intent)
-                } else {
-                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
-                    Navigation.findNavController(requireActivity(), R.id.homeNavHost)
-                        .navigate(R.id.action_mainFragment_to_userSettingFragment)
-                }
+//                } else {
+//                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
+//
+//                }
             } else {
                 val intent =
                     Intent(requireActivity(), LoginActivity::class.java)
@@ -81,15 +80,14 @@ class ReleaseFragment : AppFragment() {
 
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 
-                if (name.isNotEmpty() && phone.isNotEmpty()) {
+//                if (name.isNotEmpty() && phone.isNotEmpty()) {
                     val intent =
                         Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
                     startActivity(intent)
-                } else {
-                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
-                    Navigation.findNavController(requireActivity(), R.id.homeNavHost)
-                        .navigate(R.id.action_mainFragment_to_userSettingFragment)
-                }
+//                } else {
+//                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
+//
+//                }
 
 
             } else {

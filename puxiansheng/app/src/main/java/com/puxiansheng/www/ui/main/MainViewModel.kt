@@ -259,6 +259,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (apiRst.succeeded) {
                 (apiRst as APIRst.Success).data.data?.locationNode?.let { node ->
                     currentCity.postValue(node)
+                    API.setCityId(node.nodeID.toString())
                     put(API.USER_CITY_ID, node.nodeID)
                 }
             }

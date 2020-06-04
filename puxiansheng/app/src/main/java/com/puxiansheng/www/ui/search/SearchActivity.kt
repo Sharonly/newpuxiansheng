@@ -313,7 +313,7 @@ class SearchActivity : MyBaseActivity() {
                 startActivity(intent)
             },
                 onItemCall = {
-                    ConsultDialog().show(supportFragmentManager, ConsultDialog::class.java.name)
+                    ConsultDialog(it?.id.toString()).show(supportFragmentManager, ConsultDialog::class.java.name)
                 }).let { adapter ->
                 list.adapter = adapter
                 lifecycleScope.launch {

@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -62,6 +63,7 @@ class InfoHomeListFragment : AppFragment() {
             false
         })
 
+        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 //isLoaded = true
                 infoListViewModel.getInfoCategoriesFromRemote()?.let {
@@ -78,7 +80,7 @@ class InfoHomeListFragment : AppFragment() {
                     tabs.setupWithViewPager(pager)
                 }
             }
-
+        })
     }.root
 
     fun hideKeyboard(view: View) {

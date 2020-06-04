@@ -2,6 +2,8 @@ package com.puxiansheng.www.ui.mine.setting
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentResetPasswordBinding
+import kotlinx.android.synthetic.main.activity_forget_password.*
 
 class ResetPasswordFragment : Fragment() {
     private lateinit var resetPasswordViewModel: ResetPasswordViewModel
@@ -35,6 +38,32 @@ class ResetPasswordFragment : Fragment() {
             Navigation.findNavController(requireActivity(), R.id.homeNavHost).popBackStack()
         }
 
+        inputOlderPassword.addTextChangedListener { editable ->
+            editable?.toString()?.let {
+                resetPasswordViewModel.originalPassword = it
+            }
+        }
+        inputNewPassword.addTextChangedListener { editable ->
+            editable?.toString()?.let {
+                resetPasswordViewModel.newPassword = it
+            }
+        }
+
+        inputPasswordAgain.addTextChangedListener { editable ->
+            editable?.toString()?.let {
+                resetPasswordViewModel.newSecondPassword = it
+            }
+        }
+
+        icEyeClose.setOnClickListener {
+            input_password_again.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+
+        }
+        icEyeShow.setOnClickListener {
+            input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        }
+
         resetPassword.setOnClickListener {
             resetPasswordViewModel.originalPassword.let {
                 if (it.isEmpty()) {
@@ -54,30 +83,16 @@ class ResetPasswordFragment : Fragment() {
                     return@setOnClickListener
                 }
             }
-            if (resetPasswordViewModel.newPassword == resetPasswordViewModel.newSecondPassword) {
-                resetPasswordViewModel.resetPassword()
-            }else{
-                Toast.makeText(requireActivity(), "两次密码不相同", Toast.LENGTH_SHORT).show()
+Log.d("---newPassword "," resetPasswordViewModel.newPassword = "+resetPasswordViewModel.newPassword+" 1 =  "+resetPasswordViewModel.newSecondPassword+"   2 = "+resetPasswordViewModel.originalPassword )
+            if(resetPasswordViewModel.newPassword != resetPasswordViewModel.newSecondPassword){
+                Toast.makeText(context, "两次密码不一致", Toast.LENGTH_SHORT).show()
             }
+
+            resetPasswordViewModel.resetPassword()
         }
 
 
-        inputOlderPassword.addTextChangedListener { editable ->
-            editable?.toString()?.let {
-                resetPasswordViewModel.originalPassword = it
-            }
-        }
-        inputNewPassword.addTextChangedListener { editable ->
-            editable?.toString()?.let {
-                resetPasswordViewModel.newPassword = it
-            }
-        }
 
-        inputPasswordAgain.addTextChangedListener { editable ->
-            editable?.toString()?.let {
-                resetPasswordViewModel.newSecondPassword = it
-            }
-        }
 
         resetPasswordViewModel.toastMsg.observe(viewLifecycleOwner, Observer {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()

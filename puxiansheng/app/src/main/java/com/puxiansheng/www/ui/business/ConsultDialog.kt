@@ -17,7 +17,7 @@ import com.puxiansheng.www.databinding.DialogBusinessConsultBinding
 import kotlinx.coroutines.launch
 
 
-class ConsultDialog() : DialogFragment() {
+class ConsultDialog( private var shopId:String) : DialogFragment() {
     private lateinit var viewModel: InvestBusnessViewModel
 
     override fun onStart() {
@@ -53,7 +53,7 @@ class ConsultDialog() : DialogFragment() {
 
         buttonOk.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.submitUserInfo( viewModel.name,viewModel.phone)?.let {
+                viewModel.submitUserInfo(shopId, viewModel.name,viewModel.phone)?.let {
                     if (it.code == API.CODE_SUCCESS) {
                         dismiss()
                         Toast.makeText(requireContext(),"提交成功",Toast.LENGTH_SHORT).show()

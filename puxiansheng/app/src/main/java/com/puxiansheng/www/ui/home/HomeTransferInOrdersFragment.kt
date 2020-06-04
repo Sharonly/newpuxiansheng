@@ -52,62 +52,6 @@ class HomeTransferInOrdersFragment  : AppFragment() {
             orderList.addItemDecoration(it)
         }
 
-//        orderList.layoutManager = LinearLayoutManager(requireContext())
-//        orderList.adapter = RecommOrderAdapter(
-////            type = Order.Type.TRANSFER_IN.value(),
-//            requireContext(),
-//        onItemSelect = {
-//            val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-//            intent.putExtra("shopID", it?.shop?.shopID?.toInt())
-//            startActivity(intent)
-//        }
-//        ).apply {
-//            viewModel.deleteOrdersByType(Order.Type.TRANSFER_IN_RECOMMEND.value())
-//            LivePagedListBuilder<Int, Order>(
-//                viewModel.getTransferInOrdersFromLocal(),
-//                PagedList.Config.Builder()
-//                    .setEnablePlaceholders(true)
-//                    .setPageSize(20)
-//                    .setInitialLoadSizeHint(20)
-//                    .build()
-//            ).let { pageBuilder ->
-//                pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
-//                    override fun onItemAtEndLoaded(itemAtEnd: Order) {
-//                        super.onItemAtEndLoaded(itemAtEnd)
-//                        viewModel.loadMore()
-//                    }
-//                })
-//                addLoadStateListener { loadType, _, _ ->
-//                    if (loadType == PagedList.LoadType.END) {
-//                        if (getDataCount() == 0) {
-//                            type = Order.Type.EMPTY.value()
-//                            notifyDataSetChanged()
-////                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
-//                        }
-//                    }
-//                    if (loadType == PagedList.LoadType.REFRESH) {
-//                        if (type != Order.Type.TRANSFER_IN.value()) {
-//                            type = Order.Type.TRANSFER_IN.value()
-//                            notifyDataSetChanged()
-//                        }
-//                    }
-//                }
-//
-//                pageBuilder.build().observe(viewLifecycleOwner, Observer {
-//                    submitList(it)
-//                    notifyDataSetChanged()
-//                })
-//            }
-//        }
-//
-//
-//        appModel.currentCity.observe(viewLifecycleOwner, Observer {
-//            Log.d("---city--","HomeTransferIn currentCity = "+it.text+"  city_id = "+it.nodeID)
-//            SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
-//            viewModel.currentCity = it.nodeID.toString()
-//            viewModel.refresh(it.nodeID.toString())
-//        })
-
 
         val pageBuilder = LivePagedListBuilder<Int, Order>(
             viewModel.getTransferInOrdersFromLocal(),
@@ -127,7 +71,7 @@ class HomeTransferInOrdersFragment  : AppFragment() {
         var adapter = RecommOrderAdapter(
             requireContext(),
             onItemSelect = {
-                val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
+                val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt())
                 startActivity(intent)
             }

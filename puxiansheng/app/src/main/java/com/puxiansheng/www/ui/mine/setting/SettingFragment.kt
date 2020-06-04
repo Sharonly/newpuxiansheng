@@ -42,7 +42,7 @@ class SettingFragment:AppFragment() {
                 configInfo ->
                 userCompany.setOnClickListener {
                     val intent = Intent(requireActivity(), AboutUsActivity::class.java)
-                    intent.putExtra("url", configInfo.about_us_url)
+                    intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
             }
