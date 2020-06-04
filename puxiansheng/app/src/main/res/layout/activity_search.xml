@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -9,60 +10,60 @@
             android:id="@+id/bt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="取消"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/layout_search"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="取消" />
 
         <LinearLayout
             android:id="@+id/layout_search"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="36dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="36dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/bt_cancel"
-            android:background="@drawable/bg_search">
+            android:background="@drawable/bg_search"
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/type_spinner"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:spinnerMode="dropdown"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
-                android:gravity="center_vertical"
-                android:paddingRight="10dp"/>
+                android:paddingRight="10dp"
+                android:spinnerMode="dropdown" />
 
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
-                android:background="@color/line_gray"
-                />
+                android:background="@color/line_gray" />
+
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@mipmap/search_iicon"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="-15dp"
-                android:layout_gravity="center_vertical" />
+                android:src="@mipmap/search_iicon" />
 
             <EditText
                 android:id="@+id/search_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
                 android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="@string/input_search_content"
                 android:imeOptions="actionSearch"
-                android:singleLine="true"
                 android:maxLines="1"
-                android:hint="@string/input_search_content"/>
+                android:singleLine="true"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -72,53 +73,54 @@
             android:layout_below="@+id/layout_search"
             android:layout_alignLeft="@+id/layout_search">
 
-        <TextView
-            android:id="@+id/history_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:textSize="16sp"
-            android:textColor="@color/input_text_blank"
-            android:text="历史搜索"/>
-        
-        <ImageView
-            android:id="@+id/bt_delete"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/history_title"
-            android:layout_marginRight="15dp"
-            android:src="@mipmap/ic_release_delete"/>
+            <TextView
+                android:id="@+id/history_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="29dp"
+                android:text="历史搜索"
+                android:textColor="@color/input_text_blank"
+                android:textSize="16sp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/history_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_below="@+id/history_title"
-            android:theme="@style/Theme.MaterialComponents.Light.Bridge" />
+            <ImageView
+                android:id="@+id/bt_delete"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignTop="@id/history_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/ic_release_delete" />
 
-        <TextView
-            android:id="@+id/recommend_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:layout_below="@+id/history_list"
-            android:textSize="16sp"
-            android:textColor="@color/input_text_blank"
-            android:text="推荐搜索"/>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/history_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/history_title"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="15dp"
+                android:theme="@style/Theme.MaterialComponents.Light.Bridge" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/recommend_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_below="@+id/recommend_title"
-            android:theme="@style/Theme.MaterialComponents.Light.Bridge" />
+            <TextView
+                android:id="@+id/recommend_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/history_list"
+                android:layout_marginTop="29dp"
+                android:text="推荐搜索"
+                android:textColor="@color/input_text_blank"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/recommend_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recommend_title"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="15dp"
+                android:theme="@style/Theme.MaterialComponents.Light.Bridge"
+                app:singleSelection="true" />
         </RelativeLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

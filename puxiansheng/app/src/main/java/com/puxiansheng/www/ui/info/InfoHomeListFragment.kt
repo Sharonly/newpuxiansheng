@@ -14,11 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
-import kotlinx.android.synthetic.main.fragment_info_home.*
+import kotlinx.android.synthetic.main.fragment_info_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class InfoHomeListFragment : AppFragment() {
 
     private lateinit var infoListViewModel: InfoListViewModel
     private lateinit var appModel: MainViewModel
-    var category:Int = 0
+    var mCategory:Int = 0
 
 
     override fun onAttach(context: Context) {
@@ -56,12 +57,15 @@ class InfoHomeListFragment : AppFragment() {
         btSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && infoListViewModel.title.isNotEmpty()) {
                 hideKeyboard(btSearch)
-//                order_list.removeAllViews()
-//                infoListViewModel.refresh(category = )
+                list.removeAllViews()
+                infoListViewModel.refresh(category = mCategory)
                 return@OnEditorActionListener true
             }
             false
         })
+
+
+
 
         appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
@@ -78,6 +82,19 @@ class InfoHomeListFragment : AppFragment() {
                         })
                     pager.offscreenPageLimit = 5
                     tabs.setupWithViewPager(pager)
+                    tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                        override fun onTabReselected(tab: TabLayout.Tab?) {
+                        }
+
+                        override fun onTabUnselected(tab: TabLayout.Tab?) {
+                        }
+
+                        override fun onTabSelected(tab: TabLayout.Tab?) {
+                            mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
+                        }
+
+                    })
+
                 }
             }
         })

@@ -17,6 +17,7 @@ class UserSuggestViewModel(application: Application) : AndroidViewModel(applicat
     private val userRepository = UserRepository(UserDatabase.getInstance(context).userDao())
     val suggestResult = MutableLiveData<Int>()
     var suggesttion = ""
+    var cate = ""
 
     var toastMsg = MutableLiveData<String>()
 
@@ -34,7 +35,8 @@ class UserSuggestViewModel(application: Application) : AndroidViewModel(applicat
 
     fun submitSuggest() = viewModelScope.launch(Dispatchers.IO) {
         userRepository.submitSuggestion(
-            content = suggesttion
+            content = suggesttion,
+            cate = cate
         ).let {
             if (it.succeeded) {
                 suggestResult.postValue((it as APIRst.Success).data.code)

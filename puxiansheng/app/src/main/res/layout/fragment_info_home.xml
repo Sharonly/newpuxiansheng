@@ -48,8 +48,11 @@
                 android:drawablePadding="4dp"
                 android:layout_marginTop="15dp"
                 android:focusable="true"
-                android:layout_below="@+id/appStatusBar"
                 android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_below="@+id/appStatusBar"
                 android:hint="@string/search_info"
                 android:textColor="@color/input_text_blank"
                 android:textSize="16sp" />

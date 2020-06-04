@@ -88,8 +88,8 @@ class UserRepository(userDao: UserDao) {
         password = password
     )
 
-    fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> =
-        remoteUserRepository.submitSuggestion(content = content)
+    fun submitSuggestion(content: String,cate:String): APIRst<APIResp<HttpRespEmpty>> =
+        remoteUserRepository.submitSuggestion(content = content,cate = cate)
 
     fun getRequestType() = remoteUserRepository.getRequestType()
 

@@ -17,8 +17,7 @@ class LoginSuccessDialog():DialogFragment (){
     ): View? = DialogLoginSuccessTipsBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
         buttonOk.setOnClickListener {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
-            startActivity(intent)
+           dismiss()
         }
 
 

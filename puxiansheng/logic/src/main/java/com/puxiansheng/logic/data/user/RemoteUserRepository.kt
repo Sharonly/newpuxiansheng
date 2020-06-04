@@ -223,9 +223,10 @@ class RemoteUserRepository {
         call(it)
     }
 
-    fun submitSuggestion(content: String): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+    fun submitSuggestion(content: String,cate:String): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.SUBMIT_SUGGESTION,
-        fieldMap = mutableMapOf("content" to content).also {
+        fieldMap = mutableMapOf("content" to content,
+        "cate" to cate).also {
             it["sign"] =
                 sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")
         }

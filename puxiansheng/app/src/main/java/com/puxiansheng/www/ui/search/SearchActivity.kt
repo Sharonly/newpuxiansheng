@@ -74,14 +74,17 @@ class SearchActivity : MyBaseActivity() {
                     recommend_list.addView(Chip(recommend_list.context).apply {
                         text = menuItem.name
                     })
-                    Chip(recommend_list.context).setOnClickListener {
-                        Log.d("---Chip","=====OnClickListener "+menuItem.name)
-                        search_content.setText(menuItem.name)
-                    }
-
                 }
-
-
+//                Chip(recommend_list.context).apply {
+//                    text = menuItem.name
+//                }.setOnClickListener {
+//                    Log.d("---Chip","=====OnClickListener "+menuItem.name)
+//                    search_content.setText(menuItem.name)
+//                }
+                recommend_list.setOnCheckedChangeListener { chipGroup, selectedId ->
+                    search_content.setText(it.get(selectedId).name)
+//                    Toast.makeText(this@SearchActivity, hintStr, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

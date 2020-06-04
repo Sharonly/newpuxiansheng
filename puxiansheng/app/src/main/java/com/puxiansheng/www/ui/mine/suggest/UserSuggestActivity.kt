@@ -1,6 +1,9 @@
 package com.puxiansheng.www.ui.mine.suggest
 
 
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -11,9 +14,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_user_suggest.*
+import kotlinx.android.synthetic.main.activity_user_suggest.type_spinner
 import kotlinx.coroutines.launch
 
 class UserSuggestActivity : MyBaseActivity() {
@@ -46,15 +52,29 @@ class UserSuggestActivity : MyBaseActivity() {
         quest_list.layoutManager = LinearLayoutManager(this)
 
         lifecycleScope.launch {
-            userSuggestViewModel.getRequestType().let {
+            userSuggestViewModel.getRequestType().let { munuList ->
                 var typeTileList = mutableListOf<String>()
-                it?.forEach { item->
+                munuList?.forEach { item->
                     typeTileList.add(item.text)
                 }
                 if(typeTileList.isNotEmpty()){
                     val adapter = ArrayAdapter(this@UserSuggestActivity, R.layout.item_pulldown_select, typeTileList)
                     adapter.setDropDownViewResource(R.layout.item_pulldown_select)
                     type_spinner.adapter = adapter
+                    type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                           userSuggestViewModel.cate = munuList?.get(position)?.menuID.toString()
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
+                    }
                 }
             }
 
@@ -91,3 +111,4 @@ class UserSuggestActivity : MyBaseActivity() {
 
 
 }
+

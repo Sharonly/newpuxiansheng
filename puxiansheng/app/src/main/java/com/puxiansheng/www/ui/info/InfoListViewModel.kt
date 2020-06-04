@@ -29,7 +29,8 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
     fun loadMore(category: Int, city: String? = null) = viewModelScope.launch(Dispatchers.IO) {
             getInfoByCategoryFromRemote(
                 category = category,
-                city = city)
+                city = city,
+                title = title)
         }
 
 
@@ -55,14 +56,16 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
 
     private suspend fun getInfoByCategoryFromRemote(
         category: Int,
-        city: String? = null,title:String? = null
+        city: String? = null,
+        title:String? = null
     ) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO
     ) {
         infoRepository.getInfoByCategoryFromRemote(
             category = category,
             page = currentPage,
-            city = city,title = title
+            city = city,
+            title = title
         ).let {
             if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList?.let { list ->
                 list.map {item ->
