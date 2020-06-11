@@ -24,11 +24,7 @@ import com.puxiansheng.www.ui.mine.history.BrowsingHistoryTransferOutOrdersViewM
 import kotlinx.coroutines.launch
 
 
-class DeleteOrderDialog(
-    private var dialogtitle: String,
-    private var type: Int,
-    private var shopId: Long?
-) : DialogFragment() {
+class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, private var shopId: Long?) : DialogFragment() {
 
     private lateinit var privateInviewModel: ReleasedTransferInOrdersViewModel
     private lateinit var privateOutviewModel: ReleasedTransferOutOrdersViewModel
@@ -54,10 +50,7 @@ class DeleteOrderDialog(
 
         dialog?.let {
             it.window?.let { window ->
-                window.setLayout(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 window.setGravity(Gravity.CENTER)
                 window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
@@ -69,10 +62,8 @@ class DeleteOrderDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = DialogDeleteOrderBinding.inflate(inflater).apply {
-        privateInviewModel =
-            ViewModelProvider(requireActivity())[ReleasedTransferInOrdersViewModel::class.java]
-        privateOutviewModel =
-            ViewModelProvider(requireActivity())[ReleasedTransferOutOrdersViewModel::class.java]
+        privateInviewModel = ViewModelProvider(requireActivity())[ReleasedTransferInOrdersViewModel::class.java]
+        privateOutviewModel = ViewModelProvider(requireActivity())[ReleasedTransferOutOrdersViewModel::class.java]
 
         favorInViewModel =
             ViewModelProvider(requireActivity())[FavoriteTransferInOrdersViewModel::class.java]
@@ -97,19 +88,17 @@ class DeleteOrderDialog(
                         privateInviewModel.deleteTransferInOrderFromRemote(shopId.toString())
                             ?.let { rst ->
                                 if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-                                        .show()
-                                dismiss()
-                                listener?.onDiss()
+                                  Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT).show()
+                                  dismiss()
+                                  listener?.onDiss()
                             }
                     }
                     Order.Type.TRANSFER_OUT_PRIVATE.value() -> {
                         privateOutviewModel.deleteTransferOutOrderFromRemote(shopId.toString())
                             ?.let { rst ->
                                 if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-                                        .show()
-                                dismiss()
+                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT).show()
+                                  dismiss()
                                 listener?.onDiss()
                             }
                     }

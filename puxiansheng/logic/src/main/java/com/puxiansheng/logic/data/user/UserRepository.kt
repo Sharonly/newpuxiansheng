@@ -1,5 +1,6 @@
 package com.puxiansheng.logic.data.user
 
+import android.net.Uri
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.Address
 import com.puxiansheng.logic.bean.User
@@ -103,7 +104,6 @@ class UserRepository(userDao: UserDao) {
         nickName: String,
         sex: String,
         actulName: String,
-        iconImg: String?,
         address: String?,
         cityId: Int
     ): APIRst<APIResp<HttpRespEmpty>> =
@@ -111,10 +111,16 @@ class UserRepository(userDao: UserDao) {
             nickName = nickName,
             sex = sex,
             actualName = actulName,
-            headerImg = iconImg,
             address = address,
             cityId = cityId
         )
+
+//    fun submitUserIcon(
+//        iconImg: Uri
+//    ): APIRst<APIResp<HttpRespEmpty>> =
+//        remoteUserRepository.submitUserIcon(
+//            headerImg = iconImg
+//        )
 
     fun favorite(
         objectID: String,

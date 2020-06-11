@@ -11,6 +11,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.databinding.ImageSwitcherBinding
+import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -25,11 +26,7 @@ class ImageSwitcher : FrameLayout {
 
     constructor(context: Context) : super(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     init {
         binding = ImageSwitcherBinding.inflate(LayoutInflater.from(context), this, true).apply {
@@ -37,16 +34,16 @@ class ImageSwitcher : FrameLayout {
             imagePager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {}
 
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
                 }
 
                 override fun onPageSelected(position: Int) {
                     this@ImageSwitcher.position = position
                     setCurrentPos(position)
+
+                    //2020/06/08 梁汉松
+                    listener?.onScrolled(position)
                 }
             })
         }
@@ -119,5 +116,11 @@ class ImageSwitcher : FrameLayout {
         fun setOnImageClick(onImageClick: (image: BannerImage) -> Unit){
             this.onImageClick = onImageClick
         }
+    }
+
+    var listener:OnPageChange?=null
+
+    interface OnPageChange{
+        fun onScrolled(index:Int)
     }
 }

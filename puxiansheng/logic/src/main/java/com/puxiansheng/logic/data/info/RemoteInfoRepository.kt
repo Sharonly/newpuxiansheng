@@ -53,7 +53,7 @@ class RemoteInfoRepository {
 
     fun getFavoriteInfoFromRemote(
         page: Int
-    ): APIRst<APIResp<HttpRespInfoList>> = buildRequest(
+    ): APIRst<APIResp<HttpRespFavorInfoList>> = buildRequest(
         url = API.GET_ARTICLE_FAVORITE,
         fieldMap = mutableMapOf(
             "page" to page.toString()

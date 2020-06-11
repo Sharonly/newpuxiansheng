@@ -70,9 +70,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
                 hideKeyboard(button_search)
                 order_list.removeAllViews()
-                viewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                    )
+                viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
                 return@OnEditorActionListener true
             }
             false
@@ -170,6 +168,8 @@ class TransferInOrdersActivity : MyBaseActivity() {
                 val intent = Intent(this, TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt())
                 startActivity(intent)
+
+
             }
         ).apply {
             LivePagedListBuilder<Int, Order>(
@@ -191,9 +191,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
                         if (getDataCount() == 0) {
                             type = Order.Type.EMPTY.value()
                             notifyDataSetChanged()
-                            viewModel.refresh(
-                                SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                            )
+                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
                         }
                     }
                     if (loadType == PagedList.LoadType.REFRESH) {
@@ -219,8 +217,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
     }
 
     fun hideKeyboard(view: View) {
-        val manager: InputMethodManager = view.context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val manager: InputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 

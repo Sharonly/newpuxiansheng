@@ -113,7 +113,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //wx社会化功能
     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.4.3'
+
+
     implementation 'me.jessyan:autosize:0.9.5'
     implementation project(path: ':util')
     implementation project(path: ':logic')
@@ -124,7 +128,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'cn.jiguang.sdk:jpush:3.5.8'// 此处以JPush 3.5.6 版本为例。
     implementation 'cn.jiguang.sdk:jcore:2.2.8'  // 此处以JCore 2.2.8 版本为例。
-//腾讯地图
+
+    //腾讯地图
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.3.3.2'
     'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4'
 
@@ -132,8 +137,6 @@ dependencies {
     implementation 'com.android.support:palette-v7:28.0.0'
     testImplementation 'com.github.bumptech.glide:compiler:4.10.0'
 
-    //TOdo
 
-//    implementation 'com.google.code.gson:gson:2.8.6'
-
+   // implementation 'com.yanzhenjie:permission:2.0.0-rc12'
 }

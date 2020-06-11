@@ -9,7 +9,6 @@ import cn.jpush.android.service.JPushMessageReceiver
 import com.google.gson.Gson
 import com.puxiansheng.www.app.PXSPushReceiver.Test.DataBean
 import com.puxiansheng.www.ui.business.InvestBusinessActivity
-import com.puxiansheng.www.ui.business.InvestBusnessViewModel
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity

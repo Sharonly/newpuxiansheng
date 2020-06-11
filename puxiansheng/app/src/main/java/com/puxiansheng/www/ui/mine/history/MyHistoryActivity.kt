@@ -26,11 +26,7 @@ class MyHistoryActivity : MyBaseActivity(){
 
 
     private var selectType = 0
-    private var fragments = listOf(
-        historyTransferOutFragment,
-        historyTransferInFragment,
-        historyInfoFragment
-    )
+    private var fragments = listOf(historyTransferOutFragment, historyTransferInFragment, historyInfoFragment)
 
     override fun getLayoutId(): Int {
         return R.layout.activity_my_history
@@ -44,11 +40,13 @@ class MyHistoryActivity : MyBaseActivity(){
         button_back.setOnClickListener {
             onBackPressed()
         }
+
         pager.adapter = MessagePagerAdapter(
             fragmentManager = supportFragmentManager,
             fragments = fragments,
             titles = tabTitles
         )
+
         pager.offscreenPageLimit = 3
         tabs.setupWithViewPager(pager)
 
@@ -79,10 +77,7 @@ class MyHistoryActivity : MyBaseActivity(){
 
         bt_delete.setOnClickListener {
             Log.d("--11-delete", " selectType = " + selectType)
-            var deleteDialog = DeleteOrderDialog(
-                getString(R.string.delete_history_title), selectType
-                , 0
-            )
+            var deleteDialog = DeleteOrderDialog(getString(R.string.delete_history_title), selectType, 0)
             deleteDialog.show(supportFragmentManager, DeleteOrderDialog::class.java.name)
             deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                 override fun onDiss() {
@@ -100,6 +95,8 @@ class MyHistoryActivity : MyBaseActivity(){
                 }
             }
         }
+
+
     }
 
 

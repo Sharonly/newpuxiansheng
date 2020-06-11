@@ -223,6 +223,20 @@ class RemoteUserRepository {
         call(it)
     }
 
+    fun submitUserIcon(
+        headerImg: String
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+        url = API.SAVE_USER_ICON,
+        fieldMap = mutableMapOf(
+            "header_img" to headerImg
+        ).also { map ->
+            map["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = map, method = "POST")
+        }
+    ).let {
+        call(it)
+    }
+
     fun submitSuggestion(content: String,cate:String): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.SUBMIT_SUGGESTION,
         fieldMap = mutableMapOf("content" to content,

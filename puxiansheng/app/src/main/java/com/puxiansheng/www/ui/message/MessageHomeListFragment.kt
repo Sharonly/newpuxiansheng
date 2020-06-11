@@ -37,11 +37,7 @@ class MessageHomeListFragment : AppFragment() {
     @ObsoleteCoroutinesApi
     @ExperimentalCoroutinesApi
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {

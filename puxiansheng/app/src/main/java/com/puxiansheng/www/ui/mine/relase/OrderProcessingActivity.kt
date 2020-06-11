@@ -32,8 +32,7 @@ class OrderProcessingActivity : MyBaseActivity() {
             onBackPressed()
         }
 
-            DividerItemDecoration(
-                this@OrderProcessingActivity,
+            DividerItemDecoration(this@OrderProcessingActivity,
                 DividerItemDecoration.VERTICAL
             ).let {
                 it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
@@ -48,10 +47,7 @@ class OrderProcessingActivity : MyBaseActivity() {
                     if(!it.isNullOrEmpty()){
                         orderType =  Order.Type.USER_PUBLIC_ORDER.value()
                     }
-                    order_list.adapter =
-                        ReleaseStateOrdersAdapter(
-                            this@OrderProcessingActivity,
-                            onItemDelete = {
+                    order_list.adapter = ReleaseStateOrdersAdapter(this@OrderProcessingActivity, onItemDelete = {
                                 var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shop?.shopID)
                                 deleteDialog.show(supportFragmentManager, DeleteOrderDialog::class.java.name)
                                 deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {

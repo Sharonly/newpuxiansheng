@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.R
+import com.puxiansheng.www.common.TextSwitchView
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentHomeBinding
 import com.puxiansheng.www.ui.business.InvestBusinessActivity
@@ -28,6 +29,7 @@ import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.OrderPagerAdapter
 import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
 import com.puxiansheng.www.ui.search.SearchActivity
@@ -82,11 +84,9 @@ class HomeFragment : Fragment() {
 
         resources.displayMetrics.widthPixels.times(0.65).let {
             topBannerView.layoutParams.height = it.toInt()
-
             topBannerView.onImageClick { image: BannerImage ->
                 appModel.pictureIntent(requireActivity(), image)
             }
-
         }
 
         simpleTransferOut.setOnClickListener {
@@ -127,42 +127,37 @@ class HomeFragment : Fragment() {
                     imgFour.url(banners[1].imageUrl)
                     imgTwo.url(banners[2].imageUrl)
                     imgOne.url(banners[3].imageUrl)
+
+
                     imgThree.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[0]
-                        )
+                        appModel.pictureIntent(requireActivity(), banners[0])
                     }
                     imgFour.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[1]
-                        )
+                        appModel.pictureIntent(requireActivity(), banners[1])
                     }
                     imgTwo.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[2]
-                        )
+                        appModel.pictureIntent(requireActivity(), banners[2])
                     }
                     imgOne.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[3]
-                        )
+                        appModel.pictureIntent(requireActivity(), banners[3])
                     }
 
                 }
 
 
+                //TODO 此处跑马灯有什么作用
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
                     pxsHeadline.setResources(infos)
                     pxsHeadline.setTextStillTime(3000)
+                    pxsHeadline.itemClickListener=object :TextSwitchView.OnItemClickListener{
+                        override fun onItemClick(position: Int) {
+                            println("跑马灯A1--->${position}")
+                        }
 
-                    pxsHeadline.setOnItemClickListener{
-                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
-//                        appModel.
                     }
+//                    pxsHeadline.setOnItemClickListener{
+//                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
+//                    }
                 }
 //                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
 //                    var i = 0
@@ -179,13 +174,8 @@ class HomeFragment : Fragment() {
 
         pxsHeadline.isSelected = true
 
-        orderPager.adapter = OrderPagerAdapter(
-            fragmentManager = childFragmentManager,
-            lifecycle = viewLifecycleOwner.lifecycle
-        )
-        TabLayoutMediator(
-            tabs,
-            orderPager,
+        orderPager.adapter = OrderPagerAdapter(fragmentManager = childFragmentManager, lifecycle = viewLifecycleOwner.lifecycle)
+        TabLayoutMediator(tabs, orderPager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = when (position) {
                     0 -> "精品店铺"
@@ -247,20 +237,26 @@ class HomeFragment : Fragment() {
                         )
                     }
                     imgOne.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[3]
-                        )
+                        appModel.pictureIntent(requireActivity(), banners[3])
                     }
                 }
 
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
                     pxsHeadline.setResources(infos)
                     pxsHeadline.setTextStillTime(3000)
-                    pxsHeadline.setOnItemClickListener{
-                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
-//                        appModel.
+                    pxsHeadline.itemClickListener=object :TextSwitchView.OnItemClickListener{
+                        override fun onItemClick(position: Int) {
+
+                            //TODO shopId字符串会好些
+                            val intent=Intent(activity, TransferOutOrderDetailActivity::class.java)
+                            intent.putExtra("shopID",infos[position].id?.toInt())
+                            startActivity(intent)
+                        }
                     }
+//                    pxsHeadline.setOnItemClickListener{
+//                        println("跑马灯点击1--->${it}")
+//                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT).show()
+//                    }
                 }
                 pxsHeadline.isSelected = true
 
@@ -268,10 +264,7 @@ class HomeFragment : Fragment() {
                     fragmentManager = childFragmentManager,
                     lifecycle = viewLifecycleOwner.lifecycle
                 )
-                TabLayoutMediator(
-                    tabs,
-                    orderPager,
-                    TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                TabLayoutMediator(tabs, orderPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         tab.text = when (position) {
                             0 -> "精品店铺"
                             1 -> "找店需求"

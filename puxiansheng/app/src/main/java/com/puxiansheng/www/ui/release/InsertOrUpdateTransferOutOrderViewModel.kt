@@ -83,7 +83,7 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
             images = selectedImages.value?.let { set ->
                 val builder = StringBuilder()
                 set.map { image ->
-                     builder.append("$image,")
+                    if (image.contains("http")) builder.append("$image,")
                 }
 
                 if (builder.isNotEmpty()) {
@@ -105,25 +105,23 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
         ).let { apiRst ->
             if (apiRst.succeeded) {
                 (apiRst as APIRst.Success).data.data?.let {
-                    Log.d("---submit--"," apiRst.data.msg = "+apiRst.data.msg+"  code = "+apiRst.data.code)
                     toastMsg.postValue(apiRst.data.msg)
                     submitResult.postValue(apiRst.data.code)
-//                    apiRst.data.data?.submitResult?.id?.let { shopID ->
-//                        selectedImages.value?.let { imageSet ->
-//                            if (imageSet.size > 0)
-//                                imageSet.map { imageUrl ->
-//                                    imageUrl
-//                                }.let { urls ->
-//                                    uploadImage(imageUrls = urls, refID = shopID)
-//                                }
-//                        }
-//
-//                    }
+                    apiRst.data.data?.submitResult?.id?.let { shopID ->
+                        selectedImages.value?.let { imageSet ->
+                            if (imageSet.size > 0)
+                                imageSet.map { imageUrl ->
+                                    imageUrl
+                                }.let { urls ->
+                                    uploadImage(imageUrls = urls, refID = shopID)
+                                }
+                        }
+
+                    }
                 }
             } else {
                 (apiRst as APIRst.Error)
                 toastMsg.postValue(apiRst.exception.message)
-                Log.d("---submit--APIRst.Error"," apiRst.data.msg = "+apiRst.exception.message)
             }
         }
     }

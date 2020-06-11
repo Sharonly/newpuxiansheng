@@ -45,7 +45,9 @@ class OrdersAdapter(
             }
         }
 
-
+    fun getDataSources():PagedList<Order>{
+        return dataList!!
+    }
 
     override fun submitList(pagedList: PagedList<Order>?) {
         dataList = pagedList!!

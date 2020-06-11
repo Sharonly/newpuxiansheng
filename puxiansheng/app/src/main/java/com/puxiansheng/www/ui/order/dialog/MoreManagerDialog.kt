@@ -17,6 +17,10 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.databinding.DialogMoreManagerBinding
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailViewModel
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXTextObject
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -44,21 +48,14 @@ class MoreManagerDialog(
         super.onStart()
         dialog?.let {
             it.window?.let { window ->
-                window.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 window.setGravity(Gravity.BOTTOM)
                 window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = DialogMoreManagerBinding.inflate(inflater).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = DialogMoreManagerBinding.inflate(inflater).apply {
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -91,8 +88,42 @@ class MoreManagerDialog(
             }
         }
 
+
+        binding.btShare.setOnClickListener {
+                 shareText()
+
+        }
+
+
         btCancel.setOnClickListener { dismiss() }
 
     }.root
+
+
+    /**
+     * 举例分享文本类型, 其它类型可以去  https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html
+     *
+     * 注意！！！！ 微信平台的debug签名和release签名
+     */
+    private fun shareText(){
+        val wxApi = WXAPIFactory.createWXAPI(requireContext(), API.API_APP_ID, false);
+        wxApi?.registerApp(API.API_APP_ID);
+
+        val textObj = WXTextObject()
+        textObj.text = "Google"
+
+        //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
+        val msg = WXMediaMessage()
+        msg.mediaObject = textObj
+        msg.description = "这是Android端的测试分享信息"
+
+        val req = SendMessageToWX.Req()
+        req.transaction ="2020-06-09"
+
+        req.message = msg
+       // req.scene = mTargetScene
+        wxApi?.sendReq(req)
+
+    }
 
 }

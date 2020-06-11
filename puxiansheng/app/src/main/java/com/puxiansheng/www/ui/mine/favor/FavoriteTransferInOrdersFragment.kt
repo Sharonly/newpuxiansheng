@@ -17,7 +17,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
+import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 
 class FavoriteTransferInOrdersFragment : AppFragment() {
 
@@ -49,7 +49,7 @@ class FavoriteTransferInOrdersFragment : AppFragment() {
         list.adapter = FavorOrdersAdapter(
             type = Order.Type.TRANSFER_IN_FAVORITE.value(),
             onItemSelect = {
-                val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
+                val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
                 startActivity(intent)
             },onDelete = {

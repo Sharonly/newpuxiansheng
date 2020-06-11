@@ -13,7 +13,7 @@ import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import kotlinx.android.extensions.LayoutContainer
 
- class InfoListAdapter(private val onItemSelect: ((infoItem: InfoItem?) -> Unit)? = null) : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
+ class InfoListAdapter(private val onItemSelect: ((infoItem: InfoItem?) -> Unit)? = null,private val onDelete: ((infoItem: InfoItem?) -> Unit)? = null) : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
     InfoItem.DIFF
 ) {
      private var dataList: PagedList<InfoItem>? = null
@@ -34,6 +34,10 @@ import kotlinx.android.extensions.LayoutContainer
 //                intent.putExtra("url", infoItem?.url)
 //                startActivity(intent)
             }
+
+//            binding.itemDelete.setOnClickListener {
+//                    onDelete?.let { select -> select(infoItem) }
+//                }
         }
     }
 

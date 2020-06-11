@@ -34,4 +34,6 @@ data class SystemConfig(
     @ColumnInfo(name = "_def_user_icon")
     @SerializedName("default_header_img")
     val defaultUserIcon: String = ""
+
+
 )

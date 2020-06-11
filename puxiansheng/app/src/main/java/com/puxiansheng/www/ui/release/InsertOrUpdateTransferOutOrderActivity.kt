@@ -273,7 +273,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
         button_select_address.setOnClickListener {
             var location = getLngAndLat(this)
-            edit_user_address.inputType = InputType.TYPE_NULL
+            //  edit_user_address.inputType = InputType.TYPE_NULL
             val intent = Intent(this, MapActivity::class.java)
             intent.putExtra("location", location)
             startActivity(intent)
@@ -310,13 +310,14 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         })
 
 
-        edit_user_address.setOnClickListener {
-            if (insertOrUpdateTransferOutOrderViewModel.address.isNotEmpty()) {
-                edit_user_address.inputType = InputType.TYPE_CLASS_TEXT
-            } else {
-                edit_user_address.inputType = InputType.TYPE_NULL
-            }
-        }
+        //TODO 2020/6/8 取消限制
+//        edit_user_address.setOnClickListener {
+//            if (insertOrUpdateTransferOutOrderViewModel.address.isNotEmpty()) {
+//                edit_user_address.inputType = InputType.TYPE_CLASS_TEXT
+//            } else {
+//                edit_user_address.inputType = InputType.TYPE_NULL
+//            }
+//        }
 
         edit_user_address.addTextChangedListener {
             if (insertOrUpdateTransferOutOrderViewModel.address.isNotEmpty()) {
@@ -402,7 +403,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
 
         insertOrUpdateTransferOutOrderViewModel.toastMsg.observe(this, Observer {
-            Log.d("---submit","toastMsg = "+it)
+            Log.d("---submit", "toastMsg = " + it)
 //            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             if (it.contains("保存成功")) {
                 ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
@@ -414,7 +415,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         })
 
         insertOrUpdateTransferOutOrderViewModel.submitResult.observe(this, Observer {
-            Log.d("---submit","submitResult = "+it)
+            Log.d("---submit", "submitResult = " + it)
             if (it != API.CODE_SUCCESS) {
                 ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
@@ -422,11 +423,28 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
 
 
+
+
+        API.logoutSignal.observe(this, Observer {
+            if (it == API.CODE_REQUIRE_LOGIN ||
+                it == API.CODE_AUTO_CODE_INVALID ||
+                it == API.CODE_AUTO_CODE_EXPIRED ||
+                it == API.CODE_AUTO_CODE_ERROR ||
+                it == API.CODE_AUTO_CODE_EMPTY ||
+                it == API.CODE_BANNED_USER
+            ) {
+                launchLoginActivity()
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
         intent.getIntExtra("shopID", 0).toString().takeIf {
             it.isNotEmpty()
         }?.also {
             lifecycleScope.launch {
-                if (it != "null") {
+                if (it != "null" || it != "0") {
                     insertOrUpdateTransferOutOrderViewModel.requestEditTransferOutOrderDetail(it)
                         ?.let { order ->
                             order.shop?.shopID.toString().let { id ->
@@ -558,168 +576,152 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                             }
                         }
                 } else {
-                    getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
-                    edit_user_address.inputType = InputType.TYPE_NULL;
+                    insertOrUpdateTransferOutOrderViewModel.requestSaveTransferOutOrderDetail()
+                        ?.let { order ->
+                            order.shop?.shopID.toString().let { id ->
+                                insertOrUpdateTransferOutOrderViewModel.type = id
+                            }
+                            order.shop?.images?.let { images ->
+                                insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(
+                                    images.toMutableSet()
+                                )
+                            }
+
+                            order.shop?.title?.let { title ->
+                                input_title.setText(title)
+                                insertOrUpdateTransferOutOrderViewModel.title = title
+                            }
+
+
+                            order.shop?.size.toString().let { size ->
+                                button_select_size.setText(size)
+                                insertOrUpdateTransferOutOrderViewModel.size = size
+                            }
+
+                            order.shop?.fee.toString().let { fee ->
+                                input_fee.setText(fee)
+                                insertOrUpdateTransferOutOrderViewModel.fee = fee
+                            }
+
+                            order.shop?.rent.toString().let { rent ->
+                                bt_select_rent.setText(rent)
+                                insertOrUpdateTransferOutOrderViewModel.rent = rent
+                            }
+
+                            order.shop?.includeFacilities?.let { include ->
+                                insertOrUpdateTransferOutOrderViewModel.exclusive = include
+                                if (include == 0) {
+                                    button_select_empty_transfer.text = "不可空转"
+                                } else {
+                                    button_select_empty_transfer.text = "可空转"
+                                }
+                            }
+
+                            order.shop?.runningState?.let { runningState ->
+                                insertOrUpdateTransferOutOrderViewModel.state = runningState
+                                if (runningState == 0) {
+                                    button_select_state.text = "已停业"
+                                } else {
+                                    button_select_state.text = "营业中"
+                                }
+                            }
+
+                            order.shop?.formattedArea?.let { finalLocationNode ->
+                                button_select_area.text = finalLocationNode
+                            }
+
+
+                            order.shop?.address?.let { addressObj ->
+                                edit_user_address.setText(addressObj.addressDetail)
+                                insertOrUpdateTransferOutOrderViewModel.address =
+                                    addressObj.addressDetail
+
+                                addressObj.locationNodes?.let { locationNodes ->
+                                    if (locationNodes.isNotEmpty()) {
+                                        insertOrUpdateTransferOutOrderViewModel.area =
+                                            locationNodes[locationNodes.size - 1].nodeID.toString()
+                                    } else insertOrUpdateTransferOutOrderViewModel.area = ""
+                                }
+                            }
+
+                            order.shop?.lng?.let {
+                                if (it != 0.0)
+                                    insertOrUpdateTransferOutOrderViewModel.lng = it
+                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+                            }
+
+                            order.shop?.lat?.let {
+                                if (it != 0.0)
+                                    insertOrUpdateTransferOutOrderViewModel.lat = it
+                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+                            }
+
+                            order.shop?.industry?.let { industry ->
+                                insertOrUpdateTransferOutOrderViewModel.industry = industry
+                            }
+
+                            order.shopOwner?.actualName?.let {
+                                input_name.setText(it)
+                                insertOrUpdateTransferOutOrderViewModel.contactName = it
+                            }
+
+                            order.shopOwner?.userPhoneNumber?.let {
+                                input_phone.setText(it)
+                                insertOrUpdateTransferOutOrderViewModel.contactPhone = it
+                            }
+
+                            order.shop?.formattedFinalIndustry?.let { finalIndustry ->
+                                button_select_industry.text = finalIndustry
+                            }
+
+                            order.shop?.facilities?.let {
+                                facilities_list.removeAllViews()
+                                val sb = StringBuilder()
+                                it.forEach { menuItem ->
+                                    sb.append(menuItem.menuID).append(",")
+                                    insertOrUpdateTransferOutOrderViewModel.facility =
+                                        sb.substring(0, sb.lastIndex)
+                                }
+                            }
+
+                            order.shop?.floor?.let {
+                                insertOrUpdateTransferOutOrderViewModel.floor = it
+                                if (it != 0) {
+                                    button_input_floor.setText(it.toString())
+                                }
+                            }
+
+                            order.shop?.description?.let { description ->
+                                input_description.setText(description)
+                                insertOrUpdateTransferOutOrderViewModel.description = description
+                            }
+
+                            order.shop?.environment?.let { environment ->
+                                input_enverment.setText(environment)
+                                insertOrUpdateTransferOutOrderViewModel.environment = environment
+                            }
+
+                            order.shop?.reason?.let { reason ->
+                                input_reason.setText(reason)
+                                insertOrUpdateTransferOutOrderViewModel.reason = reason
+                            }
+
+                            if (order.shop?.shopID.toString().isNullOrEmpty()) {
+                                edit_user_address.inputType = InputType.TYPE_NULL
+                            }
+                        }
                 }
             }
         }
-
-        API.logoutSignal.observe(this, Observer {
-            if (it == API.CODE_REQUIRE_LOGIN ||
-                it == API.CODE_AUTO_CODE_INVALID ||
-                it == API.CODE_AUTO_CODE_EXPIRED ||
-                it == API.CODE_AUTO_CODE_ERROR ||
-                it == API.CODE_AUTO_CODE_EMPTY ||
-                it == API.CODE_BANNED_USER
-            ) {
-                launchLoginActivity()
-            }
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        lifecycleScope.launch {
-            insertOrUpdateTransferOutOrderViewModel.requestSaveTransferOutOrderDetail()?.let {
-                    order ->
-                order.shop?.shopID.toString().let { id ->
-                    insertOrUpdateTransferOutOrderViewModel.type = id
-                }
-                order.shop?.images?.let { images ->
-                    insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(
-                        images.toMutableSet()
-                    )
-                }
-
-                order.shop?.title?.let { title ->
-                    input_title.setText(title)
-                    insertOrUpdateTransferOutOrderViewModel.title = title
-                }
-
-
-                order.shop?.size.toString().let { size ->
-                    button_select_size.setText(size)
-                    insertOrUpdateTransferOutOrderViewModel.size = size
-                }
-
-                order.shop?.fee.toString().let { fee ->
-                    input_fee.setText(fee)
-                    insertOrUpdateTransferOutOrderViewModel.fee = fee
-                }
-
-                order.shop?.rent.toString().let { rent ->
-                    bt_select_rent.setText(rent)
-                    insertOrUpdateTransferOutOrderViewModel.rent = rent
-                }
-
-                order.shop?.includeFacilities?.let { include ->
-                    insertOrUpdateTransferOutOrderViewModel.exclusive = include
-                    if (include == 0) {
-                        button_select_empty_transfer.text = "不可空转"
-                    } else {
-                        button_select_empty_transfer.text = "可空转"
-                    }
-                }
-
-                order.shop?.runningState?.let { runningState ->
-                    insertOrUpdateTransferOutOrderViewModel.state = runningState
-                    if (runningState == 0) {
-                        button_select_state.text = "已停业"
-                    } else {
-                        button_select_state.text = "营业中"
-                    }
-                }
-
-                order.shop?.formattedArea?.let { finalLocationNode ->
-                    button_select_area.text = finalLocationNode
-                }
-
-
-                order.shop?.address?.let { addressObj ->
-                    edit_user_address.setText(addressObj.addressDetail)
-                    insertOrUpdateTransferOutOrderViewModel.address =
-                        addressObj.addressDetail
-
-                    addressObj.locationNodes?.let { locationNodes ->
-                        if (locationNodes.isNotEmpty()) {
-                            insertOrUpdateTransferOutOrderViewModel.area =
-                                locationNodes[locationNodes.size - 1].nodeID.toString()
-                        } else insertOrUpdateTransferOutOrderViewModel.area = ""
-                    }
-                }
-
-                order.shop?.lng?.let {
-                    if (it != 0.0)
-                        insertOrUpdateTransferOutOrderViewModel.lng = it
-                    else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
-                }
-
-                order.shop?.lat?.let {
-                    if (it != 0.0)
-                        insertOrUpdateTransferOutOrderViewModel.lat = it
-                    else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
-                }
-
-                order.shop?.industry?.let { industry ->
-                    insertOrUpdateTransferOutOrderViewModel.industry = industry
-                }
-
-                order.shopOwner?.actualName?.let {
-                    input_name.setText(it)
-                    insertOrUpdateTransferOutOrderViewModel.contactName = it
-                }
-
-                order.shopOwner?.userPhoneNumber?.let {
-                    input_phone.setText(it)
-                    insertOrUpdateTransferOutOrderViewModel.contactPhone = it
-                }
-
-                order.shop?.formattedFinalIndustry?.let { finalIndustry ->
-                    button_select_industry.text = finalIndustry
-                }
-
-                order.shop?.facilities?.let {
-                    facilities_list.removeAllViews()
-                    val sb = StringBuilder()
-                    it.forEach { menuItem ->
-                        sb.append(menuItem.menuID).append(",")
-                        insertOrUpdateTransferOutOrderViewModel.facility =
-                            sb.substring(0, sb.lastIndex)
-                    }
-                }
-
-                order.shop?.floor?.let {
-                    insertOrUpdateTransferOutOrderViewModel.floor = it
-                    if (it != 0) {
-                        button_input_floor.setText(it.toString())
-                    }
-                }
-
-                order.shop?.description?.let { description ->
-                    input_description.setText(description)
-                    insertOrUpdateTransferOutOrderViewModel.description = description
-                }
-
-                order.shop?.environment?.let { environment ->
-                    input_enverment.setText(environment)
-                    insertOrUpdateTransferOutOrderViewModel.environment = environment
-                }
-
-                order.shop?.reason?.let { reason ->
-                    input_reason.setText(reason)
-                    insertOrUpdateTransferOutOrderViewModel.reason = reason
-                }
-            }
-        }
-
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            Log.d("---imageicon", "shop--- imagePath data= " + data)
             Matisse.obtainPathResult(data).let { list ->
+                Log.d("---imageicon", "shop--- imagePath list= " + list)
                 insertOrUpdateTransferOutOrderViewModel.selectedImages.value?.let {
                     it.addAll(list)
                     insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(it)

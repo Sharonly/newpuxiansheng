@@ -15,10 +15,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.MainActivity
-import com.puxiansheng.www.ui.order.TransferInOrdersActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
-import com.puxiansheng.www.ui.order.TransferSuccessOrderActivity
+import com.puxiansheng.www.ui.order.*
 import kotlinx.android.synthetic.main.fragment_message_detail.*
 import kotlinx.coroutines.launch
 
@@ -76,10 +73,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         }
 
                                         "activity_list" -> {//文章列表
-                                            val intent = Intent(
-                                                this@MessageDetailActivity,
-                                                MainActivity::class.java
-                                            )
+                                            val intent = Intent(this@MessageDetailActivity, MainActivity::class.java)
                                             intent.putExtra("name", "5")
                                             startActivity(intent)
                                         }
@@ -87,10 +81,7 @@ class MessageDetailActivity() : MyBaseActivity() {
 
                                         }
                                         "shop_success" -> {//成功案例
-                                            val intent = Intent(
-                                                this@MessageDetailActivity,
-                                                TransferSuccessOrderActivity::class.java
-                                            )
+                                            val intent = Intent(this@MessageDetailActivity, TransferSuccessOrderActivity::class.java)
                                             startActivity(intent)
                                         }
                                     }
@@ -101,24 +92,22 @@ class MessageDetailActivity() : MyBaseActivity() {
                                     startActivity(intent)
                                 }
                                 3 -> {//找店详情
-                                    val intent = Intent(
-                                        this@MessageDetailActivity,
-                                        TransferInOrdersActivity::class.java
-                                    )
+
+                                    //TODO
+                                  // val intent = Intent(this@MessageDetailActivity, TransferInOrdersActivity::class.java)
+                                    val intent = Intent(this@MessageDetailActivity, TransferInOrderDetailActivity::class.java)
                                     intent.putExtra("shopID", menuItem.jump_param?.toInt())
                                     startActivity(intent)
                                 }
                                 4 -> {//转铺详情
-                                    val intent = Intent(
-                                        this@MessageDetailActivity,
+                                    val intent = Intent(this@MessageDetailActivity,
                                         TransferOutOrderDetailActivity::class.java
                                     )
                                     intent.putExtra("shopID", menuItem.jump_param?.toInt())
                                     startActivity(intent)
                                 }
                                 5 -> {//文章详情
-                                    val intent = Intent(
-                                        this@MessageDetailActivity,
+                                    val intent = Intent(this@MessageDetailActivity,
                                         InfoDetailActivity::class.java
                                     )
                                     intent.putExtra("url", menuItem.jump_param)

@@ -1,13 +1,18 @@
 package com.puxiansheng.www.ui.mine.setting
 
 import android.app.Application
-import android.util.Log
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.data.common.CommonDataRepository
+import com.puxiansheng.logic.data.order.UploadImageWorker
+import com.puxiansheng.logic.data.user.UploadIconWorker
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
 import com.puxiansheng.util.http.APIRst
@@ -32,7 +37,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     var contactPhone: String? = null
     var address: String? = null
     var cityId = 0
-    var iconImg: String? = null
+    var iconImg = ""
     val toastMsg = MutableLiveData<String>()
     val currentUser = MutableLiveData<User>()
     var configTitle = ""
@@ -55,13 +60,34 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
 //            }
         }
     }
+
+
+//    suspend fun submitUserIcon(iconImageUri: Uri) =
+//        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+//            userRepository.submitUserIcon(iconImg)
+//                .let {
+//                    if (it.succeeded) (it as APIRst.Success).data else null
+//                }
+//        }
+
+    fun uploadIcon(imageUrl:String) =viewModelScope.launch(Dispatchers.IO) {
+        OneTimeWorkRequest.Builder(UploadIconWorker::class.java).setInputData(
+            Data.Builder()
+                .putString(UploadIconWorker.ImagePath, imageUrl)
+                .putString(UploadIconWorker.TOKEN, API.currentSignatureToken)
+                .build()
+        ).build().let {
+            WorkManager.getInstance(context).enqueue(it)
+        }
+    }
+
+
     suspend fun submitUserInfo() =
         withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             userRepository.submitUserInfo(
                 nickName,
                 sex.toString(),
                 actualName,
-                iconImg,
                 address,
                 cityId
             )

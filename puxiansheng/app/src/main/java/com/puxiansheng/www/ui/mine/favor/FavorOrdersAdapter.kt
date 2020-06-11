@@ -31,12 +31,8 @@ class FavorOrdersAdapter(
         LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
             mContext = parent.context
             when (viewType) {
-                R.layout.fragment_favor_order_list_transfer_out_item -> FavorTransferOutOrderViewHolder(
-                    it
-                )
-                R.layout.fragment_favor_order_list_transfer_in_item -> FavorTransferInOrderViewHolder(
-                    it
-                )
+                R.layout.fragment_favor_order_list_transfer_out_item -> FavorTransferOutOrderViewHolder(it)
+                R.layout.fragment_favor_order_list_transfer_in_item -> FavorTransferInOrderViewHolder(it)
                 else -> EmptyOrderViewHolder(it)
             }
         }
@@ -68,10 +64,7 @@ class FavorOrdersAdapter(
         }
     }
 
-    override fun onBindViewHolder(
-        holder: OrderViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         //if (type == Order.Type.EMPTY.value()) return
 
         /*maxItem?.let { max ->
@@ -88,15 +81,11 @@ class FavorOrdersAdapter(
     }
 
 
-    abstract inner class OrderViewHolder(
-        override val containerView: View
-    ) : RemoveViewHolder(mContext, containerView), LayoutContainer {
+    abstract inner class OrderViewHolder(override val containerView: View) : RemoveViewHolder(mContext, containerView), LayoutContainer {
         abstract fun bind(item: Order?)
     }
 
-    inner class LoadingViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class LoadingViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
 
         override fun bind(item: Order?) {
 
@@ -104,9 +93,7 @@ class FavorOrdersAdapter(
     }
 
 
-    inner class FavorTransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class FavorTransferOutOrderViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
         private val binding = FragmentFavorOrderListTransferOutItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
@@ -151,15 +138,19 @@ class FavorOrdersAdapter(
                 onDelete?.let { select -> select(item) }
             }
 
-            binding.root.setOnClickListener {
+
+            //TODO 根布局要替换
+//            binding.root.setOnClickListener {
+//                onItemSelect?.let { select -> select(item) }
+//            }
+
+            binding.itemLayout.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
             }
         }
     }
 
-    inner class FavorTransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class FavorTransferInOrderViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
         private val binding = FragmentFavorOrderListTransferInItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n")
@@ -191,15 +182,17 @@ class FavorOrdersAdapter(
                 onDelete?.let { select -> select(item) }
             }
 
-            binding.root.setOnClickListener {
+            //TODO 根布局要替换
+//            binding.root.setOnClickListener {
+//                onItemSelect?.let { select -> select(item) }
+//            }
+            binding.itemLayout.setOnClickListener {
                 onItemSelect?.let { select -> select(item) }
             }
         }
     }
 
-    inner class MineTransferOutOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class MineTransferOutOrderViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
         private val binding = FragmentOrdersMineTransferOutItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n", "Range")
@@ -254,9 +247,7 @@ class FavorOrdersAdapter(
         }
     }
 
-    inner class MineTransferInOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class MineTransferInOrderViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
         private val binding = FragmentOrdersMineTransferInItemBinding.bind(containerView)
 
         @SuppressLint("SetTextI18n", "Range")
@@ -301,9 +292,7 @@ class FavorOrdersAdapter(
 
 
 
-    inner class EmptyOrderViewHolder(
-        override val containerView: View
-    ) : OrderViewHolder(containerView) {
+    inner class EmptyOrderViewHolder(override val containerView: View) : OrderViewHolder(containerView) {
 
         override fun bind(item: Order?) {
 

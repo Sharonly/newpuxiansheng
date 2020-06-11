@@ -63,7 +63,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
@@ -73,6 +73,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
                 <com.puxiansheng.www.common.ImageSwitcher
                     android:id="@+id/image_switcher"
@@ -233,7 +234,7 @@
                         android:id="@+id/map_view"
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
-                        android:background="#FBFBFB" />
+                         />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -455,6 +456,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recommend_orders"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
@@ -465,20 +467,31 @@
 
             </FrameLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-                <com.puxiansheng.www.common.CircleImageView
-                    android:id="@+id/bt_connect_kf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_zixun"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginRight="16.5dp"
-                    android:background="@color/tanslate"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
+<!--                <com.puxiansheng.www.common.CircleImageView-->
+<!--                    android:id="@+id/bt_connect_kf"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@mipmap/ic_zixun"-->
+<!--                    android:layout_gravity="bottom|end"-->
+<!--                    android:layout_marginBottom="40dp"-->
+<!--                    android:layout_marginRight="16.5dp"-->
+<!--                    android:background="@color/tanslate"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintRight_toRightOf="parent"/>-->
 
+
+        <ImageView
+            android:id="@+id/bt_connect_kf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_zixun"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="16.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

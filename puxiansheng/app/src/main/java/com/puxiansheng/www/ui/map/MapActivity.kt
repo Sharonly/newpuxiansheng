@@ -46,10 +46,7 @@ class MapActivity : MyBaseActivity() {
         map_webview.apply {
             webChromeClient = WebChromeClient()
             webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
-                ): Boolean {
+                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                     if (!request?.url.toString().startsWith("http://callback")) {
                         view?.loadUrl(request?.url.toString())
                     } else {

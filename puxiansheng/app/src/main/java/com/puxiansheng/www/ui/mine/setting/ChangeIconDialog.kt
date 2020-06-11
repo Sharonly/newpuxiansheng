@@ -1,8 +1,8 @@
 package com.puxiansheng.www.ui.mine.setting
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,9 +20,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
+import com.puxiansheng.logic.util.GlideImageEngine
+import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.databinding.DialogChangeIconBinding
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.internal.entity.CaptureStrategy
 import java.io.File
 import java.io.IOException
+
 
 class ChangeIconDialog() : DialogFragment() {
     private lateinit var binding: DialogChangeIconBinding
@@ -68,35 +74,48 @@ class ChangeIconDialog() : DialogFragment() {
                 )
             } else {
                 val intent = Intent("android.intent.action.GET_CONTENT")
-                intent.setType("image/*")
+                intent.type = "image/*"
                 requireActivity().startActivityForResult(intent, 102)
+
+//                Matisse.from(requireActivity())
+//                    .choose(MimeType.ofImage())
+//                    .countable(true)
+//                    .maxSelectable(1)
+//                    .capture(true)
+//                    .captureStrategy(
+//                        CaptureStrategy(
+//                            false,
+//                            "${requireActivity().packageName}.fileProvider"
+//                        )
+//                    )
+//                    .gridExpectedSize(resources.displayMetrics.widthPixels / 3)
+//                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                    .thumbnailScale(0.75f)
+//                    .imageEngine(GlideImageEngine())
+//                    .forResult(102)
             }
             dismiss()
-
         }
         binding.btTakePicture.setOnClickListener {
             dismiss()
             var outputImage = File(Environment.DIRECTORY_PICTURES, "pxs_icon.jpg")
-            try {
-                if (outputImage.exists()) {
-                    outputImage.delete()
-                }
-            } catch (ex: IOException) {
-                ex.printStackTrace()
+            if (outputImage.exists()) {
+                outputImage.delete()
             }
+
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 imageUri = Uri.fromFile(outputImage)
             } else {
                 imageUri = FileProvider.getUriForFile(
-                    requireActivity(),
-                    "${requireContext().packageName}.fileProvider",
+                    requireActivity(), "${requireContext().packageName}.fileProvider",
                     outputImage
                 )
             }
-            Log.d("---icon--","dialog  imageUri = "+imageUri)
+            Log.d("---imageicon--", "dialog  imageUri = " + imageUri)
             val intent = Intent("android.media.action.IMAGE_CAPTURE")
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             requireActivity().startActivityForResult(intent, 101)
+
         }
 
         binding.btCancel.setOnClickListener { dismiss() }

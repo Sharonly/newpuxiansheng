@@ -1,8 +1,6 @@
 package com.puxiansheng.www.ui.mine.history
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,20 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.url
-import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentInfoListBinding
-import com.puxiansheng.www.ui.info.InfoDetailActivity
-import kotlinx.android.extensions.LayoutContainer
+import com.puxiansheng.www.ui.mine.favor.FavorInfoAdapter
 import kotlinx.coroutines.launch
 
 class BrowsingHistoryInfoFragment : Fragment() {
@@ -56,7 +49,21 @@ class BrowsingHistoryInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        InfoListAdapter().let { adapter ->
+        FavorInfoAdapter(requireContext(),type = InfoItem.Type.ARTICLE_HISTORY.value()).let { adapter ->
+            adapter.addLoadStateListener{loadType, _, _ ->
+                if (loadType == PagedList.LoadType.END) {
+                    if (adapter.itemCount == 0) {
+                        adapter.type = Order.Type.EMPTY.value()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+                if (loadType == PagedList.LoadType.REFRESH) {
+                    if (adapter.type != InfoItem.Type.ARTICLE_HISTORY.value()) {
+                        adapter.type = InfoItem.Type.ARTICLE_HISTORY.value()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
             list.adapter = adapter
             lifecycleScope.launch {
                 LivePagedListBuilder<Int, InfoItem>(
@@ -77,38 +84,4 @@ class BrowsingHistoryInfoFragment : Fragment() {
         viewModel.refresh()
     }.root
 
-    inner class InfoListAdapter : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
-        InfoItem.DIFF
-    ) {
-        inner class InfoViewHolder(
-            override val containerView: View
-        ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-            private val binding = FragmentInfoItemBinding.bind(containerView)
-
-            @SuppressLint("SetTextI18n")
-            fun bind(infoItem: InfoItem?) {
-                binding.title.text = infoItem?.title
-                binding.data.text = infoItem?.date
-                binding.pageViews.text = infoItem?.pageViews.toString()
-                binding.icon.url(infoItem?.image ?: "")
-                binding.root.setOnClickListener {
-                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
-                    intent.putExtra("url", infoItem?.jump_param)
-                    startActivity(intent)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ) = InfoViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.fragment_info_item, parent, false)
-        )
-
-        override fun onBindViewHolder(
-            holder: InfoViewHolder,
-            position: Int
-        ) = holder.bind(getItem(position))
-    }
 }

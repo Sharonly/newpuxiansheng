@@ -37,12 +37,6 @@
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <meta-data
-        android:name="TencentMapSDK"
-        android:value="O2IBZ-X2RH4-ZKNUJ-DSGQT-RQGVK-TZF4W" />
-<!--    <meta-data-->
-<!--        android:name="TencentMapSDK"-->
-<!--        android:value="TMSBZ-BKGWK-3O2JH-AYOVY-SDCYO-QPFJ3" />-->
 
 
     <application
@@ -161,6 +155,11 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="667" />
+
+        <!--以后替换为自己的key-->
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="TMSBZ-BKGWK-3O2JH-AYOVY-SDCYO-QPFJ3" />
 
     </application>
 

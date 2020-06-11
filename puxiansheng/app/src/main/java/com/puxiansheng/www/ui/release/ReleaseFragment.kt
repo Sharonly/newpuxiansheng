@@ -39,11 +39,7 @@ class ReleaseFragment : AppFragment() {
     @ObsoleteCoroutinesApi
     @ExperimentalCoroutinesApi
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = rootView ?: FragmentReleaseBinding.inflate(inflater).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = rootView ?: FragmentReleaseBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         lifecycleScope.launch {
@@ -58,19 +54,14 @@ class ReleaseFragment : AppFragment() {
 
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
-                    val intent =
-                        Intent(
-                            requireActivity(),
-                            InsertOrUpdateTransferOutOrderActivity::class.java
-                        )
+                    val intent = Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
                     startActivity(intent)
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
 //
 //                }
             } else {
-                val intent =
-                    Intent(requireActivity(), LoginActivity::class.java)
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -81,8 +72,7 @@ class ReleaseFragment : AppFragment() {
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
-                    val intent =
-                        Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
+                    val intent = Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
                     startActivity(intent)
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
@@ -91,8 +81,7 @@ class ReleaseFragment : AppFragment() {
 
 
             } else {
-                val intent =
-                    Intent(requireActivity(), LoginActivity::class.java)
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             }
 

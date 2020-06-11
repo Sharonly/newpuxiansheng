@@ -85,7 +85,7 @@ class RemoteOrderRepository {
         facility: String? = null,
         reason: String? = null,
         label: String? = null
-    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+    ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
         url = API.SUBMIT_TRANSFER_OUT_ORDER,
         fieldMap = mutableMapOf(
             "id" to type,

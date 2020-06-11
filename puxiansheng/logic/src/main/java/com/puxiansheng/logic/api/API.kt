@@ -80,6 +80,7 @@ object API {
     const val GET_VERIFICATION_CODE = API_ADDRESS + "api/send_msg.html"
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
+    const val SAVE_USER_ICON = API_ADDRESS+"api/upload/header_img.html"
 
     const val GET_JOIN_LIST = API_ADDRESS + "api/join/get_list.html"
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
@@ -219,23 +220,17 @@ object API {
         interceptor.setCityId(id)
     }
 
-    fun callForJson(
-        request: Request
-    ) = callForJson(
+    fun callForJson(request: Request) = callForJson(
         req = request,
         client = httpClient
     )
 
-    inline fun <reified T> call(
-        request: Request
-    ) = call<T>(
+    inline fun <reified T> call(request: Request) = call<T>(
         req = request,
         client = httpClient
     )
 
-    inline fun <reified T> callAny(
-        request: Request
-    ) = callAny<T>(
+    inline fun <reified T> callAny(request: Request) = callAny<T>(
         req = request,
         client = httpClient
     )

@@ -248,6 +248,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         systemRepository.requestRemoteSystemConfig().let { apiRst ->
             if (apiRst.succeeded) {
                 (apiRst as APIRst.Success).data.data?.config?.let {
+
+                    println("获取系统配置信息-->${it}")
                     systemRepository.insertOrUpdateSystemConfig(it)
                 }
             }
@@ -352,7 +354,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun pictureIntent(context: Activity, image: BannerImage) {
-        Log.d("---jump--"," pictureIntent ")
+        Log.d("---jump--"," pictureIntent--->${image.jump_param}--->${image.imageUrl}")
         when (image.jump_type) {
             1 -> {
                 when (image.jump_view) {
@@ -380,9 +382,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             2 -> {//打开链接
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(image.jump_param)
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse(image.jump_param)
+//                context.startActivity(intent)
+
+                //TODO  2020/6/8
+                val intent = Intent(context, InfoDetailActivity::class.java)
+                intent.putExtra("url", image.jump_param)
                 context.startActivity(intent)
+
             }
             3 -> {//找店详情
                 val intent = Intent(context, TransferInOrdersActivity::class.java)

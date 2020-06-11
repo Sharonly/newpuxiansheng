@@ -328,8 +328,7 @@ class LoginActivity : MyBaseActivity() {
                                     )
 //                                API.setAuthToken(result.token)
                                     LiveDataBus.get().with("user")?.value = result
-                                    val intent =
-                                        Intent(this@LoginActivity, MainActivity::class.java)
+                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                     Log.d("---login--", "MainActivity user= " + result)
                                     startActivity(intent)
                                 }

@@ -47,9 +47,12 @@ class InfoHomeListFragment : AppFragment() {
     ): View? = rootView ?: FragmentInfoHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        buttonBack.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigateUp()
-        }
+        //TODO
+        buttonBack.visibility=View.INVISIBLE
+//        buttonBack.setOnClickListener {
+//            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigateUp()
+//        }
+
 
         btSearch.addTextChangedListener {
             infoListViewModel.title = it.toString()

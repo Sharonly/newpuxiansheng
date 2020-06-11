@@ -48,8 +48,8 @@ class FavoriteTransferOutOrdersFragment : AppFragment() {
         }
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        list.adapter = FavorOrdersAdapter(
-            type = Order.Type.TRANSFER_OUT_FAVORITE.value(),
+
+        list.adapter = FavorOrdersAdapter(type = Order.Type.TRANSFER_OUT_FAVORITE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
                 intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)

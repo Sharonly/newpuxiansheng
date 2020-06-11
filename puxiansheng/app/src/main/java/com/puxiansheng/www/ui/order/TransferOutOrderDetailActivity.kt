@@ -1,62 +1,45 @@
 package com.puxiansheng.www.ui.order
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
-import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
-import com.puxiansheng.www.databinding.FragmentTransferOutOrderDetailBinding
+import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
-import com.puxiansheng.www.ui.release.ReleaseFacilityAdapter
-import com.tencent.mm.opensdk.utils.Log
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
+import com.tencent.tencentmap.mapsdk.maps.TencentMap
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.button_back
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.expand_description
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.facilities
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.page_views
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.publish_date
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.rent
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.shop_number
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.shop_title
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.size
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlin.text.category
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class TransferOutOrderDetailActivity : MyBaseActivity() {
+
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
+
     private lateinit var viewModel: TransferOutOrderDetailViewModel
+    private var tencentMap:TencentMap?=null
     private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
 
     override fun getLayoutId(): Int {
@@ -65,11 +48,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
     override fun business() {
         viewModel = ViewModelProvider(this)[TransferOutOrderDetailViewModel::class.java]
-        ActivityCompat.requestPermissions(
-            this,
-            requiredPermissions,
-            requestCodePermissions
-        )
+        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
         initView()
     }
 
@@ -77,10 +56,34 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
         button_back.setOnClickListener {
             onBackPressed()
         }
+
+        bt_more.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.requestTransferOutOrderDetail(
+                    intent.getIntExtra("shopID", 0).toString()
+                )?.let { order ->
+                    MoreManagerDialog(
+                        order.shop?.shopID.toString(),
+                        0,
+                        order.favorite
+                    ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
+                }
+            }
+
+        }
+
+        //TODO
+        tencentMap = map_view.getMap()
+        val uiSettings = tencentMap?.getUiSettings()
+        uiSettings?.setLogoPosition(3)
+        uiSettings?.setZoomControlsEnabled(true)
+        uiSettings?.setZoomPosition(0)
+        uiSettings?.setMyLocationButtonEnabled(true)
+        tencentMap?.setMyLocationEnabled(true)
+
         lifecycleScope.launch {
 //            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))
-            viewModel.requestTransferOutOrderDetail(intent.getIntExtra("shopID", 0).toString())
-                ?.let { order ->
+            viewModel.requestTransferOutOrderDetail(intent.getIntExtra("shopID", 0).toString())?.let { order ->
 //                    if(order.shop?.images?.size == 0)
 //                        imageSwitcher.setImages(list)
                     if (order.shop?.images?.size == 0) {
@@ -91,9 +94,17 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                         }?.let { list ->
                             image_switcher.setImages(list)
                             img_index.text = image_switcher.getCurrentPos().toString()+"/"+list.size
+                            image_switcher.listener=object :ImageSwitcher.OnPageChange{
+                                override fun onScrolled(index: Int) {
+                                    img_index.text = image_switcher.getCurrentPos().toString()+"/"+list.size
+                                }
+
+                            }
+
                         }
 
                     }
+
 
                     shop_title.text = order.shop?.title
                     shop_number.text = "店铺编号：${order.shop?.shopID}"
@@ -108,39 +119,31 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     state.text = order.shop?.viewOpening
                     can_empty.text = order.shop?.viewCanEmpty
 
+                    //TODO  现获取经纬度是0，初步怀疑是本地double类型与后台冲突，牵涉太多不好改，现用东莞经纬度测试
+                    order.shop?.lng=113.75179
+                    order.shop?.lat=23.02067
 
-                    val tencentMap = map_view.getMap()
                     //中心点
                     val cp = CameraPosition(order.shop?.lat?.let {
                         order.shop?.lng?.let { it1 ->
-                            LatLng(
-                                it,
-                                it1
-                            )
+                            LatLng(it, it1)
                         }
                     }, 15f, 45f, 45f)
                     val cameraUpdate = CameraUpdateFactory.newCameraPosition(cp)
-                    tencentMap.moveCamera(cameraUpdate)
-                    //设置
-                    val uiSettings = tencentMap.getUiSettings()
-                    uiSettings.setLogoPosition(3)
+                    tencentMap?.moveCamera(cameraUpdate)
+
                     //设置浮窗
-                    val marker = tencentMap.addMarker(
-                        MarkerOptions()
-                            .position(order.shop?.lat?.let {
+                    tencentMap?.addMarker(MarkerOptions().position(order.shop?.lat?.let {
                                 order.shop?.lng?.let { it1 ->
-                                    LatLng(
-                                        it,
-                                        it1
-                                    )
+                                    LatLng(it, it1)
                                 }
                             })
 //                            .title("${bean.area_path_name}-${bean.address}")
                             .anchor(0.5f, 0.5f)
                             .icon(BitmapDescriptorFactory.defaultMarker())
                             .draggable(true)
-                    )
-                    marker.showInfoWindow()
+                     )?.showInfoWindow()
+
 
                     if (order.shop?.isSuccess == 1) {
                         img_success.visibility = View.VISIBLE
@@ -151,16 +154,10 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
                     }
 
-                    bt_more.setOnClickListener {
-                        MoreManagerDialog(order.shop?.shopID.toString(), 0, order.favorite).show(
-                            supportFragmentManager,
-                            MoreManagerDialog::class.java.name
-                        )
-                    }
+
 
                     order.shop?.formattedFacilities?.let { facilityItems ->
-                        facilities.layoutManager =
-                            GridLayoutManager(this@TransferOutOrderDetailActivity, 6)
+                        facilities.layoutManager = GridLayoutManager(this@TransferOutOrderDetailActivity, 6)
                         facilities.adapter = FacilityAdapter(facilityItems)
                     }
 
@@ -211,20 +208,15 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
 
             if (recommend_orders.visibility == View.VISIBLE) {
-                recommend_orders.layoutManager =
-                    GridLayoutManager(this@TransferOutOrderDetailActivity, 2)
-                recommend_orders.adapter =
-                    RecommendOrderAdapter(mutableListOf(), onItemSelect = {
-                        val intent = Intent(
-                            this@TransferOutOrderDetailActivity,
+                recommend_orders.layoutManager = GridLayoutManager(this@TransferOutOrderDetailActivity, 2)
+                recommend_orders.adapter = RecommendOrderAdapter(mutableListOf(), onItemSelect = {
+                        val intent = Intent(this@TransferOutOrderDetailActivity,
                             TransferOutOrderDetailActivity::class.java
                         )
                         intent.putExtra("shopID", it?.shopID?.toInt())
                         startActivity(intent)
                     })
-                viewModel.requestUserLikeShopList(
-                    cityId.toString(),
-                    intent.getIntExtra("shopID", 0).toString()
+                viewModel.requestUserLikeShopList(cityId.toString(), intent.getIntExtra("shopID", 0).toString()
                 )?.let {
                     (recommend_orders.adapter as RecommendOrderAdapter).setMenuData(it)
                 }
@@ -236,28 +228,31 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
 
     override fun onStart() {
-        super.onStart()
         map_view.onStart()
+        super.onStart()
+
     }
 
     override fun onResume() {
-        super.onResume()
         map_view.onResume()
+        super.onResume()
+
     }
 
     override fun onPause() {
-        super.onPause()
         map_view.onPause()
+        super.onPause()
+
     }
 
     override fun onStop() {
-        super.onStop()
         map_view.onStop()
+        super.onStop()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         map_view.onDestroy()
+        super.onDestroy()
     }
 
 

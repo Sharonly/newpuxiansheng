@@ -37,61 +37,73 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
         initView()
     }
 
-    private fun initView(){
+    private fun initView() {
         button_back.setOnClickListener {
-           onBackPressed()
+            onBackPressed()
         }
 
-        lifecycleScope.launch {
-            viewModel.requestTransferInOrderDetail(intent.getIntExtra("shopID", 0).toString())
-                ?.let { order ->
-                    button_more.setOnClickListener {
-                        MoreManagerDialog(order.shop?.shopID.toString(),1,order.favorite).show(
+        button_more.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.requestTransferInOrderDetail(intent.getIntExtra("shopID", 0).toString())
+                    ?.let { order ->
+                        MoreManagerDialog(order.shop?.shopID.toString(), 1, order.favorite).show(
                             supportFragmentManager,
                             MoreManagerDialog::class.java.name
                         )
                     }
-                    shop_title.text = order.shop?.title
+            }
 
-                    publish_date.text = order.shop?.formattedDate
+            lifecycleScope.launch {
+                viewModel.requestTransferInOrderDetail(intent.getIntExtra("shopID", 0).toString())
+                    ?.let { order ->
 
-                    shop_number.text = "编号：${order.shop?.shopID}"
+                        shop_title.text = order.shop?.title
 
-                    page_views.text = "浏览量：${order.shop?.formattedPageViews}"
+                        publish_date.text = order.shop?.formattedDate
 
-                    format_address.text =  "地址： ${order.shop?.formattedLocationNodes} ${order.shop?.address?.addressDetail}"
+                        shop_number.text = "编号：${order.shop?.shopID}"
 
-                    rent.text = order.shop?.formattedRent
+                        page_views.text = "浏览量：${order.shop?.formattedPageViews}"
 
-                    size.text = order.shop?.formattedSize
+                        format_address.text =
+                            "地址： ${order.shop?.formattedLocationNodes} ${order.shop?.address?.addressDetail}"
 
-                    industry.text = order.shop?.formattedFinalIndustry
+                        rent.text = order.shop?.formattedRent
 
-                    order.shop?.formattedFacilities?.let { facilityItems ->
-                        facilities.layoutManager = GridLayoutManager(this@TransferInOrderDetailActivity, 6)
-                        facilities.adapter = FacilityAdapter(facilityItems)
-                    }
+                        size.text = order.shop?.formattedSize
 
-                    bt_connect_kf.setOnClickListener {
-                        Intent(Intent.ACTION_DIAL).apply {
-                            data = Uri.parse("tel:${order.serviceAgent?.phone}")
-                            startActivity(this)
-                        }
-                    }
+                        industry.text = order.shop?.formattedFinalIndustry
 
-                    var str1: String = order.shop?.description.toString()
-                    expand_description.currentText = str1
-                    expand_description.clickListener = object : ExpandTextView.ClickListener {
-                        override fun onContentTextClick() {
-                            expand_description.currentText = str1
+                        order.shop?.formattedFacilities?.let { facilityItems ->
+                            facilities.layoutManager =
+                                GridLayoutManager(this@TransferInOrderDetailActivity, 6)
+                            facilities.adapter = FacilityAdapter(facilityItems)
                         }
 
-                        override fun onSpecialTextClick(currentExpand: Boolean) {
-                            expand_description.isExpand = !currentExpand
+                        bt_connect_kf.setOnClickListener {
+                            Intent(Intent.ACTION_DIAL).apply {
+                                data = Uri.parse("tel:${order.serviceAgent?.phone}")
+                                startActivity(this)
+                            }
                         }
+
+                        var str1: String = order.shop?.description.toString()
+                        expand_description.currentText = str1
+                        expand_description.clickListener = object : ExpandTextView.ClickListener {
+                            override fun onContentTextClick() {
+                                expand_description.currentText = str1
+                            }
+
+                            override fun onSpecialTextClick(currentExpand: Boolean) {
+                                expand_description.isExpand = !currentExpand
+                            }
+                        }
+
                     }
 
-                }
+
+            }
         }
+
     }
 }

@@ -73,7 +73,27 @@ class SearchActivity : MyBaseActivity() {
                 it.forEach { menuItem ->
                     recommend_list.addView(Chip(recommend_list.context).apply {
                         text = menuItem.name
+
+                        //TODO 2020.6.8
+                        setOnClickListener {
+                            search_content.setText(text)
+                            hideKeyboard(search_content)
+                            layout_recommend.visibility = View.GONE
+                            search_refresh.visibility = View.VISIBLE
+                            list.removeAllViews()
+                            when (searchViewModel.type) {
+                                0 -> orderOutViewModel.refresh(
+                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                                )
+                                1 -> orderInViewModel.refresh(
+                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+                                )
+                                2 -> businessViewModel.refresh()
+                            }
+                            getDateList()
+                        }
                     })
+
                 }
 //                Chip(recommend_list.context).apply {
 //                    text = menuItem.name
@@ -81,10 +101,11 @@ class SearchActivity : MyBaseActivity() {
 //                    Log.d("---Chip","=====OnClickListener "+menuItem.name)
 //                    search_content.setText(menuItem.name)
 //                }
-                recommend_list.setOnCheckedChangeListener { chipGroup, selectedId ->
-                    search_content.setText(it.get(selectedId).name)
+
+//                recommend_list.setOnCheckedChangeListener { chipGroup, selectedId ->
+//                    search_content.setText(it.get(selectedId).name)
 //                    Toast.makeText(this@SearchActivity, hintStr, Toast.LENGTH_SHORT).show()
-                }
+//                }
             }
         }
 
@@ -180,12 +201,7 @@ class SearchActivity : MyBaseActivity() {
         })
 
         type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 //切换选择
                 searchViewModel.type = position
                 Log.d("---search", "  searchViewModel.type = " + searchViewModel.type)
@@ -214,8 +230,7 @@ class SearchActivity : MyBaseActivity() {
             list.adapter = OrdersAdapter(
                 type = Order.Type.TRANSFER_OUT.value(),
                 onItemSelect = {
-                    val intent =
-                        Intent(this@SearchActivity, TransferOutOrderDetailActivity::class.java)
+                    val intent = Intent(this@SearchActivity, TransferOutOrderDetailActivity::class.java)
                     intent.putExtra("shopID", it?.shop?.shopID?.toInt())
                     startActivity(intent)
 
@@ -341,8 +356,7 @@ class SearchActivity : MyBaseActivity() {
     }
 
     fun hideKeyboard(view: View) {
-        val manager: InputMethodManager = view.context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val manager: InputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

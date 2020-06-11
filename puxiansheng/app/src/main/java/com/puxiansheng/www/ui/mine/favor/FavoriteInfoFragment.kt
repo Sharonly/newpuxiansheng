@@ -14,25 +14,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.url
-import com.puxiansheng.www.databinding.FragmentFavorInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.launch
 
 class FavoriteInfoFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteInfoListViewModel
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,9 +52,9 @@ class FavoriteInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        InfoListAdapter(onDelete = {
-            var deleteDialog = DeleteOrderDialog("确定要删除该条收藏资讯吗？",
-                InfoItem.Type.ARTICLE_FAVOR.value(), it?.itemID)
+        FavorInfoAdapter(requireContext(),type = InfoItem.Type.ARTICLE_FAVOR.value(),onDelete = {
+            var deleteDialog =
+                DeleteOrderDialog("确定要删除该条收藏资讯吗？", InfoItem.Type.ARTICLE_FAVOR.value(), it?.itemID)
             deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
             deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                 override fun onDiss() {
@@ -69,17 +62,28 @@ class FavoriteInfoFragment : Fragment() {
                 }
             }
         }).let { adapter ->
+            adapter.addLoadStateListener{loadType, _, _ ->
+                if (loadType == PagedList.LoadType.END) {
+                    if (adapter.itemCount == 0) {
+                        adapter.type = Order.Type.EMPTY.value()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+                if (loadType == PagedList.LoadType.REFRESH) {
+                    if (adapter.type != InfoItem.Type.ARTICLE_FAVOR.value()) {
+                        adapter.type = InfoItem.Type.ARTICLE_FAVOR.value()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
             list.adapter = adapter
             lifecycleScope.launch {
-                LivePagedListBuilder<Int, InfoItem>(
-                    viewModel.getFavorInfoFromRoom(),
-                    5
-                ).apply {
+                LivePagedListBuilder<Int, InfoItem>(viewModel.getFavorInfoFromRoom(), 5).apply {
                     setBoundaryCallback(object : PagedList.BoundaryCallback<InfoItem>() {
                         override fun onItemAtEndLoaded(itemAtEnd: InfoItem) {
                             super.onItemAtEndLoaded(itemAtEnd)
-                            viewModel.loadMore(
-                            )
+                            viewModel.loadMore()
                         }
                     })
                 }.build().observe(viewLifecycleOwner, Observer {
@@ -87,46 +91,7 @@ class FavoriteInfoFragment : Fragment() {
                 })
             }
         }
-
         viewModel.refresh()
     }.root
 
-    inner class InfoListAdapter( private val onDelete: ((infoItem: InfoItem?) -> Unit)? = null) : PagedListAdapter<InfoItem, InfoListAdapter.InfoViewHolder>(
-        InfoItem.DIFF
-    ) {
-        inner class InfoViewHolder(
-            override val containerView: View
-        ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-            private val binding = FragmentFavorInfoItemBinding.bind(containerView)
-
-            @SuppressLint("SetTextI18n")
-            fun bind(infoItem: InfoItem?) {
-                binding.title.text = infoItem?.title
-                binding.data.text = infoItem?.date
-                binding.pageViews.text = infoItem?.pageViews.toString()
-                binding.icon.url(infoItem?.image ?: "")
-                binding.root.setOnClickListener {
-                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
-                    intent.putExtra("url", infoItem?.jump_param)
-                    startActivity(intent)
-                }
-
-                binding.itemDelete.setOnClickListener {
-                    onDelete?.let { select -> select(infoItem) }
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ) = InfoViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.fragment_favor_info_item, parent, false)
-        )
-
-        override fun onBindViewHolder(
-            holder: InfoViewHolder,
-            position: Int
-        ) = holder.bind(getItem(position))
-    }
 }

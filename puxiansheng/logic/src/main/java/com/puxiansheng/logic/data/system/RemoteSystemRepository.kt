@@ -107,8 +107,7 @@ class RemoteSystemRepository {
     fun requestRemoteSystemConfig(): APIRst<APIResp<HttpRespSystemConfig>> = buildRequest(
         url = GET_SYSTEM_CONFIG,
         fieldMap = mutableMapOf<String, String>().also {
-            it["sign"] =
-                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+            it["sign"] = sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
         },
         method = METHOD.GET
     ).let {

@@ -46,11 +46,72 @@ class MineFragment : Fragment() {
         appModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = FragmentMineBinding.inflate(inflater).apply {
+
+
+    //TODO 思路1： 将onCreateView中的请求网络转移到下面2个方法中，可以保证此fragment每次可见都是最新的,
+
+    //TODO 思路2:  在其它页面通过livedatabus通知此fragment刷新，没试过不保证没有问题
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden){
+            lifecycleScope.launch {
+                mineViewModel.getReleaseCount()?.let {
+                    public_data.text = it.releaseData.toString()
+                    processing_data.text = it.processingData.toString()
+                    finish_data.text = it.finishData.toString()
+                }
+
+                mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
+                    banner.urlBg(banners.imageUrl)
+                }
+
+
+                mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
+                    bt_my_kefu.setOnClickListener {
+                        val intent = Intent(context, ServiceActivity::class.java)
+                        intent.putExtra("url", configInfo)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            //TODO  请求网络刷新页面
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            mineViewModel.getReleaseCount()?.let {
+                public_data.text = it.releaseData.toString()
+                processing_data.text = it.processingData.toString()
+                finish_data.text = it.finishData.toString()
+            }
+
+            mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
+                banner.urlBg(banners.imageUrl)
+            }
+
+
+            mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
+                bt_my_kefu.setOnClickListener {
+                    val intent = Intent(context, ServiceActivity::class.java)
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                }
+            }
+
+        }
+
+        //TODO 请求网络刷新页面
+    }
+
+
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = FragmentMineBinding.inflate(inflater).apply {
 
 //        if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //            isLogin = true
@@ -62,27 +123,6 @@ class MineFragment : Fragment() {
 //            userPhone.text = ""
 //        }
 
-        lifecycleScope.launch {
-            mineViewModel.getReleaseCount()?.let {
-                publicData.text = it.releaseData.toString()
-                processingData.text = it.processingData.toString()
-                finishData.text = it.finishData.toString()
-            }
-
-            mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
-                banner.urlBg(banners.imageUrl)
-            }
-
-
-            mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
-                btMyKefu.setOnClickListener {
-                    val intent = Intent(context, ServiceActivity::class.java)
-                    intent.putExtra("url", configInfo)
-                    startActivity(intent)
-                }
-            }
-
-        }
 
 
         userIcon.setOnClickListener {
@@ -172,10 +212,43 @@ class MineFragment : Fragment() {
 
 
 
+        //TODO 2020/6/8
         btRequest.setOnClickListener {
-            val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
-            startActivity(intent)
+            if (!isLogin) {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
+                startActivity(intent)
+            }
+
         }
+
+        //TODO 2020/6/9
+        privacy.setOnClickListener {
+            if (!isLogin) {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(requireActivity(),InfoDetailActivity::class.java)
+                intent.putExtra("url","www.baidu.com")
+                startActivity(intent)
+            }
+        }
+
+
+        //TODO 2020/6/9
+        messageManager.setOnClickListener {
+            if (!isLogin) {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(requireActivity(),InfoDetailActivity::class.java)
+                intent.putExtra("url","www.baidu.com")
+                startActivity(intent)
+            }
+        }
+
 
 
 
@@ -198,4 +271,6 @@ class MineFragment : Fragment() {
 
 
     }.root
+
+
 }

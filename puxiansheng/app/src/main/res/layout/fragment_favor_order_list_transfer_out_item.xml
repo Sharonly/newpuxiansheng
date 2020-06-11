@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.puxiansheng.www.common.SwipeMenuLayout
-        android:id="@+id/item_layout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:orientation="horizontal">
 
-    <RelativeLayout
+     <RelativeLayout
+         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginLeft="16dp"
@@ -126,15 +127,15 @@
            />
     </RelativeLayout>
 
-        <TextView
-            android:id="@+id/item_delete"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:background="#88ff0000"
-            android:gravity="center"
-            android:text="删除"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
+     <TextView
+        android:id="@+id/item_delete"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:background="#88ff0000"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
     </com.puxiansheng.www.common.SwipeMenuLayout>
 

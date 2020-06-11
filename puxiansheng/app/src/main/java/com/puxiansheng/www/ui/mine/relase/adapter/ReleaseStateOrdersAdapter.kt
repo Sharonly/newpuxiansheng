@@ -110,19 +110,30 @@ class ReleaseStateOrdersAdapter(
             }
 
             item?.status?.let { status ->
+
+
                 binding.status.text = status.text
                 binding.status.setTextColor(Color.parseColor(status.color))
-                if(status.text == "已发布" || status.text == "已过期"){
+
+                if(status.text == "已发布" || status.text == "已过期"||status.text == "在审核"){
                     binding.btRefresh.visibility =  View.VISIBLE
                 }else{
                     binding.btRefresh.visibility =  View.INVISIBLE
                 }
 
                 if(status.text == "已下架" || status.text == "已完结" || status.text == "已成交"){
-                    binding.btRefresh.visibility =  View.INVISIBLE
+                    binding.btEdit.visibility =  View.INVISIBLE
                 }else{
-                    binding.btRefresh.visibility =  View.VISIBLE
+                    binding.btEdit.visibility =  View.VISIBLE
                 }
+
+                //TODO 不确定是这样判断
+//                if(status.text == "再审核" || status.text == "未通过" || status.text == "未审核"){
+//                    binding.btRefresh.visibility =  View.INVISIBLE
+//                }else{
+//                    binding.btRefresh.visibility =  View.VISIBLE
+//                }
+
             }
 
             item?.shop?.formattedArea.let { it ->

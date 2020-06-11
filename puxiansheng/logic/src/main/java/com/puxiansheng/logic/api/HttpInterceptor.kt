@@ -19,7 +19,7 @@ class HttpInterceptor(
             .method(it.method, it.body)
             .addHeader("Authorization", authToken)
             .addHeader("SignToken", signatureToken)
-            .addHeader("city_id", cityId)
+            .addHeader("cityId", cityId)
     }.let {
         val resp = chain.proceed(it.build())
         val originalBody = resp.body?.string()

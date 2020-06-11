@@ -9,7 +9,8 @@ import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
 import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_info_detail.button_back
-import kotlinx.android.synthetic.main.fragment_info_detail.button_more
+import java.lang.Exception
+
 
 class InfoDetailActivity : MyBaseActivity(){
 
@@ -22,33 +23,34 @@ class InfoDetailActivity : MyBaseActivity(){
             onBackPressed()
         }
 
-        button_more.setOnClickListener {
+//        button_more.setOnClickListener {
 //            MoreManagerDialog(order.shop?.shopID.toString(),1,order.favorite).show(
 //                supportFragmentManager,
 //                MoreManagerDialog::class.java.name
 //            )
-        }
+//        }
 
         info_detail.apply {
-            webChromeClient = WebChromeClient()
+
+            //webChromeClient = WebChromeClient()
+            webChromeClient = MyWebView()
+
             webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
-                ): Boolean {
+
+                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                     view?.loadUrl(request?.url.toString())
                     return true
                 }
 
-                override fun onReceivedSslError(
-                    view: WebView?,
-                    handler: SslErrorHandler?,
-                    error: SslError?
-                ) {
+                override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
                     super.onReceivedSslError(view, handler, error)
                     handler?.proceed()
                 }
+
+
             }
+
+
             loadUrl(intent.getStringExtra("url").toString())
         }.settings.apply {
             javaScriptEnabled = true
@@ -61,5 +63,12 @@ class InfoDetailActivity : MyBaseActivity(){
         }
     }
 
+
+    inner class MyWebView:WebChromeClient(){
+        override fun onReceivedTitle(view: WebView?, title: String?) {
+            super.onReceivedTitle(view, title)
+            tv_webview_title.text=title
+        }
+    }
 
 }

@@ -27,7 +27,7 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
         }
     }
     private var infos: List<MarqueeInfo>? = null
-    private var itemClickListener: OnItemClickListener? = null
+    var itemClickListener: OnItemClickListener? = null
     private var timer: Timer? = null
 
     constructor(context: Context) : super(context, null) {
@@ -40,6 +40,9 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
 
 
     private fun init() {
+        //TODO 2020/6/8
+        setOnClickListener(this)
+
         if (timer == null) timer = Timer()
         setFactory(this)
         this.inAnimation = AnimationUtils.loadAnimation(
@@ -55,10 +58,7 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
     override fun onClick(v: View) {
         if (itemClickListener != null && infos?.size!! > 0 && index != -1) itemClickListener!!.onItemClick(index)
     }
-//
-//    fun onImageClick(onImageClick: (info: MarqueeInfo) -> Unit) {
-//        this.setOnClickListener(onImageClick( ))
-//    }
+
 
     fun setResources(infos: List<MarqueeInfo>?) {
         this.infos = infos
@@ -95,18 +95,19 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
         return TextView(context)
     }
 
+
     /**
      * 设置点击事件监听
      *
      * @param
      */
-    public fun setOnItemClickListener(OnItemClickListener: (item: MarqueeInfo) -> Unit) {}
+//    public fun setOnItemClickListener(OnItemClickListener: (item: MarqueeInfo) -> Unit) {}
 
 
     /**
      * 轮播文本点击监听器
      */
-    public interface OnItemClickListener {
+    interface OnItemClickListener {
         /**
          * 点击回调
          *

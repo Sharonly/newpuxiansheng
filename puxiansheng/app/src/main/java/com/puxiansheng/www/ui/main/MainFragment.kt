@@ -86,10 +86,7 @@ class MainFragment : NavHostFragment() {
 
                     R.id.navigation_release -> {
                         if (appModel.lastFragment !is ReleaseFragment) {
-                            childFragmentManager.beginTransaction().hide(appModel.lastFragment)
-                                .show(
-                                    releaseFragment
-                                ).commit()
+                            childFragmentManager.beginTransaction().hide(appModel.lastFragment).show(releaseFragment).commit()
                             appModel.lastFragment = releaseFragment
 
                         }
@@ -108,9 +105,7 @@ class MainFragment : NavHostFragment() {
                     R.id.navigation_mine -> {
                         if (appModel.lastFragment !is MineFragment) {
                             childFragmentManager.beginTransaction().hide(appModel.lastFragment)
-                                .show(
-                                    mineFragment
-                                ).commit()
+                                .show(mineFragment).commit()
                             appModel.lastFragment = mineFragment
                         }
                     }

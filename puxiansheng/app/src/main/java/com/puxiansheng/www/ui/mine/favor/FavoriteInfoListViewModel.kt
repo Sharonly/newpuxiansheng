@@ -26,7 +26,6 @@ class FavoriteInfoListViewModel (application: Application) : AndroidViewModel(ap
     fun loadMore(
     ) = viewModelScope.launch(Dispatchers.IO) {
           getFavorInfoFromRemote()
-
     }
 
     fun refresh(

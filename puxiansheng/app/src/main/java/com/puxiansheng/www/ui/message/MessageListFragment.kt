@@ -76,6 +76,8 @@ class MessageListFragment(): Fragment() {
             val intent = Intent(requireActivity(), MessageDetailActivity::class.java)
             intent.putExtra("noticeId", item?.messageID.toString())
             startActivity(intent)
+
+
         }).let { adapter ->
             list.adapter = adapter
             lifecycleScope.launch {

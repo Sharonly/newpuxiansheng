@@ -1,6 +1,7 @@
 package com.puxiansheng.logic.data.order
 
 import android.content.Context
+import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.puxiansheng.logic.api.API
@@ -31,9 +32,9 @@ class UploadImageWorker(context: Context, params: WorkerParameters) : Worker(con
 
         return kotlin.runCatching {
             val file = File(imagePath)
-
+            Log.d("---imageicon", "shop--- imagePath = " + imagePath)
             if (!file.exists()) return Result.failure()
-
+            Log.d("---imageicon", "shop--- file.name= " + file.name)
             val rst: APIRst<APIResp<HttpRespMenuDate>> = buildRequest(
                 url = API.DO_UPLOAD_IMAGE,
                 parts = listOf(
