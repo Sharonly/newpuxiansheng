@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.order.dialog
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,13 +15,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
+import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogMoreManagerBinding
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailViewModel
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
-import com.tencent.mm.opensdk.modelmsg.WXTextObject
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import gdut.bsx.share2.Share2
+import gdut.bsx.share2.ShareContentType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -35,8 +39,7 @@ class MoreManagerDialog(
 ) : DialogFragment() {
     private lateinit var binding: DialogMoreManagerBinding
     private lateinit var outViewModel: TransferOutOrderDetailViewModel
-//    private lateinit var inViewModel: TransferInOrderDetailViewModel
-//    private lateinit var businessViewModel: InvestBusnessViewModel
+    var shareUrl:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +51,21 @@ class MoreManagerDialog(
         super.onStart()
         dialog?.let {
             it.window?.let { window ->
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
                 window.setGravity(Gravity.BOTTOM)
                 window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = DialogMoreManagerBinding.inflate(inflater).apply {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = DialogMoreManagerBinding.inflate(inflater).apply {
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -89,11 +99,26 @@ class MoreManagerDialog(
         }
 
 
-        binding.btShare.setOnClickListener {
-                 shareText()
+        lifecycleScope.launch {
+            when (type) {
+                0 -> outViewModel.getConfigInfo("transfer_share_url")?.let { configInfo ->
+                    shareUrl = "$configInfo$shopID.html"
+                }
+
+                1 -> outViewModel.getConfigInfo("find_shop_share_url")?.let { configInfo ->
+                    shareUrl = "$configInfo$shopID.html"
+                }
+
+                2 -> outViewModel.getConfigInfo("article_share_url")?.let { configInfo ->
+                    shareUrl = "$configInfo$shopID.html"
+                }
+            }
 
         }
-
+        binding.btShare.setOnClickListener {
+//            shareText(shareUrl)
+            share(shareUrl)
+        }
 
         btCancel.setOnClickListener { dismiss() }
 
@@ -105,25 +130,32 @@ class MoreManagerDialog(
      *
      * 注意！！！！ 微信平台的debug签名和release签名
      */
-    private fun shareText(){
-        val wxApi = WXAPIFactory.createWXAPI(requireContext(), API.API_APP_ID, false);
-        wxApi?.registerApp(API.API_APP_ID);
+    private fun shareText(url: String) {
+        val wxApi = WXAPIFactory.createWXAPI(requireContext(), API.WEIXIN_APP_ID, true)
+        wxApi?.registerApp( API.WEIXIN_APP_ID)
+        val webpage = WXWebpageObject()
+        webpage.webpageUrl = url
 
-        val textObj = WXTextObject()
-        textObj.text = "Google"
-
-        //用 WXTextObject 对象初始化一个 WXMediaMessage 对象
-        val msg = WXMediaMessage()
-        msg.mediaObject = textObj
-        msg.description = "这是Android端的测试分享信息"
-
+        val msg = WXMediaMessage(webpage)
+        msg.title = "分享 "
+        msg.description = "网页描述"
+        val thumbBmp =
+            BitmapFactory.decodeResource(resources, R.mipmap.app_logo)
+//        msg.thumbData = Util.bmpToByteArray(thumbBmp, true)
         val req = SendMessageToWX.Req()
-        req.transaction ="2020-06-09"
-
+//        req.transaction = buildTransaction("webpage")
         req.message = msg
-       // req.scene = mTargetScene
+        req.userOpenId = API.WEIXIN_APP_ID
         wxApi?.sendReq(req)
+    }
 
+    private fun share(url: String){
+        Share2.Builder(requireActivity())
+            .setContentType(ShareContentType.TEXT)
+            .setTextContent(url)
+            .setTitle("分享")
+            .build()
+            .shareBySystem()
     }
 
 }

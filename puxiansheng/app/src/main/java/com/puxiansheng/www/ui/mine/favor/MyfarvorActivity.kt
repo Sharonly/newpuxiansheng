@@ -37,14 +37,5 @@ class MyfarvorActivity : MyBaseActivity() {
         bt_delete.visibility = View.INVISIBLE
 
 
-//        bt_delete.setOnClickListener {
-//            if( bt_delete.text == "管理") {
-//                bt_delete.text = "正在管理"
-//                pager.setNoScroll(true)
-//            }else{
-//                bt_delete.text = "管理"
-//                pager.setNoScroll(false)
-//            }
-//        }
     }
 }

@@ -60,7 +60,7 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_IN_PRIVATE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
             },
 

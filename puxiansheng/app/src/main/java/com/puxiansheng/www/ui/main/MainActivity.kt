@@ -61,7 +61,6 @@ class MainActivity : MyBaseActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         val stringExtra = intent?.getStringExtra("name")
-        Log.e("---intent", "name = " + stringExtra)
 
 
     }
@@ -116,7 +115,6 @@ class MainActivity : MyBaseActivity() {
                     lifecycleScope.launch {
                         appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
                             if (it.code == API.CODE_SUCCESS) {
-                                Log.d("---ADVERT--"," it?.data?.banners = "+it?.data?.banners?.size)
                                 if (it?.data?.banners?.isNotEmpty()!!) {
                                     AdvertmentDialog(context = this@MainActivity, baners = it?.data?.banners!!).show(
                                         supportFragmentManager,
@@ -200,7 +198,8 @@ class MainActivity : MyBaseActivity() {
             }
         })
         applicationContext?.let {
-            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
+//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
+            WechatAPI.instance = WXAPIFactory.createWXAPI(it, API.WEIXIN_APP_ID, true)
         }
     }
 

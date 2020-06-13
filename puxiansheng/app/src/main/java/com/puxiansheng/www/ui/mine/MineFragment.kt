@@ -2,6 +2,8 @@ package com.puxiansheng.www.ui.mine
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.User
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
@@ -29,9 +33,12 @@ import com.puxiansheng.www.ui.mine.relase.OrderProcessingActivity
 import com.puxiansheng.www.ui.mine.relase.OrderPublicActivity
 import com.puxiansheng.www.ui.mine.relase.OrderSoldOutActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
+import com.puxiansheng.www.ui.mine.setting.SettingActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
+import kotlinx.android.synthetic.main.fragment_mine.user_icon
+import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
 
 class MineFragment : Fragment() {
@@ -47,14 +54,13 @@ class MineFragment : Fragment() {
     }
 
 
-
     //TODO 思路1： 将onCreateView中的请求网络转移到下面2个方法中，可以保证此fragment每次可见都是最新的,
 
     //TODO 思路2:  在其它页面通过livedatabus通知此fragment刷新，没试过不保证没有问题
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if(!hidden){
+        if (!hidden) {
             lifecycleScope.launch {
                 mineViewModel.getReleaseCount()?.let {
                     public_data.text = it.releaseData.toString()
@@ -74,6 +80,14 @@ class MineFragment : Fragment() {
                         startActivity(intent)
                     }
                 }
+
+                mineViewModel.getConfigInfo("privacy_url")?.let { configInfo ->
+                    privacy.setOnClickListener {
+                        val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                        intent.putExtra("url", configInfo)
+                        startActivity(intent)
+                    }
+                }
             }
 
             //TODO  请求网络刷新页面
@@ -84,6 +98,17 @@ class MineFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
+            mineViewModel.getUserInformationFromRemote()?.let {
+                if (it is User) {
+                    user_icon.urlIcon(it.icon)
+                    user_account.text = it.nickName ?: it.actualName
+                    user_phone.text = it.userPhoneNumber
+                } else {
+                    user_account.text = "请登录"
+                    user_phone.visibility = View.INVISIBLE
+                }
+            }
+
             mineViewModel.getReleaseCount()?.let {
                 public_data.text = it.releaseData.toString()
                 processing_data.text = it.processingData.toString()
@@ -103,15 +128,26 @@ class MineFragment : Fragment() {
                 }
             }
 
+            mineViewModel.getConfigInfo("privacy_url")?.let { configInfo ->
+                privacy.setOnClickListener {
+                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                }
+            }
+
+
         }
 
-        //TODO 请求网络刷新页面
+
     }
 
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = FragmentMineBinding.inflate(inflater).apply {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = FragmentMineBinding.inflate(inflater).apply {
 
 //        if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //            isLogin = true
@@ -122,7 +158,6 @@ class MineFragment : Fragment() {
 //            userAccount.text = "请登录"
 //            userPhone.text = ""
 //        }
-
 
 
         userIcon.setOnClickListener {
@@ -148,9 +183,12 @@ class MineFragment : Fragment() {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
-                    R.id.action_mainFragment_to_settingFragment
-                )
+//                Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
+//                    R.id.action_mainFragment_to_settingFragment
+//                )
+
+                val intent = Intent(requireActivity(), SettingActivity::class.java)
+                startActivity(intent)
             }
         }
         btMyRelease.setOnClickListener {
@@ -211,7 +249,6 @@ class MineFragment : Fragment() {
         }
 
 
-
         //TODO 2020/6/8
         btRequest.setOnClickListener {
             if (!isLogin) {
@@ -224,29 +261,26 @@ class MineFragment : Fragment() {
 
         }
 
-        //TODO 2020/6/9
-        privacy.setOnClickListener {
-            if (!isLogin) {
-                val intent = Intent(requireActivity(), LoginActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(requireActivity(),InfoDetailActivity::class.java)
-                intent.putExtra("url","www.baidu.com")
-                startActivity(intent)
-            }
-        }
 
 
-        //TODO 2020/6/9
         messageManager.setOnClickListener {
-            if (!isLogin) {
-                val intent = Intent(requireActivity(), LoginActivity::class.java)
-                startActivity(intent)
-            } else {
-                val intent = Intent(requireActivity(),InfoDetailActivity::class.java)
-                intent.putExtra("url","www.baidu.com")
-                startActivity(intent)
+            val mIntent = Intent(Intent.ACTION_VIEW)
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (Build.VERSION.SDK_INT >= 9) {
+                mIntent.action = "android.settings.APPLICATION_DETAILS_SETTINGS";
+                mIntent.data = Uri.fromParts("package", requireActivity().packageName, null);
+            } else if (Build.VERSION.SDK_INT <= 8) {
+                mIntent.action = Intent.ACTION_VIEW;
+                mIntent.setClassName(
+                    "com.android.settings",
+                    "com.android.setting.InstalledAppDetails"
+                );
+                mIntent.putExtra(
+                    "com.android.settings.ApplicationPkgName",
+                    requireActivity().packageName
+                );
             }
+            context?.startActivity(mIntent);
         }
 
 

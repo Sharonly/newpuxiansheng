@@ -64,5 +64,24 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:theme="@style/Material">
+
+                <TextView
+                    android:id="@+id/show_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/bg_empty"
+                    android:gravity="center"
+                    android:text="空空如也"
+                    android:textColor="#989796"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
         </LinearLayout>
 </layout>

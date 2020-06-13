@@ -1,34 +1,26 @@
 package com.puxiansheng.www.common
 
 import android.content.Context
-import android.os.Handler
-import android.os.Message
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextSwitcher
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.ViewSwitcher
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.puxiansheng.logic.bean.MarqueeInfo
 import com.puxiansheng.www.R
 import java.util.*
 
-class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListener {
+class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListener ,LifecycleEventObserver{
     private var index = -1
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                1 -> {
-                    index = next() //取得下标值
-                    updateText() //更新TextSwitcherd显示内容;
-                }
-            }
-        }
-    }
     private var infos: List<MarqueeInfo>? = null
     var itemClickListener: OnItemClickListener? = null
     private var timer: Timer? = null
+    private var druation:Long=3*1000L
 
     constructor(context: Context) : super(context, null) {
         init()
@@ -62,24 +54,40 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
 
     fun setResources(infos: List<MarqueeInfo>?) {
         this.infos = infos
+        startTimer()
     }
 
-    fun setTextStillTime(time: Long) {
-        if (timer == null) {
+
+    fun startTimer(){
+       if (timer == null) {
             timer = Timer()
-        } else {
-            timer!!.scheduleAtFixedRate(MyTask(), 1, time) //每3秒更新
         }
+        timer?.schedule(MyTask(),0,druation)
+       // timer!!.scheduleAtFixedRate(MyTask(), 1, duration) //每3秒更新
+    }
+
+    fun stopTimer(){
+        timer?.cancel()
+        timer=null
     }
 
 
     private inner class MyTask : TimerTask() {
         override fun run() {
-            mHandler.sendEmptyMessage(1)
+            postDelayed(object :Runnable{
+                override fun run() {
+                  infos?.let {
+                      index = next() //取得下标值
+//                      println("跑马灯run-->${index}")
+                      updateText() //更新TextSwitcherd显示内容;
+                  }
+                }
+            },0)
         }
     }
 
     private operator fun next(): Int {
+
         var flag = index + 1
         if (flag > infos!!.size - 1) {
             flag -= infos!!.size
@@ -114,5 +122,19 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
          * @param position 当前点击ID
          */
         fun onItemClick(position :Int)
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+         when(event){
+             Lifecycle.Event.ON_PAUSE->{
+//                 println("跑马灯-->onpause")
+                 stopTimer()
+             }
+
+             Lifecycle.Event.ON_RESUME->{
+//                 println("跑马灯-->onResume")
+                 startTimer()
+             }
+         }
     }
 }

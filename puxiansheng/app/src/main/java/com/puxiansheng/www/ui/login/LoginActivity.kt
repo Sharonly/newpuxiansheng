@@ -22,6 +22,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
@@ -29,6 +30,7 @@ import com.puxiansheng.www.ui.main.MainActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.layout_login_by_password.*
 import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.coroutines.Dispatchers
@@ -121,9 +123,14 @@ class LoginActivity : MyBaseActivity() {
             startActivity(intent)
         }
 
-        txt_pxs_agreement.setOnClickListener {
-            val intent = Intent(this@LoginActivity, AgreementActivity::class.java)
-            startActivity(intent)
+        lifecycleScope.launch {
+            loginViewModel.getConfigInfo("protocol_url")?.let { configInfo ->
+                txt_pxs_agreement.setOnClickListener {
+                    val intent = Intent(this@LoginActivity, InfoDetailActivity::class.java)
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                }
+            }
         }
 
         ic_selected.setOnClickListener {
@@ -192,6 +199,13 @@ class LoginActivity : MyBaseActivity() {
                         txt_message_token.error = resources.getString(R.string.login_error_code)
                         return@setOnClickListener
                     }
+                }
+            }
+
+            if (loginType == MODE_REGISTER) {
+                if (!isSeleted) {
+                    Toast.makeText(context, "请先勾选用户协议", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
             }
             lifecycleScope.launch() {
@@ -328,7 +342,8 @@ class LoginActivity : MyBaseActivity() {
                                     )
 //                                API.setAuthToken(result.token)
                                     LiveDataBus.get().with("user")?.value = result
-                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                    val intent =
+                                        Intent(this@LoginActivity, MainActivity::class.java)
                                     Log.d("---login--", "MainActivity user= " + result)
                                     startActivity(intent)
                                 }

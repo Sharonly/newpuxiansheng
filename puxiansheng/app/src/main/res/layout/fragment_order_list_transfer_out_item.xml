@@ -8,6 +8,7 @@
         android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/layout_normal"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginLeft="16dp"
@@ -63,7 +64,8 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#FFFC868B"
-            android:text="热门" />
+            android:text="热门"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/is_recommend"
@@ -73,7 +75,7 @@
             android:textColor="#FF6AD8B3"
             android:layout_marginLeft="5dp"
             android:text="推荐"
-            />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/is_good"
@@ -82,7 +84,8 @@
             android:textSize="12sp"
             android:textColor="#FFF78934"
             android:layout_marginLeft="5dp"
-            android:text="优质" />
+            android:text="优质"
+            android:visibility="gone"/>
         </LinearLayout>
 
         <TextView
@@ -159,18 +162,67 @@
             android:layout_marginRight="16.5dp"
             android:layout_alignParentEnd="true" />
 
-
     </RelativeLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_big"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/ic_top"
-        android:layout_width="36.5dp"
-        android:layout_height="21.5dp"
-        android:layout_gravity="top|right"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="11.5dp"
-        android:src="@mipmap/ic_jingpin" />
+        <ImageView
+            android:id="@+id/bg_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_gravity="bottom"
+                android:background="#99000000">
+
+                <TextView
+                    android:id="@+id/big_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="16dp"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/appMain"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="11dp"
+                    android:gravity="center_vertical"
+                    android:text="详情"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+<!--    <ImageView-->
+<!--        android:id="@+id/ic_top"-->
+<!--        android:layout_width="36.5dp"-->
+<!--        android:layout_height="21.5dp"-->
+<!--        android:layout_gravity="top|right"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginRight="11.5dp"-->
+<!--        android:src="@mipmap/ic_jingpin" />-->
 
 </FrameLayout>
 

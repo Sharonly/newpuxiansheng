@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.info
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class InfoHomeListFragment : AppFragment() {
 
     private lateinit var infoListViewModel: InfoListViewModel
     private lateinit var appModel: MainViewModel
-    var mCategory:Int = 0
+    var mCategory:Int = 1
 
 
     override fun onAttach(context: Context) {
@@ -49,10 +50,6 @@ class InfoHomeListFragment : AppFragment() {
 
         //TODO
         buttonBack.visibility=View.INVISIBLE
-//        buttonBack.setOnClickListener {
-//            Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigateUp()
-//        }
-
 
         btSearch.addTextChangedListener {
             infoListViewModel.title = it.toString()
@@ -60,21 +57,16 @@ class InfoHomeListFragment : AppFragment() {
         btSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && infoListViewModel.title.isNotEmpty()) {
                 hideKeyboard(btSearch)
-                list.removeAllViews()
-                infoListViewModel.refresh(category = mCategory)
+                appModel.searchCategory.postValue(mCategory)
                 return@OnEditorActionListener true
             }
             false
         })
 
 
-
-
         appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
-                //isLoaded = true
                 infoListViewModel.getInfoCategoriesFromRemote()?.let {
-                    //                    println(it)
                     pager.adapter = InfoPagerAdapter(
                         fragmentManager = childFragmentManager,
                         fragments = it.map { category ->
@@ -94,6 +86,7 @@ class InfoHomeListFragment : AppFragment() {
 
                         override fun onTabSelected(tab: TabLayout.Tab?) {
                             mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
+
                         }
 
                     })

@@ -95,7 +95,7 @@ class UserSettingActivity : MyBaseActivity() {
         }
 
         user_icon.setOnClickListener {
-            ChangeIconDialog().show(supportFragmentManager, ChangeIconDialog::class.java.name)
+//            ChangeIconDialog().show(supportFragmentManager, ChangeIconDialog::class.java.name)
         }
 
         input_nick_name.setText(SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString())
@@ -199,11 +199,11 @@ class UserSettingActivity : MyBaseActivity() {
                     outputImage
                 )
             }
-            Log.d("---imageicon---"," iconImageUri = "+iconImageUri+"   = "+getPath(this, iconImageUri!!))
+            Log.d("---imageicon---"," iconImageUri = "+iconImageUri+"  getPath = "+getPath(this, iconImageUri!!))
             getPath(this, iconImageUri!!)
-//            var bitmap =
-//                BitmapFactory.decodeStream(contentResolver.openInputStream(this.iconImageUri as Uri))
-//            user_icon.setImageBitmap(bitmap)
+            var bitmap =
+                BitmapFactory.decodeStream(contentResolver.openInputStream(this.iconImageUri as Uri))
+            user_icon.setImageBitmap(bitmap)
             lifecycleScope.launch {
                 settingViewModel.uploadIcon(iconImageUri.toString())
             }

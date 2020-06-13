@@ -46,13 +46,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#FFF78934">
 
             <com.puxiansheng.www.common.StateBarView
                 android:id="@+id/statusbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
+
             <ImageView
                 android:id="@+id/button_back"
                 android:layout_width="32dp"
@@ -71,15 +73,19 @@
                 android:layout_marginRight="12dp"
                 android:layout_toRightOf="@+id/button_back"
                 android:background="@drawable/bg_search_home"
+                android:layout_marginBottom="15dp"
                 android:layout_below="@+id/statusbar"
                 android:clickable="true"
                 android:drawableLeft="@mipmap/search_iicon"
                 android:drawablePadding="4dp"
                 android:layout_marginTop="8dp"
                 android:focusable="true"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:gravity="center_vertical"
                 android:hint="@string/search_invest_business"
-                android:textColor="@android:color/white"
+                android:textColor="@color/input_text_blank"
                 android:textSize="16sp" />
 
         </RelativeLayout>

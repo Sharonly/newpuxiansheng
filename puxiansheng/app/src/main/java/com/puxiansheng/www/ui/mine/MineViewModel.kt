@@ -17,6 +17,12 @@ class MineViewModel (application: Application) : AndroidViewModel(application){
     private val imageRepository = ImageRepository()
     private val commonDataRepository = CommonDataRepository()
 
+    suspend fun getUserInformationFromRemote() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        userRepository.requireRemoteUserInfo().let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.user else null
+        }
+    }
+
     suspend fun requestBannerImage(where: String) =
         withContext(Dispatchers.IO) {
             imageRepository.requestRemoteImage(where).let {

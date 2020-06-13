@@ -228,7 +228,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         })
 
         intent?.getIntExtra("shopID", 0).toString().let { shopID ->
-            if (shopID != "null") {
+            if (shopID != "null" || shopID != "0") {
                 lifecycleScope.launch {
                     insertOrUpdateTransferInOrderViewModel.requestEditTransferInOrderDetail(shopID)
                         ?.let { order ->

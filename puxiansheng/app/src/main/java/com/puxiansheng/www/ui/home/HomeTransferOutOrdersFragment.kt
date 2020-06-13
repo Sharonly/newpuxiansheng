@@ -19,10 +19,9 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
-import com.puxiansheng.www.databinding.FragmentHomeTransferListBinding
+import com.puxiansheng.www.databinding.FragmentHomeTransferListOutBinding
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.MainViewModel
-import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -46,19 +45,19 @@ class HomeTransferOutOrdersFragment : AppFragment()  {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentHomeTransferListBinding.inflate(inflater).apply {
+    ): View? = FragmentHomeTransferListOutBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
-            orderList.addItemDecoration(it)
+            orderListOut.addItemDecoration(it)
         }
 
         val pageBuilder = LivePagedListBuilder<Int, Order>(
             viewModel.getTransferOutOrdersFromLocal(),
             PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setPageSize(20)
+                .setPageSize(10)
                 .setInitialLoadSizeHint(20)
                 .build()
         )
@@ -78,7 +77,7 @@ class HomeTransferOutOrdersFragment : AppFragment()  {
                     startActivity(intent)
                 }else{
                     val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                    intent.putExtra("shopID",it?.shop?.jump_param)
                     startActivity(intent)
                 }
 
@@ -105,15 +104,14 @@ class HomeTransferOutOrdersFragment : AppFragment()  {
             adapter.notifyDataSetChanged()
         })
 
-        orderList.layoutManager = LinearLayoutManager(requireContext())
-        orderList.adapter = adapter
+        orderListOut.layoutManager = LinearLayoutManager(requireContext())
+        orderListOut.adapter = adapter
 
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
             SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
             viewModel.refresh(it.nodeID.toString())
         })
 
-//        viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
 
     }.root
 

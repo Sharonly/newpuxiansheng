@@ -15,7 +15,8 @@ import kotlinx.android.extensions.LayoutContainer
 
 class BusinessAdapter(
     private val onItemSelect: ((business: BusinessBean?) -> Unit)? = null,
-    private val onItemCall: ((business: BusinessBean?) -> Unit)? = null): PagedListAdapter<BusinessBean, BusinessAdapter.BusinessAdapterViewHolder>(BusinessBean.DIFF) {
+    private val onItemCall: ((business: BusinessBean?) -> Unit)? = null
+) : PagedListAdapter<BusinessBean, BusinessAdapter.BusinessAdapterViewHolder>(BusinessBean.DIFF) {
 
     private var dataList: PagedList<BusinessBean>? = null
 
@@ -42,6 +43,15 @@ class BusinessAdapter(
                 binding.investMoney.text = it
             }
 
+            val spr = StringBuilder()
+            item?.keywords?.let {
+                    it.forEach {
+                        spr.append(it)
+                        spr.append(" ")
+                    }
+                binding.investLabel.text = spr.toString()
+            }
+
             binding.btConsult.setOnClickListener {
                 onItemCall?.let { select -> select(item) }
             }
@@ -66,8 +76,9 @@ class BusinessAdapter(
         abstract fun bind(item: BusinessBean?)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)= BusinessAdapterViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.fragment_invest_business_list_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BusinessAdapterViewHolder(
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_invest_business_list_item, parent, false)
     )
 
     override fun onBindViewHolder(holder: BusinessAdapterViewHolder, position: Int) {

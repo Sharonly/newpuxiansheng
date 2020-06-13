@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.puxiansheng.www.R
+import kotlinx.android.synthetic.main.activity_agreement.*
 
 class AgreementActivity : AppCompatActivity(R.layout.activity_agreement){
 
@@ -15,6 +16,8 @@ class AgreementActivity : AppCompatActivity(R.layout.activity_agreement){
     }
 
     private fun initView() {
-
+        button_back.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

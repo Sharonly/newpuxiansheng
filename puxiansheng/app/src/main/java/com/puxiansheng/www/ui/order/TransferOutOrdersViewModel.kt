@@ -87,6 +87,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 isHot = shop.isHot,
                                 isRecommend = shop.isRecommend,
                                 isLargeOrder = shop.isLargeOrder,
+                                largeOrderImg = shop.largeOrderImg,
                                 image = shop.image,
                                 images = shop.images,
                                 floor = shop.floor,

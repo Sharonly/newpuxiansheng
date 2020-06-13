@@ -1,3 +1,4 @@
+include ':share2'
 include ':logic'
 include ':util'
 include ':app'

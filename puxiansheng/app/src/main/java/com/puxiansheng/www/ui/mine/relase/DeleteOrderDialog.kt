@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.mine.relase
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -83,6 +84,7 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
         buttonCancel.setOnClickListener { dismiss() }
         buttonOk.setOnClickListener {
             lifecycleScope.launch {
+                Log.d("---deletehis","type 22= "+type)
                 when (type) {
                     Order.Type.TRANSFER_IN_PRIVATE.value() -> {
                         privateInviewModel.deleteTransferInOrderFromRemote(shopId.toString())
@@ -117,11 +119,12 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
                     Order.Type.TRANSFER_OUT_FAVORITE.value() -> {
                         favorOutViewModel.deleteFavorTransferOutOrderFromRemote(shopID = shopId.toString())
                             ?.let { rst ->
-                                if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                        .show()
-                                dismiss()
-                                listener?.onDiss()
+                                if (rst.code == API.CODE_SUCCESS) {
+//                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
+//                                        .show()
+                                    dismiss()
+                                    listener?.onDiss()
+                                }
                             }
                     }
 
@@ -129,21 +132,23 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
                     InfoItem.Type.ARTICLE_FAVOR.value() -> {
                         favorInfoViewModel.deleteFavorInfoFromRemote(shopId.toString())
                             ?.let { rst ->
-                                if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                        .show()
-                                dismiss()
-                                listener?.onDiss()
+                                if (rst.code == API.CODE_SUCCESS) {
+//                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
+//                                        .show()
+                                    dismiss()
+                                    listener?.onDiss()
+                                }
                             }
                     }
 
                     Order.Type.TRANSFER_OUT_HISTORY.value() -> {
                         historyOutViewModel.deleteHistoryTransferOutOrderFromRemote()?.let { rst ->
-                            if (rst.code == API.CODE_SUCCESS)
-                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                    .show()
-                            dismiss()
-                            listener?.onDiss()
+                            if (rst.code == API.CODE_SUCCESS) {
+//                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
+//                                    .show()
+                                dismiss()
+                                listener?.onDiss()
+                            }
                         }
                     }
 
@@ -151,21 +156,23 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
                     Order.Type.TRANSFER_IN_HISTORY.value() -> {
                         historyInViewModel.deleteHistoryTransferInOrderFromRemote()?.let { rst ->
                             if (rst.code == API.CODE_SUCCESS) {
-                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                    .show()
+//                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
+//                                    .show()
+                                dismiss()
+                                listener?.onDiss()
                             }
-                            dismiss()
-                            listener?.onDiss()
+
                         }
                     }
 
                     InfoItem.Type.ARTICLE_HISTORY.value() -> {
                         historyInfoViewModel.deleteHistoryInfoFromRemote()?.let { rst ->
-                            if (rst.code == API.CODE_SUCCESS)
-                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                    .show()
-                            dismiss()
-                            listener?.onDiss()
+                            if (rst.code == API.CODE_SUCCESS) {
+//                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
+//                                    .show()
+                                dismiss()
+                                listener?.onDiss()
+                            }
                         }
                     }
                 }
@@ -173,20 +180,11 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
         }
     }.root
 
-//    fun setOnDismissListener(listener: DialogInterface.OnDismissListener) {
-//        this.mOnClickListener = listener
-//    }
+
 
     interface OnDissListener {
         fun onDiss()
     }
-
-
-//    override fun dismiss() {
-//        super.dismiss()
-//        listener?.onDiss()
-//        //mOnClickListener?.onDismiss(dialog)
-//    }
 
 
 }

@@ -80,7 +80,6 @@ class MainFragment : NavHostFragment() {
                                     infoHomeFragment
                                 ).commit()
                             appModel.lastFragment = infoHomeFragment
-
                         }
                     }
 

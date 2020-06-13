@@ -173,7 +173,7 @@ class TransferSuccessOrderActivity : MyBaseActivity() {
             type = Order.Type.TRANSFER_OUT.value(),
             onItemSelect = {
                 val intent = Intent(this, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
 
             }

@@ -107,34 +107,33 @@ class ReleaseStateOrdersAdapter(
                     binding.btEdit.visibility = View.VISIBLE
                     binding.btRefresh.visibility = View.VISIBLE
                 }
-            }
 
-            item?.status?.let { status ->
+                item?.status?.let { status ->
+                    binding.status.text = status.text
+                    binding.status.setTextColor(Color.parseColor(status.color))
 
+                    if(status.text == "已发布" || status.text == "已过期"||status.text == "在审核"){
+                        binding.btRefresh.visibility =  View.VISIBLE
+                    }else{
+                        binding.btRefresh.visibility =  View.GONE
+                    }
 
-                binding.status.text = status.text
-                binding.status.setTextColor(Color.parseColor(status.color))
+                    if(status.text == "已下架" || status.text == "已完结" || status.text == "已成交"){
+                        binding.btEdit.visibility =  View.GONE
+                    }else{
+                        binding.btEdit.visibility =  View.VISIBLE
+                    }
 
-                if(status.text == "已发布" || status.text == "已过期"||status.text == "在审核"){
-                    binding.btRefresh.visibility =  View.VISIBLE
-                }else{
-                    binding.btRefresh.visibility =  View.INVISIBLE
-                }
-
-                if(status.text == "已下架" || status.text == "已完结" || status.text == "已成交"){
-                    binding.btEdit.visibility =  View.INVISIBLE
-                }else{
-                    binding.btEdit.visibility =  View.VISIBLE
-                }
-
-                //TODO 不确定是这样判断
+                    //TODO 不确定是这样判断
 //                if(status.text == "再审核" || status.text == "未通过" || status.text == "未审核"){
 //                    binding.btRefresh.visibility =  View.INVISIBLE
 //                }else{
 //                    binding.btRefresh.visibility =  View.VISIBLE
 //                }
 
+                }
             }
+
 
             item?.shop?.formattedArea.let { it ->
                 binding.area.text = it
@@ -148,27 +147,28 @@ class ReleaseStateOrdersAdapter(
                 binding.size.text = it
             }
 
-            item?.shop?.data_type.let {
-                if (it == "transfer_shop") {
+            item?.shop?.data_type.let { shop ->
+                if (shop == "transfer_shop") {
                     binding.icType.setImageResource(R.mipmap.ic_transfer_out)
-                    orderType = 0
-                } else if (it == "find_shop") {
+                } else if (shop == "find_shop") {
                     binding.icType.setImageResource(R.mipmap.ic_transfer_in)
-                    orderType = 1
                 }
+
+                binding.btEdit.setOnClickListener {
+                    if (shop == "transfer_shop") {
+                        val intent = Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
+                        intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                        context.startActivity(intent)
+                    } else if (shop == "find_shop") {
+                        val intent = Intent(context, InsertOrUpdateTransferInOrderActivity::class.java)
+                        intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                        context.startActivity(intent)
+                    }
+                }
+
             }
 
-            binding.btEdit.setOnClickListener {
-                if (orderType == 0) {
-                    val intent = Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
-                    context.startActivity(intent)
-                } else if (orderType == 1) {
-                    val intent = Intent(context, InsertOrUpdateTransferInOrderActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
-                    context.startActivity(intent)
-                }
-            }
+
 
             binding.btRefresh.setOnClickListener {
                 onItemFresh?.let { select -> select(item) }
@@ -183,11 +183,11 @@ class ReleaseStateOrdersAdapter(
             binding.root.setOnClickListener {
                 if (orderType == 0) {
                     val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                    intent.putExtra("shopID", item?.shop?.jump_param)
                     context.startActivity(intent)
                 } else if (orderType == 1) {
                     val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                    intent.putExtra("shopID", item?.shop?.jump_param)
                     context.startActivity(intent)
                 }
             }

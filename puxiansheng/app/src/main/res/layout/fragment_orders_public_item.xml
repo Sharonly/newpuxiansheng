@@ -153,15 +153,19 @@
                 android:layout_marginTop="14.5dp"
                 android:src="@mipmap/ic_release_delete" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line_2"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="9dp">
+
             <TextView
                 android:id="@+id/bt_refresh"
                 android:layout_width="60dp"
                 android:layout_height="27dp"
-                android:layout_below="@+id/line_2"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="9dp"
                 android:background="@drawable/bg_bt_delete"
                 android:gravity="center"
                 android:text="刷新"
@@ -172,10 +176,6 @@
                 android:id="@+id/bt_edit"
                 android:layout_width="60dp"
                 android:layout_height="27dp"
-                android:layout_below="@+id/line_2"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="12dp"
-                android:layout_toLeftOf="@+id/bt_refresh"
                 android:background="@drawable/bg_bt_delete"
                 android:gravity="center"
                 android:text="修改"
@@ -183,6 +183,8 @@
                 android:layout_marginLeft="16dp"
                 android:textColor="@color/tab_orange"
                 android:textSize="14sp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

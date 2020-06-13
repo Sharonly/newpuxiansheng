@@ -21,6 +21,7 @@ import kotlinx.android.extensions.LayoutContainer
 
 class FavorInfoAdapter(
     val context: Context, var type: Int,
+    private val onItemSelect: ((order: InfoItem?) -> Unit)? = null,
     private val onDelete: ((infoItem: InfoItem?) -> Unit)? = null
 ) : PagedListAdapter<InfoItem, FavorInfoAdapter.BaseViewHolder>(InfoItem.DIFF) {
     private var dataList: PagedList<InfoItem>? = null
@@ -54,7 +55,6 @@ class FavorInfoAdapter(
     }
 
 
-
     override fun submitList(pagedList: PagedList<InfoItem>?) {
         dataList = pagedList!!
         super.submitList(pagedList)
@@ -80,10 +80,11 @@ class FavorInfoAdapter(
             binding.data.text = infoItem?.date
             binding.pageViews.text = infoItem?.pageViews.toString()
             binding.icon.url(infoItem?.image ?: "")
-            binding.root.setOnClickListener {
+            binding.itemLayout.setOnClickListener {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", infoItem?.jump_param)
                 context.startActivity(intent)
+//                onItemSelect?.let { select -> select(infoItem) }
             }
 
             binding.itemDelete.setOnClickListener {

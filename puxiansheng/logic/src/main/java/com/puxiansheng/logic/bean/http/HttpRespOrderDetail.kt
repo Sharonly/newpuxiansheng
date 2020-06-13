@@ -53,6 +53,9 @@ data class OrderDetailObject(
     @SerializedName("is_large_order")
     var isLargeOrder: Int = 0,
 
+    @SerializedName("large_order_img")
+    var largeOrderImg: String = "",
+
 //    @SerializedName("view_list_statsus")
 //    var viewListStatus:List<MenuItem> ?= null,
 

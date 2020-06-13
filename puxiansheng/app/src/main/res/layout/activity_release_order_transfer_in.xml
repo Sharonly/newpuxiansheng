@@ -398,17 +398,29 @@
                     android:textColor="@color/input_text_blank"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/input_floor"
+                <TextView
+                    android:id="@+id/floor_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txt_floor"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:text="层"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+
+
+                <EditText
+                    android:id="@+id/input_floor"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txt_floor"
+                    android:layout_toLeftOf="@+id/floor_unit"
+                    android:layout_marginRight="10dp"
                     android:background="@null"
                     android:digits="0123456789"
                     android:inputType="number"
-                    android:hint="层"
                     android:textColor="@color/text_gray"
                     android:textSize="16sp" />
 

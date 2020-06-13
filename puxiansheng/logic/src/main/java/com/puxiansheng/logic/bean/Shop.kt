@@ -67,6 +67,9 @@ data class Shop(
     @ColumnInfo(name = "_is_large_order")
     var isLargeOrder: Int = 0,
 
+    @ColumnInfo(name = "_large_order_img")
+    var largeOrderImg: String = "",
+
     @ColumnInfo(name = "_image")
     var image: String = "",
 

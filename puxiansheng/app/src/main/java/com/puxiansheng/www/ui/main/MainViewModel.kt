@@ -30,10 +30,7 @@ import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.info.InfoDetailActivity
-import com.puxiansheng.www.ui.order.TransferInOrdersActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
-import com.puxiansheng.www.ui.order.TransferSuccessOrderActivity
+import com.puxiansheng.www.ui.order.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.ticker
@@ -69,6 +66,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val currentSignatureTokenCode = MutableLiveData<Int>()
     val currentNewPackage = MutableLiveData<NewPackage>()
     val currentAdvert = MutableLiveData<Int>()
+    val searchCategory = MutableLiveData<Int>()
 
 
     val saveAddress = MutableLiveData<String>()
@@ -393,13 +391,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             }
             3 -> {//找店详情
-                val intent = Intent(context, TransferInOrdersActivity::class.java)
-                intent.putExtra("shopID", image.jump_param?.toInt())
+                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param)
                 context.startActivity(intent)
             }
             4 -> {//转铺详情
                 val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", image.jump_param?.toInt())
+                intent.putExtra("shopID", image.jump_param)
                 context.startActivity(intent)
             }
             5 -> {//文章详情

@@ -20,6 +20,18 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
 
+    fun refresh() {
+        viewModelScope.launch {
+            loadMore()
+        }
+    }
+
+    fun loadMore(
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        getRemoteUserPublicOrders()
+
+    }
+
     suspend fun getRemoteUserPublicOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserPublicOrder().let { apiRst ->

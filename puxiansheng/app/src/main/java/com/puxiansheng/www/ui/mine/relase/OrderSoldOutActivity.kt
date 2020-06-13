@@ -1,6 +1,7 @@
 package com.puxiansheng.www.ui.mine.relase
 
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,27 +46,29 @@ class OrderSoldOutActivity : MyBaseActivity() {
                 var orderType: Int = Order.Type.EMPTY.value()
                 if (!it.isNullOrEmpty()) {
                     orderType = Order.Type.USER_PUBLIC_ORDER.value()
-                }
-                order_list.adapter =
-                    ReleaseStateOrdersAdapter(
-                        this@OrderSoldOutActivity,
-                        onItemDelete = {
-                            var deleteDialog = DeleteOrderDialog(
-                                "确定要删除该条发布吗？",
-                                Order.Type.TRANSFER_IN_PRIVATE.value(),
-                                it?.shop?.shopID
-                            )
-                            deleteDialog.show(
-                                supportFragmentManager,
-                                DeleteOrderDialog::class.java.name
-                            )
-                            deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
-                                override fun onDiss() {
+                    order_list.adapter =
+                        ReleaseStateOrdersAdapter(
+                            this@OrderSoldOutActivity,
+                            onItemDelete = {
+                                var deleteDialog = DeleteOrderDialog(
+                                    "确定要删除该条发布吗？",
+                                    Order.Type.TRANSFER_IN_PRIVATE.value(),
+                                    it?.shop?.shopID
+                                )
+                                deleteDialog.show(
+                                    supportFragmentManager,
+                                    DeleteOrderDialog::class.java.name
+                                )
+                                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                                    override fun onDiss() {
 
+                                    }
                                 }
-                            }
-                        }, dataList = it as List<Order>, type = orderType
-                    )
+                            }, dataList = it as List<Order>, type = orderType
+                        )
+                } else {
+                    show_null.visibility = View.VISIBLE
+                }
             }
         }
     }

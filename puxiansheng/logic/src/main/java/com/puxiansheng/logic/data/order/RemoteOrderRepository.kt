@@ -136,6 +136,10 @@ class RemoteOrderRepository {
                 map["labels"] = label
             }
 
+            floor?.let {
+                map["floor"] = floor.toString()
+            }
+
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
                 fieldMap = map,
@@ -537,6 +541,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
+        Log.d("---Recommended---","Out it = "+it)
         API.call(it)
     }
 

@@ -17,6 +17,7 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
     private val context = getApplication<Application>().applicationContext
     private val infoRepository = InfoRepository(InfoDatabase.getInstance(context).infoDao())
 
+
     private var currentPage = 1
     var title = ""
 

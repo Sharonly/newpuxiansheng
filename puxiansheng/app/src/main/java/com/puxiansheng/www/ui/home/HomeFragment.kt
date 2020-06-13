@@ -60,12 +60,17 @@ class HomeFragment : Fragment() {
         appModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentHomeBinding.inflate(inflater).apply {
+
+        //跑马灯绑定lifecycle
+        lifecycle.addObserver(pxsHeadline)
+
         lifecycleOwner = viewLifecycleOwner
         appModel?.saveLoginUser()?.let {
             appModel?.currentUser?.postValue(it)
@@ -91,16 +96,19 @@ class HomeFragment : Fragment() {
 
         simpleTransferOut.setOnClickListener {
             val intent= Intent(requireActivity(), TransferOutOrderActivity::class.java)
+            intent.putExtra("title", "*")
             startActivity(intent)
         }
 
         simpleTransferIn.setOnClickListener {
             val intent= Intent(requireActivity(), TransferInOrdersActivity::class.java)
+            intent.putExtra("title", "*")
             startActivity(intent)
         }
 
         investmentBusiness.setOnClickListener {
             val intent= Intent(requireActivity(), InvestBusinessActivity::class.java)
+            intent.putExtra("title", "*")
             startActivity(intent)
         }
 
@@ -146,19 +154,19 @@ class HomeFragment : Fragment() {
 
 
                 //TODO 此处跑马灯有什么作用
-                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
-                    pxsHeadline.setResources(infos)
-                    pxsHeadline.setTextStillTime(3000)
-                    pxsHeadline.itemClickListener=object :TextSwitchView.OnItemClickListener{
-                        override fun onItemClick(position: Int) {
-                            println("跑马灯A1--->${position}")
-                        }
-
-                    }
+//                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
+//                    pxsHeadline.setResources(infos)
+//                    pxsHeadline.setTextStillTime(3000)
+//                    pxsHeadline.itemClickListener=object :TextSwitchView.OnItemClickListener{
+//                        override fun onItemClick(position: Int) {
+//                            println("跑马灯A1--->${position}")
+//                        }
+//
+//                    }
 //                    pxsHeadline.setOnItemClickListener{
 //                        Toast.makeText(requireContext(), "点击了" + it.apiJumpParam, Toast.LENGTH_SHORT)
 //                    }
-                }
+//                }
 //                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
 //                    var i = 0
 //                    while (i < infos.size) {
@@ -172,7 +180,6 @@ class HomeFragment : Fragment() {
             refresh.isRefreshing = false
         }
 
-        pxsHeadline.isSelected = true
 
         orderPager.adapter = OrderPagerAdapter(fragmentManager = childFragmentManager, lifecycle = viewLifecycleOwner.lifecycle)
         TabLayoutMediator(tabs, orderPager,
@@ -184,13 +191,6 @@ class HomeFragment : Fragment() {
                 }
             }).attach()
 
-//        pager.adapter = MessagePagerAdapter(
-//            fragmentManager = childFragmentManager,
-//            fragments = fragments,
-//            titles = tabTitles
-//        )
-//        pager.offscreenPageLimit = 2
-//        tabs.setupWithViewPager(pager)
 
         scroll.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (scrollY in 0..255) {
@@ -243,13 +243,13 @@ class HomeFragment : Fragment() {
 
                 homeViewModel.requestMarqueeMessage("1")?.let { infos ->
                     pxsHeadline.setResources(infos)
-                    pxsHeadline.setTextStillTime(3000)
+                   // pxsHeadline.setTextStillTime(3000)
                     pxsHeadline.itemClickListener=object :TextSwitchView.OnItemClickListener{
                         override fun onItemClick(position: Int) {
 
                             //TODO shopId字符串会好些
                             val intent=Intent(activity, TransferOutOrderDetailActivity::class.java)
-                            intent.putExtra("shopID",infos[position].id?.toInt())
+                            intent.putExtra("shopID",infos[position].id?.toString())
                             startActivity(intent)
                         }
                     }
@@ -260,25 +260,6 @@ class HomeFragment : Fragment() {
                 }
                 pxsHeadline.isSelected = true
 
-                orderPager.adapter = OrderPagerAdapter(
-                    fragmentManager = childFragmentManager,
-                    lifecycle = viewLifecycleOwner.lifecycle
-                )
-                TabLayoutMediator(tabs, orderPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                        tab.text = when (position) {
-                            0 -> "精品店铺"
-                            1 -> "找店需求"
-                            else -> ""
-                        }
-                    }).attach()
-
-//                pager.adapter = InfoPagerAdapter(
-//                    fragmentManager = childFragmentManager,
-//                    fragments = fragments,
-//                    titles = tabTitles
-//                )
-//                pager.offscreenPageLimit = 2
-//                tabs.setupWithViewPager(pager)
 
             }
         })
@@ -294,5 +275,25 @@ class HomeFragment : Fragment() {
         top_banner_view.stopBanner()
     }
 
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden){
+            pxs_headline.startTimer()
+            order_pager.adapter = OrderPagerAdapter(
+                fragmentManager = childFragmentManager,
+                lifecycle = viewLifecycleOwner.lifecycle
+            )
+            TabLayoutMediator(tabs, order_pager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.text = when (position) {
+                    0 -> "精品店铺"
+                    1 -> "找店需求"
+                    else -> ""
+                }
+            }).attach()
+        }else{
+            pxs_headline.stopTimer()
+        }
+    }
 
 }

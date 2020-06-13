@@ -16,6 +16,8 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.common.ImageSwitcher
+import com.puxiansheng.www.ui.login.LoginActivity
+import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap
@@ -60,7 +62,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
         bt_more.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.requestTransferOutOrderDetail(
-                    intent.getIntExtra("shopID", 0).toString()
+                    intent.getStringExtra("shopID")
                 )?.let { order ->
                     MoreManagerDialog(
                         order.shop?.shopID.toString(),
@@ -83,7 +85,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
         lifecycleScope.launch {
 //            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))
-            viewModel.requestTransferOutOrderDetail(intent.getIntExtra("shopID", 0).toString())?.let { order ->
+            viewModel.requestTransferOutOrderDetail( intent.getStringExtra("shopID"))?.let { order ->
 //                    if(order.shop?.images?.size == 0)
 //                        imageSwitcher.setImages(list)
                     if (order.shop?.images?.size == 0) {
@@ -98,11 +100,8 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                                 override fun onScrolled(index: Int) {
                                     img_index.text = image_switcher.getCurrentPos().toString()+"/"+list.size
                                 }
-
                             }
-
                         }
-
                     }
 
 
@@ -199,9 +198,14 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
 
                     bt_connect_kf.setOnClickListener {
-                        Intent(Intent.ACTION_DIAL).apply {
-                            data = Uri.parse("tel:${order.serviceAgent?.phone}")
-                            startActivity(this)
+                        if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                            Intent(Intent.ACTION_DIAL).apply {
+                                data = Uri.parse("tel:${order.serviceAgent?.phone}")
+                                startActivity(this)
+                            }
+                        } else {
+                            val intent = Intent(this@TransferOutOrderDetailActivity, LoginActivity::class.java)
+                            startActivity(intent)
                         }
                     }
                 }
@@ -213,7 +217,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                         val intent = Intent(this@TransferOutOrderDetailActivity,
                             TransferOutOrderDetailActivity::class.java
                         )
-                        intent.putExtra("shopID", it?.shopID?.toInt())
+                        intent.putExtra("shopID", it?.shopID)
                         startActivity(intent)
                     })
                 viewModel.requestUserLikeShopList(cityId.toString(), intent.getIntExtra("shopID", 0).toString()

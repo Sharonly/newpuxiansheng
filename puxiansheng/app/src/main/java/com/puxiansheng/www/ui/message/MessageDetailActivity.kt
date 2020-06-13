@@ -96,14 +96,14 @@ class MessageDetailActivity() : MyBaseActivity() {
                                     //TODO
                                   // val intent = Intent(this@MessageDetailActivity, TransferInOrdersActivity::class.java)
                                     val intent = Intent(this@MessageDetailActivity, TransferInOrderDetailActivity::class.java)
-                                    intent.putExtra("shopID", menuItem.jump_param?.toInt())
+                                    intent.putExtra("shopID", menuItem.jump_param)
                                     startActivity(intent)
                                 }
                                 4 -> {//转铺详情
                                     val intent = Intent(this@MessageDetailActivity,
                                         TransferOutOrderDetailActivity::class.java
                                     )
-                                    intent.putExtra("shopID", menuItem.jump_param?.toInt())
+                                    intent.putExtra("shopID", menuItem.jump_param)
                                     startActivity(intent)
                                 }
                                 5 -> {//文章详情

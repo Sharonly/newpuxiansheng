@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
+import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.databinding.*
 import kotlinx.android.extensions.LayoutContainer
 
@@ -45,7 +46,7 @@ class OrdersAdapter(
             }
         }
 
-    fun getDataSources():PagedList<Order>{
+    fun getDataSources(): PagedList<Order> {
         return dataList!!
     }
 
@@ -125,85 +126,110 @@ class OrdersAdapter(
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
-            item?.shop?.title.let { title ->
-                binding.title.text = title
-            }
+            item?.shop?.isLargeOrder.let { it ->
+                if (it == 1) {
+                    binding.layoutNormal.visibility = View.GONE
+                    binding.layoutBig.visibility = View.VISIBLE
+                    item?.shop?.title.let { title ->
+                        binding.bigTitle.text = title
+                    }
+                    item?.shop?.largeOrderImg.let {
+                        it?.let { it1 -> binding.bgShop.urlBg(it1) }
+                    }
+                } else {
+                    binding.layoutNormal.visibility = View.VISIBLE
+                    binding.layoutBig.visibility = View.GONE
 
-            item?.shop?.images?.get(0)?.let { url ->
-                binding.shopIcon.url(url)
-            }
+                    item?.shop?.title.let { title ->
+                        binding.title.text = title
+                    }
 
-            item?.shop?.isHot?.let {
+                    item?.shop?.images?.get(0)?.let { url ->
+                        binding.shopIcon.url(url)
+                    }
+
+                    item?.shop?.isSuccess?.let {
+                        if (it == 1) {
+                            binding.isRecommend.visibility = View.GONE
+                            binding.isHot.visibility = View.GONE
+                        } else {
+                            item?.shop?.isHot?.let {
 //                var str = ""
 //                it.forEach { menuItem ->
 //                    menuItem.text
 //                    str += "<font color=\"menuItem.color\">menuItem.text</font>"
 //                }
 //                binding.labeled.text = (Html.fromHtml(str))
-                if(it == 1) {
-                    binding.isHot.visibility = View.VISIBLE
-                }else{
-                    binding.isHot.visibility = View.GONE
-                }
-            }
+                                if (it == 1) {
+                                    binding.isHot.visibility = View.VISIBLE
+                                } else {
+                                    binding.isHot.visibility = View.GONE
+                                }
+                            }
 
-            item?.shop?.isRecommend?.let {
-                if(it == 1) {
-                    binding.isRecommend.visibility = View.VISIBLE
-                }else{
-                    binding.isRecommend.visibility = View.GONE
-                }
-            }
-
-            item?.shop?.isLargeOrder?.let {
-                if(it == 1) {
-                    binding.isGood.visibility = View.VISIBLE
-                }else{
-                    binding.isGood.visibility = View.GONE
-                }
-            }
+                            item?.shop?.isRecommend?.let {
+                                if (it == 1) {
+                                    binding.isRecommend.visibility = View.VISIBLE
+                                } else {
+                                    binding.isRecommend.visibility = View.GONE
+                                }
+                            }
+                        }
+                    }
 
 
-            item?.shop?.formattedDate?.let { date ->
-                binding.date.text = date
-            }
+//                    item?.shop?.isLargeOrder?.let {
+//                        if(it == 1) {
+//                            binding.isGood.visibility = View.VISIBLE
+//                        }else{
+//                            binding.isGood.visibility = View.GONE
+//                        }
+//                    }
 
-            item?.shop?.formattedRent?.let { rent ->
-                binding.rent.text = rent
-            }
 
-            item?.shop?.formattedSize?.let { size ->
-                item.shop?.formattedFee?.let { fee ->
-                    binding.size.text = "$size"
-                }
-            }
+                    item?.shop?.formattedDate?.let { date ->
+                        binding.date.text = date
+                    }
 
-            item?.shop?.formattedArea?.let { area ->
-                binding.area.text = area
-            }
+                    item?.shop?.formattedRent?.let { rent ->
+                        binding.rent.text = rent
+                    }
 
-            item?.shop?.formattedFinalIndustry?.let { industry ->
-                if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
-                binding.industry.text = industry
-            }
+                    item?.shop?.formattedSize?.let { size ->
+                        item.shop?.formattedFee?.let { fee ->
+                            binding.size.text = "$size"
+                        }
+                    }
 
-            item?.shop?.isTop?.let {
-                if (it == 1) {
-                    binding.icTop.visibility = View.VISIBLE
-                }else{
-                    binding.icTop.visibility = View.GONE
-                }
-            }
+                    item?.shop?.formattedArea?.let { area ->
+                        binding.area.text = area
+                    }
+
+                    item?.shop?.formattedFinalIndustry?.let { industry ->
+                        if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
+                        binding.industry.text = industry
+                    }
+
+//            item?.shop?.isTop?.let {
+//                if (it == 1) {
+//                    binding.icTop.visibility = View.VISIBLE
+//                }else{
+//                    binding.icTop.visibility = View.GONE
+//                }
+//            }
 
 //            item?.shop?.formattedFinalLocationNode?.let { location ->
 //                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
 //                binding.area.text = location
 //            }
 
-            binding.root.setOnClickListener {
-                onItemSelect?.let { select -> select(item) }
+                    binding.root.setOnClickListener {
+                        onItemSelect?.let { select -> select(item) }
+                    }
+                }
             }
         }
+
     }
 
     inner class TransferInOrderViewHolder(
@@ -218,25 +244,25 @@ class OrdersAdapter(
             }
 
             item?.shop?.isHot?.let {
-                if(it == 1) {
+                if (it == 1) {
                     binding.isHot.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.isHot.visibility = View.GONE
                 }
             }
 
             item?.shop?.isRecommend?.let {
-                if(it == 1) {
+                if (it == 1) {
                     binding.isRecommend.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.isRecommend.visibility = View.GONE
                 }
             }
 
             item?.shop?.isLargeOrder?.let {
-                if(it == 1) {
+                if (it == 1) {
                     binding.isGood.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.isGood.visibility = View.GONE
                 }
             }
@@ -265,7 +291,7 @@ class OrdersAdapter(
             item?.shop?.isTop?.let {
                 if (it == 1) {
                     binding.icTop.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.icTop.visibility = View.GONE
                 }
             }

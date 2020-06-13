@@ -1,9 +1,9 @@
 package com.puxiansheng.www.ui.mine.favor
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,12 +20,14 @@ import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import kotlinx.coroutines.launch
 
 class FavoriteInfoFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteInfoListViewModel
+    private lateinit var infoAdapter: FavorInfoAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,44 +54,55 @@ class FavoriteInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        FavorInfoAdapter(requireContext(),type = InfoItem.Type.ARTICLE_FAVOR.value(),onDelete = {
-            var deleteDialog =
-                DeleteOrderDialog("确定要删除该条收藏资讯吗？", InfoItem.Type.ARTICLE_FAVOR.value(), it?.itemID)
-            deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
-            deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
-                override fun onDiss() {
-                    viewModel.refresh()
-                }
-            }
-        }).let { adapter ->
-            adapter.addLoadStateListener{loadType, _, _ ->
-                if (loadType == PagedList.LoadType.END) {
-                    if (adapter.itemCount == 0) {
-                        adapter.type = Order.Type.EMPTY.value()
-                        adapter.notifyDataSetChanged()
+        infoAdapter = FavorInfoAdapter(requireContext(),
+            type = InfoItem.Type.ARTICLE_HISTORY.value(),
+//            onItemSelect = { info ->
+//                val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+//                intent.putExtra("url", info?.jump_param)
+//                startActivity(intent)
+//            },
+            onDelete = {
+                var deleteDialog =
+                    DeleteOrderDialog(
+                        "确定要删除该条收藏资讯吗？",
+                        InfoItem.Type.ARTICLE_FAVOR.value(),
+                        it?.infoID?.toLong()
+                    )
+                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+                        viewModel.refresh()
                     }
                 }
-                if (loadType == PagedList.LoadType.REFRESH) {
-                    if (adapter.type != InfoItem.Type.ARTICLE_FAVOR.value()) {
-                        adapter.type = InfoItem.Type.ARTICLE_FAVOR.value()
-                        adapter.notifyDataSetChanged()
-                    }
+            })
+        infoAdapter.addLoadStateListener { loadType, _, _ ->
+            if (loadType == PagedList.LoadType.END) {
+                if (infoAdapter.itemCount == 0) {
+                    infoAdapter.type = Order.Type.EMPTY.value()
+                    infoAdapter.notifyDataSetChanged()
                 }
             }
+            if (loadType == PagedList.LoadType.REFRESH) {
+                if (infoAdapter.type != InfoItem.Type.ARTICLE_FAVOR.value()) {
+                    infoAdapter.type = InfoItem.Type.ARTICLE_FAVOR.value()
+                    infoAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        list.adapter = infoAdapter
 
-            list.adapter = adapter
-            lifecycleScope.launch {
-                LivePagedListBuilder<Int, InfoItem>(viewModel.getFavorInfoFromRoom(), 5).apply {
-                    setBoundaryCallback(object : PagedList.BoundaryCallback<InfoItem>() {
-                        override fun onItemAtEndLoaded(itemAtEnd: InfoItem) {
-                            super.onItemAtEndLoaded(itemAtEnd)
-                            viewModel.loadMore()
-                        }
-                    })
-                }.build().observe(viewLifecycleOwner, Observer {
-                    adapter.submitList(it)
+        lifecycleScope.launch {
+            LivePagedListBuilder<Int, InfoItem>(viewModel.getFavorInfoFromRoom(), 5).apply {
+                setBoundaryCallback(object : PagedList.BoundaryCallback<InfoItem>() {
+                    override fun onItemAtEndLoaded(itemAtEnd: InfoItem) {
+                        super.onItemAtEndLoaded(itemAtEnd)
+                        viewModel.loadMore()
+                    }
                 })
-            }
+            }.build().observe(viewLifecycleOwner, Observer {
+                infoAdapter.submitList(it)
+            })
+
         }
         viewModel.refresh()
     }.root

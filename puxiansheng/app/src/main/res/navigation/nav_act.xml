@@ -143,19 +143,6 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.puxiansheng.www.ui.mine.setting.SettingFragment"
-        android:label="SettingFragment">
-        <action
-            android:id="@+id/action_settingFragment_to_userSettingFragment"
-            app:destination="@+id/userSettingFragment" />
-
-        <action
-            android:id="@+id/action_settingFragment_to_resetPasswordFragment"
-            app:destination="@+id/resetPasswordFragment" />
-    </fragment>
-
 
     <fragment
         android:id="@+id/userSettingFragment"
@@ -167,12 +154,6 @@
             app:destination="@+id/locationFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/resetPasswordFragment"
-        android:name="com.puxiansheng.www.ui.mine.setting.ResetPasswordFragment"
-        android:label="ResetPasswordFragment">
-
-    </fragment>
 
     <fragment
         android:id="@+id/myfarvorFragment"

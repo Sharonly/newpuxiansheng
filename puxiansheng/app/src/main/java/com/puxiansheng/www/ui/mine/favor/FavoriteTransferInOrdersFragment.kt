@@ -50,7 +50,7 @@ class FavoriteTransferInOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_IN_FAVORITE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
             },onDelete = {
                 var deleteDialog = DeleteOrderDialog("确定要删除该条收藏吗？",Order.Type.TRANSFER_IN_FAVORITE.value(), it?.shop?.shopID)

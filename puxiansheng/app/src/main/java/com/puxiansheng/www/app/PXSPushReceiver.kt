@@ -108,14 +108,14 @@ class PXSPushReceiver : JPushMessageReceiver() {
             }
             3 -> {//找店详情
                 val intent = Intent(context, TransferInOrdersActivity::class.java)
-                intent.putExtra("shopID", data.jump_param?.toInt())
+                intent.putExtra("shopID", data.jump_param)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 Log.d("JPush","data.jump_param = "+data.jump_param)
                 context.startActivity(intent)
             }
             4 -> {//转铺详情
                 val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", data.jump_param?.toInt())
+                intent.putExtra("shopID", data.jump_param)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

@@ -17,6 +17,18 @@ class OrderSoldOutViewModel (application: Application) : AndroidViewModel(applic
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
 
+    fun refresh() {
+        viewModelScope.launch {
+            loadMore()
+        }
+    }
+
+    fun loadMore(
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        getRemoteSoldOutOrders()
+
+    }
+
     suspend fun getRemoteSoldOutOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserSoldOutOrder().let { apiRst ->

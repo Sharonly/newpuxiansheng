@@ -1,11 +1,15 @@
 package com.puxiansheng.www.ui.map
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.webkit.*
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.www.R
@@ -21,27 +25,74 @@ class MapActivity : MyBaseActivity() {
     var mUrl: String = ""
     private lateinit var insertOrUpdateTransferOutOrderViewModel: InsertOrUpdateTransferOutOrderViewModel
     private lateinit var appModel: MainViewModel
+    val LOCATION_CODE = 1315
+    var isNeedCheck = true
+    private val requestCodePermissions = 100
+    private val requiredPermissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_map_find_address
     }
 
     override fun business() {
+        button_back.setOnClickListener {
+            onBackPressed()
+        }
+
+        ActivityCompat.requestPermissions(
+            this,
+            requiredPermissions,
+            requestCodePermissions
+        )
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         insertOrUpdateTransferOutOrderViewModel =
             ViewModelProvider(this)[InsertOrUpdateTransferOutOrderViewModel::class.java]
-        val sb = StringBuilder()
-        sb.append("https://apis.map.qq.com/tools/locpicker?search=1&type=0&coordtype=5&coord=")
-        sb.append(intent.getStringExtra("location"))
-        sb.append("&backurl=http://callback&key=O2IBZ-X2RH4-ZKNUJ-DSGQT-RQGVK-TZF4W&referer=pxs")
-        mUrl = sb.toString()
         initView()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, paramArrayOfInt: IntArray) {
+        when (requestCode) {
+            requestCodePermissions -> if (!verifyPermissions(paramArrayOfInt)) {
+                isNeedCheck = false
+            }
+            LOCATION_CODE -> {
+                if (paramArrayOfInt.isNotEmpty() && paramArrayOfInt[0] == PackageManager.PERMISSION_GRANTED) {
+                    initView()
+                } else {
+                    // 权限被用户拒绝了。
+                    Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 检测是否说有的权限都已经授权
+     */
+    fun verifyPermissions(grantResults: IntArray): Boolean {
+        for (result in grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
 
 
     private fun initView() {
-        button_back.setOnClickListener {
-            onBackPressed()
+        if(intent.getStringExtra("location")=="0.0,0.0"){
+            Toast.makeText(this, "请打开GPS来获取您的定位", Toast.LENGTH_LONG).show()
+        }else {
+            Log.d("---location---", " intent.getStringExtra " + intent.getStringExtra("location"))
+            val sb = StringBuilder()
+            sb.append("https://apis.map.qq.com/tools/locpicker?search=1&type=0&coordtype=5&coord=")
+            sb.append(intent.getStringExtra("location"))
+            sb.append("&backurl=http://callback&key=O2IBZ-X2RH4-ZKNUJ-DSGQT-RQGVK-TZF4W&referer=pxs")
+            mUrl = sb.toString()
         }
         map_webview.apply {
             webChromeClient = WebChromeClient()

@@ -44,6 +44,8 @@ object API {
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
     const val API_VERSION = "329"
 
+    const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
+
     const val LOGIN_USER_ID = "user_id"
     const val LOGIN_USER_TOKEN = "user_token"
     const val LOGIN_USER_PHONE = "user_phone"

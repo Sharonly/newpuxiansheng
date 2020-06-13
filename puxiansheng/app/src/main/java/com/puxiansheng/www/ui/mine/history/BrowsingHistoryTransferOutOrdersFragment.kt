@@ -13,6 +13,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
@@ -23,10 +24,12 @@ import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
 
     private lateinit var viewModel: BrowsingHistoryTransferOutOrdersViewModel
+    private lateinit var hisViewModel: HistoryListViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this)[BrowsingHistoryTransferOutOrdersViewModel::class.java]
+        hisViewModel =  ViewModelProvider(requireActivity())[HistoryListViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -51,7 +54,7 @@ class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_OUT_HISTORY.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
 
             }
@@ -95,6 +98,12 @@ class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
         }
 
         viewModel.refresh()
+
+        hisViewModel.refreshType.observe(requireActivity(), Observer {
+            if(it == Order.Type.TRANSFER_OUT_HISTORY.value()){
+                viewModel.refresh()
+            }
+        })
     }.root
 
     override fun onDestroy() {

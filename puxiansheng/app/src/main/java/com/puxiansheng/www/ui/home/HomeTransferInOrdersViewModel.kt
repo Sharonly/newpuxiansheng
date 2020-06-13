@@ -35,11 +35,10 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
     }
 
     fun refresh(city: String) {
+        deleteOrdersByType(type = Order.Type.TRANSFER_IN_RECOMMEND.value())
         currentCity = city
         currentPage = 1
-        deleteOrdersByType(type = Order.Type.TRANSFER_IN_RECOMMEND.value())
         loadMore()
-        Log.d("---city--", "HomeTransferIn refresh = " + currentCity)
     }
 
     fun getTransferInOrdersFromLocal() =
@@ -72,7 +71,7 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
                         )
                     )
                 }?.let { orders ->
-                    delay(800)
+//                    delay(800)
                     orderRepository.insertOrders(*orders.toTypedArray())
                 }
             } else null

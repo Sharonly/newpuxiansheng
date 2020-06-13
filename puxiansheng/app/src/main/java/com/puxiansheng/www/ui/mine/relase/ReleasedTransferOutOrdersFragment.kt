@@ -57,7 +57,7 @@ class ReleasedTransferOutOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_OUT_PRIVATE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
             },
 

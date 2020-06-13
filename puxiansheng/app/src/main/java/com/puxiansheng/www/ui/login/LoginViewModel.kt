@@ -9,6 +9,7 @@ import com.puxiansheng.logic.BuildConfig
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.bean.http.HttpRespBindMobilePhone
+import com.puxiansheng.logic.data.common.CommonDataRepository
 import com.puxiansheng.logic.data.system.SystemDatabase
 import com.puxiansheng.logic.data.system.SystemRepository
 import com.puxiansheng.logic.data.user.UserDatabase
@@ -29,6 +30,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository = UserRepository((UserDatabase.getInstance(context).userDao()))
     private val systemRepository =
         SystemRepository(SystemDatabase.getInstance(context).systemConfigDao())
+    private val commonDataRepository = CommonDataRepository()
 
     companion object {
         const val MODE_LOGIN_WITH_PASSWORD = 0
@@ -156,6 +158,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 //            }
 //    }
 
+
+    suspend fun getConfigInfo(name:String) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        commonDataRepository.getConfigUrlRemote(name = name).let {
+            if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
+        }
+    }
 
     suspend fun dealLoginDate(apiRst: APIRst<Response>) = viewModelScope.async(Dispatchers.IO) {
         if (apiRst.succeeded) {

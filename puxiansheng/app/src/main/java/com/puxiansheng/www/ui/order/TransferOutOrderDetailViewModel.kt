@@ -7,6 +7,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.ServiceAgent
 import com.puxiansheng.logic.bean.Shop
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.logic.data.common.CommonDataRepository
 import com.puxiansheng.logic.data.order.OrderDatabase
 import com.puxiansheng.logic.data.order.OrderRepository
 import com.puxiansheng.logic.data.user.UserDatabase
@@ -21,6 +22,7 @@ class TransferOutOrderDetailViewModel(application: Application) : AndroidViewMod
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     private val userRepository = UserRepository(UserDatabase.getInstance(context).userDao())
+    private val commonDataRepository = CommonDataRepository()
 
     suspend fun requestTransferOutOrderDetail(
         shopID: String
@@ -102,6 +104,15 @@ class TransferOutOrderDetailViewModel(application: Application) : AndroidViewMod
             type = type
         ).let {
             if (it.succeeded) (it as APIRst.Success).data else null
+        }
+    }
+
+
+    suspend fun getConfigInfo(name:String) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        commonDataRepository.getConfigUrlRemote(name = name).let {
+            if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
         }
     }
 }

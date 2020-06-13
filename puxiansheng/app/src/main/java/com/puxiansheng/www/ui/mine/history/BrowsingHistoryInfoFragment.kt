@@ -19,14 +19,18 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentInfoListBinding
 import com.puxiansheng.www.ui.mine.favor.FavorInfoAdapter
+import kotlinx.android.synthetic.main.fragment_mine_browsing_history_inner_fragment.*
 import kotlinx.coroutines.launch
 
 class BrowsingHistoryInfoFragment : Fragment() {
     private lateinit var viewModel: BrowsingHistoryInfoListViewModel
+    private lateinit var hisViewModel: HistoryListViewModel
+    private lateinit var infoAdapter: FavorInfoAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this)[BrowsingHistoryInfoListViewModel::class.java]
+        hisViewModel =  ViewModelProvider(requireActivity())[HistoryListViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -49,22 +53,22 @@ class BrowsingHistoryInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        FavorInfoAdapter(requireContext(),type = InfoItem.Type.ARTICLE_HISTORY.value()).let { adapter ->
-            adapter.addLoadStateListener{loadType, _, _ ->
+        infoAdapter =  FavorInfoAdapter(requireContext(),type = InfoItem.Type.ARTICLE_HISTORY.value())
+        infoAdapter.addLoadStateListener{loadType, _, _ ->
                 if (loadType == PagedList.LoadType.END) {
-                    if (adapter.itemCount == 0) {
-                        adapter.type = Order.Type.EMPTY.value()
-                        adapter.notifyDataSetChanged()
+                    if (infoAdapter.itemCount == 0) {
+                        infoAdapter.type = Order.Type.EMPTY.value()
+                        infoAdapter.notifyDataSetChanged()
                     }
                 }
                 if (loadType == PagedList.LoadType.REFRESH) {
-                    if (adapter.type != InfoItem.Type.ARTICLE_HISTORY.value()) {
-                        adapter.type = InfoItem.Type.ARTICLE_HISTORY.value()
-                        adapter.notifyDataSetChanged()
+                    if (infoAdapter.type != InfoItem.Type.ARTICLE_HISTORY.value()) {
+                        infoAdapter.type = InfoItem.Type.ARTICLE_HISTORY.value()
+                        infoAdapter.notifyDataSetChanged()
                     }
                 }
             }
-            list.adapter = adapter
+            list.adapter = infoAdapter
             lifecycleScope.launch {
                 LivePagedListBuilder<Int, InfoItem>(
                     viewModel.getFavorInfoFromRoom(),
@@ -77,11 +81,19 @@ class BrowsingHistoryInfoFragment : Fragment() {
                         }
                     })
                 }.build().observe(viewLifecycleOwner, Observer {
-                    adapter.submitList(it)
+                    infoAdapter.submitList(it)
                 })
             }
-        }
+
         viewModel.refresh()
+
+        hisViewModel.refreshType.observe(requireActivity(), Observer {
+            if(it == InfoItem.Type.ARTICLE_HISTORY.value()){
+                viewModel.refresh()
+            }
+        })
+
+
     }.root
 
 }

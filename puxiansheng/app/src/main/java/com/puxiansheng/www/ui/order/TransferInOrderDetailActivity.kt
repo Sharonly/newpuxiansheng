@@ -5,9 +5,12 @@ import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.puxiansheng.logic.api.API
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
+import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.button_back
@@ -44,7 +47,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
 
         button_more.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.requestTransferInOrderDetail(intent.getIntExtra("shopID", 0).toString())
+                viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
                         MoreManagerDialog(order.shop?.shopID.toString(), 1, order.favorite).show(
                             supportFragmentManager,
@@ -52,9 +55,10 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                         )
                     }
             }
+        }
 
             lifecycleScope.launch {
-                viewModel.requestTransferInOrderDetail(intent.getIntExtra("shopID", 0).toString())
+                viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
 
                         shop_title.text = order.shop?.title
@@ -81,9 +85,19 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                         }
 
                         bt_connect_kf.setOnClickListener {
-                            Intent(Intent.ACTION_DIAL).apply {
-                                data = Uri.parse("tel:${order.serviceAgent?.phone}")
-                                startActivity(this)
+//                            Intent(Intent.ACTION_DIAL).apply {
+//                                data = Uri.parse("tel:${order.serviceAgent?.phone}")
+//                                startActivity(this)
+//                            }
+
+                            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                                Intent(Intent.ACTION_DIAL).apply {
+                                    data = Uri.parse("tel:${order.serviceAgent?.phone}")
+                                    startActivity(this)
+                                }
+                            } else {
+                                val intent = Intent(this@TransferInOrderDetailActivity, LoginActivity::class.java)
+                                startActivity(intent)
                             }
                         }
 
@@ -105,5 +119,5 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
             }
         }
 
-    }
+
 }

@@ -69,8 +69,10 @@ class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewMode
                             data_type = it.data_type,
                             jump_type = it.jump_type,
                             jump_view = it.jump_view,
-                            jump_param = it.jump_param
+                            jump_param = it.jump_param,
+                            articles = it.articles
                         )
+
                     )
                 }?.let { orders ->
 //                    return@withContext orders

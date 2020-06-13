@@ -55,13 +55,24 @@ class TransferInOrdersActivity : MyBaseActivity() {
 
         selected_rent.text = "租金"
 
-        viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
+        if(intent.getStringExtra("title") != "*") {
+            button_search.setText(intent.getStringExtra("title"))
+            viewModel.title = intent.getStringExtra("title")
+            order_list.removeAllViews()
+            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
+        }else {
+            viewModel.refresh(
+                SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+            )
+        }
+
 
         button_search.hint = "找店搜索"
 
         button_back.setOnClickListener {
             onBackPressed()
         }
+
 
         button_search.addTextChangedListener {
             viewModel.title = it.toString()
@@ -166,7 +177,7 @@ class TransferInOrdersActivity : MyBaseActivity() {
             type = Order.Type.TRANSFER_IN.value(),
             onItemSelect = {
                 val intent = Intent(this, TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                intent.putExtra("shopID", it?.shop?.shopID.toString())
                 startActivity(intent)
 
 
@@ -191,7 +202,8 @@ class TransferInOrdersActivity : MyBaseActivity() {
                         if (getDataCount() == 0) {
                             type = Order.Type.EMPTY.value()
                             notifyDataSetChanged()
-                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
+                            bg_null.visibility = View.VISIBLE
+//                            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
                         }
                     }
                     if (loadType == PagedList.LoadType.REFRESH) {

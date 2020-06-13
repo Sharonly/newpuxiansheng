@@ -53,25 +53,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+//
+//    fun loadMore(type: Int) = viewModelScope.launch(Dispatchers.IO) {
+//        if(type==Order.Type.TRANSFER_IN.value()){
+//            getHomeRecommendedTransferInOrdersFromRemote(currentCity)
+//        }else{
+//            getHomeRecommendedTransferInOrdersFromRemote(currentCity)
+//        }
+//        currentPage += 1
+//    }
 
-
-
-
-    fun loadMore(type: Int) = viewModelScope.launch(Dispatchers.IO) {
-        if(type==Order.Type.TRANSFER_IN.value()){
-            getHomeRecommendedTransferInOrdersFromRemote(currentCity)
-        }else{
-            getHomeRecommendedTransferInOrdersFromRemote(currentCity)
-        }
-
-        currentPage += 1
-    }
-
-    fun refresh() {
-        currentPage = 1
-        deleteOrdersByType(type = Order.Type.TRANSFER_IN.value())
-        loadMore()
-    }
+//    fun refresh() {
+//        currentPage = 1
+//        deleteOrdersByType(type = Order.Type.TRANSFER_IN.value())
+//        loadMore()
+//    }
 
     fun getTransferInOrdersFromLocal() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_IN_RECOMMEND.value())

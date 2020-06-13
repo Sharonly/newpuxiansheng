@@ -55,14 +55,23 @@ class TransferOutOrderActivity : MyBaseActivity() {
 
         selected_rent.text = "租金"
 
-        viewModel.refresh(
-            SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString()
-        )
-
+        if(intent.getStringExtra("title") != "*") {
+            button_search.setText(intent.getStringExtra("title"))
+            viewModel.title = intent.getStringExtra("title")
+            order_list.removeAllViews()
+            viewModel.refresh(SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString())
+        }else {
+            viewModel.refresh(
+                SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+            )
+        }
 
         button_back.setOnClickListener {
             onBackPressed()
         }
+
+
+
 
         button_search.addTextChangedListener {
             viewModel.title = it.toString()
@@ -171,7 +180,7 @@ class TransferOutOrderActivity : MyBaseActivity() {
             type = Order.Type.TRANSFER_OUT.value(),
             onItemSelect = {
                 val intent = Intent(this, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                intent.putExtra("shopID", it?.shop?.jump_param)
                 startActivity(intent)
 
             }
@@ -195,9 +204,11 @@ class TransferOutOrderActivity : MyBaseActivity() {
                         if (getDataCount() == 0) {
                             type = Order.Type.EMPTY.value()
                             notifyDataSetChanged()
-                            viewModel.refresh(
-                                SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString()
-                            )
+
+                            bg_null.visibility = View.VISIBLE
+//                            viewModel.refresh(
+//                                SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString()
+//                            )
                         }
                     }
                     if (loadType == PagedList.LoadType.REFRESH) {

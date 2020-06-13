@@ -28,10 +28,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.ui.business.BusinessAdapter
-import com.puxiansheng.www.ui.business.ConsultDialog
-import com.puxiansheng.www.ui.business.InvestBusinessDetailActivity
-import com.puxiansheng.www.ui.business.InvestBusnessViewModel
+import com.puxiansheng.www.ui.business.*
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.InfoListAdapter
 import com.puxiansheng.www.ui.info.InfoListViewModel
@@ -146,13 +143,31 @@ class SearchActivity : MyBaseActivity() {
                 )
                 list.removeAllViews()
                 when (searchViewModel.type) {
-                    0 -> orderOutViewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                    )
-                    1 -> orderInViewModel.refresh(
-                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-                    )
-                    2 -> businessViewModel.refresh()
+                    0 -> {
+                        val intent = Intent(this, TransferOutOrderActivity::class.java)
+                        intent.putExtra("title", searchViewModel.searchTitle)
+                        startActivity(intent)
+                    }
+
+                    1 -> {
+                        val intent = Intent(this, TransferInOrdersActivity::class.java)
+                        intent.putExtra("title", searchViewModel.searchTitle)
+                        startActivity(intent)
+                    }
+
+                    2 -> {
+                        val intent = Intent(this, InvestBusinessActivity::class.java)
+                        intent.putExtra("title", searchViewModel.searchTitle)
+                        startActivity(intent)
+                    }
+
+//                    0 -> orderOutViewModel.refresh(
+//                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+//                    )
+//                    1 -> orderInViewModel.refresh(
+//                        SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+//                    )
+//                    2 -> businessViewModel.refresh()
                 }
                 getDateList()
                 return@OnEditorActionListener true
@@ -201,7 +216,12 @@ class SearchActivity : MyBaseActivity() {
         })
 
         type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 //切换选择
                 searchViewModel.type = position
                 Log.d("---search", "  searchViewModel.type = " + searchViewModel.type)
@@ -225,13 +245,14 @@ class SearchActivity : MyBaseActivity() {
     }
 
 
-    fun getDateList(){
+    fun getDateList() {
         if (searchViewModel.type == 0) {
             list.adapter = OrdersAdapter(
                 type = Order.Type.TRANSFER_OUT.value(),
                 onItemSelect = {
-                    val intent = Intent(this@SearchActivity, TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                    val intent =
+                        Intent(this@SearchActivity, TransferOutOrderDetailActivity::class.java)
+                    intent.putExtra("shopID", it?.shop?.jump_param)
                     startActivity(intent)
 
                 }
@@ -279,7 +300,7 @@ class SearchActivity : MyBaseActivity() {
                 type = Order.Type.TRANSFER_IN.value(),
                 onItemSelect = {
                     val intent = Intent(this, TransferInOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", it?.shop?.shopID?.toInt())
+                    intent.putExtra("shopID", it?.shop?.jump_param)
                     startActivity(intent)
                 }
             ).apply {
@@ -331,7 +352,10 @@ class SearchActivity : MyBaseActivity() {
                 startActivity(intent)
             },
                 onItemCall = {
-                    ConsultDialog(it?.id.toString()).show(supportFragmentManager, ConsultDialog::class.java.name)
+                    ConsultDialog(it?.id.toString()).show(
+                        supportFragmentManager,
+                        ConsultDialog::class.java.name
+                    )
                 }).let { adapter ->
                 list.adapter = adapter
                 lifecycleScope.launch {
@@ -356,7 +380,8 @@ class SearchActivity : MyBaseActivity() {
     }
 
     fun hideKeyboard(view: View) {
-        val manager: InputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val manager: InputMethodManager =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

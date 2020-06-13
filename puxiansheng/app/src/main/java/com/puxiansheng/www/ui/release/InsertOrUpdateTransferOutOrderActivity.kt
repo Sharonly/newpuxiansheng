@@ -81,11 +81,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         insertOrUpdateTransferOutOrderViewModel =
             ViewModelProvider(this)[InsertOrUpdateTransferOutOrderViewModel::class.java]
         appViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        ActivityCompat.requestPermissions(
-            this,
-            requiredPermissions,
-            requestCodePermissions
-        )
+
         initView()
     }
 
@@ -146,22 +142,20 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 }
             }
 
-            insertOrUpdateTransferOutOrderViewModel.lat.let {
-                if (it == 0.0) {
-                    getLngAndLat(this)
-                    Toast.makeText(this, "需要获取您的定位！", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-            }
-
-            insertOrUpdateTransferOutOrderViewModel.lng.let {
-                if (it == 0.0) {
-                    Toast.makeText(this, "需要获取您的定位！", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-            }
-
-
+//            insertOrUpdateTransferOutOrderViewModel.lat.let {
+//                if (it == 0.0) {
+//                    getLngAndLat(this)
+//                    Toast.makeText(this, "需要获取您的定位！", Toast.LENGTH_SHORT).show()
+//                    return@setOnClickListener
+//                }
+//            }
+//
+//            insertOrUpdateTransferOutOrderViewModel.lng.let {
+//                if (it == 0.0) {
+//                    Toast.makeText(this, "需要获取您的定位！", Toast.LENGTH_SHORT).show()
+//                    return@setOnClickListener
+//                }
+//            }
 
 
             insertOrUpdateTransferOutOrderViewModel.industry.let {
@@ -201,27 +195,35 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             )
         }
 
-        button_select_size.setOnClickListener {
-            SelectSizeRangeDialog(
-                onSelectSize = {
-                    it?.let { size ->
-                        button_select_size.text = size.text
-                        insertOrUpdateTransferOutOrderViewModel.size = size.menuID.toString()
-                    }
-                }
-            ).show(supportFragmentManager, SelectSizeRangeDialog::class.java.name)
+//        button_select_size.setOnClickListener {
+//            SelectSizeRangeDialog(
+//                onSelectSize = {
+//                    it?.let { size ->
+//                        button_select_size.text = size.text
+//                        insertOrUpdateTransferOutOrderViewModel.size = size.menuID.toString()
+//                    }
+//                }
+//            ).show(supportFragmentManager, SelectSizeRangeDialog::class.java.name)
+//        }
+
+//        bt_select_rent.setOnClickListener {
+//            SelectRentRangeDialog(onSelectRent = {
+//                it?.let { rent ->
+//                    bt_select_rent.text = rent.text
+//                    insertOrUpdateTransferOutOrderViewModel.rent = rent.menuID.toString();
+//                }
+//            }).show(
+//                supportFragmentManager,
+//                SelectRentRangeDialog::class.java.name
+//            )
+//        }
+
+        button_select_size.addTextChangedListener {
+            insertOrUpdateTransferOutOrderViewModel.size = it.toString()
         }
 
-        bt_select_rent.setOnClickListener {
-            SelectRentRangeDialog(onSelectRent = {
-                it?.let { rent ->
-                    bt_select_rent.text = rent.text
-                    insertOrUpdateTransferOutOrderViewModel.rent = rent.menuID.toString();
-                }
-            }).show(
-                supportFragmentManager,
-                SelectRentRangeDialog::class.java.name
-            )
+        bt_select_rent.addTextChangedListener {
+            insertOrUpdateTransferOutOrderViewModel.rent = it.toString()
         }
 
         input_fee.addTextChangedListener {
@@ -272,6 +274,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         })
 
         button_select_address.setOnClickListener {
+
             var location = getLngAndLat(this)
             //  edit_user_address.inputType = InputType.TYPE_NULL
             val intent = Intent(this, MapActivity::class.java)
@@ -438,6 +441,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
         intent.getIntExtra("shopID", 0).toString().takeIf {
