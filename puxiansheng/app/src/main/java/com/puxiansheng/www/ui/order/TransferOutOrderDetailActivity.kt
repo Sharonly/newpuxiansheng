@@ -126,9 +126,9 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                         Intent(this@TransferOutOrderDetailActivity, MapActivity::class.java)
                     intent.putExtra(
                         "location",
-                        order.shop?.lat.toString() + "," + order.shop?.lng.toString()
+                        order.shop?.newLat.toString() + "," + order.shop?.newLng.toString()
                     )
-                    Log.d("get_location"," lat = "+order.shop?.lat.toString()+"  lng = "+order.shop?.lng.toString())
+                    Log.d("get_location"," lat = "+order.shop?.newLat.toString()+"  lng = "+order.shop?.newLng.toString())
                     startActivity(intent)
                 }
 
@@ -163,11 +163,12 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     img_success.visibility = View.VISIBLE
                     recommend_orders.visibility = View.GONE
                     bg_map.visibility = View.GONE
+                    bt_connect_kf.visibility = View.INVISIBLE
                 } else {
                     img_success.visibility = View.GONE
                     recommend_orders.visibility = View.VISIBLE
                     bg_map.visibility =View.VISIBLE
-
+                    bt_connect_kf.visibility = View.VISIBLE
                 }
 
 
@@ -239,7 +240,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                         this@TransferOutOrderDetailActivity,
                         TransferOutOrderDetailActivity::class.java
                     )
-                    intent.putExtra("shopID", it?.shopID)
+                    intent.putExtra("shopID", it?.shopID.toString())
                     startActivity(intent)
                 })
                 viewModel.requestUserLikeShopList(

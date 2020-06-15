@@ -54,7 +54,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferInOrderViewModel.contactName =
-            SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
@@ -108,12 +108,21 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                 }
             }
 
-            insertOrUpdateTransferInOrderViewModel.contactName =
-                SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
-            insertOrUpdateTransferInOrderViewModel.contactPhone =
-                SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
 Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ insertOrUpdateTransferInOrderViewModel.contactName+ "  "+ SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString())
+            insertOrUpdateTransferInOrderViewModel.contactName.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入联系人！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            insertOrUpdateTransferInOrderViewModel.contactPhone.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入联系电话！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
             insertOrUpdateTransferInOrderViewModel.submit()
         }
 
@@ -314,10 +323,10 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
                         }
                 }
             } else {
-                var phone = SharedPreferencesUtil.get(
-                    API.LOGIN_ACTUL_PHONE, ""
-                ).toString()
-                insertOrUpdateTransferInOrderViewModel.contactPhone = phone
+//                var phone = SharedPreferencesUtil.get(
+//                    API.LOGIN_ACTUL_PHONE, ""
+//                ).toString()
+//                insertOrUpdateTransferInOrderViewModel.contactPhone = phone
 
             }
         }

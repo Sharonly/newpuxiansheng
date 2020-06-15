@@ -45,12 +45,12 @@ data class InfoItem(
     val pageViews: Int = 0,
 
     //TODO 新增
-    @SerializedName("user_id")
-    @ColumnInfo(name = "_user_id")
-    val userId: Int = 0,
+//    @SerializedName("user_id")
+//    @ColumnInfo(name = "_user_id")
+//    val userId: Int = 0,
 
     @SerializedName("jump_param")
-    @ColumnInfo(name = "_jump_param")
+    @ColumnInfo(name = "_param")
     val jump_param: String = ""
 
 //@SerializedName("new_view_count")

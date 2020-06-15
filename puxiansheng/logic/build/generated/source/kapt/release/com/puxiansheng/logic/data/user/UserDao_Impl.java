@@ -29,7 +29,7 @@ public final class UserDao_Impl implements UserDao {
     this.__insertionAdapterOfUser = new EntityInsertionAdapter<User>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_nickname`,`nickName`,`userSex`,`_icon`,`_login_timestamp`,`tipsMsg`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`cityPathId`,`cityId`,`cityName`,`userCityPath`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `user_table` (`_user_id`,`_account`,`_token`,`_name`,`_nickname`,`_user_sex`,`_icon`,`_login_timestamp`,`_tips_msg`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`_city_id`,`_view_city_name`,`_view_city_path`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -133,19 +133,19 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_id");
           final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(_cursor, "_account");
           final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(_cursor, "_token");
-          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
-          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "nickName");
-          final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "userSex");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_name");
+          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_sex");
           final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon");
           final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_timestamp");
-          final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "tipsMsg");
+          final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "_tips_msg");
           final int _cursorIndexOfLoginState = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_state");
           final int _cursorIndexOfActualName = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_contact_name");
           final int _cursorIndexOfUserPhoneNumber = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_contact_phone");
-          final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityPathId");
-          final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityId");
-          final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "cityName");
-          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "userCityPath");
+          final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_path_id");
+          final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_id");
+          final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_city_name");
+          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_city_path");
           final User _result;
           if(_cursor.moveToFirst()) {
             _result = new User();
@@ -221,19 +221,19 @@ public final class UserDao_Impl implements UserDao {
           final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_id");
           final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(_cursor, "_account");
           final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(_cursor, "_token");
-          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
-          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "nickName");
-          final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "userSex");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "_name");
+          final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(_cursor, "_nickname");
+          final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_sex");
           final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon");
           final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_timestamp");
-          final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "tipsMsg");
+          final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "_tips_msg");
           final int _cursorIndexOfLoginState = CursorUtil.getColumnIndexOrThrow(_cursor, "_login_state");
           final int _cursorIndexOfActualName = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_contact_name");
           final int _cursorIndexOfUserPhoneNumber = CursorUtil.getColumnIndexOrThrow(_cursor, "_user_contact_phone");
-          final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityPathId");
-          final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "cityId");
-          final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "cityName");
-          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "userCityPath");
+          final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_path_id");
+          final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(_cursor, "_city_id");
+          final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_city_name");
+          final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(_cursor, "_view_city_path");
           final User _result;
           if(_cursor.moveToFirst()) {
             _result = new User();

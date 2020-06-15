@@ -31,10 +31,10 @@ public final class UserDatabase_Impl extends UserDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `user_table` (`_user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_account` TEXT NOT NULL, `_token` TEXT NOT NULL, `_nickname` TEXT NOT NULL, `nickName` TEXT NOT NULL, `userSex` INTEGER NOT NULL, `_icon` TEXT NOT NULL, `_login_timestamp` INTEGER NOT NULL, `tipsMsg` TEXT NOT NULL, `_login_state` INTEGER NOT NULL, `_user_contact_name` TEXT NOT NULL, `_user_contact_phone` TEXT NOT NULL, `cityPathId` TEXT NOT NULL, `cityId` INTEGER NOT NULL, `cityName` TEXT NOT NULL, `userCityPath` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `user_table` (`_user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_account` TEXT NOT NULL, `_token` TEXT NOT NULL, `_name` TEXT NOT NULL, `_nickname` TEXT NOT NULL, `_user_sex` INTEGER NOT NULL, `_icon` TEXT NOT NULL, `_login_timestamp` INTEGER NOT NULL, `_tips_msg` TEXT NOT NULL, `_login_state` INTEGER NOT NULL, `_user_contact_name` TEXT NOT NULL, `_user_contact_phone` TEXT NOT NULL, `_city_path_id` TEXT NOT NULL, `_city_id` INTEGER NOT NULL, `_view_city_name` TEXT NOT NULL, `_view_city_path` TEXT NOT NULL)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_user_table__user_contact_phone` ON `user_table` (`_user_contact_phone`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78d9929e1ad478c072c2a8bfbb16bb9e')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0eebfd5c5435394f7f98e6119b3ce094')");
       }
 
       @Override
@@ -82,19 +82,19 @@ public final class UserDatabase_Impl extends UserDatabase {
         _columnsUserTable.put("_user_id", new TableInfo.Column("_user_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_account", new TableInfo.Column("_account", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_token", new TableInfo.Column("_token", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_name", new TableInfo.Column("_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_nickname", new TableInfo.Column("_nickname", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("nickName", new TableInfo.Column("nickName", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("userSex", new TableInfo.Column("userSex", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_user_sex", new TableInfo.Column("_user_sex", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_icon", new TableInfo.Column("_icon", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_login_timestamp", new TableInfo.Column("_login_timestamp", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("tipsMsg", new TableInfo.Column("tipsMsg", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_tips_msg", new TableInfo.Column("_tips_msg", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_login_state", new TableInfo.Column("_login_state", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_user_contact_name", new TableInfo.Column("_user_contact_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUserTable.put("_user_contact_phone", new TableInfo.Column("_user_contact_phone", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("cityPathId", new TableInfo.Column("cityPathId", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("cityId", new TableInfo.Column("cityId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("cityName", new TableInfo.Column("cityName", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsUserTable.put("userCityPath", new TableInfo.Column("userCityPath", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_city_path_id", new TableInfo.Column("_city_path_id", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_city_id", new TableInfo.Column("_city_id", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_view_city_name", new TableInfo.Column("_view_city_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUserTable.put("_view_city_path", new TableInfo.Column("_view_city_path", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysUserTable = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesUserTable = new HashSet<TableInfo.Index>(1);
         _indicesUserTable.add(new TableInfo.Index("index_user_table__user_contact_phone", true, Arrays.asList("_user_contact_phone")));
@@ -107,7 +107,7 @@ public final class UserDatabase_Impl extends UserDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "78d9929e1ad478c072c2a8bfbb16bb9e", "be4e82cefe5c8f27d9c2ee7c44b764ed");
+    }, "0eebfd5c5435394f7f98e6119b3ce094", "602290a6b914be8d930a430ab9327082");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

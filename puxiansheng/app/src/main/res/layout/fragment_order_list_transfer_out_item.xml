@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -176,7 +177,8 @@
         <ImageView
             android:id="@+id/bg_shop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

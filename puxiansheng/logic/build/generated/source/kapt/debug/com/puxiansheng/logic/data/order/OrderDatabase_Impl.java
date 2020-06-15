@@ -31,10 +31,10 @@ public final class OrderDatabase_Impl extends OrderDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(4) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_orders` (`_order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_order_type` INTEGER NOT NULL, `_favorite` INTEGER NOT NULL, `_shop_id` INTEGER, `_title` TEXT, `_size` REAL, `_rent` REAL, `_fee` REAL, `_lng` REAL, `_lat` REAL, `_industry` TEXT, `_running_state` INTEGER, `_exclusive` INTEGER, `_image` TEXT, `_images` TEXT, `_floor` INTEGER, `_labels` TEXT, `_facilities` TEXT, `_allfacilities` TEXT, `_description` TEXT, `_description_url` TEXT, `_environment` TEXT, `_reason` TEXT, `_transfer_type` INTEGER, `_is_success` INTEGER, `_formatted_is_success` INTEGER, `_formatted_date` TEXT, `_formatted_size` TEXT, `_formatted_rent` TEXT, `_formatted_page_views` INTEGER, `_formatted_fee` TEXT, `_formatted_location_nodes` TEXT, `_formatted_industry` TEXT, `_formatted_final_industry` TEXT, `_formatted_final_location_node` TEXT, `_view_demand_ids` TEXT, `_rent_view` TEXT, `_view_opening` TEXT, `_view_can_empty` TEXT, `_is_top` INTEGER, `_is_hot` INTEGER, `_is_recommend` INTEGER, `_is_large_order` INTEGER, `_large_order_img` TEXT, `_category_acreage` TEXT, `_formatted_area` TEXT, `_is_vip` INTEGER, `_data_type` TEXT, `_jump_type` INTEGER, `_jump_view` TEXT, `_jump_param` TEXT, `_location_nodes` TEXT, `_address_description` TEXT, `_post_code` INTEGER, `_latitude` REAL, `_longitude` REAL, `_user_id` INTEGER, `_account` TEXT, `_token` TEXT, `_nickname` TEXT, `nickName` TEXT, `userSex` INTEGER, `_icon` TEXT, `_login_timestamp` INTEGER, `tipsMsg` TEXT, `_login_state` INTEGER, `_user_contact_name` TEXT, `_user_contact_phone` TEXT, `cityPathId` TEXT, `cityId` INTEGER, `cityName` TEXT, `userCityPath` TEXT, `_state_text` TEXT, `_state_color` TEXT)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_orders` (`_order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_order_type` INTEGER NOT NULL, `_favorite` INTEGER NOT NULL, `_shop_id` INTEGER, `_title` TEXT, `_size` REAL, `_rent` REAL, `_fee` REAL, `_lng` TEXT, `_lat` TEXT, `_new_lng` REAL, `_new_lat` REAL, `_industry` TEXT, `_running_state` INTEGER, `_exclusive` INTEGER, `_image` TEXT, `_images` TEXT, `_floor` INTEGER, `_labels` TEXT, `_facilities` TEXT, `_allfacilities` TEXT, `_description` TEXT, `_description_url` TEXT, `_environment` TEXT, `_reason` TEXT, `_transfer_type` INTEGER, `_is_success` INTEGER, `_formatted_is_success` INTEGER, `_formatted_date` TEXT, `_formatted_size` TEXT, `_formatted_rent` TEXT, `_formatted_page_views` INTEGER, `_formatted_fee` TEXT, `_formatted_location_nodes` TEXT, `_formatted_industry` TEXT, `_formatted_final_industry` TEXT, `_formatted_final_location_node` TEXT, `formattedFacilities` TEXT, `_rent_view` TEXT, `_view_opening` TEXT, `_view_can_empty` TEXT, `_is_top` INTEGER, `_is_hot` INTEGER, `_is_recommend` INTEGER, `_is_large_order` INTEGER, `_large_order_img` TEXT, `_category_acreage` TEXT, `_formatted_area` TEXT, `_is_vip` INTEGER, `_data_type` TEXT, `_jump_type` INTEGER, `_jump_view` TEXT, `_jump_param` TEXT, `_location_nodes` TEXT, `_address_description` TEXT, `_post_code` INTEGER, `_latitude` REAL, `_longitude` REAL, `_user_id` INTEGER, `_account` TEXT, `_token` TEXT, `_name` TEXT, `_nickname` TEXT, `_user_sex` INTEGER, `_icon` TEXT, `_login_timestamp` INTEGER, `_tips_msg` TEXT, `_login_state` INTEGER, `_user_contact_name` TEXT, `_user_contact_phone` TEXT, `_city_path_id` TEXT, `_city_id` INTEGER, `_view_city_name` TEXT, `_view_city_path` TEXT, `_state_text` TEXT, `_state_color` TEXT)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_table_orders__shop_id__transfer_type` ON `table_orders` (`_shop_id`, `_transfer_type`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6c328757dbd5d385a55f46e25e793671')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d4bd2ef721e403899430153450367a9')");
       }
 
       @Override
@@ -78,7 +78,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsTableOrders = new HashMap<String, TableInfo.Column>(74);
+        final HashMap<String, TableInfo.Column> _columnsTableOrders = new HashMap<String, TableInfo.Column>(76);
         _columnsTableOrders.put("_order_id", new TableInfo.Column("_order_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_order_type", new TableInfo.Column("_order_type", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_favorite", new TableInfo.Column("_favorite", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -87,8 +87,10 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         _columnsTableOrders.put("_size", new TableInfo.Column("_size", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_rent", new TableInfo.Column("_rent", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_fee", new TableInfo.Column("_fee", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("_lng", new TableInfo.Column("_lng", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("_lat", new TableInfo.Column("_lat", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_lng", new TableInfo.Column("_lng", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_lat", new TableInfo.Column("_lat", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_new_lng", new TableInfo.Column("_new_lng", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_new_lat", new TableInfo.Column("_new_lat", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_industry", new TableInfo.Column("_industry", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_running_state", new TableInfo.Column("_running_state", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_exclusive", new TableInfo.Column("_exclusive", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -114,7 +116,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         _columnsTableOrders.put("_formatted_industry", new TableInfo.Column("_formatted_industry", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_formatted_final_industry", new TableInfo.Column("_formatted_final_industry", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_formatted_final_location_node", new TableInfo.Column("_formatted_final_location_node", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("_view_demand_ids", new TableInfo.Column("_view_demand_ids", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("formattedFacilities", new TableInfo.Column("formattedFacilities", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_rent_view", new TableInfo.Column("_rent_view", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_view_opening", new TableInfo.Column("_view_opening", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_view_can_empty", new TableInfo.Column("_view_can_empty", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -138,19 +140,19 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         _columnsTableOrders.put("_user_id", new TableInfo.Column("_user_id", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_account", new TableInfo.Column("_account", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_token", new TableInfo.Column("_token", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_name", new TableInfo.Column("_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_nickname", new TableInfo.Column("_nickname", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("nickName", new TableInfo.Column("nickName", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("userSex", new TableInfo.Column("userSex", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_user_sex", new TableInfo.Column("_user_sex", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_icon", new TableInfo.Column("_icon", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_login_timestamp", new TableInfo.Column("_login_timestamp", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("tipsMsg", new TableInfo.Column("tipsMsg", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_tips_msg", new TableInfo.Column("_tips_msg", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_login_state", new TableInfo.Column("_login_state", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_user_contact_name", new TableInfo.Column("_user_contact_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_user_contact_phone", new TableInfo.Column("_user_contact_phone", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("cityPathId", new TableInfo.Column("cityPathId", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("cityId", new TableInfo.Column("cityId", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("cityName", new TableInfo.Column("cityName", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableOrders.put("userCityPath", new TableInfo.Column("userCityPath", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_city_path_id", new TableInfo.Column("_city_path_id", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_city_id", new TableInfo.Column("_city_id", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_view_city_name", new TableInfo.Column("_view_city_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableOrders.put("_view_city_path", new TableInfo.Column("_view_city_path", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_state_text", new TableInfo.Column("_state_text", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableOrders.put("_state_color", new TableInfo.Column("_state_color", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysTableOrders = new HashSet<TableInfo.ForeignKey>(0);
@@ -165,7 +167,7 @@ public final class OrderDatabase_Impl extends OrderDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "6c328757dbd5d385a55f46e25e793671", "c26432e79603fd539859eca99a537c31");
+    }, "9d4bd2ef721e403899430153450367a9", "9759ded986b64d691eceeeb14d59ebf4");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

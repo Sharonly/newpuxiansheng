@@ -42,7 +42,7 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "330"
+    const val API_VERSION = "331"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
@@ -58,12 +58,12 @@ object API {
     const val USER_CITY_ID = "city_id"
     const val USER_CITY_NAME = "city_name"
 
-    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
-    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
+//    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
+//    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
 
 
-//    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
-//    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
+    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
+    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
 
     //login
     const val DO_LOGIN = API_ADDRESS + "api/login.html"
@@ -140,7 +140,6 @@ object API {
 
     const val  DELETE_FAVOR_ORDER= API_ADDRESS + "api/user/collect_null.html"
     const val  REFRESH_SHOP =API_ADDRESS +"api/user/update_shop_time.html"
-
     const val DELETE_HISTORY_ORDER = API_ADDRESS + "api/new/clear_view_log.html"
 
 

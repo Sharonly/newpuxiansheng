@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -192,7 +193,8 @@
             android:layout_gravity="top|right"
             android:layout_marginTop="15dp"
             android:layout_marginRight="11.5dp"
-            android:src="@mipmap/ic_jingpin" />
+            android:src="@mipmap/ic_jingpin"
+            android:visibility="gone"/>
 
     </FrameLayout>
 </layout>

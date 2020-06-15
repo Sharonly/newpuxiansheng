@@ -19,12 +19,14 @@ public final class User implements android.os.Parcelable {
     @com.google.gson.annotations.SerializedName(value = "token")
     private java.lang.String token;
     @org.jetbrains.annotations.NotNull()
-    @androidx.room.ColumnInfo(name = "_nickname")
+    @androidx.room.ColumnInfo(name = "_name")
     @com.google.gson.annotations.SerializedName(value = "name")
     private java.lang.String name;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_nickname")
     @com.google.gson.annotations.SerializedName(value = "nick_name")
     private java.lang.String nickName;
+    @androidx.room.ColumnInfo(name = "_user_sex")
     @com.google.gson.annotations.SerializedName(value = "sex")
     private int userSex;
     @org.jetbrains.annotations.NotNull()
@@ -34,6 +36,7 @@ public final class User implements android.os.Parcelable {
     @androidx.room.ColumnInfo(name = "_login_timestamp")
     private long loginTimestamp;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_tips_msg")
     @com.google.gson.annotations.SerializedName(value = "tips_msg")
     private java.lang.String tipsMsg;
     @androidx.room.ColumnInfo(name = "_login_state")
@@ -47,14 +50,18 @@ public final class User implements android.os.Parcelable {
     @com.google.gson.annotations.SerializedName(value = "phone")
     private java.lang.String userPhoneNumber;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_city_path_id")
     @com.google.gson.annotations.SerializedName(value = "city_path_id")
     private java.lang.String cityPathId;
+    @androidx.room.ColumnInfo(name = "_city_id")
     @com.google.gson.annotations.SerializedName(value = "city_id")
     private int cityId;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_view_city_name")
     @com.google.gson.annotations.SerializedName(value = "view_path_city")
     private java.lang.String cityName;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_view_city_path")
     @com.google.gson.annotations.SerializedName(value = "view_city_path_id")
     private java.lang.String userCityPath;
     @org.jetbrains.annotations.NotNull()

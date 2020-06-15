@@ -273,12 +273,13 @@
 
                 <EditText
                     android:id="@+id/input_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txt_name"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:drawablePadding="12dp"
+                    android:gravity="right"
                     android:inputType="text"
                     android:maxLength="25"
                     android:background="@null"

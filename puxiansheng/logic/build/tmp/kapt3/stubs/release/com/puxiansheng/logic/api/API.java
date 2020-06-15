@@ -28,7 +28,7 @@ public final class API {
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String API_SECRET = "6385dab0cee34b0e9989df190522d449";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String API_VERSION = "330";
+    public static final java.lang.String API_VERSION = "331";
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String WEIXIN_APP_ID = "wxe5266f2fb1236eee";
     @org.jetbrains.annotations.NotNull()

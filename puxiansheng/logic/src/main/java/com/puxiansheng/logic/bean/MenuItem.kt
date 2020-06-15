@@ -32,12 +32,18 @@ data class MenuItem(
     @SerializedName("value")
     var value: Int = 0,
 
+
+    @ColumnInfo(name = "_jump_type")
     @SerializedName("jump_type")
     var jump_type: Int = 0,
 
+
+    @ColumnInfo(name = "_jump_view")
     @SerializedName("jump_view")
     var jump_view: String = "",
 
+
+    @ColumnInfo(name = "_jump_param")
     @SerializedName("jump_param")
     var jump_param: String = "",
 
@@ -50,6 +56,7 @@ data class MenuItem(
     var icon_disable: String = "",
 
 
+    @ColumnInfo(name = "_bt_text")
     @SerializedName("text")
     var btText: String = "",
 

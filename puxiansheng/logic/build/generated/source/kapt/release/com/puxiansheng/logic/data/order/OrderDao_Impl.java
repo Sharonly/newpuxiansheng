@@ -46,7 +46,7 @@ public final class OrderDao_Impl implements OrderDao {
     this.__insertionAdapterOfOrder = new EntityInsertionAdapter<Order>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_fee`,`_lng`,`_lat`,`_industry`,`_running_state`,`_exclusive`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_formatted_is_success`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`_view_demand_ids`,`_rent_view`,`_view_opening`,`_view_can_empty`,`_is_top`,`_is_hot`,`_is_recommend`,`_is_large_order`,`_large_order_img`,`_category_acreage`,`_formatted_area`,`_is_vip`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_nickname`,`nickName`,`userSex`,`_icon`,`_login_timestamp`,`tipsMsg`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`cityPathId`,`cityId`,`cityName`,`userCityPath`,`_state_text`,`_state_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_orders` (`_order_id`,`_order_type`,`_favorite`,`_shop_id`,`_title`,`_size`,`_rent`,`_fee`,`_lng`,`_lat`,`_new_lng`,`_new_lat`,`_industry`,`_running_state`,`_exclusive`,`_image`,`_images`,`_floor`,`_labels`,`_facilities`,`_allfacilities`,`_description`,`_description_url`,`_environment`,`_reason`,`_transfer_type`,`_is_success`,`_formatted_is_success`,`_formatted_date`,`_formatted_size`,`_formatted_rent`,`_formatted_page_views`,`_formatted_fee`,`_formatted_location_nodes`,`_formatted_industry`,`_formatted_final_industry`,`_formatted_final_location_node`,`formattedFacilities`,`_rent_view`,`_view_opening`,`_view_can_empty`,`_is_top`,`_is_hot`,`_is_recommend`,`_is_large_order`,`_large_order_img`,`_category_acreage`,`_formatted_area`,`_is_vip`,`_data_type`,`_jump_type`,`_jump_view`,`_jump_param`,`_location_nodes`,`_address_description`,`_post_code`,`_latitude`,`_longitude`,`_user_id`,`_account`,`_token`,`_name`,`_nickname`,`_user_sex`,`_icon`,`_login_timestamp`,`_tips_msg`,`_login_state`,`_user_contact_name`,`_user_contact_phone`,`_city_path_id`,`_city_id`,`_view_city_name`,`_view_city_path`,`_state_text`,`_state_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -65,200 +65,210 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindDouble(6, _tmpShop.getSize());
           stmt.bindDouble(7, _tmpShop.getRent());
           stmt.bindDouble(8, _tmpShop.getFee());
-          stmt.bindDouble(9, _tmpShop.getLng());
-          stmt.bindDouble(10, _tmpShop.getLat());
-          if (_tmpShop.getIndustry() == null) {
-            stmt.bindNull(11);
+          if (_tmpShop.getLng() == null) {
+            stmt.bindNull(9);
           } else {
-            stmt.bindString(11, _tmpShop.getIndustry());
+            stmt.bindString(9, _tmpShop.getLng());
           }
-          stmt.bindLong(12, _tmpShop.getRunningState());
-          stmt.bindLong(13, _tmpShop.getIncludeFacilities());
-          if (_tmpShop.getImage() == null) {
-            stmt.bindNull(14);
+          if (_tmpShop.getLat() == null) {
+            stmt.bindNull(10);
           } else {
-            stmt.bindString(14, _tmpShop.getImage());
+            stmt.bindString(10, _tmpShop.getLat());
+          }
+          stmt.bindDouble(11, _tmpShop.getNewLng());
+          stmt.bindDouble(12, _tmpShop.getNewLat());
+          if (_tmpShop.getIndustry() == null) {
+            stmt.bindNull(13);
+          } else {
+            stmt.bindString(13, _tmpShop.getIndustry());
+          }
+          stmt.bindLong(14, _tmpShop.getRunningState());
+          stmt.bindLong(15, _tmpShop.getIncludeFacilities());
+          if (_tmpShop.getImage() == null) {
+            stmt.bindNull(16);
+          } else {
+            stmt.bindString(16, _tmpShop.getImage());
           }
           final String _tmp;
           _tmp = __stringListConverter.fromArrayList(_tmpShop.getImages());
           if (_tmp == null) {
-            stmt.bindNull(15);
+            stmt.bindNull(17);
           } else {
-            stmt.bindString(15, _tmp);
+            stmt.bindString(17, _tmp);
           }
-          stmt.bindLong(16, _tmpShop.getFloor());
+          stmt.bindLong(18, _tmpShop.getFloor());
           final String _tmp_1;
           _tmp_1 = __menuListConverter.toString(_tmpShop.getLabels());
           if (_tmp_1 == null) {
-            stmt.bindNull(17);
+            stmt.bindNull(19);
           } else {
-            stmt.bindString(17, _tmp_1);
+            stmt.bindString(19, _tmp_1);
           }
           final String _tmp_2;
           _tmp_2 = __menuListConverter.toString(_tmpShop.getFacilities());
           if (_tmp_2 == null) {
-            stmt.bindNull(18);
+            stmt.bindNull(20);
           } else {
-            stmt.bindString(18, _tmp_2);
+            stmt.bindString(20, _tmp_2);
           }
           final String _tmp_3;
           _tmp_3 = __menuListConverter.toString(_tmpShop.getAllFacilities());
           if (_tmp_3 == null) {
-            stmt.bindNull(19);
-          } else {
-            stmt.bindString(19, _tmp_3);
-          }
-          if (_tmpShop.getDescription() == null) {
-            stmt.bindNull(20);
-          } else {
-            stmt.bindString(20, _tmpShop.getDescription());
-          }
-          if (_tmpShop.getDescriptionUrl() == null) {
             stmt.bindNull(21);
           } else {
-            stmt.bindString(21, _tmpShop.getDescriptionUrl());
+            stmt.bindString(21, _tmp_3);
           }
-          if (_tmpShop.getEnvironment() == null) {
+          if (_tmpShop.getDescription() == null) {
             stmt.bindNull(22);
           } else {
-            stmt.bindString(22, _tmpShop.getEnvironment());
+            stmt.bindString(22, _tmpShop.getDescription());
           }
-          if (_tmpShop.getReason() == null) {
+          if (_tmpShop.getDescriptionUrl() == null) {
             stmt.bindNull(23);
           } else {
-            stmt.bindString(23, _tmpShop.getReason());
+            stmt.bindString(23, _tmpShop.getDescriptionUrl());
           }
-          stmt.bindLong(24, _tmpShop.getTransferType());
-          stmt.bindLong(25, _tmpShop.isSuccess());
-          stmt.bindLong(26, _tmpShop.getFormatted_is_success());
+          if (_tmpShop.getEnvironment() == null) {
+            stmt.bindNull(24);
+          } else {
+            stmt.bindString(24, _tmpShop.getEnvironment());
+          }
+          if (_tmpShop.getReason() == null) {
+            stmt.bindNull(25);
+          } else {
+            stmt.bindString(25, _tmpShop.getReason());
+          }
+          stmt.bindLong(26, _tmpShop.getTransferType());
+          stmt.bindLong(27, _tmpShop.isSuccess());
+          stmt.bindLong(28, _tmpShop.getFormatted_is_success());
           if (_tmpShop.getFormattedDate() == null) {
-            stmt.bindNull(27);
-          } else {
-            stmt.bindString(27, _tmpShop.getFormattedDate());
-          }
-          if (_tmpShop.getFormattedSize() == null) {
-            stmt.bindNull(28);
-          } else {
-            stmt.bindString(28, _tmpShop.getFormattedSize());
-          }
-          if (_tmpShop.getFormattedRent() == null) {
             stmt.bindNull(29);
           } else {
-            stmt.bindString(29, _tmpShop.getFormattedRent());
+            stmt.bindString(29, _tmpShop.getFormattedDate());
           }
-          stmt.bindLong(30, _tmpShop.getFormattedPageViews());
-          if (_tmpShop.getFormattedFee() == null) {
+          if (_tmpShop.getFormattedSize() == null) {
+            stmt.bindNull(30);
+          } else {
+            stmt.bindString(30, _tmpShop.getFormattedSize());
+          }
+          if (_tmpShop.getFormattedRent() == null) {
             stmt.bindNull(31);
           } else {
-            stmt.bindString(31, _tmpShop.getFormattedFee());
+            stmt.bindString(31, _tmpShop.getFormattedRent());
           }
-          if (_tmpShop.getFormattedLocationNodes() == null) {
-            stmt.bindNull(32);
-          } else {
-            stmt.bindString(32, _tmpShop.getFormattedLocationNodes());
-          }
-          if (_tmpShop.getFormattedIndustry() == null) {
+          stmt.bindLong(32, _tmpShop.getFormattedPageViews());
+          if (_tmpShop.getFormattedFee() == null) {
             stmt.bindNull(33);
           } else {
-            stmt.bindString(33, _tmpShop.getFormattedIndustry());
+            stmt.bindString(33, _tmpShop.getFormattedFee());
           }
-          if (_tmpShop.getFormattedFinalIndustry() == null) {
+          if (_tmpShop.getFormattedLocationNodes() == null) {
             stmt.bindNull(34);
           } else {
-            stmt.bindString(34, _tmpShop.getFormattedFinalIndustry());
+            stmt.bindString(34, _tmpShop.getFormattedLocationNodes());
           }
-          if (_tmpShop.getFormattedFinalLocationNode() == null) {
+          if (_tmpShop.getFormattedIndustry() == null) {
             stmt.bindNull(35);
           } else {
-            stmt.bindString(35, _tmpShop.getFormattedFinalLocationNode());
+            stmt.bindString(35, _tmpShop.getFormattedIndustry());
+          }
+          if (_tmpShop.getFormattedFinalIndustry() == null) {
+            stmt.bindNull(36);
+          } else {
+            stmt.bindString(36, _tmpShop.getFormattedFinalIndustry());
+          }
+          if (_tmpShop.getFormattedFinalLocationNode() == null) {
+            stmt.bindNull(37);
+          } else {
+            stmt.bindString(37, _tmpShop.getFormattedFinalLocationNode());
           }
           final String _tmp_4;
           _tmp_4 = __menuListConverter.toString(_tmpShop.getFormattedFacilities());
           if (_tmp_4 == null) {
-            stmt.bindNull(36);
-          } else {
-            stmt.bindString(36, _tmp_4);
-          }
-          if (_tmpShop.getRentView() == null) {
-            stmt.bindNull(37);
-          } else {
-            stmt.bindString(37, _tmpShop.getRentView());
-          }
-          if (_tmpShop.getViewOpening() == null) {
             stmt.bindNull(38);
           } else {
-            stmt.bindString(38, _tmpShop.getViewOpening());
+            stmt.bindString(38, _tmp_4);
           }
-          if (_tmpShop.getViewCanEmpty() == null) {
+          if (_tmpShop.getRentView() == null) {
             stmt.bindNull(39);
           } else {
-            stmt.bindString(39, _tmpShop.getViewCanEmpty());
+            stmt.bindString(39, _tmpShop.getRentView());
           }
-          stmt.bindLong(40, _tmpShop.isTop());
-          stmt.bindLong(41, _tmpShop.isHot());
-          stmt.bindLong(42, _tmpShop.isRecommend());
-          stmt.bindLong(43, _tmpShop.isLargeOrder());
+          if (_tmpShop.getViewOpening() == null) {
+            stmt.bindNull(40);
+          } else {
+            stmt.bindString(40, _tmpShop.getViewOpening());
+          }
+          if (_tmpShop.getViewCanEmpty() == null) {
+            stmt.bindNull(41);
+          } else {
+            stmt.bindString(41, _tmpShop.getViewCanEmpty());
+          }
+          stmt.bindLong(42, _tmpShop.isTop());
+          stmt.bindLong(43, _tmpShop.isHot());
+          stmt.bindLong(44, _tmpShop.isRecommend());
+          stmt.bindLong(45, _tmpShop.isLargeOrder());
           if (_tmpShop.getLargeOrderImg() == null) {
-            stmt.bindNull(44);
-          } else {
-            stmt.bindString(44, _tmpShop.getLargeOrderImg());
-          }
-          if (_tmpShop.getCategory_acreage() == null) {
-            stmt.bindNull(45);
-          } else {
-            stmt.bindString(45, _tmpShop.getCategory_acreage());
-          }
-          if (_tmpShop.getFormattedArea() == null) {
             stmt.bindNull(46);
           } else {
-            stmt.bindString(46, _tmpShop.getFormattedArea());
+            stmt.bindString(46, _tmpShop.getLargeOrderImg());
           }
-          stmt.bindLong(47, _tmpShop.isVip());
-          if (_tmpShop.getData_type() == null) {
+          if (_tmpShop.getCategory_acreage() == null) {
+            stmt.bindNull(47);
+          } else {
+            stmt.bindString(47, _tmpShop.getCategory_acreage());
+          }
+          if (_tmpShop.getFormattedArea() == null) {
             stmt.bindNull(48);
           } else {
-            stmt.bindString(48, _tmpShop.getData_type());
+            stmt.bindString(48, _tmpShop.getFormattedArea());
           }
-          stmt.bindLong(49, _tmpShop.getJump_type());
-          if (_tmpShop.getJump_view() == null) {
+          stmt.bindLong(49, _tmpShop.isVip());
+          if (_tmpShop.getData_type() == null) {
             stmt.bindNull(50);
           } else {
-            stmt.bindString(50, _tmpShop.getJump_view());
+            stmt.bindString(50, _tmpShop.getData_type());
+          }
+          stmt.bindLong(51, _tmpShop.getJump_type());
+          if (_tmpShop.getJump_view() == null) {
+            stmt.bindNull(52);
+          } else {
+            stmt.bindString(52, _tmpShop.getJump_view());
           }
           if (_tmpShop.getJump_param() == null) {
-            stmt.bindNull(51);
+            stmt.bindNull(53);
           } else {
-            stmt.bindString(51, _tmpShop.getJump_param());
+            stmt.bindString(53, _tmpShop.getJump_param());
           }
           final Address _tmpAddress = _tmpShop.getAddress();
           if(_tmpAddress != null) {
             final String _tmp_5;
             _tmp_5 = __locationNodeListConverter.toString(_tmpAddress.getLocationNodes());
             if (_tmp_5 == null) {
-              stmt.bindNull(52);
+              stmt.bindNull(54);
             } else {
-              stmt.bindString(52, _tmp_5);
+              stmt.bindString(54, _tmp_5);
             }
             if (_tmpAddress.getAddressDetail() == null) {
-              stmt.bindNull(53);
+              stmt.bindNull(55);
             } else {
-              stmt.bindString(53, _tmpAddress.getAddressDetail());
+              stmt.bindString(55, _tmpAddress.getAddressDetail());
             }
-            stmt.bindLong(54, _tmpAddress.getPostCode());
+            stmt.bindLong(56, _tmpAddress.getPostCode());
             final Coordinates _tmpCoordinates = _tmpAddress.getCoordinates();
             if(_tmpCoordinates != null) {
-              stmt.bindDouble(55, _tmpCoordinates.getLatitude());
-              stmt.bindDouble(56, _tmpCoordinates.getLongitude());
+              stmt.bindDouble(57, _tmpCoordinates.getLatitude());
+              stmt.bindDouble(58, _tmpCoordinates.getLongitude());
             } else {
-              stmt.bindNull(55);
-              stmt.bindNull(56);
+              stmt.bindNull(57);
+              stmt.bindNull(58);
             }
           } else {
-            stmt.bindNull(52);
-            stmt.bindNull(53);
             stmt.bindNull(54);
             stmt.bindNull(55);
             stmt.bindNull(56);
+            stmt.bindNull(57);
+            stmt.bindNull(58);
           }
         } else {
           stmt.bindNull(4);
@@ -314,72 +324,72 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(54);
           stmt.bindNull(55);
           stmt.bindNull(56);
+          stmt.bindNull(57);
+          stmt.bindNull(58);
         }
         final User _tmpShopOwner = value.getShopOwner();
         if(_tmpShopOwner != null) {
-          stmt.bindLong(57, _tmpShopOwner.getUserID());
+          stmt.bindLong(59, _tmpShopOwner.getUserID());
           if (_tmpShopOwner.getAccount() == null) {
-            stmt.bindNull(58);
-          } else {
-            stmt.bindString(58, _tmpShopOwner.getAccount());
-          }
-          if (_tmpShopOwner.getToken() == null) {
-            stmt.bindNull(59);
-          } else {
-            stmt.bindString(59, _tmpShopOwner.getToken());
-          }
-          if (_tmpShopOwner.getName() == null) {
             stmt.bindNull(60);
           } else {
-            stmt.bindString(60, _tmpShopOwner.getName());
+            stmt.bindString(60, _tmpShopOwner.getAccount());
           }
-          if (_tmpShopOwner.getNickName() == null) {
+          if (_tmpShopOwner.getToken() == null) {
             stmt.bindNull(61);
           } else {
-            stmt.bindString(61, _tmpShopOwner.getNickName());
+            stmt.bindString(61, _tmpShopOwner.getToken());
           }
-          stmt.bindLong(62, _tmpShopOwner.getUserSex());
-          if (_tmpShopOwner.getIcon() == null) {
+          if (_tmpShopOwner.getName() == null) {
+            stmt.bindNull(62);
+          } else {
+            stmt.bindString(62, _tmpShopOwner.getName());
+          }
+          if (_tmpShopOwner.getNickName() == null) {
             stmt.bindNull(63);
           } else {
-            stmt.bindString(63, _tmpShopOwner.getIcon());
+            stmt.bindString(63, _tmpShopOwner.getNickName());
           }
-          stmt.bindLong(64, _tmpShopOwner.getLoginTimestamp());
-          if (_tmpShopOwner.getTipsMsg() == null) {
+          stmt.bindLong(64, _tmpShopOwner.getUserSex());
+          if (_tmpShopOwner.getIcon() == null) {
             stmt.bindNull(65);
           } else {
-            stmt.bindString(65, _tmpShopOwner.getTipsMsg());
+            stmt.bindString(65, _tmpShopOwner.getIcon());
           }
-          stmt.bindLong(66, _tmpShopOwner.getLoginState());
-          if (_tmpShopOwner.getActualName() == null) {
+          stmt.bindLong(66, _tmpShopOwner.getLoginTimestamp());
+          if (_tmpShopOwner.getTipsMsg() == null) {
             stmt.bindNull(67);
           } else {
-            stmt.bindString(67, _tmpShopOwner.getActualName());
+            stmt.bindString(67, _tmpShopOwner.getTipsMsg());
           }
-          if (_tmpShopOwner.getUserPhoneNumber() == null) {
-            stmt.bindNull(68);
-          } else {
-            stmt.bindString(68, _tmpShopOwner.getUserPhoneNumber());
-          }
-          if (_tmpShopOwner.getCityPathId() == null) {
+          stmt.bindLong(68, _tmpShopOwner.getLoginState());
+          if (_tmpShopOwner.getActualName() == null) {
             stmt.bindNull(69);
           } else {
-            stmt.bindString(69, _tmpShopOwner.getCityPathId());
+            stmt.bindString(69, _tmpShopOwner.getActualName());
           }
-          stmt.bindLong(70, _tmpShopOwner.getCityId());
-          if (_tmpShopOwner.getCityName() == null) {
+          if (_tmpShopOwner.getUserPhoneNumber() == null) {
+            stmt.bindNull(70);
+          } else {
+            stmt.bindString(70, _tmpShopOwner.getUserPhoneNumber());
+          }
+          if (_tmpShopOwner.getCityPathId() == null) {
             stmt.bindNull(71);
           } else {
-            stmt.bindString(71, _tmpShopOwner.getCityName());
+            stmt.bindString(71, _tmpShopOwner.getCityPathId());
+          }
+          stmt.bindLong(72, _tmpShopOwner.getCityId());
+          if (_tmpShopOwner.getCityName() == null) {
+            stmt.bindNull(73);
+          } else {
+            stmt.bindString(73, _tmpShopOwner.getCityName());
           }
           if (_tmpShopOwner.getUserCityPath() == null) {
-            stmt.bindNull(72);
+            stmt.bindNull(74);
           } else {
-            stmt.bindString(72, _tmpShopOwner.getUserCityPath());
+            stmt.bindString(74, _tmpShopOwner.getUserCityPath());
           }
         } else {
-          stmt.bindNull(57);
-          stmt.bindNull(58);
           stmt.bindNull(59);
           stmt.bindNull(60);
           stmt.bindNull(61);
@@ -394,22 +404,24 @@ public final class OrderDao_Impl implements OrderDao {
           stmt.bindNull(70);
           stmt.bindNull(71);
           stmt.bindNull(72);
+          stmt.bindNull(73);
+          stmt.bindNull(74);
         }
         final Order.Companion.State _tmpState = value.getState();
         if(_tmpState != null) {
           if (_tmpState.getText() == null) {
-            stmt.bindNull(73);
+            stmt.bindNull(75);
           } else {
-            stmt.bindString(73, _tmpState.getText());
+            stmt.bindString(75, _tmpState.getText());
           }
           if (_tmpState.getColor() == null) {
-            stmt.bindNull(74);
+            stmt.bindNull(76);
           } else {
-            stmt.bindString(74, _tmpState.getColor());
+            stmt.bindString(76, _tmpState.getColor());
           }
         } else {
-          stmt.bindNull(73);
-          stmt.bindNull(74);
+          stmt.bindNull(75);
+          stmt.bindNull(76);
         }
       }
     };
@@ -472,6 +484,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFee = CursorUtil.getColumnIndexOrThrow(cursor, "_fee");
             final int _cursorIndexOfLng = CursorUtil.getColumnIndexOrThrow(cursor, "_lng");
             final int _cursorIndexOfLat = CursorUtil.getColumnIndexOrThrow(cursor, "_lat");
+            final int _cursorIndexOfNewLng = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lng");
+            final int _cursorIndexOfNewLat = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lat");
             final int _cursorIndexOfIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_industry");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
@@ -497,7 +511,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_industry");
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
-            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "formattedFacilities");
             final int _cursorIndexOfRentView = CursorUtil.getColumnIndexOrThrow(cursor, "_rent_view");
             final int _cursorIndexOfViewOpening = CursorUtil.getColumnIndexOrThrow(cursor, "_view_opening");
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "_view_can_empty");
@@ -521,26 +535,26 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(cursor, "_user_id");
             final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(cursor, "_account");
             final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(cursor, "_token");
-            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
-            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "nickName");
-            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "userSex");
+            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_name");
+            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
+            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "_user_sex");
             final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(cursor, "_icon");
             final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(cursor, "_login_timestamp");
-            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "tipsMsg");
+            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "_tips_msg");
             final int _cursorIndexOfLoginState = CursorUtil.getColumnIndexOrThrow(cursor, "_login_state");
             final int _cursorIndexOfActualName = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_name");
             final int _cursorIndexOfUserPhoneNumber = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_phone");
-            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "cityPathId");
-            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
-            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "cityName");
-            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
+            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
+            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_id");
+            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_name");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_path");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfNewLng) && cursor.isNull(_cursorIndexOfNewLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -551,10 +565,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRent = cursor.getDouble(_cursorIndexOfRent);
                 final double _tmpFee;
                 _tmpFee = cursor.getDouble(_cursorIndexOfFee);
-                final double _tmpLng;
-                _tmpLng = cursor.getDouble(_cursorIndexOfLng);
-                final double _tmpLat;
-                _tmpLat = cursor.getDouble(_cursorIndexOfLat);
+                final String _tmpLng;
+                _tmpLng = cursor.getString(_cursorIndexOfLng);
+                final String _tmpLat;
+                _tmpLat = cursor.getString(_cursorIndexOfLat);
+                final double _tmpNewLng;
+                _tmpNewLng = cursor.getDouble(_cursorIndexOfNewLng);
+                final double _tmpNewLat;
+                _tmpNewLat = cursor.getDouble(_cursorIndexOfNewLat);
                 final String _tmpIndustry;
                 _tmpIndustry = cursor.getString(_cursorIndexOfIndustry);
                 final int _tmpRunningState;
@@ -671,7 +689,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpNewLng,_tmpNewLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
               }  else  {
                 _tmpShop = null;
               }
@@ -786,6 +804,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFee = CursorUtil.getColumnIndexOrThrow(cursor, "_fee");
             final int _cursorIndexOfLng = CursorUtil.getColumnIndexOrThrow(cursor, "_lng");
             final int _cursorIndexOfLat = CursorUtil.getColumnIndexOrThrow(cursor, "_lat");
+            final int _cursorIndexOfNewLng = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lng");
+            final int _cursorIndexOfNewLat = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lat");
             final int _cursorIndexOfIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_industry");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
@@ -811,7 +831,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_industry");
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
-            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "formattedFacilities");
             final int _cursorIndexOfRentView = CursorUtil.getColumnIndexOrThrow(cursor, "_rent_view");
             final int _cursorIndexOfViewOpening = CursorUtil.getColumnIndexOrThrow(cursor, "_view_opening");
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "_view_can_empty");
@@ -835,26 +855,26 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(cursor, "_user_id");
             final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(cursor, "_account");
             final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(cursor, "_token");
-            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
-            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "nickName");
-            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "userSex");
+            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_name");
+            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
+            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "_user_sex");
             final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(cursor, "_icon");
             final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(cursor, "_login_timestamp");
-            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "tipsMsg");
+            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "_tips_msg");
             final int _cursorIndexOfLoginState = CursorUtil.getColumnIndexOrThrow(cursor, "_login_state");
             final int _cursorIndexOfActualName = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_name");
             final int _cursorIndexOfUserPhoneNumber = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_phone");
-            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "cityPathId");
-            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
-            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "cityName");
-            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
+            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
+            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_id");
+            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_name");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_path");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfNewLng) && cursor.isNull(_cursorIndexOfNewLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -865,10 +885,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRent = cursor.getDouble(_cursorIndexOfRent);
                 final double _tmpFee;
                 _tmpFee = cursor.getDouble(_cursorIndexOfFee);
-                final double _tmpLng;
-                _tmpLng = cursor.getDouble(_cursorIndexOfLng);
-                final double _tmpLat;
-                _tmpLat = cursor.getDouble(_cursorIndexOfLat);
+                final String _tmpLng;
+                _tmpLng = cursor.getString(_cursorIndexOfLng);
+                final String _tmpLat;
+                _tmpLat = cursor.getString(_cursorIndexOfLat);
+                final double _tmpNewLng;
+                _tmpNewLng = cursor.getDouble(_cursorIndexOfNewLng);
+                final double _tmpNewLat;
+                _tmpNewLat = cursor.getDouble(_cursorIndexOfNewLat);
                 final String _tmpIndustry;
                 _tmpIndustry = cursor.getString(_cursorIndexOfIndustry);
                 final int _tmpRunningState;
@@ -985,7 +1009,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpNewLng,_tmpNewLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
               }  else  {
                 _tmpShop = null;
               }
@@ -1097,6 +1121,8 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFee = CursorUtil.getColumnIndexOrThrow(cursor, "_fee");
             final int _cursorIndexOfLng = CursorUtil.getColumnIndexOrThrow(cursor, "_lng");
             final int _cursorIndexOfLat = CursorUtil.getColumnIndexOrThrow(cursor, "_lat");
+            final int _cursorIndexOfNewLng = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lng");
+            final int _cursorIndexOfNewLat = CursorUtil.getColumnIndexOrThrow(cursor, "_new_lat");
             final int _cursorIndexOfIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_industry");
             final int _cursorIndexOfRunningState = CursorUtil.getColumnIndexOrThrow(cursor, "_running_state");
             final int _cursorIndexOfIncludeFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_exclusive");
@@ -1122,7 +1148,7 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfFormattedIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_industry");
             final int _cursorIndexOfFormattedFinalIndustry = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_industry");
             final int _cursorIndexOfFormattedFinalLocationNode = CursorUtil.getColumnIndexOrThrow(cursor, "_formatted_final_location_node");
-            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "_view_demand_ids");
+            final int _cursorIndexOfFormattedFacilities = CursorUtil.getColumnIndexOrThrow(cursor, "formattedFacilities");
             final int _cursorIndexOfRentView = CursorUtil.getColumnIndexOrThrow(cursor, "_rent_view");
             final int _cursorIndexOfViewOpening = CursorUtil.getColumnIndexOrThrow(cursor, "_view_opening");
             final int _cursorIndexOfViewCanEmpty = CursorUtil.getColumnIndexOrThrow(cursor, "_view_can_empty");
@@ -1146,26 +1172,26 @@ public final class OrderDao_Impl implements OrderDao {
             final int _cursorIndexOfUserID = CursorUtil.getColumnIndexOrThrow(cursor, "_user_id");
             final int _cursorIndexOfAccount = CursorUtil.getColumnIndexOrThrow(cursor, "_account");
             final int _cursorIndexOfToken = CursorUtil.getColumnIndexOrThrow(cursor, "_token");
-            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
-            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "nickName");
-            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "userSex");
+            final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(cursor, "_name");
+            final int _cursorIndexOfNickName = CursorUtil.getColumnIndexOrThrow(cursor, "_nickname");
+            final int _cursorIndexOfUserSex = CursorUtil.getColumnIndexOrThrow(cursor, "_user_sex");
             final int _cursorIndexOfIcon = CursorUtil.getColumnIndexOrThrow(cursor, "_icon");
             final int _cursorIndexOfLoginTimestamp = CursorUtil.getColumnIndexOrThrow(cursor, "_login_timestamp");
-            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "tipsMsg");
+            final int _cursorIndexOfTipsMsg = CursorUtil.getColumnIndexOrThrow(cursor, "_tips_msg");
             final int _cursorIndexOfLoginState = CursorUtil.getColumnIndexOrThrow(cursor, "_login_state");
             final int _cursorIndexOfActualName = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_name");
             final int _cursorIndexOfUserPhoneNumber = CursorUtil.getColumnIndexOrThrow(cursor, "_user_contact_phone");
-            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "cityPathId");
-            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "cityId");
-            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "cityName");
-            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "userCityPath");
+            final int _cursorIndexOfCityPathId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_path_id");
+            final int _cursorIndexOfCityId = CursorUtil.getColumnIndexOrThrow(cursor, "_city_id");
+            final int _cursorIndexOfCityName = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_name");
+            final int _cursorIndexOfUserCityPath = CursorUtil.getColumnIndexOrThrow(cursor, "_view_city_path");
             final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(cursor, "_state_text");
             final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(cursor, "_state_color");
             final List<Order> _res = new ArrayList<Order>(cursor.getCount());
             while(cursor.moveToNext()) {
               final Order _item;
               final Shop _tmpShop;
-              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
+              if (! (cursor.isNull(_cursorIndexOfShopID) && cursor.isNull(_cursorIndexOfTitle) && cursor.isNull(_cursorIndexOfSize) && cursor.isNull(_cursorIndexOfRent) && cursor.isNull(_cursorIndexOfFee) && cursor.isNull(_cursorIndexOfLng) && cursor.isNull(_cursorIndexOfLat) && cursor.isNull(_cursorIndexOfNewLng) && cursor.isNull(_cursorIndexOfNewLat) && cursor.isNull(_cursorIndexOfIndustry) && cursor.isNull(_cursorIndexOfRunningState) && cursor.isNull(_cursorIndexOfIncludeFacilities) && cursor.isNull(_cursorIndexOfImage) && cursor.isNull(_cursorIndexOfImages) && cursor.isNull(_cursorIndexOfFloor) && cursor.isNull(_cursorIndexOfLabels) && cursor.isNull(_cursorIndexOfFacilities) && cursor.isNull(_cursorIndexOfAllFacilities) && cursor.isNull(_cursorIndexOfDescription) && cursor.isNull(_cursorIndexOfDescriptionUrl) && cursor.isNull(_cursorIndexOfEnvironment) && cursor.isNull(_cursorIndexOfReason) && cursor.isNull(_cursorIndexOfTransferType) && cursor.isNull(_cursorIndexOfIsSuccess) && cursor.isNull(_cursorIndexOfFormattedIsSuccess) && cursor.isNull(_cursorIndexOfFormattedDate) && cursor.isNull(_cursorIndexOfFormattedSize) && cursor.isNull(_cursorIndexOfFormattedRent) && cursor.isNull(_cursorIndexOfFormattedPageViews) && cursor.isNull(_cursorIndexOfFormattedFee) && cursor.isNull(_cursorIndexOfFormattedLocationNodes) && cursor.isNull(_cursorIndexOfFormattedIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalIndustry) && cursor.isNull(_cursorIndexOfFormattedFinalLocationNode) && cursor.isNull(_cursorIndexOfFormattedFacilities) && cursor.isNull(_cursorIndexOfRentView) && cursor.isNull(_cursorIndexOfViewOpening) && cursor.isNull(_cursorIndexOfViewCanEmpty) && cursor.isNull(_cursorIndexOfIsTop) && cursor.isNull(_cursorIndexOfIsHot) && cursor.isNull(_cursorIndexOfIsRecommend) && cursor.isNull(_cursorIndexOfIsLargeOrder) && cursor.isNull(_cursorIndexOfLargeOrderImg) && cursor.isNull(_cursorIndexOfCategoryAcreage) && cursor.isNull(_cursorIndexOfFormattedArea) && cursor.isNull(_cursorIndexOfIsVip) && cursor.isNull(_cursorIndexOfDataType) && cursor.isNull(_cursorIndexOfJumpType) && cursor.isNull(_cursorIndexOfJumpView) && cursor.isNull(_cursorIndexOfJumpParam) && cursor.isNull(_cursorIndexOfLocationNodes) && cursor.isNull(_cursorIndexOfAddressDetail) && cursor.isNull(_cursorIndexOfPostCode) && cursor.isNull(_cursorIndexOfLatitude) && cursor.isNull(_cursorIndexOfLongitude))) {
                 final long _tmpShopID;
                 _tmpShopID = cursor.getLong(_cursorIndexOfShopID);
                 final String _tmpTitle;
@@ -1176,10 +1202,14 @@ public final class OrderDao_Impl implements OrderDao {
                 _tmpRent = cursor.getDouble(_cursorIndexOfRent);
                 final double _tmpFee;
                 _tmpFee = cursor.getDouble(_cursorIndexOfFee);
-                final double _tmpLng;
-                _tmpLng = cursor.getDouble(_cursorIndexOfLng);
-                final double _tmpLat;
-                _tmpLat = cursor.getDouble(_cursorIndexOfLat);
+                final String _tmpLng;
+                _tmpLng = cursor.getString(_cursorIndexOfLng);
+                final String _tmpLat;
+                _tmpLat = cursor.getString(_cursorIndexOfLat);
+                final double _tmpNewLng;
+                _tmpNewLng = cursor.getDouble(_cursorIndexOfNewLng);
+                final double _tmpNewLat;
+                _tmpNewLat = cursor.getDouble(_cursorIndexOfNewLat);
                 final String _tmpIndustry;
                 _tmpIndustry = cursor.getString(_cursorIndexOfIndustry);
                 final int _tmpRunningState;
@@ -1296,7 +1326,7 @@ public final class OrderDao_Impl implements OrderDao {
                 }  else  {
                   _tmpAddress = null;
                 }
-                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
+                _tmpShop = new Shop(_tmpShopID,_tmpTitle,_tmpSize,_tmpRent,_tmpFee,_tmpAddress,_tmpLng,_tmpLat,_tmpNewLng,_tmpNewLat,_tmpIndustry,_tmpRunningState,_tmpIncludeFacilities,_tmpImage,_tmpImages,_tmpFloor,_tmpLabels,_tmpFacilities,_tmpAllFacilities,_tmpDescription,_tmpDescriptionUrl,_tmpEnvironment,_tmpReason,_tmpTransferType,_tmpIsSuccess,_tmpFormatted_is_success,_tmpFormattedDate,_tmpFormattedSize,_tmpFormattedRent,_tmpFormattedPageViews,_tmpFormattedFee,_tmpFormattedLocationNodes,_tmpFormattedIndustry,_tmpFormattedFinalIndustry,_tmpFormattedFinalLocationNode,_tmpFormattedFacilities,_tmpRentView,_tmpViewOpening,_tmpViewCanEmpty,_tmpIsTop,_tmpIsHot,_tmpIsRecommend,_tmpIsLargeOrder,_tmpLargeOrderImg,_tmpCategory_acreage,_tmpFormattedArea,_tmpIsVip,_tmpData_type,_tmpJump_type,_tmpJump_view,_tmpJump_param);
               }  else  {
                 _tmpShop = null;
               }

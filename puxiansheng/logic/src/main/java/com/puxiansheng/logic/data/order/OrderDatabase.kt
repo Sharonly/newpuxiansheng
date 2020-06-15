@@ -39,7 +39,7 @@ abstract class OrderDatabase : RoomDatabase() {
                 database.execSQL("alter table table_orders ADD  COLUMN _is_success INTEGER ")
                 database.execSQL("alter table table_orders ADD  COLUMN _allfacilities TEXT ")
                 database.execSQL("alter table table_orders ADD  COLUMN _lng TEXT ")
-                database.execSQL("alter table table_orders ADD  COLUMN _lat TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _lat TEXT  ")
             }
         }
 
@@ -54,21 +54,31 @@ abstract class OrderDatabase : RoomDatabase() {
 
         val MIGRATION_3_4: Migration = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("alter table table_orders ADD  COLUMN _rent_view TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _view_opening TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _view_can_empty TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _is_top INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _is_hot INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _is_recommend INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _is_large_order INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _large_order_img TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _category_acreage TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _formatted_area TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _is_vip INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _data_type TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _jump_type INTEGER NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _jump_view TEXT NOT NULL")
-                database.execSQL("alter table table_orders ADD  COLUMN _jump_param TEXT NOT NULL")
+                database.execSQL("alter table table_orders ADD  COLUMN _new_lng REAL ")
+                database.execSQL("alter table table_orders ADD  COLUMN _new_lat REAL  ")
+                database.execSQL("alter table table_orders ADD  COLUMN _city_path_id TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _city_id INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _tips_msg TEXT  ")
+                database.execSQL("alter table table_orders ADD  COLUMN _name TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _user_sex INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _view_city_name TEXT  ")
+                database.execSQL("alter table table_orders ADD  COLUMN _view_city_path TEXT  ")
+//                database.execSQL("alter table table_orders ADD  COLUMN _view_demand_ids TEXT  ")
+                database.execSQL("alter table table_orders ADD  COLUMN _rent_view TEXT  ")
+                database.execSQL("alter table table_orders ADD  COLUMN _view_opening TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _view_can_empty TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _is_top INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _is_hot INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _is_recommend INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _is_large_order INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _large_order_img TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _category_acreage TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _formatted_area TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _is_vip INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _data_type TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _jump_type INTEGER ")
+                database.execSQL("alter table table_orders ADD  COLUMN _jump_view TEXT ")
+                database.execSQL("alter table table_orders ADD  COLUMN _jump_param TEXT ")
             }
         }
 

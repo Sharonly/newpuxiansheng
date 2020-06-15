@@ -31,10 +31,10 @@ public final class MenuDatabase_Impl extends MenuDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_menu` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_menu_id` INTEGER NOT NULL, `_type` INTEGER NOT NULL, `_parent_id` INTEGER NOT NULL, `_text` TEXT NOT NULL, `_value` INTEGER NOT NULL, `jump_type` INTEGER NOT NULL, `jump_view` TEXT NOT NULL, `jump_param` TEXT NOT NULL, `_icon_enable` TEXT NOT NULL, `_icon_disable` TEXT NOT NULL, `btText` TEXT NOT NULL, `_color` TEXT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `table_menu` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_menu_id` INTEGER NOT NULL, `_type` INTEGER NOT NULL, `_parent_id` INTEGER NOT NULL, `_text` TEXT NOT NULL, `_value` INTEGER NOT NULL, `_jump_type` INTEGER NOT NULL, `_jump_view` TEXT NOT NULL, `_jump_param` TEXT NOT NULL, `_icon_enable` TEXT NOT NULL, `_icon_disable` TEXT NOT NULL, `_bt_text` TEXT NOT NULL, `_color` TEXT NOT NULL)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_table_menu__menu_id__type` ON `table_menu` (`_menu_id`, `_type`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '27d97a83a7f30ced5b9e93885b9dedb3')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'df9a7545ddf074bd49d5a39ed9a713bb')");
       }
 
       @Override
@@ -85,12 +85,12 @@ public final class MenuDatabase_Impl extends MenuDatabase {
         _columnsTableMenu.put("_parent_id", new TableInfo.Column("_parent_id", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableMenu.put("_text", new TableInfo.Column("_text", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableMenu.put("_value", new TableInfo.Column("_value", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableMenu.put("jump_type", new TableInfo.Column("jump_type", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableMenu.put("jump_view", new TableInfo.Column("jump_view", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableMenu.put("jump_param", new TableInfo.Column("jump_param", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableMenu.put("_jump_type", new TableInfo.Column("_jump_type", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableMenu.put("_jump_view", new TableInfo.Column("_jump_view", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableMenu.put("_jump_param", new TableInfo.Column("_jump_param", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableMenu.put("_icon_enable", new TableInfo.Column("_icon_enable", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableMenu.put("_icon_disable", new TableInfo.Column("_icon_disable", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsTableMenu.put("btText", new TableInfo.Column("btText", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTableMenu.put("_bt_text", new TableInfo.Column("_bt_text", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsTableMenu.put("_color", new TableInfo.Column("_color", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysTableMenu = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesTableMenu = new HashSet<TableInfo.Index>(1);
@@ -104,7 +104,7 @@ public final class MenuDatabase_Impl extends MenuDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "27d97a83a7f30ced5b9e93885b9dedb3", "06f0802923573330b59df4cb69f2baec");
+    }, "df9a7545ddf074bd49d5a39ed9a713bb", "4dc54ee280862b27484e05ae6e3bdaa7");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

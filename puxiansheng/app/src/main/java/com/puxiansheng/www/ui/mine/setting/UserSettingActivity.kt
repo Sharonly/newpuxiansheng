@@ -215,11 +215,11 @@ class UserSettingActivity : MyBaseActivity() {
                 .into(user_icon)
             lifecycleScope.launch {
 //                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
-                    settingViewModel.submitUserIcon(cropImageUri.toString()).let {
-                        if (it?.code == API.CODE_SUCCESS) {
-                            settingViewModel.iconImg = it?.data?.imgIcon
-                        }
-                    }
+//                    settingViewModel.submitUserIcon(cropImageUri.toString()).let {
+//                        if (it?.code == API.CODE_SUCCESS) {
+//                            settingViewModel.iconImg = it?.data?.imgIcon
+//                        }
+//                    }
 //                }
             }
 

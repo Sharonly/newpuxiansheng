@@ -88,7 +88,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferOutOrderViewModel.contactName =
-      SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
+      SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferOutOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
@@ -167,6 +167,20 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                     return@setOnClickListener
                 }
             }
+
+            insertOrUpdateTransferOutOrderViewModel.contactName.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入联系人！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            insertOrUpdateTransferOutOrderViewModel.contactPhone.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入联系电话！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+insertOrUpdateTransferOutOrderViewModel.contactPhone)
             insertOrUpdateTransferOutOrderViewModel.submit()
         }
 
@@ -495,13 +509,13 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 }
                             }
 
-                            order.shop?.lng?.let {
+                            order.shop?.newLng?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lng = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.lat?.let {
+                            order.shop?.newLat?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lat = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
@@ -626,13 +640,13 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 }
                             }
 
-                            order.shop?.lng?.let {
+                            order.shop?.newLng?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lng = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.lat?.let {
+                            order.shop?.newLat?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lat = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)

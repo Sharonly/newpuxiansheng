@@ -16,15 +16,17 @@ data class User(
     @ColumnInfo(name = "_token")
     @SerializedName("token")
     var token: String = "",
-
-    @ColumnInfo(name = "_nickname")
+//xinzeng
+    @ColumnInfo(name = "_name")
     @SerializedName("name")
     var name: String = "",
 
+    @ColumnInfo(name = "_nickname")
     @SerializedName("nick_name")
     var nickName: String = "",
 
-//    @ColumnInfo(name = "_sex")
+    //xinzeng
+    @ColumnInfo(name = "_user_sex")
     @SerializedName("sex")
     var userSex: Int = 0,
 
@@ -35,6 +37,8 @@ data class User(
     @ColumnInfo(name = "_login_timestamp")
     var loginTimestamp: Long = 0,
 
+    //xinzeng
+    @ColumnInfo(name = "_tips_msg")
     @SerializedName("tips_msg")
     var tipsMsg: String = "",
 
@@ -49,18 +53,23 @@ data class User(
     @SerializedName("phone")
     var userPhoneNumber: String = "",
 
-//    @ColumnInfo(name = "_city_path_id")
+    //xinzeng
+    @ColumnInfo(name = "_city_path_id")
     @SerializedName("city_path_id")
     var cityPathId: String = "",
 
-//    @ColumnInfo(name = "_city_id")
+    //xinzeng
+    @ColumnInfo(name = "_city_id")
     @SerializedName("city_id")
     var cityId: Int = 0,
 
-//    @ColumnInfo(name = "_view_path_city")
+    //xinzeng
+    @ColumnInfo(name = "_view_city_name")
     @SerializedName("view_path_city")
     var cityName: String = "",
 
+    //xinzeng
+    @ColumnInfo(name = "_view_city_path")
     @SerializedName("view_city_path_id")
     var userCityPath: String = "",
 

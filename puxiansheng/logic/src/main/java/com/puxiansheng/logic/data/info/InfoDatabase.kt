@@ -39,15 +39,14 @@ abstract class InfoDatabase : RoomDatabase() {
                     object : Migration(1, 2) {
                         override fun migrate(database: SupportSQLiteDatabase) {
                         }
-                    })
-                .addMigrations(MIGRATION_2_3)
+                    },MIGRATION_2_3)
                 .build()
         }
 
         val MIGRATION_2_3: Migration = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("alter table table_info ADD  COLUMN _user_id INTEGER NOT NULL ")
-                database.execSQL("alter table table_info ADD  COLUMN _jump_param TEXT NOT NULL")
+//                database.execSQL("alter table table_info ADD  COLUMN _user_id INTEGER NOT NULL DEFAULT 0 ")
+                database.execSQL("alter table table_info ADD COLUMN _param TEXT NOT NULL DEFAULT 'null' ")
             }
         }
     }

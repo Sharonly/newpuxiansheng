@@ -34,10 +34,17 @@ data class Shop(
     var address: Address? = null,
 
     @ColumnInfo(name = "_lng")
-    var lng: Double = 0.0,
+    var lng: String ? = null,
 
     @ColumnInfo(name = "_lat")
-    var lat: Double = 0.0,
+    var lat: String ? = null,
+
+    @ColumnInfo(name = "_new_lng")
+    var newLng:  Double = 0.0,
+
+    @ColumnInfo(name = "_new_lat")
+    var newLat:  Double = 0.0,
+
 
     @ColumnInfo(name = "_industry")
     var industry: String = "",
@@ -98,7 +105,6 @@ data class Shop(
     @ColumnInfo(name = "_formatted_rent")
     var formattedRent: String = "",
 
-
     @ColumnInfo(name = "_formatted_page_views")
     var formattedPageViews: Int = 0,
 
@@ -117,9 +123,13 @@ data class Shop(
     @ColumnInfo(name = "_formatted_final_location_node")
     var formattedFinalLocationNode: String = "",
 
-    @ColumnInfo(name = "_view_demand_ids")
-    var formattedFacilities: List<MenuItem>? = null,
+//    @ColumnInfo(name = "_view_demand_ids")
+//    var formattedFacilities: List<MenuItem>? = null,
 
+//    @ColumnInfo(name = "formattedFacilities")
+//    var formattedFacilities: List<MenuItem>? = null,
+    @SerializedName("view_demand_ids")
+    var formattedFacilities: List<MenuItem>? = null,
 
     //TODO 新增
     @ColumnInfo(name = "_rent_view")

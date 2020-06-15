@@ -24,12 +24,15 @@ public final class MenuItem implements android.os.Parcelable {
     @androidx.room.ColumnInfo(name = "_value")
     @com.google.gson.annotations.SerializedName(value = "value")
     private int value;
+    @androidx.room.ColumnInfo(name = "_jump_type")
     @com.google.gson.annotations.SerializedName(value = "jump_type")
     private int jump_type;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_jump_view")
     @com.google.gson.annotations.SerializedName(value = "jump_view")
     private java.lang.String jump_view;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_jump_param")
     @com.google.gson.annotations.SerializedName(value = "jump_param")
     private java.lang.String jump_param;
     @org.jetbrains.annotations.NotNull()
@@ -41,6 +44,7 @@ public final class MenuItem implements android.os.Parcelable {
     @com.google.gson.annotations.SerializedName(value = "colorless_icon")
     private java.lang.String icon_disable;
     @org.jetbrains.annotations.NotNull()
+    @androidx.room.ColumnInfo(name = "_bt_text")
     @com.google.gson.annotations.SerializedName(value = "text")
     private java.lang.String btText;
     @org.jetbrains.annotations.NotNull()

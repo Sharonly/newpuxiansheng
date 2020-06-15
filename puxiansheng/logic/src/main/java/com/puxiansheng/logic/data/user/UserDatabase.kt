@@ -33,25 +33,22 @@ abstract class UserDatabase : RoomDatabase() {
                 .addMigrations(object : Migration(1, 2) {
                     override fun migrate(database: SupportSQLiteDatabase) {
                     }
-                })
+                },MIGRATION_2_3)
                 .build()
         }
 
-        val  MIGRATION_1_3: Migration = object : Migration(1, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("alter table user_table ADD  COLUMN _is_success INTEGER ")
-                database.execSQL("alter table user_table ADD  COLUMN _allfacilities TEXT ")
-                database.execSQL("alter table user_table ADD  COLUMN _lng TEXT ")
-                database.execSQL("alter table user_table ADD  COLUMN _lat TEXT ")
-            }
-        }
+
 
         val MIGRATION_2_3: Migration = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-//                database.execSQL("alter table table_orders ADD  COLUMN _is_success INTEGER")
-//                database.execSQL("alter table table_orders ADD  COLUMN _allfacilities TEXT ")
-//                database.execSQL("alter table table_orders ADD  COLUMN _lng TEXT ")
-//                database.execSQL("alter table table_orders ADD  COLUMN _lat TEXT ")
+                database.execSQL("alter table user_table ADD  COLUMN _city_path_id TEXT NOT NULL DEFAULT 'null' ")
+                database.execSQL("alter table user_table ADD  COLUMN _city_id INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("alter table user_table ADD  COLUMN _tips_msg TEXT NOT NULL DEFAULT 'null' ")
+                database.execSQL("alter table user_table ADD  COLUMN _name TEXT NOT NULL DEFAULT 'null'")
+                database.execSQL("alter table user_table ADD  COLUMN _user_sex INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("alter table user_table ADD  COLUMN _view_city_name TEXT NOT NULL DEFAULT 'null' ")
+                database.execSQL("alter table user_table ADD  COLUMN _view_city_path TEXT NOT NULL DEFAULT 'null' ")
+
             }
         }
 

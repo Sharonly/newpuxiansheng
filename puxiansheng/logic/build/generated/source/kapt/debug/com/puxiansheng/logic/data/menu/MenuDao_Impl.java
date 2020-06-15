@@ -36,7 +36,7 @@ public final class MenuDao_Impl implements MenuDao {
     this.__insertionAdapterOfMenuItem = new EntityInsertionAdapter<MenuItem>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_menu` (`_id`,`_menu_id`,`_type`,`_parent_id`,`_text`,`_value`,`jump_type`,`jump_view`,`jump_param`,`_icon_enable`,`_icon_disable`,`btText`,`_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_menu` (`_id`,`_menu_id`,`_type`,`_parent_id`,`_text`,`_value`,`_jump_type`,`_jump_view`,`_jump_param`,`_icon_enable`,`_icon_disable`,`_bt_text`,`_color`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -175,12 +175,12 @@ public final class MenuDao_Impl implements MenuDao {
           final int _cursorIndexOfParentID = CursorUtil.getColumnIndexOrThrow(_cursor, "_parent_id");
           final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(_cursor, "_text");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "_value");
-          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_type");
-          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_view");
-          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_param");
+          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_type");
+          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_view");
+          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_param");
           final int _cursorIndexOfIconEnable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_enable");
           final int _cursorIndexOfIconDisable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_disable");
-          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "btText");
+          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "_bt_text");
           final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(_cursor, "_color");
           final List<MenuItem> _result = new ArrayList<MenuItem>(_cursor.getCount());
           while(_cursor.moveToNext()) {
@@ -242,12 +242,12 @@ public final class MenuDao_Impl implements MenuDao {
           final int _cursorIndexOfParentID = CursorUtil.getColumnIndexOrThrow(_cursor, "_parent_id");
           final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(_cursor, "_text");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "_value");
-          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_type");
-          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_view");
-          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_param");
+          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_type");
+          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_view");
+          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_param");
           final int _cursorIndexOfIconEnable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_enable");
           final int _cursorIndexOfIconDisable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_disable");
-          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "btText");
+          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "_bt_text");
           final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(_cursor, "_color");
           final List<MenuItem> _result = new ArrayList<MenuItem>(_cursor.getCount());
           while(_cursor.moveToNext()) {
@@ -311,12 +311,12 @@ public final class MenuDao_Impl implements MenuDao {
           final int _cursorIndexOfParentID = CursorUtil.getColumnIndexOrThrow(_cursor, "_parent_id");
           final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(_cursor, "_text");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "_value");
-          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_type");
-          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_view");
-          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_param");
+          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_type");
+          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_view");
+          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_param");
           final int _cursorIndexOfIconEnable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_enable");
           final int _cursorIndexOfIconDisable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_disable");
-          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "btText");
+          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "_bt_text");
           final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(_cursor, "_color");
           final List<MenuItem> _result = new ArrayList<MenuItem>(_cursor.getCount());
           while(_cursor.moveToNext()) {
@@ -375,12 +375,12 @@ public final class MenuDao_Impl implements MenuDao {
           final int _cursorIndexOfParentID = CursorUtil.getColumnIndexOrThrow(_cursor, "_parent_id");
           final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(_cursor, "_text");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "_value");
-          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_type");
-          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_view");
-          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_param");
+          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_type");
+          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_view");
+          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_param");
           final int _cursorIndexOfIconEnable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_enable");
           final int _cursorIndexOfIconDisable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_disable");
-          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "btText");
+          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "_bt_text");
           final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(_cursor, "_color");
           final List<MenuItem> _result = new ArrayList<MenuItem>(_cursor.getCount());
           while(_cursor.moveToNext()) {
@@ -441,12 +441,12 @@ public final class MenuDao_Impl implements MenuDao {
           final int _cursorIndexOfParentID = CursorUtil.getColumnIndexOrThrow(_cursor, "_parent_id");
           final int _cursorIndexOfText = CursorUtil.getColumnIndexOrThrow(_cursor, "_text");
           final int _cursorIndexOfValue = CursorUtil.getColumnIndexOrThrow(_cursor, "_value");
-          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_type");
-          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_view");
-          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "jump_param");
+          final int _cursorIndexOfJumpType = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_type");
+          final int _cursorIndexOfJumpView = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_view");
+          final int _cursorIndexOfJumpParam = CursorUtil.getColumnIndexOrThrow(_cursor, "_jump_param");
           final int _cursorIndexOfIconEnable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_enable");
           final int _cursorIndexOfIconDisable = CursorUtil.getColumnIndexOrThrow(_cursor, "_icon_disable");
-          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "btText");
+          final int _cursorIndexOfBtText = CursorUtil.getColumnIndexOrThrow(_cursor, "_bt_text");
           final int _cursorIndexOfColor = CursorUtil.getColumnIndexOrThrow(_cursor, "_color");
           final MenuItem _result;
           if(_cursor.moveToFirst()) {
