@@ -27,13 +27,6 @@ data class MenuItem(
     @ColumnInfo(name = "_text")
     var text: String = "",
 
-    @SerializedName("text")
-    var btText: String = "",
-
-    @SerializedName("color")
-    @ColumnInfo(name = "_color")
-    var color: String = "",
-
 
     @ColumnInfo(name = "_value")
     @SerializedName("value")
@@ -54,11 +47,20 @@ data class MenuItem(
 
     @SerializedName("colorless_icon")
     @ColumnInfo(name = "_icon_disable")
-    var icon_disable: String = ""
+    var icon_disable: String = "",
 
-    /*@SerializedName("children")
-    val list: List<MenuItem>? = null*/
-):Parcelable {
+
+    @SerializedName("text")
+    var btText: String = "",
+
+    @SerializedName("color")
+    @ColumnInfo(name = "_color")
+    var color: String = ""
+
+
+/*@SerializedName("children")
+val list: List<MenuItem>? = null*/
+) : Parcelable {
 
     @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)

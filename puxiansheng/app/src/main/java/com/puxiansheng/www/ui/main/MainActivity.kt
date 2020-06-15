@@ -87,6 +87,7 @@ class MainActivity : MyBaseActivity() {
         LiveDataBus.get().with("user", User::class.java)
             ?.observe(this, Observer { user ->
                 user?.let {
+                    Log.d("---login","get user = "+user)
                     appModel?.currentUser?.postValue(user)
                 }
             })
@@ -186,7 +187,10 @@ class MainActivity : MyBaseActivity() {
         })
 
         API.logoutSignal.observe(this@MainActivity, Observer {
+           // Log.d("---logout"," it = "+it)
+//            println("---logout1--->${it}")
             if (it == API.CODE_REQUIRE_LOGIN ||
+                it == API.CODE_ERROR_AUTH_TOKEN ||
                 it == API.CODE_AUTO_CODE_INVALID ||
                 it == API.CODE_AUTO_CODE_EXPIRED ||
                 it == API.CODE_AUTO_CODE_ERROR ||
@@ -194,12 +198,13 @@ class MainActivity : MyBaseActivity() {
                 it == API.CODE_BANNED_USER
             ) {
                 appModel?.forceLogout()
+//                println("---logout2--->${it}")
                 Toast.makeText(this, "当前登录已失效，请重新登录！", Toast.LENGTH_SHORT).show()
             }
         })
         applicationContext?.let {
-//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
-            WechatAPI.instance = WXAPIFactory.createWXAPI(it, API.WEIXIN_APP_ID, true)
+            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
+//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, API.WEIXIN_APP_ID, true)
         }
     }
 

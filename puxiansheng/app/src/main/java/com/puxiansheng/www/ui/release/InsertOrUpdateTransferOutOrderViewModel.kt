@@ -43,8 +43,8 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
     var floor = 0
 
     var images: String? = null
-    var contactName: String? = null
-    var contactPhone: String? = null
+    var contactName: String = ""
+    var contactPhone:  String = ""
     var description: String? = null
     var facility: String? = null
     var environment: String? = null

@@ -7,7 +7,7 @@
         android:orientation="vertical">
 
         <com.puxiansheng.www.common.StateBarView
-            android:background="@color/appMain"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

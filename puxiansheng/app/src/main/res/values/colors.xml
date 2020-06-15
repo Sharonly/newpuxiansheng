@@ -23,4 +23,5 @@
     <color name="release_success_text_color">#3BCC9B</color>
     <color name="release_fail_text_color">#FB6066</color>
     <color name="view_top_color">#ff5722</color>
+    <color name="bg_bt_confirm_gray">#FFCCCCCC</color>
 </resources>

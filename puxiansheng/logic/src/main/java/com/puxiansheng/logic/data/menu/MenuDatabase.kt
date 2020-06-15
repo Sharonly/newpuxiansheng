@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.puxiansheng.logic.bean.MenuItem
 
-@Database(entities = [MenuItem::class], version = 2, exportSchema = false)
+@Database(entities = [MenuItem::class], version = 3, exportSchema = false)
 abstract class MenuDatabase : RoomDatabase() {
     abstract fun menuDao(): MenuDao
 
@@ -29,7 +29,14 @@ abstract class MenuDatabase : RoomDatabase() {
                     override fun migrate(database: SupportSQLiteDatabase) {
                     }
                 })//版本升级为2，解决错误的升级数据库。导致灰度期间出现了不少crash
+                .addMigrations(MIGRATION_2_3)
                 .build()
+        }
+
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table table_menu ADD  COLUMN _color TEXT NOT NULL")
+            }
         }
     }
 }

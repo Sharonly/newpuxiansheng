@@ -20,6 +20,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMineReleasedInnerFragmentBinding
+import com.puxiansheng.www.databinding.FragmentMineReleasedOutFragmentBinding
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
@@ -38,7 +39,7 @@ class ReleasedTransferOutOrdersFragment : AppFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentMineReleasedInnerFragmentBinding.inflate(inflater).apply {
+    ): View? = FragmentMineReleasedOutFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         refresh.setOnRefreshListener {
@@ -57,7 +58,7 @@ class ReleasedTransferOutOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_OUT_PRIVATE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.jump_param)
+                intent.putExtra("shopID", it?.shop?.shopID?.toString())
                 startActivity(intent)
             },
 

@@ -54,9 +54,9 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferInOrderViewModel.contactName =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+            SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
-            SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
         input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
@@ -109,10 +109,11 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
             }
 
             insertOrUpdateTransferInOrderViewModel.contactName =
-                SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+                SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
             insertOrUpdateTransferInOrderViewModel.contactPhone =
-                SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+                SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
+Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ insertOrUpdateTransferInOrderViewModel.contactName+ "  "+ SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString())
             insertOrUpdateTransferInOrderViewModel.submit()
         }
 
@@ -314,7 +315,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                 }
             } else {
                 var phone = SharedPreferencesUtil.get(
-                    API.LOGIN_USER_PHONE, ""
+                    API.LOGIN_ACTUL_PHONE, ""
                 ).toString()
                 insertOrUpdateTransferInOrderViewModel.contactPhone = phone
 

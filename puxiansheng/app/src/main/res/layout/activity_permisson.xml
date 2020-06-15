@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="欢迎使用"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="18dp"
+            android:text="为保证您的正常使用，需要您开启以下权限："
+            android:textColor="#FF777777"
+            android:textSize="16sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sub_title"
+            android:layout_marginBottom="140dp"
+            android:layout_marginTop="8dp"
+            android:scrollbars="none">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+                
+                <ImageView
+                    android:id="@+id/icon_1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_one"/>
+
+                <TextView
+                    android:id="@+id/title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_1"
+                    android:layout_toRightOf="@+id/icon_1"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="读取手机状态信息"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title1"
+                    android:layout_below="@+id/title1"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="用于判别用户身份，预防恶意程序及安全运营所需"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_two"/>
+
+                <TextView
+                    android:id="@+id/title2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_2"
+                    android:layout_toRightOf="@+id/icon_2"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="拨打电话"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title2"
+                    android:layout_below="@+id/title2"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="如您在APP中使用电话通信功能与工作人员联系，我们将使用该权限"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_three"/>
+
+                <TextView
+                    android:id="@+id/title3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_3"
+                    android:layout_toRightOf="@+id/icon_3"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="修改或删除您SD卡中的内容"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title3"
+                    android:layout_below="@+id/title3"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="如您需要更换头像或者向客服提交图片信息时需要调取相册权限，但我们不会主动读取您的SD卡数据"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_four"/>
+
+                <TextView
+                    android:id="@+id/title4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_4"
+                    android:layout_toRightOf="@+id/icon_4"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="位置信息"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title4"
+                    android:layout_below="@+id/title4"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="如您使用周边铺源或者其他位置服务功能，我们将使用该服务"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_five"/>
+
+                <TextView
+                    android:id="@+id/title5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_5"
+                    android:layout_toRightOf="@+id/icon_5"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="使用手机摄像头"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title5"
+                    android:layout_below="@+id/title5"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="如您需要更改头像，上传店铺照片，我们将使用该权限"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_6"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_six"/>
+
+                <TextView
+                    android:id="@+id/title6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_6"
+                    android:layout_toRightOf="@+id/icon_6"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="相册权限"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title6"
+                    android:layout_below="@+id/title6"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="如您需要更改头像或者向客服提交图片信息时需要使用该权限"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_bt_message_edit">
+
+                <ImageView
+                    android:id="@+id/icon_7"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="27.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_seven"/>
+
+                <TextView
+                    android:id="@+id/title7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignTop="@+id/icon_7"
+                    android:layout_toRightOf="@+id/icon_7"
+                    android:layout_marginLeft="14.5dp"
+                    android:textColor="#FF252525"
+                    android:textSize="16sp"
+                    android:text="通知"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignLeft="@+id/title7"
+                    android:layout_below="@+id/title7"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="#FF777777"
+                    android:text="我们会及时为您提供店铺资讯服务"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_reader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9.5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="*以上为核心业务必要功能，如无授权将无法正常使用我们的APP；您也可以在系统中关闭授权，但可能影响到部分功能的正常使用" />
+
+
+            <TextView
+                android:id="@+id/button_go"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_bt_login_slected"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="进入APP"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -55,6 +55,7 @@ class HomeTransferOutOrdersFragment : AppFragment()  {
 
         val pageBuilder = LivePagedListBuilder<Int, Order>(
             viewModel.getTransferOutOrdersFromLocal(),
+
             PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
                 .setPageSize(10)

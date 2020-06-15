@@ -4,6 +4,7 @@ import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,11 +45,11 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
     ): View? = FragmentMineReleasedInnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        refresh.setOnRefreshListener {
-            viewModel.refresh()
-            refresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.appMain))
-            refresh.isRefreshing = false
-        }
+//        refresh.setOnRefreshListener {
+////            viewModel.refresh()
+//            refresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.appMain))
+//            refresh.isRefreshing = false
+//        }
 
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
@@ -60,7 +61,7 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_IN_PRIVATE.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.jump_param)
+                intent.putExtra("shopID", it?.shop?.shopID?.toString())
                 startActivity(intent)
             },
 
@@ -75,7 +76,7 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
                 deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
                 deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                     override fun onDiss() {
-                        viewModel.refresh()
+//                        viewModel.refresh()
                     }
                 }
 //                lifecycleScope.launch {
@@ -89,6 +90,43 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
             }
 
         ).apply {
+//            LivePagedListBuilder<Int, Order>(
+//                viewModel.getMineTransferInOrdersFromLocal(),
+//                PagedList.Config.Builder()
+//                    .setEnablePlaceholders(true)
+//                    .setPageSize(10)
+//                    .setInitialLoadSizeHint(20)
+//                    .build()
+//            ).let { pageBuilder ->
+//                pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
+//                    override fun onItemAtEndLoaded(itemAtEnd: Order) {
+//                        super.onItemAtEndLoaded(itemAtEnd)
+//                        Log.d("----loadmore-----","  end ")
+//                        viewModel.loadMore()
+//                    }
+//                })
+//
+//                addLoadStateListener { loadType, _, _ ->
+//                    if (loadType == PagedList.LoadType.END) {
+//                        if (itemCount == 0) {
+//                            type = Order.Type.EMPTY.value()
+//                            notifyDataSetChanged()
+//                        }
+//                    }
+//                    if (loadType == PagedList.LoadType.REFRESH) {
+//                        if (type != Order.Type.TRANSFER_IN_PRIVATE.value()) {
+//                            type = Order.Type.TRANSFER_IN_PRIVATE.value()
+//                            notifyDataSetChanged()
+//                        }
+//                    }
+//                }
+//
+//                pageBuilder.build().observe(viewLifecycleOwner, Observer {
+//                    submitList(it)
+//                })
+//            }
+
+
             LivePagedListBuilder<Int, Order>(
                 viewModel.getMineTransferInOrdersFromLocal(),
                 PagedList.Config.Builder()
@@ -100,10 +138,9 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
                 pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
                     override fun onItemAtEndLoaded(itemAtEnd: Order) {
                         super.onItemAtEndLoaded(itemAtEnd)
-                        viewModel.loadMore()
+//                        viewModel.loadMore()
                     }
                 })
-
                 addLoadStateListener { loadType, _, _ ->
                     if (loadType == PagedList.LoadType.END) {
                         if (itemCount == 0) {
@@ -125,6 +162,6 @@ class ReleasedTransferInOrdersFragment : AppFragment() {
             }
         }
 
-        viewModel.refresh()
+//        viewModel.refresh()
     }.root
 }

@@ -36,7 +36,7 @@ class OrderSoldOutViewModel (application: Application) : AndroidViewModel(applic
                     it.map { shop ->
                         try {
                             Order(
-                                status = shop.status,
+                                state = shop.state,
                                 shop = Shop(
                                     shopID = shop.shopID,
                                     title = shop.title,

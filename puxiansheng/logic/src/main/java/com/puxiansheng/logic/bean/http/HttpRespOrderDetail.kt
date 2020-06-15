@@ -7,6 +7,8 @@ import com.puxiansheng.logic.bean.*
 data class HttpRespOrderDetail(
     @SerializedName("result")
     val obj: OrderDetailObject? = null
+
+
 )
 
 data class OrderDetailObject(
@@ -158,11 +160,11 @@ data class OrderDetailObject(
     @SerializedName("contact_phone")
     var shopOwnerPhoneNumbr: String = "",
 
-    @SerializedName("checked")
+    @SerializedName("view_status")
     var state: Order.Companion.State? = null,
 
-    @SerializedName("view_status")
-    var status: Order.Companion.orderStatus? = null,
+//    @SerializedName("view_status")
+//    var status: Order.Companion.orderStatus? = null,
 
 
     @SerializedName("collect")

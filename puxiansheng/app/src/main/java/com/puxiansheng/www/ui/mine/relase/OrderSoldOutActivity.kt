@@ -41,35 +41,43 @@ class OrderSoldOutActivity : MyBaseActivity() {
             order_list.addItemDecoration(it)
         }
         order_list.layoutManager = LinearLayoutManager(this@OrderSoldOutActivity)
+        var adapter = ReleaseStateOrdersAdapter(
+            this@OrderSoldOutActivity,
+            onItemDelete = {
+                var deleteDialog = DeleteOrderDialog(
+                    "确定要删除该条发布吗？",
+                    Order.Type.TRANSFER_IN_PRIVATE.value(),
+                    it?.shop?.shopID
+                )
+                deleteDialog.show(
+                    supportFragmentManager,
+                    DeleteOrderDialog::class.java.name
+                )
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+
+                    }
+                }
+            }
+        )
         lifecycleScope.launch {
+            show_null.visibility = View.VISIBLE
             viewModel.getRemoteSoldOutOrders().let {
                 var orderType: Int = Order.Type.EMPTY.value()
                 if (!it.isNullOrEmpty()) {
+                    show_null.visibility = View.GONE
                     orderType = Order.Type.USER_PUBLIC_ORDER.value()
-                    order_list.adapter =
-                        ReleaseStateOrdersAdapter(
-                            this@OrderSoldOutActivity,
-                            onItemDelete = {
-                                var deleteDialog = DeleteOrderDialog(
-                                    "确定要删除该条发布吗？",
-                                    Order.Type.TRANSFER_IN_PRIVATE.value(),
-                                    it?.shop?.shopID
-                                )
-                                deleteDialog.show(
-                                    supportFragmentManager,
-                                    DeleteOrderDialog::class.java.name
-                                )
-                                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
-                                    override fun onDiss() {
-
-                                    }
-                                }
-                            }, dataList = it as List<Order>, type = orderType
-                        )
+                    adapter.setType(orderType)
+                    adapter.setMenuData(it as List<Order>)
+                    order_list.adapter = adapter
                 } else {
                     show_null.visibility = View.VISIBLE
+                    orderType =  Order.Type.EMPTY.value()
+                    adapter.setType(orderType)
+
                 }
             }
         }
+
     }
 }

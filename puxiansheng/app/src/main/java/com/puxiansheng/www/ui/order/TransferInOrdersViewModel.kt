@@ -92,7 +92,7 @@ class TransferInOrdersViewModel(application: Application) : AndroidViewModel(app
                                 reason = shop.reason,
                                 transferType = Order.Type.TRANSFER_IN.value(),
                                 formattedArea = shop.area_point_str,
-                                formattedDate = shop.formattedDate,
+                                formattedDate = shop.day_time,
                                 formattedSize = shop.view_acreage_un_prefix,
                                 formattedRent = shop.view_rent_un_prefix,
                                 formattedFee = shop.formattedTransferFee,

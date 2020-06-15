@@ -11,7 +11,7 @@ import com.puxiansheng.logic.bean.BusinessBean
 
 @Database(
     entities = [BusinessBean::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class BusinessDatabase : RoomDatabase() {
@@ -33,12 +33,8 @@ abstract class BusinessDatabase : RoomDatabase() {
                 BusinessDatabase::class.java,
                 BusinessDatabase::class.java.name
             )
-//                .fallbackToDestructiveMigration()
-                .addMigrations(
-                    object : Migration(1, 2) {
-                        override fun migrate(database: SupportSQLiteDatabase) {
-                        }
-                    })//版本升级为2，解决错误的升级数据库。导致灰度期间出现了不少crash
+                .fallbackToDestructiveMigration()
+
                 .build()
         }
     }

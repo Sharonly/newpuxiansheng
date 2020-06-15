@@ -67,7 +67,7 @@ class BrowsingHistoryTransferInOrdersViewModel(application: Application) : Andro
                                 reason = it.reason,
                                 transferType = Order.Type.TRANSFER_IN_HISTORY.value(),
                                 //formatted data
-                                formattedDate = it.formattedDate,
+                                formattedDate = it.day_time,
                                 formattedSize = it.view_acreage_un_prefix,
                                 formattedRent = it.view_rent_un_prefix,
                                 formattedFee = it.formattedTransferFee,

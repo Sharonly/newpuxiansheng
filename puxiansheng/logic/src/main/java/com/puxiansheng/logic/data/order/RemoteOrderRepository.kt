@@ -78,8 +78,8 @@ class RemoteOrderRepository {
         floor: Int = 0,
         //
         images: String? = null,
-        contactName: String? = null,
-        contactPhone: String? = null,
+        contactName: String = "",
+        contactPhone: String = "",
         description: String? = null,
         environment: String? = null,
         facility: String? = null,
@@ -100,20 +100,14 @@ class RemoteOrderRepository {
             "address" to address,
             "can_empty" to exclusive.toString(),
             "is_opening" to state.toString(),
-            "rent_id" to "1"
+            "rent_id" to "1",
+            "contact_name" to contactName,
+            "contact_phone" to contactPhone
         ).also { map ->
             images?.let {
                 if (it != "") {
                     map["img_ids"] = images
                 }
-            }
-
-            contactName?.let {
-                map["contact_name"] = contactName
-            }
-
-            contactPhone?.let {
-                map["contact_phone"] = contactPhone
             }
 
             description?.let {
@@ -160,10 +154,11 @@ class RemoteOrderRepository {
         rent: String = "",
         industry: String = "",
         area: String = "",
-        description: String = "",
         contactName: String = "",
         contactPhone: String = "",
-        facility: String =""
+        facility: String? = null,
+        description: String ? = null,
+        floor: Int = 0
     ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
         url = API.SUBMIT_TRANSFER_IN_ORDER,
         fieldMap = mutableMapOf(
@@ -173,18 +168,28 @@ class RemoteOrderRepository {
             "city_path_id" to area,
             "rent_id" to rent,
             "acreage_id" to size,
-            "content" to description,
             "contact_name" to contactName,
-            "contact_phone" to contactPhone,
-            "demand_ids" to facility
-        ).also {
-            it["sign"] = API.sign(
+            "contact_phone" to contactPhone
+        ).also { map ->
+            facility?.let {
+                map["demand_ids"] = facility
+            }
+
+            floor?.let {
+                map["floor"] = floor.toString()
+            }
+            description?.let {
+                map["content"] = description
+            }
+
+            map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
-                fieldMap = it,
+                fieldMap = map,
                 method = "POST"
             )
         }
     ).let {
+        Log.d("---submit"," it = "+it)
         API.call(it)
     }
 
@@ -362,7 +367,7 @@ class RemoteOrderRepository {
     fun getSaveTransferOutOrderDetailFromRemote(
     ): APIRst<APIResp<HttpRespOrderDetail>> = buildRequest(
         url = API.GET_SAVE_TRANSFER_OUT_ORDER,
-        fieldMap = mutableMapOf<String,String>().also { map ->
+        fieldMap = mutableMapOf<String, String>().also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
                 fieldMap = map,
@@ -373,7 +378,6 @@ class RemoteOrderRepository {
     ).let {
         API.call(it)
     }
-
 
 
     fun getTransferOutOrderDetailFromRemote(
@@ -414,7 +418,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---recommend--"," it = "+it)
+        Log.d("---recommend--", " it = " + it)
         API.call(it)
     }
 
@@ -541,7 +545,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---Recommended---","Out it = "+it)
+        Log.d("---Recommended---", "Out it = " + it)
         API.call(it)
     }
 
@@ -670,12 +674,34 @@ class RemoteOrderRepository {
         API.call(it)
     }
 
+
+    fun refreshShopFromRemote(
+        shopID: String,
+        type: String
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+        url = API.REFRESH_SHOP,
+        fieldMap = mutableMapOf(
+            "id" to shopID,
+            "data_type" to type
+        ).also {
+            it["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = it,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        Log.e("---updata"," it = "+it)
+        API.call(it)
+    }
+
     fun deleteFavorTransferInOrderFromRemote(
         shopID: String
     ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_FAVOR_ORDER,
         fieldMap = mutableMapOf(
-            "id" to shopID,"type" to "1"
+            "id" to shopID, "type" to "1"
         ).also { map ->
             map["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -804,7 +830,7 @@ class RemoteOrderRepository {
     fun getPublicFromRemote(
     ): APIRst<APIResp<HttpRespReleaseOrders>> = buildRequest(
         url = API.GET_USER_PULISHED,
-        fieldMap =  mutableMapOf<String, String>().also {
+        fieldMap = mutableMapOf<String, String>().also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
                 fieldMap = it,
@@ -819,7 +845,7 @@ class RemoteOrderRepository {
     fun getProcessingFromRemote(
     ): APIRst<APIResp<HttpRespReleaseOrders>> = buildRequest(
         url = API.GET_USER_PROCESSING,
-        fieldMap =  mutableMapOf<String, String>().also {
+        fieldMap = mutableMapOf<String, String>().also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
                 fieldMap = it,
@@ -834,7 +860,7 @@ class RemoteOrderRepository {
     fun getSoldOutFromRemote(
     ): APIRst<APIResp<HttpRespReleaseOrders>> = buildRequest(
         url = API.GET_USER_SOLD_OUT,
-        fieldMap =  mutableMapOf<String, String>().also {
+        fieldMap = mutableMapOf<String, String>().also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
                 fieldMap = it,
@@ -843,7 +869,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---public--","getSoldOutFromRemote it = "+it)
+        Log.d("---public--", "getSoldOutFromRemote it = " + it)
         API.call(it)
     }
 

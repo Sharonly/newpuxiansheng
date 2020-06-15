@@ -17,12 +17,15 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
+import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import kotlinx.android.synthetic.main.fragment_map_find_address.*
+import kotlinx.android.synthetic.main.fragment_map_find_address.button_back
 import java.net.URLDecoder
 
 
 class MapActivity : MyBaseActivity() {
-    var mUrl: String = ""
+    var mUrl: String =
+        "https://apis.map.qq.com/uri/v1/geocoder?coord=39.904956,116.389449&referer=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
     private lateinit var insertOrUpdateTransferOutOrderViewModel: InsertOrUpdateTransferOutOrderViewModel
     private lateinit var appModel: MainViewModel
     val LOCATION_CODE = 1315
@@ -38,6 +41,7 @@ class MapActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        toptitle.text = "位置信息"
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -53,7 +57,11 @@ class MapActivity : MyBaseActivity() {
         initView()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, paramArrayOfInt: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        paramArrayOfInt: IntArray
+    ) {
         when (requestCode) {
             requestCodePermissions -> if (!verifyPermissions(paramArrayOfInt)) {
                 isNeedCheck = false
@@ -84,20 +92,19 @@ class MapActivity : MyBaseActivity() {
 
 
     private fun initView() {
-        if(intent.getStringExtra("location")=="0.0,0.0"){
-            Toast.makeText(this, "请打开GPS来获取您的定位", Toast.LENGTH_LONG).show()
-        }else {
-            Log.d("---location---", " intent.getStringExtra " + intent.getStringExtra("location"))
-            val sb = StringBuilder()
-            sb.append("https://apis.map.qq.com/tools/locpicker?search=1&type=0&coordtype=5&coord=")
-            sb.append(intent.getStringExtra("location"))
-            sb.append("&backurl=http://callback&key=O2IBZ-X2RH4-ZKNUJ-DSGQT-RQGVK-TZF4W&referer=pxs")
-            mUrl = sb.toString()
-        }
+//        Log.d("get_location---", " intent.getStringExtra " + intent.getStringExtra("location"))
+        val sb = StringBuilder()
+        sb.append("https://apis.map.qq.com/uri/v1/geocoder?coord=")
+        sb.append(intent.getStringExtra("location"))
+        sb.append("&referer=pxs")
+        mUrl = sb.toString()
         map_webview.apply {
             webChromeClient = WebChromeClient()
             webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
                     if (!request?.url.toString().startsWith("http://callback")) {
                         view?.loadUrl(request?.url.toString())
                     } else {

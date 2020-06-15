@@ -17,76 +17,84 @@ import java.lang.StringBuilder
 class ReleasedTransferInOrdersViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
-    private var currentPage = 1
+//    private var currentPage = 1
+//
+//    private fun deleteOrdersByType(
+//        type: Int
+//    ) = viewModelScope.launch(Dispatchers.IO) {
+//        orderRepository.deleteOrdersByTypeFromRoom(type)
+//    }
+//
+//    fun loadMore() = viewModelScope.launch(Dispatchers.IO) {
+//        getRemoteMineTransferInOrders()
+//        currentPage += 1
+//    }
+//
+//    fun refresh() {
+//        currentPage = 1
+//        viewModelScope.launch {
+//            deleteOrdersByType(type = Order.Type.TRANSFER_IN_PRIVATE.value())
+//            //delay(300)
+//            loadMore()
+//        }
+//    }
 
-    private fun deleteOrdersByType(
-        type: Int
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        orderRepository.deleteOrdersByTypeFromRoom(type)
-    }
-
-    fun loadMore() = viewModelScope.launch(Dispatchers.IO) {
-        getRemoteMineTransferInOrders()
-    }
-
-    fun refresh() {
-        currentPage = 1
-        viewModelScope.launch {
-            deleteOrdersByType(type = Order.Type.TRANSFER_IN_PRIVATE.value())
-            //delay(300)
-            loadMore()
+    suspend  fun getRemoteMineTransferInOrders(currentPage:Int)= withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.getMineTransferInOrdersFromRemote(page = currentPage).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data.data?.data?.orders
+            } else null
         }
     }
 
     fun getMineTransferInOrdersFromLocal() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_IN_PRIVATE.value())
-
-    private fun getRemoteMineTransferInOrders() {
-        orderRepository.getMineTransferInOrdersFromRemote(page = currentPage).let { apiRst ->
-            if (apiRst.succeeded) {
-                (apiRst as APIRst.Success).data.data?.data?.orders?.let { list ->
-                    list.map {
-                        Order(
-                            orderType = Order.Type.TRANSFER_IN_PRIVATE.value(),
-                            shop = Shop(
-                                shopID = it.shopID,
-                                title = it.title,
-                                size = it.size,
-                                rent = it.rent,
-                                fee = it.fee,
-                                address = it.address,
-                                industry = it.industry,
-                                runningState = it.runningState,
-                                includeFacilities = it.includeFacilities,
-                                images = it.images,
-                                floor = it.floor,
-                                labels = it.labelList,
-                                facilities = it.facilities,
-                                environment = it.environment,
-                                reason = it.reason,
-                                transferType = Order.Type.TRANSFER_IN_PRIVATE.value(),
-                                //formatted data
-                                formattedDate = it.formattedDate,
-                                formattedSize = it.formattedSize,
-                                formattedRent = it.formattedRent,
-                                formattedFee = it.formattedTransferFee,
-                                formattedFinalIndustry = it.view_category,
-                                formattedArea = it.formattedFinalLocationNode,
-                                data_type = it.data_type,
-                                jump_type = it.jump_type,
-                                jump_view = it.jump_view,
-                                jump_param = it.jump_param
-                            ),
-                            state = it.state
-                        )
-                    }.let { orderList ->
-                        orderRepository.insertOrders(*orderList.toTypedArray())
-                    }
-                }
-                currentPage += 1
-            } else null
-        }
-    }
+//
+//    private fun getRemoteMineTransferInOrders() {
+//        orderRepository.getMineTransferInOrdersFromRemote(page = currentPage).let { apiRst ->
+//            if (apiRst.succeeded) {
+//                (apiRst as APIRst.Success).data.data?.data?.orders?.let { list ->
+//                    list.map {
+//                        Order(
+//                            orderType = Order.Type.TRANSFER_IN_PRIVATE.value(),
+//                            shop = Shop(
+//                                shopID = it.shopID,
+//                                title = it.title,
+//                                size = it.size,
+//                                fee = it.fee,
+//                                address = it.address,
+//                                industry = it.industry,
+//                                runningState = it.runningState,
+//                                includeFacilities = it.includeFacilities,
+//                                images = it.images,
+//                                floor = it.floor,
+//                                labels = it.labelList,
+//                                facilities = it.facilities,
+//                                environment = it.environment,
+//                                reason = it.reason,
+//                                transferType = Order.Type.TRANSFER_IN_PRIVATE.value(),
+//                                //formatted data
+//                                formattedDate = it.day_time,
+//                                formattedSize = it.view_acreage_un_prefix,
+//                                formattedRent = it.view_rent_un_prefix,
+//                                formattedFee = it.formattedTransferFee,
+//                                formattedFinalIndustry = it.view_category,
+//                                formattedArea = it.formattedFinalLocationNode,
+//                                data_type = it.data_type,
+//                                jump_type = it.jump_type,
+//                                jump_view = it.jump_view,
+//                                jump_param = it.jump_param
+//                            ),
+//                            state = it.state
+//                        )
+//                    }.let { orderList ->
+//                        orderRepository.insertOrders(*orderList.toTypedArray())
+//                    }
+//                }
+//
+//            } else null
+//        }
+//    }
 
     suspend fun deleteTransferInOrderFromRemote(
         shopID: String

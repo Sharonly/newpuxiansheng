@@ -67,6 +67,7 @@ class RecommOrderAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
+        println("viewtype---》${position}--->${dataList?.size}")
         if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
             return R.layout.fragment_order_list_empty
         if(!dataList.isNullOrEmpty()) {
@@ -130,7 +131,7 @@ class RecommOrderAdapter(
         @SuppressLint("SetTextI18n")
         override fun bind(item: Order?) {
             item?.shop?.title.let { title ->
-                binding.title.text = title
+                binding.shopTitle.text = title
             }
             item?.shop?.formattedArea.let { it ->
                 binding.area.text = it
@@ -167,11 +168,11 @@ class RecommOrderAdapter(
         override fun bind(item: Order?) {
             infolist.layoutManager =
                 GridLayoutManager(context, 2)
-            item?.shop?.articles.let { list ->
-                infolist.adapter = list?.let {
-                    ArticleTitleAdapter(it,context)
-                }
-            }
+//            item?.shop?.articles.let { list ->
+//                infolist.adapter = list?.let {
+//                    ArticleTitleAdapter(it,context)
+//                }
+//            }
 
         }
     }

@@ -67,16 +67,7 @@ class LoginActivity : MyBaseActivity() {
         }
 
         tab_login.setOnClickListener {
-            tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F);
-            tab_login.setTextColor(resources.getColor(R.color.black))
-            tab_register.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F)
-            tab_register.setTextColor(resources.getColor(R.color.gray))
-            layout_login_by_password.visibility = View.VISIBLE
-            layout_register.visibility = View.GONE
-            bt_phone_fast_login.visibility = View.VISIBLE
-            bt_login.text = "登录"
-            bt_phone_fast_login.text = "手机号快速登录"
-            loginType = MODE_LOGIN_WITH_PASSWORD
+            initLoginView()
         }
 
         tab_register.setOnClickListener {
@@ -168,11 +159,12 @@ class LoginActivity : MyBaseActivity() {
         }
 
         pass_hide.setOnClickListener {
-            input_user_password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
-        pass_show.setOnClickListener {
             input_user_password.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+
+        pass_show.setOnClickListener {
+            input_user_password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
 
         bt_login.setOnClickListener {
@@ -214,10 +206,11 @@ class LoginActivity : MyBaseActivity() {
                         if (loginType == MODE_REGISTER) {
                             loginViewModel.userAccount = input_user_phonenum.text.toString()
                             loginViewModel.loginMode.postValue(MODE_LOGIN_WITH_PASSWORD)
-                            LoginSuccessDialog().show(
+                            LoginSuccessDialog(it.tipsMsg).show(
                                 supportFragmentManager,
                                 LoginSuccessDialog::class.java.name
                             )
+                            initLoginView()
                         } else {
                             SharedPreferencesUtil.put(
                                 API.LOGIN_USER_TOKEN,
@@ -244,15 +237,13 @@ class LoginActivity : MyBaseActivity() {
                             LiveDataBus.get().with("user")?.value = it
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
                     }
                 }
             }
         }
 
-//        applicationContext?.let {
-//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
-//        }
 
         wechat_login.setOnClickListener {
             WechatAPI.instance?.sendReq(
@@ -295,65 +286,83 @@ class LoginActivity : MyBaseActivity() {
 
         loginViewModel.wechatCode.observe(this@LoginActivity, Observer { weChatCode ->
             weChatCode?.let { code ->
-                Log.d(
-                    "---login--",
-                    "loginViewModel.wechatLoginCode= " + loginViewModel.wechatLoginCode
-                )
-                loginViewModel.wechatLoginCode = code
-//                loginViewModel.wechatCode.postValue(null)
-                if (loginViewModel.wechatLoginCode.isNotEmpty()) {
-                    lifecycleScope.launch() {
-                        loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
-                            ?.let { result ->
-                                Log.d("---login--", "result= " + result)
-                                loginViewModel.wechatLoginCode = ""
-//                            if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
-//                                Log.d("---login--","HttpRespBindMobilePhone= ")
-//                            } else
-                                if (result is User) {
-                                    Log.d("---login--", "is User")
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_USER_ID,
-                                        result.userID
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_USER_TOKEN,
-                                        result.token
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_NICK_NAME,
-                                        result.name
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_ACTUL_NAME,
-                                        result.actualName
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_USER_ICON,
-                                        result.icon
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_USER_PHONE,
-                                        result.userPhoneNumber
-                                    )
-                                    SharedPreferencesUtil.put(
-                                        API.LOGIN_USER_STATE,
-                                        1
-                                    )
-//                                API.setAuthToken(result.token)
-                                    LiveDataBus.get().with("user")?.value = result
-                                    val intent =
-                                        Intent(this@LoginActivity, MainActivity::class.java)
-                                    Log.d("---login--", "MainActivity user= " + result)
-                                    startActivity(intent)
+                if (code.isNotEmpty()) {
+                    loginViewModel.wechatLoginCode = code
+                    if (loginViewModel.wechatLoginCode.isNotEmpty()) {
+                        lifecycleScope.launch() {
+                            loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
+                                ?.let { result ->
+                                    Log.d("---login--", "result= " + result)
+                                    loginViewModel.wechatLoginCode = ""
+                                    if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
+                                        val intent =
+                                            Intent(context, BindMobileNumberActivity::class.java)
+                                        intent.putExtra(
+                                            "id",
+                                            result.dataObject?.result.toString() ?: "-99"
+                                        )
+                                        context.startActivity(intent)
+                                    } else {
+                                        if (result is User) {
+                                            Log.d("---login--", "is User")
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_USER_ID,
+                                                result.userID
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_USER_TOKEN,
+                                                result.token
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_NICK_NAME,
+                                                result.name
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_ACTUL_NAME,
+                                                result.actualName
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_USER_ICON,
+                                                result.icon
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_USER_PHONE,
+                                                result.userPhoneNumber
+                                            )
+                                            SharedPreferencesUtil.put(
+                                                API.LOGIN_USER_STATE,
+                                                1
+                                            )
+                                            SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
+                                            API.setAuthToken(result.token)
+                                            LiveDataBus.get().with("user")?.value = result
+                                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                    }
                                 }
-                            }
+                        }
                     }
                 }
             }
         })
     }
 
+    private fun initLoginView() {
+        tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F);
+        tab_login.setTextColor(resources.getColor(R.color.black))
+        tab_register.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F)
+        tab_register.setTextColor(resources.getColor(R.color.gray))
+        input_user_account.setText("")
+        input_user_password.setText("")
+        layout_login_by_password.visibility = View.VISIBLE
+        layout_register.visibility = View.GONE
+        bt_phone_fast_login.visibility = View.VISIBLE
+        bt_login.text = "登录"
+        bt_phone_fast_login.text = "手机号快速登录"
+        loginType = MODE_LOGIN_WITH_PASSWORD
+    }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)

@@ -12,7 +12,7 @@ import com.puxiansheng.logic.data.common.CommonRoomDatabase
 
 @Database(
     entities = [InfoItem::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class InfoDatabase : RoomDatabase() {
@@ -39,8 +39,16 @@ abstract class InfoDatabase : RoomDatabase() {
                     object : Migration(1, 2) {
                         override fun migrate(database: SupportSQLiteDatabase) {
                         }
-                    })//版本升级为2，解决错误的升级数据库。导致灰度期间出现了不少crash
+                    })
+                .addMigrations(MIGRATION_2_3)
                 .build()
+        }
+
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table table_info ADD  COLUMN _user_id INTEGER NOT NULL ")
+                database.execSQL("alter table table_info ADD  COLUMN _jump_param TEXT NOT NULL")
+            }
         }
     }
 }

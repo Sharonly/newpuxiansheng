@@ -42,13 +42,14 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "329"
+    const val API_VERSION = "330"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
     const val LOGIN_USER_ID = "user_id"
     const val LOGIN_USER_TOKEN = "user_token"
     const val LOGIN_USER_PHONE = "user_phone"
+    const val LOGIN_ACTUL_PHONE = "actual_phone"
     const val LOGIN_USER_ICON = "user_icon"
     const val LOGIN_NICK_NAME = "nick_name"
     const val USER_SEX = "user_sex"
@@ -133,11 +134,12 @@ object API {
     const val GET_REMOTE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/transfer_shop/info.html"
     const val GET_REMOTE_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/info.html"
     const val GET_MINE_TRANSFER_OUT_ORDERS = API_ADDRESS + "api/user/transfer.html"
-    const val GET_MINE_TRANSFER_IN_ORDERS = API_ADDRESS + "api/user/find.html"
+    const val GET_MINE_TRANSFER_IN_ORDERS = API_ADDRESS + "api/user/get_find_shop_issue.html"//api.pu.com/api/user/get_find_shop_issue.html
     const val DELETE_TRANSFER_IN_ORDER = API_ADDRESS + "api/user/del_find.html"
     const val DELETE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/user/del_transfer.html"
 
     const val  DELETE_FAVOR_ORDER= API_ADDRESS + "api/user/collect_null.html"
+    const val  REFRESH_SHOP =API_ADDRESS +"api/user/update_shop_time.html"
 
     const val DELETE_HISTORY_ORDER = API_ADDRESS + "api/new/clear_view_log.html"
 

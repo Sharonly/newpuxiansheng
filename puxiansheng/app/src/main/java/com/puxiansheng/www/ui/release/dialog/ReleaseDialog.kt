@@ -69,6 +69,7 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 1 -> {
                     val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
                     startActivity(intent)
+
                 }
             }
             dismiss()

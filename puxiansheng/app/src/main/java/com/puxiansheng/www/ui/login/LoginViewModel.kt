@@ -67,7 +67,55 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    suspend fun bindMobileNumber(
+        id: String
+    ) = viewModelScope.async(
+        Dispatchers.IO
+    ) {
+        userRepository.bindMobileNumber(
+            phone = userAccount,
+            code = verificationCode,
+            id = id
+        ).let {apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).let { apiResp ->
+                    //toastMsg.postValue(apiResp.data.msg)
+                    apiResp.data.body?.string()?.let { body ->
+                        println(body)
+                        when (JSONObject(body).optInt("code", 0)) {
+                            API.CODE_SUCCESS -> {
+                                body.let { json ->
+                                    APIResp.fromJson<User>(json).data?.let { user ->
+                                        println("接收到的：$user")
+                                        user.loginTimestamp = System.currentTimeMillis()
+                                        user.loginState = 1
+                                        userRepository.insertUser(user)
+
+                                        return@async user
+                                    }
+                                }
+                            }
+                            API.CODE_BAND_MOBILE_NUMBER -> {
+                                body.let { json ->
+                                    HttpRespBindMobilePhone.fromJson(json).let { bindMobile ->
+                                        return@async bindMobile
+                                    }
+                                }
+                            }
+                            else -> return@async null
+                        }
+                    }
+                }
+            } else {
+                (apiRst as APIRst.Error).let {
+                }
+                return@async null
+            }
+        }
+    }.await()
+
     suspend fun loginByType(loginType: Int) = viewModelScope.async(Dispatchers.IO) {
+        Log.d("---login--","logintype = "+loginType)
         when (loginType) {
             MODE_LOGIN_WITH_PASSWORD -> {
                 userRepository.loginByPass(userAccount = userAccount, userPassword = userPassword)
@@ -86,11 +134,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
             MODE_REGISTER -> {
+                Log.d("---login--","register = "+loginType)
                 userRepository.register(
                     userAccount = userAccount,
                     verificationCode = verificationCode
-                )
-                    .let { apiRst -> dealLoginDate(apiRst) }
+                ).let { apiRst -> dealLoginDate(apiRst) }
             }
 
             MODE_FORGET_PASSWORD -> {

@@ -353,7 +353,7 @@ class OrdersAdapter(
         override fun bind(item: Order?) {
 
             item?.shop?.title.let { title ->
-                binding.title.text = title
+                binding.shopTitle.text = title
             }
             item?.shop?.formattedFinalLocationNode.let { it ->
                 binding.area.text = it

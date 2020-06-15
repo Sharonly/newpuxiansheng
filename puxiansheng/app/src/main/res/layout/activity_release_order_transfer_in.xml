@@ -413,13 +413,13 @@
 
                 <EditText
                     android:id="@+id/input_floor"
-                    android:layout_width="300dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txt_floor"
                     android:layout_toLeftOf="@+id/floor_unit"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center|right"
                     android:background="@null"
-                    android:digits="0123456789"
                     android:inputType="number"
                     android:textColor="@color/text_gray"
                     android:textSize="16sp" />

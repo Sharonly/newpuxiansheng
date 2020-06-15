@@ -20,6 +20,7 @@ import com.puxiansheng.util.http.succeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class SettingViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -37,7 +38,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     var contactPhone: String? = null
     var address: String? = null
     var cityId = 0
-    var iconImg = ""
+    var iconImg: String? = null
     val toastMsg = MutableLiveData<String>()
     val currentUser = MutableLiveData<User>()
     var configTitle = ""
@@ -62,13 +63,14 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
-//    suspend fun submitUserIcon(iconImageUri: Uri) =
-//        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-//            userRepository.submitUserIcon(iconImg)
-//                .let {
-//                    if (it.succeeded) (it as APIRst.Success).data else null
-//                }
-//        }
+    suspend fun submitUserIcon(iconImg: String) =
+        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            val file = File(iconImg)
+            userRepository.submitUserIcon(file)
+                .let {
+                    if (it.succeeded) (it as APIRst.Success).data else null
+                }
+        }
 
     fun uploadIcon(imageUrl:String) =viewModelScope.launch(Dispatchers.IO) {
         OneTimeWorkRequest.Builder(UploadIconWorker::class.java).setInputData(
@@ -88,6 +90,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
                 nickName,
                 sex.toString(),
                 actualName,
+                iconImg,
                 address,
                 cityId
             )

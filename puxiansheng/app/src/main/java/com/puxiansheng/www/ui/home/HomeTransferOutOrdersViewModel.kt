@@ -19,7 +19,8 @@ import kotlinx.coroutines.withContext
 
 class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-    private var currentPage = 1;
+//    private var currentPage = 1;
+    var isLoadingMore = false
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     var currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
 
@@ -30,14 +31,15 @@ class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewMode
     }
 
     fun loadMore() = viewModelScope.launch(Dispatchers.IO) {
-        getHomeRecommendedTransferOutOrdersFromRemote(currentCity)
-        currentPage += 1
+//        getHomeRecommendedTransferOutOrdersFromRemote(currentCity)
+        isLoadingMore = true
+//        currentPage += 1
     }
 
     fun refresh(city: String) {
         deleteOrdersByType(type = Order.Type.TRANSFER_OUT_RECOMMEND.value())
         currentCity = city
-        currentPage = 1
+//        currentPage = 1
         loadMore()
     }
 
@@ -45,41 +47,47 @@ class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewMode
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_OUT_RECOMMEND.value())
 
 
-    private suspend fun getHomeRecommendedTransferOutOrdersFromRemote(
-        city: String?
+    suspend fun getHomeRecommendedTransferOutOrdersFromRemote(
+        city: String?,
+        currentPage:Int
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
         orderRepository.getHomeRecommendedTransferOutOrdersFromRemote(
             page = currentPage,
             city = city
         ).let { apiRst ->
             if (apiRst.succeeded) {
-                (apiRst as APIRst.Success).data.data?.data?.orders?.map {
-                    Order(
-                        orderType = Order.Type.TRANSFER_OUT_RECOMMEND.value(),
-                        shop = Shop(
-                            shopID = it.shopID,
-                            image = it.image,
-                            title = it.title,
-                            formattedSize = it.formattedSize,
-                            formattedRent = it.formattedRent,
-                            formattedArea = it.area_point_str,
-                            formattedFinalIndustry = it.formattedFinalIndustry,
-                            transferType = Order.Type.TRANSFER_OUT_RECOMMEND.value(),
-                            formattedDate = it.day_time,
-                            data_type = it.data_type,
-                            jump_type = it.jump_type,
-                            jump_view = it.jump_view,
-                            jump_param = it.jump_param,
-                            articles = it.articles
-                        )
+                (apiRst as APIRst.Success).data.data?.data?.orders
+            }else null
 
-                    )
-                }?.let { orders ->
-//                    return@withContext orders
-//                    delay(800)
-                    orderRepository.insertOrders(*orders.toTypedArray())
-                }
-            } else null
+
+//            if (apiRst.succeeded) {
+//                (apiRst as APIRst.Success).data.data?.data?.orders?.map {
+//                    Order(
+//                        orderType = Order.Type.TRANSFER_OUT_RECOMMEND.value(),
+//                        shop = Shop(
+//                            shopID = it.shopID,
+//                            image = it.image,
+//                            title = it.title,
+//                            formattedSize = it.formattedSize,
+//                            formattedRent = it.formattedRent,
+//                            formattedArea = it.area_point_str,
+//                            formattedFinalIndustry = it.formattedFinalIndustry,
+//                            transferType = Order.Type.TRANSFER_OUT_RECOMMEND.value(),
+//                            formattedDate = it.day_time,
+//                            data_type = it.data_type,
+//                            jump_type = it.jump_type,
+//                            jump_view = it.jump_view,
+//                            jump_param = it.jump_param,
+//                            articles = it.articles
+//                        )
+//                    )
+//                    return@map
+//                }?.let { orders ->
+////                    return@withContext orders
+////                    delay(800)
+////                    orderRepository.insertOrders(*orders.toTypedArray())
+//                }
+//            } else null
         }
     }
 }

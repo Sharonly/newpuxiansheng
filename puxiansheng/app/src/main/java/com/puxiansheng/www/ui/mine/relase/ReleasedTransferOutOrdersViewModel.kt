@@ -53,7 +53,6 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
                                 shopID = it.shopID,
                                 title = it.title,
                                 size = it.size,
-                                rent = it.rent,
                                 fee = it.fee,
                                 address = it.address,
                                 industry = it.industry,
@@ -79,8 +78,7 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
                                 data_type = it.data_type,
                                 jump_type = it.jump_type,
                                 jump_view = it.jump_view,
-                                jump_param = it.jump_param,
-                                articles = it.articles
+                                jump_param = it.jump_param
                             ),
                             state = it.state
                         )

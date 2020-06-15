@@ -13,5 +13,6 @@ class OrderPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) 
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> HomeTransferOutOrdersFragment()
         else -> HomeTransferInOrdersFragment()
+
     }
 }

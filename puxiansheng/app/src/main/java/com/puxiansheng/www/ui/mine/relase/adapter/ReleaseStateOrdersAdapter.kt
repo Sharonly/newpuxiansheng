@@ -27,9 +27,11 @@ class ReleaseStateOrdersAdapter(
     var context: Context,
     private val onItemDelete: ((order: Order?) -> Unit)? = null,
     private val onItemFresh: ((order: Order?) -> Unit)? = null,
-    private var dataList: List<Order>, var type: Int
+    var list:List<Order>? = null,
+    var type: Int? = null
 ) : RecyclerView.Adapter<ReleaseStateOrdersAdapter.OrderViewHolder>() {
-    var orderType = 0
+    var orderType = Order.Type.EMPTY.value()
+    private var dataList: List<Order> = listOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -49,23 +51,27 @@ class ReleaseStateOrdersAdapter(
         notifyDataSetChanged()
     }
 
+    fun setType(type: Int){
+        orderType = type
+    }
+
     fun getDataCount(): Int {
         return dataList?.size ?: 0
     }
 
     override fun getItemCount(): Int {
-        if (type == Order.Type.EMPTY.value()) return 1 + dataList.size
+        if (orderType == Order.Type.EMPTY.value()) return 1 + dataList.size
         return dataList.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
+        if (orderType == Order.Type.EMPTY.value() && position == itemCount - 1)
             return R.layout.fragment_order_list_empty
         if (getDataCount() == 0) {
-            type = Order.Type.EMPTY.value()
+            orderType = Order.Type.EMPTY.value()
             return R.layout.fragment_order_list_empty
         }
-        return when (type) {
+        return when (orderType) {
             Order.Type.USER_PUBLIC_ORDER.value() -> R.layout.fragment_orders_public_item
             else -> R.layout.fragment_order_list_empty
         }
@@ -73,7 +79,7 @@ class ReleaseStateOrdersAdapter(
 
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        if (type != Order.Type.EMPTY.value()) {
+        if (orderType != Order.Type.EMPTY.value()) {
             holder.bind(dataList!![position])
         }
     }
@@ -108,7 +114,7 @@ class ReleaseStateOrdersAdapter(
                     binding.btRefresh.visibility = View.VISIBLE
                 }
 
-                item?.status?.let { status ->
+                item?.state?.let { status ->
                     binding.status.text = status.text
                     binding.status.setTextColor(Color.parseColor(status.color))
 

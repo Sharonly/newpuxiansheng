@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.puxiansheng.logic.bean.User
 
 
-@Database(entities = [User::class], version = 2, exportSchema = false)
+@Database(entities = [User::class], version = 3, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -35,6 +35,24 @@ abstract class UserDatabase : RoomDatabase() {
                     }
                 })
                 .build()
+        }
+
+        val  MIGRATION_1_3: Migration = object : Migration(1, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table user_table ADD  COLUMN _is_success INTEGER ")
+                database.execSQL("alter table user_table ADD  COLUMN _allfacilities TEXT ")
+                database.execSQL("alter table user_table ADD  COLUMN _lng TEXT ")
+                database.execSQL("alter table user_table ADD  COLUMN _lat TEXT ")
+            }
+        }
+
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+//                database.execSQL("alter table table_orders ADD  COLUMN _is_success INTEGER")
+//                database.execSQL("alter table table_orders ADD  COLUMN _allfacilities TEXT ")
+//                database.execSQL("alter table table_orders ADD  COLUMN _lng TEXT ")
+//                database.execSQL("alter table table_orders ADD  COLUMN _lat TEXT ")
+            }
         }
 
     }

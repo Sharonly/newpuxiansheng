@@ -63,7 +63,7 @@ class HomeTransferInOrdersFragment  : AppFragment() {
         pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
             override fun onItemAtEndLoaded(itemAtEnd: Order) {
                 super.onItemAtEndLoaded(itemAtEnd)
-                viewModel.loadMore()
+//                viewModel.loadMore()
             }
         })
 

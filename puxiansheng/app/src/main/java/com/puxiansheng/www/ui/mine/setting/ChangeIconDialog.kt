@@ -2,16 +2,13 @@ package com.puxiansheng.www.ui.mine.setting
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,14 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
-import com.puxiansheng.logic.util.GlideImageEngine
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.databinding.DialogChangeIconBinding
-import com.zhihu.matisse.Matisse
-import com.zhihu.matisse.MimeType
-import com.zhihu.matisse.internal.entity.CaptureStrategy
 import java.io.File
-import java.io.IOException
 
 
 class ChangeIconDialog() : DialogFragment() {
@@ -76,46 +68,38 @@ class ChangeIconDialog() : DialogFragment() {
                 val intent = Intent("android.intent.action.GET_CONTENT")
                 intent.type = "image/*"
                 requireActivity().startActivityForResult(intent, 102)
-
-//                Matisse.from(requireActivity())
-//                    .choose(MimeType.ofImage())
-//                    .countable(true)
-//                    .maxSelectable(1)
-//                    .capture(true)
-//                    .captureStrategy(
-//                        CaptureStrategy(
-//                            false,
-//                            "${requireActivity().packageName}.fileProvider"
-//                        )
-//                    )
-//                    .gridExpectedSize(resources.displayMetrics.widthPixels / 3)
-//                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-//                    .thumbnailScale(0.75f)
-//                    .imageEngine(GlideImageEngine())
-//                    .forResult(102)
             }
             dismiss()
         }
+
+        val  sdPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/pxs";
         binding.btTakePicture.setOnClickListener {
             dismiss()
-            var outputImage = File(Environment.DIRECTORY_PICTURES, "pxs_icon.jpg")
-            if (outputImage.exists()) {
-                outputImage.delete()
-            }
+ //           var outputImage = File(Environment.DIRECTORY_PICTURES, "pxs_icon.jpg")
+//            if (outputImage.exists()) {
+//                outputImage.delete()
+//            }
+//
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                imageUri = Uri.fromFile(outputImage)
+//            } else {
+//                imageUri = FileProvider.getUriForFile(
+//                    requireActivity(), "${requireContext().packageName}.fileProvider",
+//                    outputImage
+//                )
+//            }
+//            Log.d("---imageicon--", "dialog  imageUri = " + imageUri)
+//            val intent = Intent("android.media.action.IMAGE_CAPTURE")
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+//            requireActivity().startActivityForResult(intent, 101)
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                imageUri = Uri.fromFile(outputImage)
-            } else {
-                imageUri = FileProvider.getUriForFile(
-                    requireActivity(), "${requireContext().packageName}.fileProvider",
-                    outputImage
-                )
-            }
-            Log.d("---imageicon--", "dialog  imageUri = " + imageUri)
-            val intent = Intent("android.media.action.IMAGE_CAPTURE")
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE) // 启动系统相机
+            val file = File("$sdPath/Head.jpg")
+            val cropImageUri = FileProvider.getUriForFile(requireActivity(), "${requireContext().packageName}.fileProvider", file)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) // 为像片指定存储路径
             requireActivity().startActivityForResult(intent, 101)
 
+            LiveDataBus.get().with("Test",Uri::class.java)?.value=cropImageUri
         }
 
         binding.btCancel.setOnClickListener { dismiss() }

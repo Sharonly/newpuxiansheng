@@ -5,10 +5,12 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.Address
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.bean.http.HttpRespEmpty
+import com.puxiansheng.logic.bean.http.HttpRespIconUpload
 import com.puxiansheng.logic.bean.http.HttpRespUserInfo
 import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.buildRequest
+import java.io.File
 
 class UserRepository(userDao: UserDao) {
     private val localUserRepository = LocalUserRepository(userDao)
@@ -104,6 +106,7 @@ class UserRepository(userDao: UserDao) {
         nickName: String,
         sex: String,
         actulName: String,
+        iconImg: String?,
         address: String?,
         cityId: Int
     ): APIRst<APIResp<HttpRespEmpty>> =
@@ -111,16 +114,17 @@ class UserRepository(userDao: UserDao) {
             nickName = nickName,
             sex = sex,
             actualName = actulName,
+            headerImg = iconImg,
             address = address,
             cityId = cityId
         )
 
-//    fun submitUserIcon(
-//        iconImg: Uri
-//    ): APIRst<APIResp<HttpRespEmpty>> =
-//        remoteUserRepository.submitUserIcon(
-//            headerImg = iconImg
-//        )
+    fun submitUserIcon(
+        file:File
+    ): APIRst<APIResp<HttpRespIconUpload>> =
+        remoteUserRepository.submitUserIcon(
+            file = file
+        )
 
     fun favorite(
         objectID: String,

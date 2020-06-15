@@ -36,13 +36,12 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
 
     override fun onResp(baseResp: BaseResp) {
         val intent = Intent(this, LoginActivity::class.java)
-
         when (baseResp.errCode) {
             BaseResp.ErrCode.ERR_OK -> if (baseResp.type == RETURN_MSG_TYPE_LOGIN) {
                 val code = (baseResp as SendAuth.Resp).code
                 Log.d("login","code = "+code)
                 intent.putExtra("authCode", code.toString())
-                //sendBroadcast(intent)
+                sendBroadcast(intent)
             }
             BaseResp.ErrCode.ERR_AUTH_DENIED, BaseResp.ErrCode.ERR_USER_CANCEL -> {
             }

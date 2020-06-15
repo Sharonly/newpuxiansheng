@@ -31,6 +31,19 @@ class OrderProcessingViewModel (application: Application) : AndroidViewModel(app
 
     }
 
+    var type = ""
+    var shopId = ""
+    suspend fun refreshShopFromRemote(
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.refreshShopFromRemote(type = type,shopID = shopId).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
     suspend fun getRemoteUserDealOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserProcessingOrder().let { apiRst ->
@@ -38,7 +51,7 @@ class OrderProcessingViewModel (application: Application) : AndroidViewModel(app
                     it.map { shop ->
                         try {
                             Order(
-                                status = shop.status,
+                                state = shop.state,
                                 shop = Shop(
                                     shopID = shop.shopID,
                                     title = shop.title,

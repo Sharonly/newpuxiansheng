@@ -13,6 +13,6 @@ class ReleasedOrdersPagerAdapter(
 
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> ReleasedTransferOutOrdersFragment()
-        else -> ReleasedTransferInOrdersFragment()
+        else -> ReleasedNewTransferInOrdersFragment()
     }
 }

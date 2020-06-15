@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.ViewPager
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.R
@@ -15,7 +18,7 @@ import com.puxiansheng.www.databinding.TopBannerViewBinding
 import com.youth.banner.Banner
 import com.youth.banner.listener.OnBannerListener
 
-class TopBannerView : FrameLayout {
+class TopBannerView : FrameLayout  ,LifecycleEventObserver {
     private var images: List<BannerImage> = listOf()
     private var binding: TopBannerViewBinding
     private var position = 0
@@ -74,12 +77,21 @@ class TopBannerView : FrameLayout {
                     // 第一次,延时加载才能拿到颜色
                     if (isInit) {
                         isInit = false
-                        Handler().postDelayed({
-                            val vibrantColor: Int? = imageLoader?.getVibrantColor(1)
-                            if (vibrantColor != null) {
+//                        Handler().postDelayed({
+//                            val vibrantColor: Int? = imageLoader?.getVibrantColor(1)
+//                            if (vibrantColor != null) {
+//                                bgBanner.setBackgroundColor(vibrantColor)
+//                            }
+//                        }, 200)
+                        postDelayed(object :Runnable{
+                            override fun run() {
+                             val vibrantColor: Int? = imageLoader?.getVibrantColor(1)
+                               if (vibrantColor != null) {
                                 bgBanner.setBackgroundColor(vibrantColor)
+                              }
                             }
-                        }, 200)
+
+                        },200)
                     }
                 }
 
@@ -135,6 +147,20 @@ class TopBannerView : FrameLayout {
 
     fun onImageClick(onImageClick: (image: BannerImage) -> Unit) {
         binding.banner.setOnBannerListener(onImageClick)
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        when(event){
+            Lifecycle.Event.ON_PAUSE->{
+//                 println("跑马灯-->onpause")
+                stopBanner()
+            }
+
+            Lifecycle.Event.ON_RESUME->{
+//                 println("跑马灯-->onResume")
+                startBanner()
+            }
+        }
     }
 
 }

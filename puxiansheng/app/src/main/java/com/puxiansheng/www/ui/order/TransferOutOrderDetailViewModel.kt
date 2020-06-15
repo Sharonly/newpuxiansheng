@@ -44,6 +44,8 @@ class TransferOutOrderDetailViewModel(application: Application) : AndroidViewMod
                             viewOpening = it.viewOpening,
                             viewCanEmpty = it.viewCanEmpty,
                             includeFacilities = it.includeFacilities,
+                            lat = it.lat,
+                            lng = it.lng,
                             images = it.images,
                             floor = it.floor,
                             facilities = it.facilities,

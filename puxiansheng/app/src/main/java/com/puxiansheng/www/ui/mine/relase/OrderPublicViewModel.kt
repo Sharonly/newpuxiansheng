@@ -20,6 +20,8 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
 
+
+
     fun refresh() {
         viewModelScope.launch {
             loadMore()
@@ -32,6 +34,31 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
 
     }
 
+    suspend fun deleteFavorTransferInOrderFromRemote(
+        shopID: String
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.deleteFavorTransferInOrderFromRemote(shopID = shopID).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
+    var type = ""
+    var shopId = ""
+    suspend fun refreshShopFromRemote(
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.refreshShopFromRemote(type = type,shopID = shopId).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data
+            }else{
+                null
+            }
+        }
+    }
+
     suspend fun getRemoteUserPublicOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserPublicOrder().let { apiRst ->
@@ -40,7 +67,7 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
                     it.map { shop ->
                         try {
                             Order(
-                                status = shop.status,
+                                state = shop.state,
                                 shop = Shop(
                                     shopID = shop.shopID,
                                     title = shop.title,

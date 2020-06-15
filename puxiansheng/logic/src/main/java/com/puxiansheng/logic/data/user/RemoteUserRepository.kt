@@ -26,6 +26,10 @@ import com.puxiansheng.logic.api.API.sign
 import com.puxiansheng.logic.bean.HttpSearchObject
 import com.puxiansheng.logic.bean.http.*
 import com.puxiansheng.util.http.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 class RemoteUserRepository {
     fun login(
@@ -223,15 +227,24 @@ class RemoteUserRepository {
         call(it)
     }
 
-    fun submitUserIcon(
-        headerImg: String
-    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+    fun submitUserIcon(file:File): APIRst<APIResp<HttpRespIconUpload>> = buildRequest(
         url = API.SAVE_USER_ICON,
-        fieldMap = mutableMapOf(
-            "header_img" to headerImg
-        ).also { map ->
-            map["sign"] =
-                sign(signatureToken = API.currentSignatureToken, fieldMap = map, method = "POST")
+//        fieldMap = mutableMapOf(
+//            "header_img" to headerImg
+//        ).also { map ->
+//            map["sign"] =
+//                sign(signatureToken = API.currentSignatureToken, fieldMap = map, method = "POST")
+//        }
+                parts = listOf(
+                MultipartBody.Part.createFormData(
+                    "header_img",
+                    file.name,
+                    file.asRequestBody("image".toMediaTypeOrNull())
+                )
+                ),
+        fieldMap = mutableMapOf<String,String>(
+        ).also {
+            it["sign"] = API.sign(signatureToken =  API.currentSignatureToken, fieldMap = it, method = "POST")
         }
     ).let {
         call(it)

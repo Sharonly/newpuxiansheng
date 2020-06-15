@@ -67,7 +67,7 @@ class FavoriteTransferOutOrdersViewModel(application: Application) : AndroidView
                                 reason = it.reason,
                                 transferType = Order.Type.TRANSFER_OUT_FAVORITE.value(),
                                 //formatted data
-                                formattedDate = it.formattedDate,
+                                formattedDate = it.day_time,
                                 formattedPageViews = it.formattedPageViews,
                                 formattedArea = it.area_point_str,
                                 formattedRent = it.formattedRent,

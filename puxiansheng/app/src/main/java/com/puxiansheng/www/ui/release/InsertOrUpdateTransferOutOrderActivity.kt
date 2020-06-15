@@ -16,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
@@ -39,10 +38,8 @@ import kotlinx.coroutines.launch
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
-import com.puxiansheng.www.common.drawableTop
 import com.puxiansheng.www.common.url
-import com.puxiansheng.www.databinding.DialogSelectiveFalitiesItemBinding
-import com.puxiansheng.www.ui.map.MapActivity
+import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
@@ -58,7 +55,6 @@ import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_f
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_reason
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_title
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.submit
-import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -92,9 +88,9 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferOutOrderViewModel.contactName =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+      SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString()
         insertOrUpdateTransferOutOrderViewModel.contactPhone =
-            SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
         input_name.setText(insertOrUpdateTransferOutOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferOutOrderViewModel.contactPhone)
@@ -277,7 +273,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
             var location = getLngAndLat(this)
             //  edit_user_address.inputType = InputType.TYPE_NULL
-            val intent = Intent(this, MapActivity::class.java)
+            val intent = Intent(this, GetLocationActivity::class.java)
             intent.putExtra("location", location)
             startActivity(intent)
         }
@@ -342,6 +338,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         insertOrUpdateTransferOutOrderViewModel.selectedImages.observe(
             this,
             Observer {
+                Log.d("---imageicon"," selectedImages Observer= "+it.size)
                 (imageSelector.adapter as ImageSelectorAdapter).update(it.toMutableList())
             })
 
@@ -425,25 +422,6 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         })
 
 
-
-
-
-        API.logoutSignal.observe(this, Observer {
-            if (it == API.CODE_REQUIRE_LOGIN ||
-                it == API.CODE_AUTO_CODE_INVALID ||
-                it == API.CODE_AUTO_CODE_EXPIRED ||
-                it == API.CODE_AUTO_CODE_ERROR ||
-                it == API.CODE_AUTO_CODE_EMPTY ||
-                it == API.CODE_BANNED_USER
-            ) {
-                launchLoginActivity()
-            }
-        })
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onResume() {
-        super.onResume()
         intent.getIntExtra("shopID", 0).toString().takeIf {
             it.isNotEmpty()
         }?.also {
@@ -717,15 +695,34 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 }
             }
         }
+
+
+
+        API.logoutSignal.observe(this, Observer {
+            if (it == API.CODE_REQUIRE_LOGIN ||
+                it == API.CODE_AUTO_CODE_INVALID ||
+                it == API.CODE_AUTO_CODE_EXPIRED ||
+                it == API.CODE_AUTO_CODE_ERROR ||
+                it == API.CODE_AUTO_CODE_EMPTY ||
+                it == API.CODE_BANNED_USER
+            ) {
+                launchLoginActivity()
+            }
+        })
     }
+
+//    @SuppressLint("SetTextI18n")
+//    override fun onResume() {
+//        super.onResume()
+//
+//    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            Log.d("---imageicon", "shop--- imagePath data= " + data)
+
             Matisse.obtainPathResult(data).let { list ->
-                Log.d("---imageicon", "shop--- imagePath list= " + list)
                 insertOrUpdateTransferOutOrderViewModel.selectedImages.value?.let {
                     it.addAll(list)
                     insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(it)

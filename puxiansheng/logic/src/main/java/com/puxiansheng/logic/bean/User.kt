@@ -24,7 +24,7 @@ data class User(
     @SerializedName("nick_name")
     var nickName: String = "",
 
-    @ColumnInfo(name = "_sex")
+//    @ColumnInfo(name = "_sex")
     @SerializedName("sex")
     var userSex: Int = 0,
 
@@ -34,6 +34,9 @@ data class User(
 
     @ColumnInfo(name = "_login_timestamp")
     var loginTimestamp: Long = 0,
+
+    @SerializedName("tips_msg")
+    var tipsMsg: String = "",
 
     @ColumnInfo(name = "_login_state")
     var loginState: Int = 0,
@@ -46,7 +49,7 @@ data class User(
     @SerializedName("phone")
     var userPhoneNumber: String = "",
 
-    @ColumnInfo(name = "_city_path_id")
+//    @ColumnInfo(name = "_city_path_id")
     @SerializedName("city_path_id")
     var cityPathId: String = "",
 
@@ -54,7 +57,7 @@ data class User(
     @SerializedName("city_id")
     var cityId: Int = 0,
 
-    @ColumnInfo(name = "_view_path_city")
+//    @ColumnInfo(name = "_view_path_city")
     @SerializedName("view_path_city")
     var cityName: String = "",
 

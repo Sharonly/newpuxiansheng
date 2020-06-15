@@ -39,8 +39,8 @@ class OrderRepository(orderDao: OrderDao) {
 
         //
         images: String? = null,
-        contactName: String? = null,
-        contactPhone: String? = null,
+        contactName: String="",
+        contactPhone: String="",
         description: String? = null,
         environment: String? = null,
         facility: String? = null,
@@ -306,6 +306,9 @@ class OrderRepository(orderDao: OrderDao) {
 
     fun deleteAllHistoryTransferInOrderFromRemote(
     ) = remoteOrderRepository.deleteHistroyTransferInOrderFromRemote()
+
+    fun refreshShopFromRemote(shopID: String,type: String
+    ) = remoteOrderRepository.refreshShopFromRemote(shopID = shopID,type = type)
 
 
     fun getFavoriteTransferOutOrdersFromRemote(

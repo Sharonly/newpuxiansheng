@@ -126,13 +126,46 @@
                 android:background="@color/line_gray"
                 android:layout_below="@+id/change_password"/>
 
+
+            <TextView
+                android:id="@+id/txt_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="53dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/input_text_blank"
+                android:layout_below="@+id/line3"
+                android:layout_marginLeft="16dp"
+                android:textSize="16sp"
+                android:text="权限管理"/>
+
+            <TextView
+                android:id="@+id/change_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:textColor="@color/text_gray"
+                android:drawableRight="@mipmap/ic_arrow"
+                android:layout_alignTop="@+id/txt_permission"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:text="修改"
+                android:textSize="16sp"/>
+
+            <View
+                android:id="@+id/line10"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_gray"
+                android:layout_below="@+id/change_permission"/>
+
             <TextView
                 android:id="@+id/txt_about_us"
                 android:layout_width="wrap_content"
                 android:layout_height="53dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/input_text_blank"
-                android:layout_below="@+id/line3"
+                android:layout_below="@+id/line10"
                 android:layout_marginLeft="16dp"
                 android:textSize="16sp"
                 android:text="@string/about_us"/>

@@ -34,9 +34,12 @@
                 android:text="恭喜您，注册成功"/>
 
             <TextView
+                android:id="@+id/msg"
                 android:layout_width="wrap_content"
                 android:layout_height="101dp"
                 android:layout_marginTop="22.5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:textColor="#989796"
                 android:textSize="14sp"/>
 

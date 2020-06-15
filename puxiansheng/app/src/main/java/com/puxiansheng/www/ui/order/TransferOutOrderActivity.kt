@@ -180,9 +180,8 @@ class TransferOutOrderActivity : MyBaseActivity() {
             type = Order.Type.TRANSFER_OUT.value(),
             onItemSelect = {
                 val intent = Intent(this, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.jump_param)
+                intent.putExtra("shopID", it?.shop?.shopID.toString())
                 startActivity(intent)
-
             }
         ).apply {
             LivePagedListBuilder<Int, Order>(

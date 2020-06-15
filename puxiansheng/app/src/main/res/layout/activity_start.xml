@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="欢迎使用铺先生APP"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="在使用铺先生APP之前，请您认真阅读《隐私政策》和《用户协议》"
+            android:layout_below="@+id/title"
+            android:textSize="16sp" />
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sub_title"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="108dp"
+            tools:ignore="WebViewLayout" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ic_selected"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_below="@+id/layout_password"
+                android:layout_marginTop="10.5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:src="@drawable/bt_checked" />
+
+
+            <TextView
+                android:id="@+id/txt_reader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_password"
+                android:layout_marginTop="9.5dp"
+                android:layout_toRightOf="@+id/ic_selected"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="我已阅读并同意《隐私政策》和《用户协议》" />
+
+        </LinearLayout>
+
+            <TextView
+                android:id="@+id/button_sure"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="确定"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:background="@drawable/bg_bt_confirm_no_slected"
+                android:textColor="@color/white"
+                android:clickable="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

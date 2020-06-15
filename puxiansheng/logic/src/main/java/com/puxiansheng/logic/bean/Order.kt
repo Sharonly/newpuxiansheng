@@ -28,8 +28,8 @@ data class Order(
     @Embedded
     var state: State? = null,
 
-    @Embedded
-    var status: orderStatus? = null,
+//    @Embedded
+//    var status: orderStatus? = null,
 
     @Ignore
     var serviceAgent: ServiceAgent? = null
@@ -51,7 +51,7 @@ data class Order(
 
         data class State(
             @ColumnInfo(name = "_state_text")
-            @SerializedName(value = "text")
+            @SerializedName(value = "name")
             val text: String = "",
 
             @ColumnInfo(name = "_state_color")
@@ -60,15 +60,15 @@ data class Order(
         )
 
 
-        data class orderStatus(
-            @ColumnInfo(name = "_status_name")
-            @SerializedName(value = "name")
-            val text: String = "",
-
-            @ColumnInfo(name = "_status_color")
-            @SerializedName(value = "color")
-            val color: String = ""
-        )
+//        data class orderStatus(
+//            @ColumnInfo(name = "_status_name")
+//            @SerializedName(value = "name")
+//            val text: String = "",
+//
+//            @ColumnInfo(name = "_status_color")
+//            @SerializedName(value = "color")
+//            val color: String = ""
+//        )
     }
 
     @PrimaryKey(autoGenerate = true)

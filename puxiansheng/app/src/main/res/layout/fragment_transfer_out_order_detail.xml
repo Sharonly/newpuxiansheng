@@ -230,16 +230,41 @@
                     </LinearLayout>
 
 
-                    <com.tencent.tencentmap.mapsdk.maps.TextureMapView
-                        android:id="@+id/map_view"
+                    <!--                    <com.tencent.tencentmap.mapsdk.maps.TextureMapView-->
+                    <!--                        android:id="@+id/map_view"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="90dp"-->
+                    <!--                         />-->
+
+                    <RelativeLayout
+                        android:id="@+id/bg_map"
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
-                         />
+                        android:background="@mipmap/bg_map"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp">
+
+                        <TextView
+                            android:id="@+id/address"
+                            android:layout_width="365dp"
+                            android:layout_height="61.5dp"
+                            android:background="@mipmap/card"
+                            android:drawableLeft="@mipmap/ic_position"
+                            android:drawableRight="@mipmap/ic_right_arrow"
+                            android:paddingLeft="27dp"
+                            android:paddingRight="27dp"
+                            android:drawablePadding="7dp"
+                            android:gravity="center_vertical"
+                            android:textSize="12sp"
+                            android:textColor="@color/input_text_blank"/>
+
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp">
+
                         <LinearLayout
                             android:id="@+id/layout_industry"
                             android:layout_width="wrap_content"
@@ -326,7 +351,7 @@
                             android:layout_marginTop="18dp"
                             android:layout_marginRight="16dp"
                             android:src="@mipmap/ic_done"
-                            android:visibility="invisible"/>
+                            android:visibility="invisible" />
 
                     </RelativeLayout>
 
@@ -456,12 +481,12 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recommend_orders"
-                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="11dp"
-                        android:layout_marginBottom="80dp" />
+                        android:layout_marginBottom="80dp"
+                        android:nestedScrollingEnabled="false" />
 
                 </LinearLayout>
 
@@ -469,29 +494,29 @@
 
         </androidx.core.widget.NestedScrollView>
 
-<!--                <com.puxiansheng.www.common.CircleImageView-->
-<!--                    android:id="@+id/bt_connect_kf"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:src="@mipmap/ic_zixun"-->
-<!--                    android:layout_gravity="bottom|end"-->
-<!--                    android:layout_marginBottom="40dp"-->
-<!--                    android:layout_marginRight="16.5dp"-->
-<!--                    android:background="@color/tanslate"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintRight_toRightOf="parent"/>-->
+        <!--                <com.puxiansheng.www.common.CircleImageView-->
+        <!--                    android:id="@+id/bt_connect_kf"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:src="@mipmap/ic_zixun"-->
+        <!--                    android:layout_gravity="bottom|end"-->
+        <!--                    android:layout_marginBottom="40dp"-->
+        <!--                    android:layout_marginRight="16.5dp"-->
+        <!--                    android:background="@color/tanslate"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"/>-->
 
 
         <ImageView
             android:id="@+id/bt_connect_kf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_zixun"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="40dp"
             android:layout_marginRight="16.5dp"
+            android:layout_marginBottom="40dp"
+            android:src="@mipmap/ic_zixun"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

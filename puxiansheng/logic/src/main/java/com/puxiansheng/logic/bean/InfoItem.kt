@@ -12,13 +12,10 @@ data class InfoItem(
     @ColumnInfo(name = "_id")
     val itemID: Long = 0,
 
-    @SerializedName("user_id")
-    @ColumnInfo(name = "_user_id")
-    val userId: Int = 0,
-
     @SerializedName("id")
     @ColumnInfo(name = "_info_id")
     val infoID: Int = 0,
+
 
     @SerializedName("title")
     @ColumnInfo(name = "_title")
@@ -46,6 +43,11 @@ data class InfoItem(
     @SerializedName("view_count")
     @ColumnInfo(name = "_page_views")
     val pageViews: Int = 0,
+
+    //TODO 新增
+    @SerializedName("user_id")
+    @ColumnInfo(name = "_user_id")
+    val userId: Int = 0,
 
     @SerializedName("jump_param")
     @ColumnInfo(name = "_jump_param")

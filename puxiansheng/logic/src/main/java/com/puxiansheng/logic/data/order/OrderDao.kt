@@ -3,7 +3,6 @@ package com.puxiansheng.logic.data.order
 import androidx.paging.DataSource
 import androidx.room.*
 import com.puxiansheng.logic.bean.Order
-import com.puxiansheng.logic.bean.Shop
 
 @Dao
 interface OrderDao {
