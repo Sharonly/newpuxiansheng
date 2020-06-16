@@ -1,6 +1,5 @@
 package com.puxiansheng.www.ui.mine.history
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout

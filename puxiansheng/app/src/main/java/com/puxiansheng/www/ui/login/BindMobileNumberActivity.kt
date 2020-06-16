@@ -107,6 +107,8 @@ private fun initView(){
                         LiveDataBus.get().with("user")?.value = result
                         val intent =
                             Intent(this@BindMobileNumberActivity, MainActivity::class.java)
+//                        val intent =
+//                            Intent(this@BindMobileNumberActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

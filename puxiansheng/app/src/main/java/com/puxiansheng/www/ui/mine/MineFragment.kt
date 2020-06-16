@@ -19,6 +19,7 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
+import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.common.urlIcon
@@ -41,7 +42,7 @@ import kotlinx.android.synthetic.main.fragment_mine.user_icon
 import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
 
-class MineFragment : Fragment() {
+class MineFragment : AppFragment() {
     private lateinit var mineViewModel: MineViewModel
     private lateinit var appModel: MainViewModel
     var isLoading = false
@@ -277,7 +278,6 @@ class MineFragment : Fragment() {
                 val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
                 startActivity(intent)
             }
-
         }
 
 
@@ -302,26 +302,23 @@ class MineFragment : Fragment() {
             context?.startActivity(mIntent);
         }
 
-
-
-
         appModel.currentUser?.observe(requireActivity(), Observer { user ->
             user?.let {
                 if (it.isLogin) {
                     isLogin = true
-                    userAccount.text = user.name ?: user.nickName
-                    userPhone.visibility = View.VISIBLE
-                    userPhone.text = get(API.LOGIN_USER_PHONE,"").toString()
+                    userAccount?.text = user.name ?: user.nickName
+                    userPhone?.visibility = View.VISIBLE
+                    userPhone?.text = get(API.LOGIN_USER_PHONE,"").toString()
                     SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
                     Log.d("---imageicon"," user.icon = "+user.icon)
                     if (user.icon.isNotEmpty()) {
-                        userIcon.urlIcon(user.icon)
+                        userIcon?.urlIcon(user.icon)
                     }
                 } else {
                     isLogin = false
-                    userAccount.text = "请登录"
-                    userPhone.visibility = View.INVISIBLE
-                    user_icon.setImageResource(R.mipmap.ic_default_icon)
+                    userAccount?.text = "请登录"
+                    userPhone?.visibility = View.INVISIBLE
+                    userIcon?.setImageResource(R.mipmap.ic_default_icon)
                 }
             }
         })

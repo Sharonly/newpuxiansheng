@@ -154,12 +154,6 @@ class OrdersAdapter(
                             binding.isHot.visibility = View.GONE
                         } else {
                             item?.shop?.isHot?.let {
-//                var str = ""
-//                it.forEach { menuItem ->
-//                    menuItem.text
-//                    str += "<font color=\"menuItem.color\">menuItem.text</font>"
-//                }
-//                binding.labeled.text = (Html.fromHtml(str))
                                 if (it == 1) {
                                     binding.isHot.visibility = View.VISIBLE
                                 } else {
@@ -176,16 +170,6 @@ class OrdersAdapter(
                             }
                         }
                     }
-
-
-//                    item?.shop?.isLargeOrder?.let {
-//                        if(it == 1) {
-//                            binding.isGood.visibility = View.VISIBLE
-//                        }else{
-//                            binding.isGood.visibility = View.GONE
-//                        }
-//                    }
-
 
                     item?.shop?.formattedDate?.let { date ->
                         binding.date.text = date
@@ -209,23 +193,9 @@ class OrdersAdapter(
                         if (industry.isNotEmpty()) binding.industry.visibility = View.VISIBLE
                         binding.industry.text = industry
                     }
-
-//            item?.shop?.isTop?.let {
-//                if (it == 1) {
-//                    binding.icTop.visibility = View.VISIBLE
-//                }else{
-//                    binding.icTop.visibility = View.GONE
-//                }
-//            }
-
-//            item?.shop?.formattedFinalLocationNode?.let { location ->
-//                if (location.isNotEmpty()) binding.area.visibility = View.VISIBLE
-//                binding.area.text = location
-//            }
-
-                    binding.root.setOnClickListener {
-                        onItemSelect?.let { select -> select(item) }
-                    }
+                }
+                binding.root.setOnClickListener {
+                    onItemSelect?.let { select -> select(item) }
                 }
             }
         }

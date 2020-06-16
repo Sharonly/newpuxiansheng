@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +27,7 @@ import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 import kotlinx.coroutines.launch
 
-class ReleasedTransferOutOrdersFragment : AppFragment() {
+class ReleasedTransferOutOrdersFragment : Fragment() {
 
     private lateinit var viewModel: ReleasedTransferOutOrdersViewModel
 

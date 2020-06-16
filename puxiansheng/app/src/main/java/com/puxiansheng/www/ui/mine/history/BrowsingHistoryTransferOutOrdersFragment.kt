@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -21,7 +22,7 @@ import com.puxiansheng.www.databinding.FragmentMineBrowsingHistoryInnerFragmentB
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 
-class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
+class BrowsingHistoryTransferOutOrdersFragment : Fragment() {
 
     private lateinit var viewModel: BrowsingHistoryTransferOutOrdersViewModel
     private lateinit var hisViewModel: HistoryListViewModel
@@ -54,7 +55,7 @@ class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_OUT_HISTORY.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.jump_param)
+                intent.putExtra("shopID", it?.shop?.shopID.toString())
                 startActivity(intent)
 
             }
@@ -105,11 +106,6 @@ class BrowsingHistoryTransferOutOrdersFragment : AppFragment() {
             }
         })
     }.root
-
-    override fun onDestroy() {
-        println("ReleasedTransferOutOrdersFragment onDestroy")
-        super.onDestroy()
-    }
 
 
 

@@ -61,8 +61,6 @@ class MainActivity : MyBaseActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         val stringExtra = intent?.getStringExtra("name")
-
-
     }
 
     override fun business() {

@@ -75,24 +75,6 @@ class ChangeIconDialog() : DialogFragment() {
         val  sdPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/pxs";
         binding.btTakePicture.setOnClickListener {
             dismiss()
- //           var outputImage = File(Environment.DIRECTORY_PICTURES, "pxs_icon.jpg")
-//            if (outputImage.exists()) {
-//                outputImage.delete()
-//            }
-//
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//                imageUri = Uri.fromFile(outputImage)
-//            } else {
-//                imageUri = FileProvider.getUriForFile(
-//                    requireActivity(), "${requireContext().packageName}.fileProvider",
-//                    outputImage
-//                )
-//            }
-//            Log.d("---imageicon--", "dialog  imageUri = " + imageUri)
-//            val intent = Intent("android.media.action.IMAGE_CAPTURE")
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-//            requireActivity().startActivityForResult(intent, 101)
-
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE) // 启动系统相机
             val file = File("$sdPath/Head.jpg")
             val cropImageUri = FileProvider.getUriForFile(requireActivity(), "${requireContext().packageName}.fileProvider", file)

@@ -110,4 +110,18 @@
                 <attr name="ios" format="boolean"/>
                 <attr name="leftSwipe" format="boolean"/>
         </declare-styleable>
+
+
+    <style name="RadioGroupButtonStyle" >
+        <item name="android:button">@null</item>
+        <!-- 这个属性是去掉button 默认样式-->
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/bottom_text_select_color</item>
+
+
+    </style>
 </resources>

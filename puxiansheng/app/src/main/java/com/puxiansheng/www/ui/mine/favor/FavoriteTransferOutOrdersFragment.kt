@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -21,7 +22,7 @@ import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 
-class FavoriteTransferOutOrdersFragment : AppFragment() {
+class FavoriteTransferOutOrdersFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteTransferOutOrdersViewModel
 

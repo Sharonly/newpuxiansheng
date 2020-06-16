@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 
-class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailObject>) :
+class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailObject>,var deleteListener: onDeleteListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -62,6 +63,10 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
             holder.shopArea.text = shopInfo.formattedFinalLocationNode
             holder.shopData.text = shopInfo.day_time
 
+            holder.delete.setOnClickListener {
+                deleteListener?.delete(shopInfo)
+            }
+
             holder.edit.setOnClickListener {
                 val intent =
                     Intent(mContext, InsertOrUpdateTransferInOrderActivity::class.java)
@@ -92,7 +97,7 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
 
     }
 
-    interface onDelete{
-        fun delete()
+    interface onDeleteListener{
+        fun delete(order:OrderDetailObject)
     }
 }

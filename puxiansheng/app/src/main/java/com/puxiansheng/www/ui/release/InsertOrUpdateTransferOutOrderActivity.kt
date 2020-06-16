@@ -735,7 +735,6 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-
             Matisse.obtainPathResult(data).let { list ->
                 insertOrUpdateTransferOutOrderViewModel.selectedImages.value?.let {
                     it.addAll(list)

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +33,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
 
-class ReleasedNewTransferInOrdersFragment : AppFragment() ,OnRefreshLoadMoreListener {
+class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListener {
 
     private lateinit var viewModel: ReleasedTransferInOrdersViewModel
     var adapter: ReleaseInAdapter? = null
@@ -51,7 +52,23 @@ class ReleasedNewTransferInOrdersFragment : AppFragment() ,OnRefreshLoadMoreList
     ): View? = FragmentMineReleasedInnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        adapter = ReleaseInAdapter(requireContext(), arrayListOf())
+        adapter = ReleaseInAdapter(requireContext(), arrayListOf(),deleteListener = object :ReleaseInAdapter.onDeleteListener{
+            override fun delete(it:OrderDetailObject) {
+                var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shopID)
+                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
+                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
+                    override fun onDiss() {
+                        lifecycleScope.launch {
+                            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+                                Log.d("---info-- ", " list = " + list)
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             list.addItemDecoration(it)

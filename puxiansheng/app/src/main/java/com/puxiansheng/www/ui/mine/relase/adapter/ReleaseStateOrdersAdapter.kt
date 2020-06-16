@@ -189,11 +189,11 @@ class ReleaseStateOrdersAdapter(
             binding.root.setOnClickListener {
                 if (orderType == 0) {
                     val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID.toString())
                     context.startActivity(intent)
                 } else if (orderType == 1) {
                     val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.jump_param)
+                    intent.putExtra("shopID", item?.shop?.shopID.toString())
                     context.startActivity(intent)
                 }
             }

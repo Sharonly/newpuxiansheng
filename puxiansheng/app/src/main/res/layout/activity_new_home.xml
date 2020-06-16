@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/home_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_button"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@mipmap/bg_bottom_tabbar">
+
+        <RadioButton
+            style="@style/RadioGroupButtonStyle"
+            android:id="@+id/navigation_home"
+            android:text="@string/nav_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_home"
+            android:checked="true"
+            android:layout_marginTop="15dp" />
+        <RadioButton
+            android:id="@+id/navigation_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_info"
+            android:drawableTop="@drawable/ic_info"
+            android:layout_marginTop="15dp"
+            style="@style/RadioGroupButtonStyle"
+            />
+        <RadioButton
+            android:id="@+id/navigation_release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_release"
+            android:drawableTop="@drawable/ic_release"
+            style="@style/RadioGroupButtonStyle"
+            android:textColorHint="@color/input_text_blank"
+            />
+        <RadioButton
+            android:id="@+id/navigation_message"
+            android:text="@string/nav_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_message"
+            android:layout_marginTop="15dp"
+            style="@style/RadioGroupButtonStyle"
+            />
+
+        <RadioButton
+            android:id="@+id/navigation_mine"
+            android:text="@string/nav_mine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_mine"
+            android:layout_marginTop="15dp"
+            style="@style/RadioGroupButtonStyle" />
+    </RadioGroup>
+
+
+
+</LinearLayout>

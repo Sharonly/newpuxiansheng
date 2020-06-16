@@ -111,8 +111,8 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 page_views.text = "浏览量：${order.shop?.formattedPageViews}"
                 publish_date.text = "发布时间：${order.shop?.formattedDate}"
 
-                size.text = order.shop?.formattedSize
                 rent.text = order.shop?.formattedRent
+                size.text = order.shop?.formattedSize
                 fee.text = order.shop?.formattedFee
 
                 category.text = order.shop?.industry

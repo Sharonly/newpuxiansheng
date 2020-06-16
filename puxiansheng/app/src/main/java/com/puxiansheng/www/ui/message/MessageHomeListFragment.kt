@@ -18,6 +18,7 @@ import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMessageHomeBinding
 import com.puxiansheng.www.ui.info.InfoPagerAdapter
 import com.puxiansheng.www.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_message_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class MessageHomeListFragment : AppFragment() {
             lifecycleScope.launch {
                 //isLoaded = true
                 messageListViewModel.getMessageCategoriesFromRemote()?.let {
-                    messagePager.adapter = InfoPagerAdapter(
+                    message_pager.adapter = InfoPagerAdapter(
                         fragmentManager = childFragmentManager,
                         fragments = it.map { category ->
                             MessageListFragment.newInstance(category = category.menuID.toInt())
@@ -52,14 +53,59 @@ class MessageHomeListFragment : AppFragment() {
                         titles = it.map { text ->
                             text.text
                         })
-                    messagePager.offscreenPageLimit = 3
-                    tabs.setupWithViewPager(messagePager)
+                    message_pager.offscreenPageLimit = 3
+                    tabs.setupWithViewPager(message_pager)
                 }
             }
         })
 
     }.root
 
+//
+//    override fun onHiddenChanged(hidden: Boolean) {
+//        super.onHiddenChanged(hidden)
+//        if (!hidden) {
+//            appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
+//                lifecycleScope.launch {
+//                    //isLoaded = true
+//                    messageListViewModel.getMessageCategoriesFromRemote()?.let {
+//                        message_pager.adapter = InfoPagerAdapter(
+//                            fragmentManager = childFragmentManager,
+//                            fragments = it.map { category ->
+//                                MessageListFragment.newInstance(category = category.menuID.toInt())
+//                            },
+//                            titles = it.map { text ->
+//                                text.text
+//                            })
+//                        message_pager.offscreenPageLimit = 3
+//                        tabs.setupWithViewPager(message_pager)
+//                    }
+//                }
+//            })
+//        }
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
+//            lifecycleScope.launch {
+//                //isLoaded = true
+//                messageListViewModel.getMessageCategoriesFromRemote()?.let {
+//                    message_pager.adapter = InfoPagerAdapter(
+//                        fragmentManager = childFragmentManager,
+//                        fragments = it.map { category ->
+//                            MessageListFragment.newInstance(category = category.menuID.toInt())
+//                        },
+//                        titles = it.map { text ->
+//                            text.text
+//                        })
+//                    message_pager.offscreenPageLimit = 3
+//                    tabs.setupWithViewPager(message_pager)
+//                }
+//            }
+//        })
+
+//    }
 
 //
 //    private fun initTabView(tabs:TabLayout) {

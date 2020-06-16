@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
@@ -20,7 +21,7 @@ import com.puxiansheng.www.databinding.FragmentMineBrowsingHistoryInnerFragmentB
 import com.puxiansheng.www.ui.order.OrdersAdapter
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 
-class BrowsingHistoryTransferInOrdersFragment : AppFragment() {
+class BrowsingHistoryTransferInOrdersFragment : Fragment() {
 
     private lateinit var viewModel: BrowsingHistoryTransferInOrdersViewModel
     private lateinit var hisViewModel: HistoryListViewModel
@@ -53,7 +54,7 @@ class BrowsingHistoryTransferInOrdersFragment : AppFragment() {
             type = Order.Type.TRANSFER_IN_HISTORY.value(),
             onItemSelect = {
                 val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.jump_param)
+                intent.putExtra("shopID", it?.shop?.shopID.toString())
                 startActivity(intent)
 
             }

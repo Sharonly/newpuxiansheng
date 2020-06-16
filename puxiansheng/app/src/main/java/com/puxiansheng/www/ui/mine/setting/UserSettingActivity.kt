@@ -190,32 +190,24 @@ class UserSettingActivity : MyBaseActivity() {
     }
 
     private var  cropImageUri:Uri?=null
+    private var  realImageUri:Uri?=null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("---icon  ", "  requestCode = " + requestCode + " resultCode = " + resultCode)
         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-//            Log.d(
-//                "---imageicon---",
-//                " iconImageUri = " + iconImageUri + "  getPath = " + getPath(this, iconImageUri!!)
-//            )
-//            getPath(this, iconImageUri!!)
-//            var bitmap =
-//                BitmapFactory.decodeStream(contentResolver.openInputStream(this.iconImageUri as Uri))
-//            user_icon.setImageBitmap(bitmap)
-//            lifecycleScope.launch {
-//                settingViewModel.uploadIcon(iconImageUri.toString())
-//            }
-           // crop(iconImageUri)
+//            crop(cropImageUri)
             Glide.with(this)
                 .load(cropImageUri)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.mipmap.banner_dark_blue)
+                .error(R.mipmap.ic_default_icon)
                 .into(user_icon)
             lifecycleScope.launch {
-//                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
-//                    settingViewModel.submitUserIcon(cropImageUri.toString()).let {
+                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
+//                cropImageUri?.let { realImageUri = getFileUri(this@UserSettingActivity, it) }
+//
+//                getPath(this@UserSettingActivity, realImageUri!!)?.let { it1 ->
+//                    settingViewModel.submitUserIcon(it1).let {
 //                        if (it?.code == API.CODE_SUCCESS) {
 //                            settingViewModel.iconImg = it?.data?.imgIcon
 //                        }
@@ -227,7 +219,6 @@ class UserSettingActivity : MyBaseActivity() {
             //TODO 相册图片
             if (data?.data != null) {
                 GlideApp.with(this).load(data.data).into(user_icon)
-                Log.d("imageicon", " data.data.toString()77 = " + getPath(this, data.data!!))
                 lifecycleScope.launch {
                     data?.data?.path?.let {
                         getPath(this@UserSettingActivity, data.data!!)?.let { it1 ->
@@ -242,47 +233,52 @@ class UserSettingActivity : MyBaseActivity() {
             }
         }else if (requestCode==103){
             println("裁剪回调2uri--——》${cropImageUri}")
-            Glide.with(this).load(iconImageUri).error(R.mipmap.ic_default_icon).into(user_icon)
+                        Glide.with(this)
+                .load(cropImageUri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .error(R.mipmap.ic_default_icon)
+                .into(user_icon)
+                        lifecycleScope.launch {
+                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
+//                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
+//                    settingViewModel.submitUserIcon(it1).let {
+//                        if (it?.code == API.CODE_SUCCESS) {
+//                            settingViewModel.iconImg = it?.data?.imgIcon
+//                        }
+//                    }
+//                }
+            }
         }
     }
 
 
-//    public static String getRealFilePath( final Context context, final Uri uri) {
-//        if ( null == uri ) return null
-//        final String scheme = uri.getScheme();
-//        String data = null;
-//        if ( scheme == null )
-//            data = uri.getPath();
-//        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
-//            data = uri.getPath();
-//        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-//            Cursor cursor = context.getContentResolver().query( uri, new String[] { ImageColumns.DATA }, null, null, null );
-//            if ( null != cursor ) {
-//                if ( cursor.moveToFirst() ) {
-//                    int index = cursor.getColumnIndex( ImageColumns.DATA );
-//                    if ( index > -1 ) {
-//                        data = cursor.getString( index );
-//                    }
-//                }
-//                cursor.close();
+
+//    fun  getImagePath(context: Context,uri :Uri):String {
+//        var path = "null";
+//        var cursor = context.contentResolver.query(uri, null, null, null, null)
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 //            }
+//            cursor.close()
 //        }
-//        return data;
+//        return path
 //    }
 
 
 
     fun crop(uri: Uri?) {
-        val CropPhoto = File(getExternalCacheDir(), "crop_image.jpg")
+        val cropPhoto = File(externalCacheDir, "crop_image.jpg")
         try {
-            if (CropPhoto.exists()) {
-                CropPhoto.delete()
+            if (cropPhoto.exists()) {
+                cropPhoto.delete()
             }
-            CropPhoto.createNewFile()
+            cropPhoto.createNewFile()
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        cropImageUri = Uri.fromFile(CropPhoto)
+        cropImageUri = Uri.fromFile(cropPhoto)
         // 裁剪图片意图
         val intent = Intent("com.android.camera.action.CROP")
         intent.setDataAndType(uri, "image/*")
@@ -302,6 +298,15 @@ class UserSettingActivity : MyBaseActivity() {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri)
         startActivityForResult(intent, 103)
     }
+
+   fun getFileUri(context: Context, uri: Uri): Uri? {
+      var  realFilePath = getPath(context, uri)
+        if (TextUtils.isEmpty(realFilePath)) {
+            return null
+        }
+        return Uri.fromFile(File(realFilePath))
+    }
+
 
 
 //通用的从uri中获取路径的方法, 兼容以上说到的2个shceme
@@ -358,33 +363,33 @@ fun getPath(context: Context, uri: Uri): String? {
     return ""
 }
 
-fun getId(context: Context, uri: Uri): Long {
-    val isKitKat =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-        if (isMediaDocument(uri)) {
-            val docId: String = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).toTypedArray()
-            val type = split[0]
-            var contentUri: Uri? = null
-            if ("image" == type) {
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            } else if ("video" == type) {
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            } else if ("audio" == type) {
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            }
-            val selection = "_id=?"
-            val selectionArgs = arrayOf(
-                split[1]
-            )
-            return getIdColumn(context, contentUri, selection, selectionArgs)
-        }
-    } else {
-        return getIdColumn(context, uri, null, null)
-    }
-    return 0
-}
+//fun getId(context: Context, uri: Uri): Long {
+//    val isKitKat =
+//        Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+//    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+//        if (isMediaDocument(uri)) {
+//            val docId: String = DocumentsContract.getDocumentId(uri)
+//            val split = docId.split(":".toRegex()).toTypedArray()
+//            val type = split[0]
+//            var contentUri: Uri? = null
+//            if ("image" == type) {
+//                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//            } else if ("video" == type) {
+//                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+//            } else if ("audio" == type) {
+//                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+//            }
+//            val selection = "_id=?"
+//            val selectionArgs = arrayOf(
+//                split[1]
+//            )
+//            return getIdColumn(context, contentUri, selection, selectionArgs)
+//        }
+//    } else {
+//        return getIdColumn(context, uri, null, null)
+//    }
+//    return 0
+//}
 
 fun getDataColumn(
     context: Context, uri: Uri?, selection: String?,
@@ -409,6 +414,9 @@ fun getDataColumn(
     }
     return ""
 }
+
+
+
 
 fun getIdColumn(
     context: Context,
