@@ -27,27 +27,6 @@
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="235dp" />-->
 
-<!--&lt;!&ndash;                    <FrameLayout&ndash;&gt;-->
-<!--&lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                        android:layout_height="225dp">&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <ImageView&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:id="@+id/bg_banner"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_height="173.5dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:src="@mipmap/bg_banner_blue"/>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <com.youth.banner.Banner&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:id="@+id/image_switcher"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_height="143.9dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_marginLeft="16dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_marginTop="82dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            android:layout_marginRight="16dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:indicator_drawable_selected="@drawable/dot_shape_selected"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:indicator_drawable_unselected="@drawable/dot_shape_unselected"&ndash;&gt;-->
-<!--&lt;!&ndash;                            app:image_scale_type="fit_xy" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    </FrameLayout>&ndash;&gt;-->
 
 <!--                    <LinearLayout-->
 <!--                        android:layout_width="match_parent"-->
@@ -345,27 +324,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="235dp" />
 
-                    <!--                    <FrameLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="225dp">-->
-
-                    <!--                        <ImageView-->
-                    <!--                            android:id="@+id/bg_banner"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="173.5dp"-->
-                    <!--                            android:src="@mipmap/bg_banner_blue"/>-->
-
-                    <!--                        <com.youth.banner.Banner-->
-                    <!--                            android:id="@+id/image_switcher"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="143.9dp"-->
-                    <!--                            android:layout_marginLeft="16dp"-->
-                    <!--                            android:layout_marginTop="82dp"-->
-                    <!--                            android:layout_marginRight="16dp"-->
-                    <!--                            app:indicator_drawable_selected="@drawable/dot_shape_selected"-->
-                    <!--                            app:indicator_drawable_unselected="@drawable/dot_shape_unselected"-->
-                    <!--                            app:image_scale_type="fit_xy" />-->
-                    <!--                    </FrameLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"

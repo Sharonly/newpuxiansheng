@@ -5,26 +5,26 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
-import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
-import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
+import com.puxiansheng.www.common.url
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 
-class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailObject>,var deleteListener: onDeleteListener) :
+class ReleaseOutAdapter(var mContext: Context, var lists: ArrayList<OrderDetailObject>, var deleteListener: onDeleteListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
         if (viewType == 0) {
             val view = LayoutInflater.from(mContext)
                 .inflate(R.layout.fragment_order_list_empty, parent, false)
             return object : RecyclerView.ViewHolder(view) {}
         } else {
             val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.fragment_orders_mine_transfer_in_item, parent, false)
+                .inflate(R.layout.fragment_orders_mine_transfer_out_item, parent, false)
             return TestViewHolder(view)
         }
 
@@ -45,7 +45,6 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
     }
 
     override fun getItemViewType(position: Int): Int {
-
         if (lists.size == 0) {
             return 0
         }
@@ -56,12 +55,13 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TestViewHolder) {
             var shopInfo = lists[position]
+            holder.shopIcon.url(shopInfo.image)
             holder.shopTitle.text = shopInfo.title
-            holder.shopIndustry.text = shopInfo.formattedFinalIndustry
-            holder.shopSize.text = shopInfo.view_acreage_un_prefix
-            holder.shopRent.text = shopInfo.view_rent_un_prefix
+            holder.shopIndustry.text = shopInfo.categoryStr
+            holder.shopSize.text = shopInfo.formattedSize
+            holder.shopRent.text = shopInfo.formattedRent
             holder.shopArea.text = shopInfo.formattedFinalLocationNode
-            holder.shopData.text = shopInfo.day_time
+            holder.shopData.text = shopInfo.formattedDate
 
             holder.delete.setOnClickListener {
                 deleteListener?.delete(shopInfo)
@@ -69,14 +69,14 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
 
             holder.edit.setOnClickListener {
                 val intent =
-                    Intent(mContext, InsertOrUpdateTransferInOrderActivity::class.java)
+                    Intent(mContext, InsertOrUpdateTransferOutOrderActivity::class.java)
                 intent.putExtra("shopID", shopInfo?.shopID.toInt())
                 mContext.startActivity(intent)
             }
 
 
             holder.root.setOnClickListener {
-                val intent = Intent(mContext, TransferInOrderDetailActivity::class.java)
+                val intent = Intent(mContext, TransferOutOrderDetailActivity::class.java)
                 intent.putExtra("shopID", shopInfo?.shopID.toString())
                 mContext.startActivity(intent)
             }
@@ -86,6 +86,7 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
 
     inner class TestViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
         val root:View = containerView.findViewById(R.id.layout)
+        val shopIcon:ImageView = containerView.findViewById(R.id.shop_icon)
         val shopTitle:TextView = containerView.findViewById(R.id.title)
         val shopIndustry:TextView = containerView.findViewById(R.id.industry)
         val shopSize:TextView = containerView.findViewById(R.id.size)

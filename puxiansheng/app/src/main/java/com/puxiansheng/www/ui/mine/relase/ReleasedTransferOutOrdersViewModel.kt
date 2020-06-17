@@ -42,6 +42,14 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
     fun getMineTransferOutOrdersFromLocal() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_OUT_PRIVATE.value())
 
+    suspend  fun getRemoteMineTransferOutOrders(currentPage:Int)= withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.getMineTransferOutOrdersFromRemote(page = currentPage).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data.data?.data?.orders
+            } else null
+        }
+    }
+
     private fun getRemoteMineTransferOutOrders() {
         orderRepository.getMineTransferOutOrdersFromRemote(page = currentPage).let { apiRst ->
             if (apiRst.succeeded) {

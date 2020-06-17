@@ -8,7 +8,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,8 +29,11 @@ import com.puxiansheng.www.ui.main.MainActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.button_back
 import kotlinx.android.synthetic.main.fragment_mine.*
+import kotlinx.android.synthetic.main.activity_reset_password.*
 import kotlinx.android.synthetic.main.layout_login_by_password.*
+import kotlinx.android.synthetic.main.layout_login_by_password.ic_eye
 import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,7 +48,7 @@ class LoginActivity : MyBaseActivity() {
     var isSeleted = false
     private lateinit var loginViewModel: LoginViewModel
     var loginType = MODE_LOGIN_WITH_PASSWORD
-
+    var passIsShow = false
 
     override fun getLayoutId(): Int {
         return R.layout.activity_login
@@ -158,13 +160,19 @@ class LoginActivity : MyBaseActivity() {
             }
         }
 
-        pass_hide.setOnClickListener {
-            input_user_password.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
 
-        pass_show.setOnClickListener {
-            input_user_password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        ic_eye.setOnClickListener {
+            if(!passIsShow){
+                input_user_password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                ic_eye.setImageResource(R.mipmap.ic_yincang)
+                passIsShow = true
+            }else {
+                input_user_password.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                ic_eye.setImageResource(R.mipmap.ic_xianshi)
+                passIsShow = false
+            }
+
         }
 
         bt_login.setOnClickListener {

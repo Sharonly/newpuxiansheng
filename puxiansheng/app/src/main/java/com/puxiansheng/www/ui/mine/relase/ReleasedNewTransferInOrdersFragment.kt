@@ -1,34 +1,22 @@
 package com.puxiansheng.www.ui.mine.relase
 
-import android.app.ProgressDialog.show
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMineReleasedInnerFragmentBinding
-import com.puxiansheng.www.ui.order.OrdersAdapter
-import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
-import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
-import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
+import com.puxiansheng.www.databinding.FragmentMineReleasedOutnerFragmentBinding
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch

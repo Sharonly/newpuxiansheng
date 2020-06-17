@@ -16,9 +16,11 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.Regular
 import com.puxiansheng.www.R
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_FORGET_PASSWORD
-import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_RESET_PASSWORD
 import kotlinx.android.synthetic.main.activity_forget_password.*
 import kotlinx.android.synthetic.main.activity_forget_password.button_back
+import kotlinx.android.synthetic.main.activity_forget_password.icon_eye
+import kotlinx.android.synthetic.main.activity_forget_password.input_password_again
+import kotlinx.android.synthetic.main.activity_forget_password.layout_password_again
 import kotlinx.android.synthetic.main.activity_forget_password.requestVerificationCode
 import kotlinx.android.synthetic.main.layout_login_by_password.*
 import kotlinx.android.synthetic.main.layout_register.*
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_password) {
     var context: Context = this@ForgetPasswordActivity
     private lateinit var loginViewModel: LoginViewModel
+    var passIsShow = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +104,7 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
                 layout_vertoken.visibility = View.GONE
                 txt_new_password.visibility = View.VISIBLE
                 layout_password_again.visibility = View.VISIBLE
-                ic_eye_show.visibility = View.VISIBLE
+                icon_eye.visibility = View.VISIBLE
                             bt_go_to.text = "确认"
 
             }else if(bt_go_to.text=="确认"){
@@ -135,13 +138,18 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
             }
         }
 
-        ic_eye_close.setOnClickListener {
-            input_password_again.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        icon_eye.setOnClickListener {
+            if(!passIsShow){
+                input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                icon_eye.setImageResource(R.mipmap.ic_yincang)
+                passIsShow = true
+            }else {
+                input_password_again.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                icon_eye.setImageResource(R.mipmap.ic_xianshi)
+                passIsShow = false
+            }
 
-        }
-        ic_eye_show.setOnClickListener {
-            input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
 
 

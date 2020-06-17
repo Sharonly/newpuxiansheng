@@ -11,14 +11,15 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 
-import kotlinx.android.synthetic.main.fragment_reset_password.*
+import kotlinx.android.synthetic.main.activity_reset_password.*
 import kotlinx.coroutines.launch
 
 class ResetPasswordActivity : MyBaseActivity() {
     private lateinit var resetPasswordViewModel: ResetPasswordViewModel
+    var passIsShow = false
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_reset_password
+        return R.layout.activity_reset_password
     }
 
     override fun business() {
@@ -49,14 +50,20 @@ class ResetPasswordActivity : MyBaseActivity() {
             }
         }
 
-        ic_eye_close.setOnClickListener {
-            input_password_again.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        ic_eye.setOnClickListener {
+            if(!passIsShow){
+                input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                ic_eye.setImageResource(R.mipmap.ic_yincang)
+                passIsShow = true
+            }else {
+                input_password_again.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                ic_eye.setImageResource(R.mipmap.ic_xianshi)
+                passIsShow = false
+            }
 
         }
-        ic_eye_show.setOnClickListener {
-            input_password_again.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
+
 
         reset_password.setOnClickListener {
             resetPasswordViewModel.originalPassword.let {
@@ -77,8 +84,11 @@ class ResetPasswordActivity : MyBaseActivity() {
                     return@setOnClickListener
                 }
             }
-Log.d("---newPassword "," resetPasswordViewModel.newPassword = "+resetPasswordViewModel.newPassword+" 1 =  "+resetPasswordViewModel.newSecondPassword+"   2 = "+resetPasswordViewModel.originalPassword )
-            if(resetPasswordViewModel.newPassword != resetPasswordViewModel.newSecondPassword){
+            Log.d(
+                "---newPassword ",
+                " resetPasswordViewModel.newPassword = " + resetPasswordViewModel.newPassword + " 1 =  " + resetPasswordViewModel.newSecondPassword + "   2 = " + resetPasswordViewModel.originalPassword
+            )
+            if (resetPasswordViewModel.newPassword != resetPasswordViewModel.newSecondPassword) {
                 Toast.makeText(this, "两次密码不一致", Toast.LENGTH_SHORT).show()
             }
 
@@ -97,7 +107,7 @@ Log.d("---newPassword "," resetPasswordViewModel.newPassword = "+resetPasswordVi
 
         resetPasswordViewModel.resetResult.observe(this, Observer {
             if (it == API.CODE_SUCCESS) {
-               onBackPressed()
+                onBackPressed()
             }
         })
 

@@ -271,6 +271,7 @@ class HomeFragment : Fragment(),OnRefreshLoadMoreListener {
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
             buttonSelectLocation.text = it.text
             homeViewModel.currentCity = it.nodeID.toString()
+            SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
             isLoading = true
 
             lifecycleScope.launch {
@@ -325,23 +326,16 @@ class HomeFragment : Fragment(),OnRefreshLoadMoreListener {
 //                    }
                 }
                 pxsHeadline.isSelected = true
-                SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
                 lifecycleScope.launch {
-                    outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(it.nodeID.toString(),leftCurrentPage)
+                    outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(homeViewModel.currentCity,leftCurrentPage)
                         .let {
-                            Log.d("recommend ", " leftAdapter = " + leftAdapter)
-                            Log.d("---recommend", "TransferOut it = " + it)
                             leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
                 }
                 }
 
                 lifecycleScope.launch {
-                    inViewModel.getHomeRecommendedTransferInOrdersFromRemote(it.nodeID.toString(),rightCurrentPage)
+                    inViewModel.getHomeRecommendedTransferInOrdersFromRemote(homeViewModel.currentCity,rightCurrentPage)
                         .let {
-                            Log.d(
-                                "---recommend",
-                                "TransferOut it = " + it + " rightAdapter = " + rightAdapter
-                            )
                             rightAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshRight)
                         }
                 }
@@ -356,17 +350,7 @@ class HomeFragment : Fragment(),OnRefreshLoadMoreListener {
         if (!hidden) {
             pxs_headline.startTimer()
             top_banner_view.startBanner()
-//            order_pager.adapter = OrderPagerAdapter(
-//                fragmentManager = childFragmentManager,
-//                lifecycle = viewLifecycleOwner.lifecycle
-//            )
-//            TabLayoutMediator(tabs, order_pager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-//                tab.text = when (position) {
-//                    0 -> "精品店铺"
-//                    1 -> "找店需求"
-//                    else -> ""
-//                }
-//            }).attach()
+
         } else {
             pxs_headline.stopTimer()
             top_banner_view.stopBanner()
@@ -466,10 +450,6 @@ class HomeFragment : Fragment(),OnRefreshLoadMoreListener {
                     rightAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshRight)
                 }
         }
-
-
-
-
 
         refreshLayout.finishRefresh(2000)
     }

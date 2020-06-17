@@ -28,7 +28,6 @@ class StartActivity : MyBaseActivity() {
                     finish()
                 }
             }
-//            it.edit().putInt("show_privacy", 1).commit()
         }
         
 
@@ -60,7 +59,7 @@ class StartActivity : MyBaseActivity() {
                 startActivity(intent)
                 finish()
             }else{
-                Toast.makeText(context, "请先勾选用户协议", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "请先勾选用户协议和隐私政策", Toast.LENGTH_SHORT).show()
             }
         }
     }
