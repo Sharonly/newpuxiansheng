@@ -28,11 +28,8 @@ import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.mine.history.MyHistoryActivity
-import com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity
 import com.puxiansheng.www.ui.mine.favor.MyfarvorActivity
-import com.puxiansheng.www.ui.mine.relase.OrderProcessingActivity
-import com.puxiansheng.www.ui.mine.relase.OrderPublicActivity
-import com.puxiansheng.www.ui.mine.relase.OrderSoldOutActivity
+import com.puxiansheng.www.ui.mine.relase.*
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.mine.setting.SettingActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
@@ -86,12 +83,16 @@ class MineFragment : AppFragment() {
 
                 mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
                     banner.urlBg(banners.imageUrl)
+                    banner.setOnClickListener {
+                        appModel.pictureIntent(requireActivity(), banners)
+                    }
                 }
 
 
                 mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
                     bt_my_kefu.setOnClickListener {
-                        val intent = Intent(context, InfoDetailActivity::class.java)
+                        val intent = Intent(context, ServiceActivity::class.java)
+                        intent.putExtra("title", "我的客服")
                         intent.putExtra("url", configInfo)
                         startActivity(intent)
                     }
@@ -244,7 +245,7 @@ class MineFragment : AppFragment() {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                val intent = Intent(requireActivity(), OrderPublicActivity::class.java)
+                val intent = Intent(requireActivity(), UserOrderPublicActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -253,7 +254,7 @@ class MineFragment : AppFragment() {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                val intent = Intent(requireActivity(), OrderProcessingActivity::class.java)
+                val intent = Intent(requireActivity(), UserOrderProcessingActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -263,7 +264,7 @@ class MineFragment : AppFragment() {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                val intent = Intent(requireActivity(), OrderSoldOutActivity::class.java)
+                val intent = Intent(requireActivity(), UserOrderSoldOutActivity::class.java)
                 startActivity(intent)
             }
         }

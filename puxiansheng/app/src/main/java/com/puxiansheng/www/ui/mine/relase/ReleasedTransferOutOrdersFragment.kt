@@ -66,7 +66,7 @@ class ReleasedTransferOutOrdersFragment : Fragment() {
             onEdit = {
                 val intent =
                     Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
-                intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
+                intent.putExtra("shopID", it?.shop?.shopID?.toString())
                 startActivity(intent)
             },
             onDelete = {

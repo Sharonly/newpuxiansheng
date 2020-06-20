@@ -42,6 +42,13 @@ class FavoriteTransferInOrdersViewModel(application: Application) : AndroidViewM
     fun getMineTransferInOrdersFromLocal() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_IN_FAVORITE.value())
 
+    suspend fun getTransferInOrders(page:Int)= withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.getFavoriteTransferInOrdersFromRemote(page = page).let { apiRst ->
+            if (apiRst.succeeded)
+                (apiRst as APIRst.Success).data.data?.data?.orders else null
+        }
+    }
+
     private fun getRemoteMineTransferInOrders() {
         orderRepository.getFavoriteTransferInOrdersFromRemote(page = currentPage).let { apiRst ->
             if (apiRst.succeeded) {

@@ -1,6 +1,5 @@
 package com.puxiansheng.logic.bean.http
 
-import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 import com.puxiansheng.logic.bean.*
 

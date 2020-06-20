@@ -104,7 +104,7 @@ public final class API {
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String GET_IMAGES = "https://api3.51wpu.com.cn/api/get_images.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_IMAGE = "https://api3.51wpu.com.cn/get_images_info.html";
+    public static final java.lang.String GET_IMAGE = "https://api3.51wpu.com.cn/api/get_images_info.html";
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String GET_HEADLINE = "https://api3.51wpu.com.cn/api/get_headlines.html";
     @org.jetbrains.annotations.NotNull()
@@ -150,7 +150,7 @@ public final class API {
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String GET_REMOTE_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find_shop/info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MINE_TRANSFER_OUT_ORDERS = "https://api3.51wpu.com.cn/api/user/transfer.html";
+    public static final java.lang.String GET_MINE_TRANSFER_OUT_ORDERS = "https://api3.51wpu.com.cn/api/user/get_transfer_issue.html";
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String GET_MINE_TRANSFER_IN_ORDERS = "https://api3.51wpu.com.cn/api/user/get_find_shop_issue.html";
     @org.jetbrains.annotations.NotNull()

@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.main
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,6 +93,7 @@ class LocationActivity : MyBaseActivity() {
             binding.cityName.text = locationNode.text
             binding.root.setOnClickListener {
                 LiveDataBus.get().with("currentCity")?.value = locationNode
+                Log.d("---city--"," --- put city = "+locationNode.nodeID.toString()+"  name = "+locationNode.text)
                 SharedPreferencesUtil.put(API.USER_CITY_ID, locationNode.nodeID)
                 SharedPreferencesUtil.put(API.USER_CITY_NAME, locationNode.text)
                 onBackPressed()

@@ -80,6 +80,7 @@ class OrderRepository(orderDao: OrderDao) {
         description: String = "",
         contactName: String = "",
         contactPhone: String = "",
+        floor:Int = 0,
         facility: String= ""
     ) = remoteOrderRepository.submitTransferInOrder(
         type = type,
@@ -91,7 +92,8 @@ class OrderRepository(orderDao: OrderDao) {
         contactName = contactName,
         contactPhone = contactPhone,
         area = area,
-        facility =facility
+        facility =facility,
+        floor = floor
     )
 
     fun getTransferSuccessFromRemote(

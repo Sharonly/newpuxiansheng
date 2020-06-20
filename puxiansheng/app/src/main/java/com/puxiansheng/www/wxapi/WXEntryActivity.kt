@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq

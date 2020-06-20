@@ -297,17 +297,19 @@
 <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scroll"
@@ -529,6 +531,12 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
+                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
             <LinearLayout
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
@@ -591,9 +599,5 @@
             </LinearLayout>
         </FrameLayout>
 
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </layout>

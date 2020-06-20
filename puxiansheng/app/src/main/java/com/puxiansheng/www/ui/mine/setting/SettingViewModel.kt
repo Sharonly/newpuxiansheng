@@ -47,18 +47,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     suspend fun getUserInformationFromRemote() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         userRepository.requireRemoteUserInfo().let { apiRst ->
             if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.user else null
-//            if (apiRst.succeeded) {
-//                (apiRst as APIRst.Success).let { apiResp ->
-//                    if (apiResp.data.code == API.CODE_SUCCESS) apiResp.data.data?.user else null
-//                    if (apiResp.data.code == API.CODE_SUCCESS) apiResp.data.data?.let { userInfo ->
-//                        userInfo.user?.let { user ->
-//                            currentUser.postValue(user)
-//                        }
-//                    } else {
-//                        toastMsg.postValue(apiResp.data.msg)
-//                    }
-//                }
-//            }
         }
     }
 

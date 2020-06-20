@@ -176,7 +176,6 @@ class RemoteUserRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---login--", "userinfo = " + it)
         call(it)
     }
 

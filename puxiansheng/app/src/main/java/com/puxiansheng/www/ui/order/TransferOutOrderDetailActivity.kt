@@ -65,7 +65,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     intent.getStringExtra("shopID")
                 )?.let { order ->
                     MoreManagerDialog(
-                        order.shop?.shopID.toString(),
+                        order.shopID.toString(),
                         0,
                         order.favorite
                     ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
@@ -88,10 +88,10 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
             viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))?.let { order ->
 //                    if(order.shop?.images?.size == 0)
 //                        imageSwitcher.setImages(list)
-                if (order.shop?.images?.size == 0) {
+                if (order.images?.size == 0) {
 
                 } else {
-                    order.shop?.images?.map { url ->
+                    order.images?.map { url ->
                         BannerImage(imageUrl = url)
                     }?.let { list ->
                         image_switcher.setImages(list)
@@ -106,29 +106,29 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 }
 
 
-                shop_title.text = order.shop?.title
-                shop_number.text = "店铺编号：${order.shop?.shopID}"
-                page_views.text = "浏览量：${order.shop?.formattedPageViews}"
-                publish_date.text = "发布时间：${order.shop?.formattedDate}"
+                shop_title.text = order.title
+                shop_number.text = "店铺编号：${order.shopID}"
+                page_views.text = "浏览量：${order.formattedPageViews}"
+                publish_date.text = "发布时间：${order.formattedDate}"
 
-                rent.text = order.shop?.formattedRent
-                size.text = order.shop?.formattedSize
-                fee.text = order.shop?.formattedFee
+                rent.text = order.formattedRent
+                size.text = order.formattedSize
+                fee.text = order.formattedTransferFee
 
-                category.text = order.shop?.industry
-                state.text = order.shop?.viewOpening
-                can_empty.text = order.shop?.viewCanEmpty
+                category.text = order.categoryStr
+                state.text = order.viewOpening
+                can_empty.text = order.viewCanEmpty
 
-                address.text = order.shop?.address?.addressDetail
+                address.text = order.address?.addressDetail
 
                 address.setOnClickListener {
                     val intent =
                         Intent(this@TransferOutOrderDetailActivity, MapActivity::class.java)
                     intent.putExtra(
                         "location",
-                        order.shop?.newLat.toString() + "," + order.shop?.newLng.toString()
+                        order.lat.toString() + "," + order.lng.toString()
                     )
-                    Log.d("get_location"," lat = "+order.shop?.newLat.toString()+"  lng = "+order.shop?.newLng.toString())
+                    Log.d("get_location"," lat = "+order.lat.toString()+"  lng = "+order.lng.toString())
                     startActivity(intent)
                 }
 
@@ -159,7 +159,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 //                )?.showInfoWindow()
 
 
-                if (order.shop?.isSuccess == 1) {
+                if (order.isSuccess == 1) {
                     img_success.visibility = View.VISIBLE
                     recommend_orders.visibility = View.GONE
                     bg_map.visibility = View.GONE
@@ -172,14 +172,14 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 }
 
 
-                order.shop?.formattedFacilities?.let { facilityItems ->
+                order.formattedFacilities?.let { facilityItems ->
                     facilities.layoutManager =
                         GridLayoutManager(this@TransferOutOrderDetailActivity, 6)
                     facilities.adapter = FacilityAdapter(facilityItems)
                 }
 
 
-                var str1: String = order.shop?.description.toString()
+                var str1: String = order.description.toString()
                 expand_description.currentText = str1
                 expand_description.clickListener = object : ExpandTextView.ClickListener {
                     override fun onContentTextClick() {
@@ -191,7 +191,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
-                var strEnvironment: String = order.shop?.environment.toString()
+                var strEnvironment: String = order.environment.toString()
                 expand_environment.currentText = strEnvironment
                 expand_environment.clickListener = object : ExpandTextView.ClickListener {
                     override fun onContentTextClick() {
@@ -203,7 +203,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
-                var strReason: String = order.shop?.reason.toString()
+                var strReason: String = order.reason.toString()
                 expand_reason.currentText = strReason
                 expand_reason.clickListener = object : ExpandTextView.ClickListener {
                     override fun onContentTextClick() {
@@ -220,7 +220,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                             .isNotEmpty()
                     ) {
                         Intent(Intent.ACTION_DIAL).apply {
-                            data = Uri.parse("tel:${order.serviceAgent?.phone}")
+                            data = Uri.parse("tel:${order.serviceAgentPhone}")
                             startActivity(this)
                         }
                     } else {
@@ -253,35 +253,6 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
         }
 
     }
-
-//
-//    override fun onStart() {
-//        map_view.onStart()
-//        super.onStart()
-//
-//    }
-//
-//    override fun onResume() {
-//        map_view.onResume()
-//        super.onResume()
-//
-//    }
-//
-//    override fun onPause() {
-//        map_view.onPause()
-//        super.onPause()
-//
-//    }
-//
-//    override fun onStop() {
-//        map_view.onStop()
-//        super.onStop()
-//    }
-//
-//    override fun onDestroy() {
-//        map_view.onDestroy()
-//        super.onDestroy()
-//    }
 
 
 }

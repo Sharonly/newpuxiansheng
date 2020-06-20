@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +14,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.NetUtil
 
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentMineReleasedInnerFragmentBinding
-import com.puxiansheng.www.databinding.FragmentMineReleasedOutnerFragmentBinding
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
@@ -67,84 +68,15 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
 
         refreshlayout.setOnRefreshLoadMoreListener(this@ReleasedNewTransferInOrdersFragment)
 
-        lifecycleScope.launch {
-            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
-                Log.d("---info-- ", " list = " + list)
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
             }
+        } else {
+            Toast.makeText(requireContext(), "网络连接失败", Toast.LENGTH_SHORT)
         }
-
-
-//        list.adapter = OrdersAdapter(
-//            type = Order.Type.TRANSFER_IN_PRIVATE.value(),
-//            onItemSelect = {
-//                val intent = Intent(requireActivity(), TransferInOrderDetailActivity::class.java)
-//                intent.putExtra("shopID", it?.shop?.shopID?.toString())
-//                startActivity(intent)
-//            },
-//
-//            onEdit = {
-//                val intent =
-//                    Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
-//                intent.putExtra("shopID", it?.shop?.shopID?.toInt() ?: 0)
-//                startActivity(intent)
-//            },
-//            onDelete = {
-//                var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shop?.shopID)
-//                deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
-//                deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
-//                    override fun onDiss() {
-////                        viewModel.refresh()
-//                    }
-//                }
-////                lifecycleScope.launch {
-////                    viewModel.deleteTransferInOrderFromRemote(it?.shop?.shopID.toString())
-////                        ?.let { rst ->
-////                            if (rst.code == API.CODE_SUCCESS) viewModel.refresh()
-////                            Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT)
-////                                .show()
-////                        }
-////                }
-//            }
-//
-//        ).apply {
-////            LivePagedListBuilder<Int, Order>(
-////                viewModel.getMineTransferInOrdersFromLocal(),
-////                PagedList.Config.Builder()
-////                    .setEnablePlaceholders(true)
-////                    .setPageSize(10)
-////                    .setInitialLoadSizeHint(20)
-////                    .build()
-////            ).let { pageBuilder ->
-////                pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
-////                    override fun onItemAtEndLoaded(itemAtEnd: Order) {
-////                        super.onItemAtEndLoaded(itemAtEnd)
-////                        Log.d("----loadmore-----","  end ")
-////                        viewModel.loadMore()
-////                    }
-////                })
-////
-////                addLoadStateListener { loadType, _, _ ->
-////                    if (loadType == PagedList.LoadType.END) {
-////                        if (itemCount == 0) {
-////                            type = Order.Type.EMPTY.value()
-////                            notifyDataSetChanged()
-////                        }
-////                    }
-////                    if (loadType == PagedList.LoadType.REFRESH) {
-////                        if (type != Order.Type.TRANSFER_IN_PRIVATE.value()) {
-////                            type = Order.Type.TRANSFER_IN_PRIVATE.value()
-////                            notifyDataSetChanged()
-////                        }
-////                    }
-////                }
-////
-////                pageBuilder.build().observe(viewLifecycleOwner, Observer {
-////                    submitList(it)
-////                })
-////            }
-
-//        }
 
     }.root
 

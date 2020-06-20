@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -13,9 +12,16 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.main.HomeActivity
 import com.puxiansheng.www.ui.main.MainActivity
+import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
 import kotlinx.android.synthetic.main.fragment_message_detail.*
 import kotlinx.coroutines.launch
 
@@ -49,31 +55,27 @@ class MessageDetailActivity() : MyBaseActivity() {
                         button_one.text = menuItem?.btText ?: "查看"
                         button_one.setTextColor(Color.parseColor(menuItem?.color))
                         button_one.setOnClickListener {
-//                        val intent = Intent(this@MessageDetailActivity, MainActivity::class.java)
-//                        intent.putExtra("name","5")
-//                        startActivity(intent)
                             when (menuItem?.jump_type) {
                                 1 -> {
                                     when (menuItem.jump_view) {
-                                        "index" -> {
-                                        }
+
                                         "transfer_list" -> {
                                             val intent = Intent(
                                                 this@MessageDetailActivity,
-                                                TransferOutOrderActivity::class.java
+                                                NewTransferOutOrdersActivity::class.java
                                             )
                                             startActivity(intent)
                                         }
                                         "find_list" -> {
                                             val intent = Intent(
                                                 this@MessageDetailActivity,
-                                                TransferInOrdersActivity::class.java
+                                                NewTransferInOrdersActivity::class.java
                                             )
                                             startActivity(intent)
                                         }
 
                                         "activity_list" -> {//文章列表
-                                            val intent = Intent(this@MessageDetailActivity, MainActivity::class.java)
+                                            val intent = Intent(this@MessageDetailActivity, HomeActivity::class.java)
                                             intent.putExtra("name", "5")
                                             startActivity(intent)
                                         }
@@ -81,9 +83,28 @@ class MessageDetailActivity() : MyBaseActivity() {
 
                                         }
                                         "shop_success" -> {//成功案例
-                                            val intent = Intent(this@MessageDetailActivity, TransferSuccessOrderActivity::class.java)
+                                            val intent = Intent(this@MessageDetailActivity, NewTransferSuccessOrdersActivity::class.java)
                                             startActivity(intent)
                                         }
+                                        "join_list" ->{
+                                            val intent = Intent(this@MessageDetailActivity, BusinessListActivity::class.java)
+                                            startActivity(intent)
+                                        }
+
+                                        "quick_transfer" ->{
+                                            val intent = Intent(this@MessageDetailActivity, FastTransferOutActivity::class.java)
+                                            startActivity(intent)
+                                        }
+
+                                        "quick_find" ->{
+                                            val intent = Intent(this@MessageDetailActivity, FastTransferInActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        "about_us" ->{
+                                            val intent = Intent(this@MessageDetailActivity, AboutUsActivity::class.java)
+                                            startActivity(intent)
+                                        }
+
                                     }
                                 }
                                 2 -> {//打开链接
@@ -111,6 +132,28 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         InfoDetailActivity::class.java
                                     )
                                     intent.putExtra("url", menuItem.jump_param)
+                                    startActivity(intent)
+                                }
+                                6 ->{
+                                    val intent = Intent(this@MessageDetailActivity,
+                                        InsertOrUpdateTransferOutOrderActivity::class.java
+                                    )
+                                    intent.putExtra("shopID", menuItem.jump_param)
+                                    startActivity(intent)
+
+                                }
+                                7->{
+                                    val intent = Intent(this@MessageDetailActivity,
+                                        InsertOrUpdateTransferInOrderActivity::class.java
+                                    )
+                                    intent.putExtra("shopID", menuItem.jump_param)
+                                    startActivity(intent)
+                                }
+                                8 ->{
+                                    val intent = Intent(this@MessageDetailActivity,
+                                        NewTransferSuccessOrdersActivity::class.java
+                                    )
+                                    intent.putExtra("shopID", menuItem.jump_param)
                                     startActivity(intent)
                                 }
                             }

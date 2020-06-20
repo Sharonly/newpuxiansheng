@@ -54,9 +54,9 @@
         android:largeHeap="true"
         tools:targetApi="m">
                 <activity
-                    android:name=".ui.main.StartActivity"
+                    android:name=".ui.main.HomeActivity"
                     android:label="@string/app_name"
-                    android:launchMode="singleInstance">
+                   >
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +65,9 @@
                 </activity>
 
         <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name=".ui.main.HomeActivity"/>
+<!--        <activity android:name=".ui.main.HomeActivity"/>-->
+        <activity android:name=".ui.main.StartActivity"
+            android:launchMode="singleInstance"/>
         <activity android:name=".ui.main.PermissionActivity"
             android:launchMode="singleInstance"/>
         <activity android:name=".ui.main.LocationActivity"/>
@@ -83,10 +85,16 @@
         <activity android:name=".ui.release.fasttransfer.FastTransferOutActivity"/>
         <activity android:name=".ui.release.fasttransfer.FastTransferInActivity"/>
         <activity android:name=".ui.business.InvestBusinessActivity"/>
+        <activity android:name=".ui.business.BusinessListActivity"/>
         <activity android:name=".ui.business.InvestBusinessDetailActivity"/>
         <activity android:name=".ui.order.TransferInOrdersActivity" />
         <activity android:name=".ui.order.TransferOutOrderActivity" />
         <activity android:name=".ui.order.TransferSuccessOrderActivity"/>
+
+        <activity android:name=".ui.order.NewTransferOutOrdersActivity" />
+        <activity android:name=".ui.order.NewTransferInOrdersActivity" />
+        <activity android:name=".ui.order.NewTransferSuccessOrdersActivity" />
+
         <activity android:name=".ui.order.TransferOutOrderDetailActivity" />
         <activity android:name=".ui.order.TransferInOrderDetailActivity" />
         <activity android:name=".ui.release.InsertOrUpdateTransferOutOrderActivity"/>
@@ -107,7 +115,11 @@
         <activity android:name=".ui.mine.relase.OrderProcessingActivity"/>
         <activity android:name=".ui.mine.relase.OrderSoldOutActivity"/>
 
+        <activity android:name=".ui.mine.relase.UserOrderPublicActivity"/>
+        <activity android:name=".ui.mine.relase.UserOrderProcessingActivity"/>
+        <activity android:name=".ui.mine.relase.UserOrderSoldOutActivity"/>
         <activity android:name=".ui.mine.setting.AboutUsActivity"/>
+
         <activity android:name=".ui.mine.ServiceActivity"/>
 
 

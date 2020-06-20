@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
@@ -45,7 +44,6 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
     }
 
     override fun getItemViewType(position: Int): Int {
-
         if (lists.size == 0) {
             return 0
         }
@@ -70,7 +68,7 @@ class ReleaseInAdapter(var mContext: Context, var lists: ArrayList<OrderDetailOb
             holder.edit.setOnClickListener {
                 val intent =
                     Intent(mContext, InsertOrUpdateTransferInOrderActivity::class.java)
-                intent.putExtra("shopID", shopInfo?.shopID.toInt())
+                intent.putExtra("shopID", shopInfo?.shopID.toString())
                 mContext.startActivity(intent)
             }
 

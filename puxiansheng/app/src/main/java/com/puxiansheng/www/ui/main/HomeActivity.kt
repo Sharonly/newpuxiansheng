@@ -68,6 +68,7 @@ class HomeActivity: MyBaseActivity() {
     override fun business() {
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
+            Log.d("---city--"," get city = "+it.nodeID.toString())
             appModel?.currentCity?.postValue(it)
             API.setCityId(it.nodeID.toString())
         })
@@ -89,7 +90,6 @@ class HomeActivity: MyBaseActivity() {
         LiveDataBus.get().with("user", User::class.java)
             ?.observe(this, Observer { user ->
                 user?.let {
-                    Log.d("---login","get user = "+user)
                     appModel?.currentUser?.postValue(user)
                 }
             })
@@ -218,7 +218,6 @@ class HomeActivity: MyBaseActivity() {
 
 
     private fun initView() {
-
         //初始化显示的Fragment(外层的)
         supportFragmentManager
             .beginTransaction()
@@ -233,23 +232,11 @@ class HomeActivity: MyBaseActivity() {
             .hide(fragments[3])
             .hide(fragments[4])
             .commit();
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.home_container, fragments[0]).commit()
         appModel?.lastFragment = homeFragment
         radio_group_button.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             var mFragment: Fragment? = null
             override fun onCheckedChanged(group: RadioGroup, @IdRes checkedId: Int) {
-//                when (checkedId) {
-//                    R.id.navigation_home -> mFragment = fragments[0]
-//                    R.id.navigation_info -> mFragment = fragments[1]
-//                    R.id.navigation_release -> mFragment = fragments[2]
-//                    R.id.navigation_message -> mFragment = fragments[3]
-//                    R.id.navigation_mine -> mFragment = fragments[4]
-//                }
-//                if (mFragment != null) {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.home_container, mFragment!!).commit()
-//                }
+
 
                 when (checkedId) {
                     R.id.navigation_home -> {

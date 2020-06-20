@@ -359,11 +359,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     "index" -> {
                     }
                     "transfer_list" -> {
-                        val intent = Intent(context, TransferOutOrderActivity::class.java)
+                        val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
                         context.startActivity(intent)
                     }
                     "find_list" -> {
-                        val intent = Intent(context, TransferInOrdersActivity::class.java)
+                        val intent = Intent(context, NewTransferInOrdersActivity::class.java)
                         context.startActivity(intent)
                     }
 
@@ -374,7 +374,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     }
                     "shop_success" -> {//成功案例
-                        val intent = Intent(context, TransferSuccessOrderActivity::class.java)
+                        val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
                         context.startActivity(intent)
                     }
                 }
@@ -388,18 +388,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", image.jump_param)
                 context.startActivity(intent)
-
             }
+
             3 -> {//找店详情
                 val intent = Intent(context, TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", image.jump_param)
                 context.startActivity(intent)
             }
+
             4 -> {//转铺详情
                 val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
                 intent.putExtra("shopID", image.jump_param)
                 context.startActivity(intent)
             }
+
             5 -> {//文章详情
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", image.jump_param)

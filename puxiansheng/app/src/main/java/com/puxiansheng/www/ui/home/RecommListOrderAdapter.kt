@@ -1,6 +1,5 @@
 package com.puxiansheng.www.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.ArticleBean
@@ -17,29 +14,14 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
-import com.puxiansheng.www.databinding.*
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.fragment_home_recommend_info_item.*
 
 class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<OrderDetailObject>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var type: Int = Order.Type.EMPTY.value()
-
-
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommListOrderAdapter.OrderViewHolder =
-//        LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
-//            when (viewType) {
-//                R.layout.fragment_recommend_order_list_transfer_out_item -> RecommendTransferOutViewHolder(it)
-//                R.layout.fragment_recommend_order_list_transfer_in_item -> RecommendTransferInViewHolder(it)
-//                R.layout.fragment_home_recommend_info_item -> RecommendInfoViewHolder(it)
-//                else -> EmptyOrderViewHolder(it)
-//            }
-//
-//        }
-//
 
     fun addList(tempList: ArrayList<OrderDetailObject>, isClean: Boolean) {
         if (isClean) {
@@ -148,10 +130,7 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
 //
 //    }
 
-    abstract inner class OrderViewHolder(override val containerView: View) :
-        RecyclerView.ViewHolder(containerView), LayoutContainer {
-        abstract fun bind(item: Order?)
-    }
+
 
 //    override fun getItemViewType(position: Int): Int {
 //        println("viewtype---》${position}--->${dataList?.size}")
@@ -299,15 +278,6 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
 //        }
 //    }
 
-
-    //空viewholder
-    inner class EmptyOrderViewHolder(override val containerView: View) :
-        RecommListOrderAdapter.OrderViewHolder(containerView) {
-
-        override fun bind(item: Order?) {
-
-        }
-    }
 
 
 }

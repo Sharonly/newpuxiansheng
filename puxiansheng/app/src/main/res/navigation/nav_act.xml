@@ -13,24 +13,6 @@
             android:id="@+id/action_mainFragment_to_locationFragment"
             app:destination="@id/locationFragment" />
 
-        <action
-            android:id="@+id/action_mainFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-
-
-        <action
-            android:id="@+id/action_mainFragment_to_simpleTransferInOrderFragment"
-            app:destination="@id/transferInOrderFragment" />
-
-
-
-        <action
-            android:id="@+id/action_mainFragment_to_investBusinessFragment"
-            app:destination="@id/investBusinessFragment" />
-
-        <action
-            android:id="@+id/action_mainFragment_to_infoDetailFragment"
-            app:destination="@id/infoDetailFragment" />
 
         <action
             android:id="@+id/action_mainFragment_to_insertOrUpdateTransferInOrderFragment"
@@ -99,30 +81,12 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/transferInOrderFragment"
-        android:name="com.puxiansheng.www.ui.order.TransferInOrdersActivity"
-        android:label="TransferInOrderFragment">
 
-    </fragment>
     <fragment
         android:id="@+id/serviceFragment"
         android:name="com.puxiansheng.www.ui.mine.ServiceActivity"
         android:label="ServiceFragment"/>
 
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.puxiansheng.www.ui.search.SearchActivity"
-        android:label="SearchFragment" />
-    <fragment
-        android:id="@+id/investBusinessFragment"
-        android:name="com.puxiansheng.www.ui.business.InvestBusinessActivity"
-        android:label="InvestBusinessFragment" />
-
-    <fragment
-        android:id="@+id/infoDetailFragment"
-        android:name="com.puxiansheng.www.ui.info.InfoDetailActivity"
-        android:label="InfoDetailFragment" />
 
     <fragment
         android:id="@+id/releaseFragment"

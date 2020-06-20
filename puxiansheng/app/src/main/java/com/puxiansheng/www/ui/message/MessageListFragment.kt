@@ -16,17 +16,25 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.MessageItem
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
+import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.databinding.FragmentInfoListBinding
+import com.puxiansheng.www.databinding.FragmentNewInfoListBinding
+import com.puxiansheng.www.ui.info.NewInfoListAdapter
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MessageListFragment(): Fragment() {
+class MessageListFragment(): Fragment() , OnRefreshLoadMoreListener {
     companion object {
 
         fun newInstance(category: Int) = MessageListFragment().apply {
@@ -39,6 +47,8 @@ class MessageListFragment(): Fragment() {
     private lateinit var viewModel: MessageListViewModel
     private lateinit var appModel: MainViewModel
     private var category = 0
+    private var adapter: NewMessageListAdapter? = null
+    private var isRefresh = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,52 +66,62 @@ class MessageListFragment(): Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentInfoListBinding.inflate(inflater).apply {
+    ): View? =  FragmentNewInfoListBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        refresh.setOnRefreshListener {
-            viewModel.refresh(category)
-            refresh.isRefreshing = false
-            refresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.appMain))
-        }
-
+        viewModel.cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             list.addItemDecoration(it)
         }
 
+        refreshlayout.setOnRefreshLoadMoreListener(this@MessageListFragment)
+
         list.layoutManager = LinearLayoutManager(requireContext())
+        adapter = NewMessageListAdapter(requireContext(), arrayListOf())
+        list.adapter = adapter
 
-        MessageListAdapter(onItemSelect = {item ->
-            val intent = Intent(requireActivity(), MessageDetailActivity::class.java)
-            intent.putExtra("noticeId", item?.messageID.toString())
-            startActivity(intent)
-
-
-        }).let { adapter ->
-            list.adapter = adapter
-            lifecycleScope.launch {
-                LivePagedListBuilder<Int, MessageItem>(
-                    viewModel.getMessageByCategoryFromRoom(category = category),
-                    3
-                ).apply {
-                    setBoundaryCallback(object : PagedList.BoundaryCallback<MessageItem>() {
-                        override fun onItemAtEndLoaded(itemAtEnd: MessageItem) {
-                            super.onItemAtEndLoaded(itemAtEnd)
-                            viewModel.loadMore(
-                                category = category,
-                                city = appModel.currentCity.value?.nodeID?.toString()
-                            )
-                        }
-                    })
-                }.build().observe(viewLifecycleOwner, Observer {
-                    adapter.submitList(it)
-                    notifyChange()
-                })
+        lifecycleScope.launch {
+            viewModel.getMessageListByCategory(category).let {
+                adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
             }
         }
 
-        viewModel.refresh(category)
+        LiveDataBus.get().with("infoTitle", String::class.java)
+            ?.observe(requireActivity(), Observer {
+                viewModel.title = it.toString()
+                isRefresh = true
+                lifecycleScope.launch {
+                    viewModel.getMessageListByCategory(category).let {
+                        adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+                    }
+                }
+            })
+
     }.root
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+        viewModel.currentPage += 1
+        isRefresh = false
+        lifecycleScope.launch {
+            viewModel.getMessageListByCategory(category).let {
+                adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+            }
+        }
+        refreshLayout.finishLoadMore(1000)
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        viewModel.title =""
+        viewModel.currentPage = 1
+        isRefresh = true
+        lifecycleScope.launch {
+            viewModel.getMessageListByCategory(category).let {
+                adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+            }
+        }
+        refreshLayout.finishRefresh(1000)
+    }
+
 
 }

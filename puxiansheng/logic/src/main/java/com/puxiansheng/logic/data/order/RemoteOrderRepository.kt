@@ -189,7 +189,6 @@ class RemoteOrderRepository {
             )
         }
     ).let {
-        Log.d("---submit"," it = "+it)
         API.call(it)
     }
 

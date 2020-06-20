@@ -40,6 +40,16 @@ class BrowsingHistoryTransferOutOrdersViewModel(application: Application) : Andr
         }
     }
 
+    suspend fun getHistoryOutOrders(page: Int) =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            orderRepository.getTransferOutOrdersBrowsingHistoryFromRemote(page = page)
+                .let { apiRst ->
+                    if (apiRst.succeeded) {
+                        (apiRst as APIRst.Success).data.data?.data?.orders
+                    } else null
+                }
+        }
+
     fun getMineTransferOutOrdersFromLocal() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_OUT_HISTORY.value())
 

@@ -129,10 +129,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/industry"
-            android:drawablePadding="4dp"
             android:textColor="#FF5722"
             android:textSize="14sp"
             android:layout_alignLeft="@+id/title"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="10dp"/>
 
 

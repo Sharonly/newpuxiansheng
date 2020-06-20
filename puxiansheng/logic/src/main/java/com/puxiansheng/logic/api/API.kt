@@ -96,7 +96,7 @@ object API {
 
     //images
     const val GET_IMAGES = API_ADDRESS + "api/get_images.html"
-    const val GET_IMAGE = API_ADDRESS + "get_images_info.html"
+    const val GET_IMAGE = API_ADDRESS + "api/get_images_info.html"
 
     //marquee
     const val GET_HEADLINE = API_ADDRESS + "api/get_headlines.html"
@@ -133,7 +133,7 @@ object API {
     const val GET_REMOTE_TRANSFER_SUCCESS_ORDERS = API_ADDRESS + "api/transfer/get_success.html"
     const val GET_REMOTE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/transfer_shop/info.html"
     const val GET_REMOTE_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/info.html"
-    const val GET_MINE_TRANSFER_OUT_ORDERS = API_ADDRESS + "api/user/transfer.html"
+    const val GET_MINE_TRANSFER_OUT_ORDERS = API_ADDRESS + "api/user/get_transfer_issue.html"
     const val GET_MINE_TRANSFER_IN_ORDERS = API_ADDRESS + "api/user/get_find_shop_issue.html"//api.pu.com/api/user/get_find_shop_issue.html
     const val DELETE_TRANSFER_IN_ORDER = API_ADDRESS + "api/user/del_find.html"
     const val DELETE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/user/del_transfer.html"

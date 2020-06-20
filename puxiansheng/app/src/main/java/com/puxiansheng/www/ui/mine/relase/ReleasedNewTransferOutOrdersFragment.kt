@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.NetUtil
 
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentMineReleasedOutnerFragmentBinding
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListener {
 
     private lateinit var viewModel: ReleasedTransferOutOrdersViewModel
-    var adapter: ReleaseOutAdapter? = null
+    var mAdapter: ReleaseOutAdapter? = null
     var currentPage = 1
     private var isRefresh=true
 
@@ -39,7 +41,7 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
     ): View? = FragmentMineReleasedOutnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        adapter = ReleaseOutAdapter(requireContext(), arrayListOf(),deleteListener = object :ReleaseOutAdapter.onDeleteListener{
+        mAdapter = ReleaseOutAdapter(requireContext(),arrayListOf(),deleteListener = object :ReleaseOutAdapter.onDeleteListener{
             override fun delete(it:OrderDetailObject) {
                 var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_OUT_PRIVATE.value(), it?.shopID)
                 deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
@@ -47,7 +49,7 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
                     override fun onDiss() {
                         lifecycleScope.launch {
                             viewModel.getRemoteMineTransferOutOrders(currentPage).let { list ->
-                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                                mAdapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                             }
                         }
                     }
@@ -61,14 +63,18 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
         }
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        list.adapter = adapter
+        list.adapter = mAdapter
 
         refreshlayout.setOnRefreshLoadMoreListener(this@ReleasedNewTransferOutOrdersFragment)
 
-        lifecycleScope.launch {
-            viewModel.getRemoteMineTransferOutOrders(currentPage).let { list ->
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.getRemoteMineTransferOutOrders(currentPage)?.let { data ->
+                    mAdapter?.addList(data as ArrayList<OrderDetailObject> , isRefresh)
+                }
             }
+        } else {
+            Toast.makeText(requireContext(), "网络连接失败", Toast.LENGTH_SHORT)
         }
 
     }.root

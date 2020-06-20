@@ -20,15 +20,7 @@ class StartActivity : MyBaseActivity() {
     }
 
     override fun business() {
-        getSharedPreferences("pxs_privacy", Context.MODE_PRIVATE).let {
-            it.getInt("show_privacy", 0).let { isShow ->
-                if (isShow != 0) {
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-        }
+
         
 
         webview.loadUrl("file:///android_asset/privacy.html")

@@ -9,11 +9,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
+import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.mine.relase.adapter.ReleaseStateOrdersAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.synthetic.main.activity_my_pulished.*
+import kotlinx.android.synthetic.main.activity_my_pulished.button_back
+import kotlinx.android.synthetic.main.activity_my_pulished.order_list
+import kotlinx.android.synthetic.main.activity_new_order_list.*
 import kotlinx.coroutines.launch
 
 class OrderProcessingActivity : MyBaseActivity() {
@@ -34,14 +39,15 @@ class OrderProcessingActivity : MyBaseActivity() {
             onBackPressed()
         }
 
-            DividerItemDecoration(this@OrderProcessingActivity,
-                DividerItemDecoration.VERTICAL
-            ).let {
-                it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
-                order_list.addItemDecoration(it)
-            }
+        DividerItemDecoration(
+            this@OrderProcessingActivity,
+            DividerItemDecoration.VERTICAL
+        ).let {
+            it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
+            order_list.addItemDecoration(it)
+        }
 
-            order_list.layoutManager = LinearLayoutManager(this@OrderProcessingActivity)
+        order_list.layoutManager = LinearLayoutManager(this@OrderProcessingActivity)
 
 //            lifecycleScope.launch {
 //                viewModel.getRemoteUserDealOrders().let {
@@ -72,18 +78,23 @@ class OrderProcessingActivity : MyBaseActivity() {
                     viewModel.shopId = order?.shop?.shopID.toString()
                     viewModel.type = order?.shop?.data_type.toString()
                     lifecycleScope.launch {
-                        viewModel.refreshShopFromRemote().let {it
+                        viewModel.refreshShopFromRemote().let {
+                            it
 //                                    if (it?.code == API.CODE_SUCCESS)
-                            Toast.makeText(this@OrderProcessingActivity, it?.msg, Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this@OrderProcessingActivity,
+                                it?.msg,
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     }
                 },
                 onItemDelete = { order ->
                     var orderType = Order.Type.TRANSFER_OUT_PRIVATE.value()
-                    if(order?.shop?.data_type=="transfer_shop"){
+                    if (order?.shop?.data_type == "transfer_shop") {
                         orderType = Order.Type.TRANSFER_OUT_PRIVATE.value()
-                    }else{
+                    } else {
                         orderType = Order.Type.TRANSFER_IN_PRIVATE.value()
                     }
                     var deleteDialog = DeleteOrderDialog(
@@ -102,22 +113,29 @@ class OrderProcessingActivity : MyBaseActivity() {
                     }
                 }
             )
-        lifecycleScope.launch {
-            show_null.visibility = View.VISIBLE
-            viewModel.getRemoteUserDealOrders().let { it ->
-                var orderType: Int = Order.Type.EMPTY.value()
-                if (!it.isNullOrEmpty()) {
-                    show_null.visibility = View.GONE
-                    orderType = Order.Type.USER_PUBLIC_ORDER.value()
-                    adapter.setType(orderType)
-                    adapter.setMenuData(it as List<Order>)
-                    order_list.adapter = adapter
-                }else{
-                    orderType =  Order.Type.EMPTY.value()
-                    adapter.setType(orderType)
-                    show_null.visibility = View.VISIBLE
+
+        if (NetUtil.isNetworkConnected(this)) {
+            lifecycleScope.launch {
+                show_null.visibility = View.VISIBLE
+                viewModel.getRemoteUserDealOrders().let { it ->
+                    var orderType: Int = Order.Type.EMPTY.value()
+                    if (!it.isNullOrEmpty()) {
+                        show_null.visibility = View.GONE
+                        orderType = Order.Type.USER_PUBLIC_ORDER.value()
+                        adapter.setType(orderType)
+                        adapter.setMenuData(it as List<Order>)
+                        order_list.adapter = adapter
+                    } else {
+                        orderType = Order.Type.EMPTY.value()
+                        adapter.setType(orderType)
+                        show_null.visibility = View.VISIBLE
+                    }
                 }
             }
+        } else {
+            Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT)
         }
-        }
+
+    }
+
     }

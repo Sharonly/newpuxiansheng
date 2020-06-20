@@ -17,9 +17,9 @@ import java.util.*
 class MyHistoryActivity : MyBaseActivity(){
 
     private var tabTitles = listOf<String>("转铺", "找铺", "资讯")
-    private val historyTransferOutFragment: Fragment = BrowsingHistoryTransferOutOrdersFragment()
-    private val historyTransferInFragment: Fragment = BrowsingHistoryTransferInOrdersFragment()
-    private val historyInfoFragment: Fragment = BrowsingHistoryInfoFragment()
+    private val historyTransferOutFragment: Fragment = HistoryOutOrdersFragment()
+    private val historyTransferInFragment: Fragment = HistoryInOrdersFragment()
+    private val historyInfoFragment: Fragment = HistoryInfosFragment()
     private lateinit var historyViewModel: HistoryListViewModel
 
 

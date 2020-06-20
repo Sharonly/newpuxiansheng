@@ -10,15 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil
-import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentReleaseBinding
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
-import com.puxiansheng.www.ui.order.TransferInOrdersActivity
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -39,7 +36,11 @@ class ReleaseFragment : AppFragment() {
     @ObsoleteCoroutinesApi
     @ExperimentalCoroutinesApi
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = rootView ?: FragmentReleaseBinding.inflate(inflater).apply {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = rootView ?: FragmentReleaseBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         lifecycleScope.launch {
@@ -54,8 +55,10 @@ class ReleaseFragment : AppFragment() {
 
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
-                    val intent = Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
-                    startActivity(intent)
+                val intent =
+                    Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
+                intent.putExtra("shopID", "0")
+                startActivity(intent)
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
 //
@@ -72,8 +75,10 @@ class ReleaseFragment : AppFragment() {
             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
-                    val intent = Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
-                    startActivity(intent)
+                val intent =
+                    Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
+                intent.putExtra("shopID", "0")
+                startActivity(intent)
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
 //

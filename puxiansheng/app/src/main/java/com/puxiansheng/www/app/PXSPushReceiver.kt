@@ -8,14 +8,11 @@ import cn.jpush.android.api.NotificationMessage
 import cn.jpush.android.service.JPushMessageReceiver
 import com.google.gson.Gson
 import com.puxiansheng.www.app.PXSPushReceiver.Test.DataBean
-import com.puxiansheng.www.ui.business.InvestBusinessActivity
+import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
-import com.puxiansheng.www.ui.order.TransferInOrdersActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
-import com.puxiansheng.www.ui.order.TransferSuccessOrderActivity
+import com.puxiansheng.www.ui.order.*
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
@@ -51,12 +48,12 @@ class PXSPushReceiver : JPushMessageReceiver() {
         when (data.jump_type) {
             1 -> when (data.jump_view) {
                 "transfer_list" -> {
-                    val intent = Intent(context, TransferOutOrderActivity::class.java)
+                    val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
                 "find_list" -> {
-                    val intent = Intent(context, TransferInOrdersActivity::class.java)
+                    val intent = Intent(context, NewTransferInOrdersActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
@@ -65,12 +62,12 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 "user_center" -> {
                 }
                 "shop_success" -> {
-                    val intent2 = Intent(context, TransferSuccessOrderActivity::class.java)
+                    val intent2 = Intent(context, NewTransferSuccessOrdersActivity::class.java)
                     context.startActivity(intent2)
                 }
 
                 "join_list" -> {
-                    val intent2 = Intent(context, InvestBusinessActivity::class.java)
+                    val intent2 = Intent(context, BusinessListActivity::class.java)
                     context.startActivity(intent2)
                 }
                 "quick_transfer" -> {
@@ -87,16 +84,16 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 }
 
                 "transfer_shop" -> {
-                    val intent2 = Intent(context, TransferOutOrderActivity::class.java)
+                    val intent2 = Intent(context, NewTransferOutOrdersActivity::class.java)
                     context.startActivity(intent2)
                 }
 
                 "find_shop" -> {
-                    val intent2 = Intent(context, TransferInOrdersActivity::class.java)
+                    val intent2 = Intent(context, NewTransferInOrdersActivity::class.java)
                     context.startActivity(intent2)
                 }
                 "notice_list" -> {
-                    val intent2 = Intent(context, InvestBusinessActivity::class.java)
+                    val intent2 = Intent(context, NewTransferSuccessOrdersActivity::class.java)
                     context.startActivity(intent2)
                 }
             }
@@ -107,7 +104,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 context.startActivity(intent)
             }
             3 -> {//找店详情
-                val intent = Intent(context, TransferInOrdersActivity::class.java)
+                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", data.jump_param)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 Log.d("JPush","data.jump_param = "+data.jump_param)
@@ -139,7 +136,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 context.startActivity(intent)
             }
             8 -> {//案例详情
-                val intent = Intent(context, TransferSuccessOrderActivity::class.java)
+                val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
                 intent.putExtra("url", data.jump_param)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)

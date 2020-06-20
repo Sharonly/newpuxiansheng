@@ -38,7 +38,6 @@ class TransferSuccessOrderActivity : MyBaseActivity() {
         initView()
     }
 
-
     private fun initView() {
         viewModel.industryIDs = ""
         viewModel.areaIDs = ""

@@ -10,9 +10,9 @@ import kotlinx.android.synthetic.main.activity_my_favor.*
 class MyfarvorActivity : MyBaseActivity() {
 
     private var tabTitles = listOf<String>("转铺", "找铺", "资讯")
-    private val favoriteTransferOutFragment: Fragment = FavoriteTransferOutOrdersFragment()
-    private val favoriteTransferInFragment: Fragment = FavoriteTransferInOrdersFragment()
-    private val favoriteInfoFragment: Fragment = FavoriteInfoFragment()
+    private val favoriteTransferOutFragment: Fragment = FavoriteOutOrdersFragment()
+    private val favoriteTransferInFragment: Fragment = FavoriteInOrdersFragment()
+    private val favoriteInfoFragment: Fragment = FavoriteInfosFragment()
     private var fragments = listOf<Fragment>(favoriteTransferOutFragment, favoriteTransferInFragment, favoriteInfoFragment)
 
     override fun getLayoutId(): Int {

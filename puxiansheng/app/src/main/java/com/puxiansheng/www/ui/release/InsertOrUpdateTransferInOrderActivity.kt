@@ -212,8 +212,9 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
         })
 
         input_floor.addTextChangedListener {
-            insertOrUpdateTransferInOrderViewModel.floor = it.toString().toInt()
-
+            if (it.toString().toInt() != 0) {
+                insertOrUpdateTransferInOrderViewModel.floor = it.toString().toInt()
+            }
         }
 
         input_description.addTextChangedListener {
@@ -237,90 +238,99 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
             }
         })
 
-        intent?.getIntExtra("shopID", 0).toString().let { shopID ->
+        intent?.getStringExtra("shopID").let { shopID ->
             if (shopID != "null" || shopID != "0") {
                 lifecycleScope.launch {
-                    insertOrUpdateTransferInOrderViewModel.requestEditTransferInOrderDetail(shopID)
-                        ?.let { order ->
-                            //编辑获取
-                            order.shop?.shopID.toString().let { id ->
-                                insertOrUpdateTransferInOrderViewModel.type = id
-                            }
+                    shopID?.let {
+                        insertOrUpdateTransferInOrderViewModel.requestEditTransferInOrderDetail(it)
+                            ?.let { order ->
+                                //编辑获取
+                                order.shopID.toString().let { id ->
+                                    insertOrUpdateTransferInOrderViewModel.type = id
+                                }
 
-                            order.shop?.title?.let { title ->
-                                input_title.setText(title)
-                                insertOrUpdateTransferInOrderViewModel.title = title
-                            }
+                                order.title?.let { title ->
+                                    input_title.setText(title)
+                                    insertOrUpdateTransferInOrderViewModel.title = title
+                                }
 
-                            order.shop?.rent.toString().let { rent ->
-                                insertOrUpdateTransferInOrderViewModel.rent = rent
+                                order.rent.toString().let { rent ->
+                                    insertOrUpdateTransferInOrderViewModel.rent = rent
 
-                            }
+                                }
 
-                            order.shop?.industry?.let { industry ->
-                                insertOrUpdateTransferInOrderViewModel.industry = industry
-                            }
+                                order.industry?.let { industry ->
+                                    insertOrUpdateTransferInOrderViewModel.industry = industry
+                                }
 
-                            order.shop?.formattedFinalIndustry?.let { finalIndustry ->
-                                button_select_industry.text = finalIndustry
-                            }
+                                order.formattedFinalIndustry?.let { finalIndustry ->
+                                    button_select_industry.text = finalIndustry
+                                }
 
-                            order.shop?.address?.let { addressObj ->
-                                addressObj.locationNodes?.let { locationNodes ->
-                                    if (locationNodes.size > 0) {
-                                        insertOrUpdateTransferInOrderViewModel.area =
-                                            locationNodes[locationNodes.size - 1].nodeID.toString()
-                                    } else insertOrUpdateTransferInOrderViewModel.area = ""
+                                order.address?.let { addressObj ->
+                                    addressObj.locationNodes?.let { locationNodes ->
+                                        if (locationNodes.size > 0) {
+                                            insertOrUpdateTransferInOrderViewModel.area =
+                                                locationNodes[locationNodes.size - 1].nodeID.toString()
+                                        } else insertOrUpdateTransferInOrderViewModel.area = ""
+                                    }
+                                }
+
+
+                                order.shopOwnerName.let {
+                                    input_name.setText(it)
+                                    insertOrUpdateTransferInOrderViewModel.contactName = it
+                                }
+
+                                order.shopOwnerPhoneNumbr.let {
+                                    input_phone.setText(it)
+                                    insertOrUpdateTransferInOrderViewModel.contactPhone = it
+                                }
+
+                                order.formattedRent?.let { finalLocationNode ->
+                                    button_select_rent.text = finalLocationNode
+                                }
+                                order.formattedFinalLocationNode?.let { finalLocationNode ->
+                                    button_select_area.text = finalLocationNode
+                                }
+
+                                order.floor?.let {
+                                    if (it != 0) {
+                                        input_floor.setText(it.toString())
+                                    }
+                                    insertOrUpdateTransferInOrderViewModel.floor = it
+                                }
+
+                                order.facilities?.let {
+                                    Log.d("---facilities --", "  it.size = " + it.size)
+                                    list_facilities.removeAllViews()
+                                    val sb = StringBuilder()
+                                    it.forEach { menuItem ->
+                                        facilist.add(menuItem)
+                                        insertOrUpdateTransferInOrderViewModel.facilities.postValue(
+                                            facilist
+                                        )
+                                        sb.append(menuItem.menuID).append(",")
+                                        insertOrUpdateTransferInOrderViewModel.facility =
+                                            sb.substring(0, sb.lastIndex)
+                                    }
+                                    (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it)
+                                }
+
+                                order.description?.let { description ->
+                                    input_description.setText(description)
+                                    insertOrUpdateTransferInOrderViewModel.description = description
+                                }
+
+                                order.size.toString().let { size ->
+                                    insertOrUpdateTransferInOrderViewModel.size = size
+                                }
+
+                                order.formattedSize?.let { size ->
+                                    button_select_size.setText(size)
                                 }
                             }
-
-
-                            order.shopOwner?.actualName?.let {
-                                input_name.setText(it)
-                                insertOrUpdateTransferInOrderViewModel.contactName = it
-                            }
-
-                            order.shopOwner?.userPhoneNumber?.let {
-                                input_phone.setText(it)
-                                insertOrUpdateTransferInOrderViewModel.contactPhone = it
-                            }
-
-                            order.shop?.formattedRent?.let { finalLocationNode ->
-                                button_select_rent.text = finalLocationNode
-                            }
-                            order.shop?.formattedFinalLocationNode?.let { finalLocationNode ->
-                                button_select_area.text = finalLocationNode
-                            }
-
-                            order.shop?.facilities?.let {
-                                Log.d("---facilities --", "  it.size = " + it.size)
-                                list_facilities.removeAllViews()
-                                val sb = StringBuilder()
-                                it.forEach { menuItem ->
-                                    facilist.add(menuItem)
-                                    insertOrUpdateTransferInOrderViewModel.facilities.postValue(
-                                        facilist
-                                    )
-                                    sb.append(menuItem.menuID).append(",")
-                                    insertOrUpdateTransferInOrderViewModel.facility =
-                                        sb.substring(0, sb.lastIndex)
-                                }
-                                (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it)
-                            }
-
-                            order.shop?.description?.let { description ->
-                                input_description.setText(description)
-                                insertOrUpdateTransferInOrderViewModel.description = description
-                            }
-
-                            order.shop?.size.toString().let { size ->
-                                insertOrUpdateTransferInOrderViewModel.size = size
-                            }
-
-                            order.shop?.formattedSize?.let { size ->
-                                button_select_size.setText(size)
-                            }
-                        }
+                    }
                 }
             } else {
 //                var phone = SharedPreferencesUtil.get(

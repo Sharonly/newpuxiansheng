@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.Order
+import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.*
@@ -163,11 +164,23 @@ class ReleaseStateOrdersAdapter(
                 binding.btEdit.setOnClickListener {
                     if (shop == "transfer_shop") {
                         val intent = Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
-                        intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                        intent.putExtra("shopID", item?.shop?.shopID?.toString())
                         context.startActivity(intent)
                     } else if (shop == "find_shop") {
                         val intent = Intent(context, InsertOrUpdateTransferInOrderActivity::class.java)
-                        intent.putExtra("shopID", item?.shop?.shopID?.toInt() ?: 0)
+                        intent.putExtra("shopID", item?.shop?.shopID?.toString())
+                        context.startActivity(intent)
+                    }
+                }
+
+                binding.root.setOnClickListener {
+                    if (shop == "transfer_shop") {
+                        val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                        intent.putExtra("shopID", item?.shop?.shopID.toString())
+                        context.startActivity(intent)
+                    } else if (shop == "find_shop") {
+                        val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                        intent.putExtra("shopID", item?.shop?.shopID.toString())
                         context.startActivity(intent)
                     }
                 }
@@ -186,20 +199,13 @@ class ReleaseStateOrdersAdapter(
                 }
             }
 
-            binding.root.setOnClickListener {
-                if (orderType == 0) {
-                    val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID.toString())
-                    context.startActivity(intent)
-                } else if (orderType == 1) {
-                    val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                    intent.putExtra("shopID", item?.shop?.shopID.toString())
-                    context.startActivity(intent)
-                }
-            }
+
         }
     }
 
+    interface onDeleteListener{
+        fun delete(order: OrderDetailObject)
+    }
 
     inner class EmptyOrderViewHolder(
         override val containerView: View

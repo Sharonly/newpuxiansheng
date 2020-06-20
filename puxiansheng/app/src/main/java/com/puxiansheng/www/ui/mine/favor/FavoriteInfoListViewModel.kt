@@ -38,6 +38,11 @@ class FavoriteInfoListViewModel (application: Application) : AndroidViewModel(ap
         }
     }
 
+    suspend fun getTransferInfos(page:Int)= withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        infoRepository.getFavorInfoFromRemote(page = page).let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.infoListObject?.infoList else null
+        }
+    }
 
     suspend fun getFavorInfoFromRoom(
     ) = withContext(

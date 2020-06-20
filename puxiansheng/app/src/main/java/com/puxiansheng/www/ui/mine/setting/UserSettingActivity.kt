@@ -69,7 +69,7 @@ class UserSettingActivity : MyBaseActivity() {
                     input_nick_name.setText(it.nickName)
                     input_actual_name.setText(it.actualName)
                     input_user_phone.setText(it.userPhoneNumber)
-                    user_location.text = it.userCityPath
+                    user_location.text = it.cityName
                     settingViewModel.nickName = it.nickName
                     settingViewModel.actualName = it.actualName
                     settingViewModel.contactPhone = it.userPhoneNumber
@@ -110,7 +110,6 @@ class UserSettingActivity : MyBaseActivity() {
             settingViewModel.actualName = it.toString()
         }
 
-
         if (SharedPreferencesUtil.get(API.USER_SEX, 0) == 0) {
             male.isChecked = true
         } else {
@@ -131,17 +130,14 @@ class UserSettingActivity : MyBaseActivity() {
         }
 
 
-
         user_location.setOnClickListener {
             val intent = Intent(this, LocationActivity::class.java)
             startActivity(intent)
         }
 
         bt_save.setOnClickListener {
-
             lifecycleScope.launch {
                 settingViewModel.submitUserInfo()?.let {
-
                     if (it.code == API.CODE_SUCCESS) {
                         SharedPreferencesUtil.put(API.LOGIN_USER_ICON, "")
                         settingViewModel.nickName?.let { it1 ->
@@ -169,9 +165,9 @@ class UserSettingActivity : MyBaseActivity() {
                             SharedPreferencesUtil.put(API.USER_CITY_ID, it1)
                         }
                         SharedPreferencesUtil.put(API.USER_CITY_NAME, user_location.text)
-                        Toast.makeText(this@UserSettingActivity, "保存成功", Toast.LENGTH_SHORT)
                         onBackPressed()
                     }
+                    Toast.makeText(this@UserSettingActivity, it.msg, Toast.LENGTH_SHORT)
                 }
             }
         }
@@ -190,22 +186,20 @@ class UserSettingActivity : MyBaseActivity() {
     }
 
     private var  cropImageUri:Uri?=null
-    private var  realImageUri:Uri?=null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-//            crop(cropImageUri)
-            Glide.with(this)
-                .load(cropImageUri)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.mipmap.ic_default_icon)
-                .into(user_icon)
-            lifecycleScope.launch {
-                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
+            crop(cropImageUri)
+//            Glide.with(this)
+//                .load(cropImageUri)
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .error(R.mipmap.ic_default_icon)
+//                .into(user_icon)
+//            lifecycleScope.launch {
+//                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
 //                cropImageUri?.let { realImageUri = getFileUri(this@UserSettingActivity, it) }
-//
 //                getPath(this@UserSettingActivity, realImageUri!!)?.let { it1 ->
 //                    settingViewModel.submitUserIcon(it1).let {
 //                        if (it?.code == API.CODE_SUCCESS) {
@@ -213,7 +207,7 @@ class UserSettingActivity : MyBaseActivity() {
 //                        }
 //                    }
 //                }
-            }
+//            }
 
         } else if (requestCode == 102 && resultCode == Activity.RESULT_OK) {
             //TODO 相册图片
@@ -232,8 +226,7 @@ class UserSettingActivity : MyBaseActivity() {
                 }
             }
         }else if (requestCode==103){
-            println("裁剪回调2uri--——》${cropImageUri}")
-                        Glide.with(this)
+                 Glide.with(this)
                 .load(cropImageUri)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -241,13 +234,13 @@ class UserSettingActivity : MyBaseActivity() {
                 .into(user_icon)
                         lifecycleScope.launch {
                 Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
-//                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
-//                    settingViewModel.submitUserIcon(it1).let {
-//                        if (it?.code == API.CODE_SUCCESS) {
-//                            settingViewModel.iconImg = it?.data?.imgIcon
-//                        }
-//                    }
-//                }
+                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
+                    settingViewModel.submitUserIcon(it1).let {
+                        if (it?.code == API.CODE_SUCCESS) {
+                            settingViewModel.iconImg = it?.data?.imgIcon
+                        }
+                    }
+                }
             }
         }
     }
@@ -267,6 +260,25 @@ class UserSettingActivity : MyBaseActivity() {
 //    }
 
 
+     fun cutImage(uri: Uri) {
+        if (uri == null) {
+            Log.i("alanjet", "The uri is not exist.")
+        }
+        cropImageUri = uri
+        val intent = Intent("com.android.camera.action.CROP")
+        //com.android.camera.action.CROP这个action是用来裁剪图片用的
+        intent.setDataAndType(uri, "image/*")
+        // 设置裁剪
+        intent.putExtra("crop", "true")
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1)
+        intent.putExtra("aspectY", 1)
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 150)
+        intent.putExtra("outputY", 150)
+        intent.putExtra("return-data", true)
+        startActivityForResult(intent, 103)
+    }
 
     fun crop(uri: Uri?) {
         val cropPhoto = File(externalCacheDir, "crop_image.jpg")
@@ -287,11 +299,11 @@ class UserSettingActivity : MyBaseActivity() {
         }
         intent.putExtra("crop", "true")
         // 裁剪框的比例，4：3
-        intent.putExtra("aspectX", 4)
+        intent.putExtra("aspectX", 3)
         intent.putExtra("aspectY", 3)
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 320)
-        intent.putExtra("outputY", 200)
+        intent.putExtra("outputX", 300)
+        intent.putExtra("outputY", 300)
         intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString()) // 图片格式
         intent.putExtra("noFaceDetection", true) // 取消人脸识别
         intent.putExtra("return-data", false)

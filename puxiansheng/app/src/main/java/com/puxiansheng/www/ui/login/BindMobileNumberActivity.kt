@@ -13,6 +13,7 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.www.ui.main.HomeActivity
 import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bind_phone.*
 import kotlinx.android.synthetic.main.activity_bind_phone.input_account
@@ -105,10 +106,10 @@ private fun initView(){
                             1
                         )
                         LiveDataBus.get().with("user")?.value = result
-                        val intent =
-                            Intent(this@BindMobileNumberActivity, MainActivity::class.java)
 //                        val intent =
 //                            Intent(this@BindMobileNumberActivity, MainActivity::class.java)
+                        val intent =
+                            Intent(this@BindMobileNumberActivity, HomeActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

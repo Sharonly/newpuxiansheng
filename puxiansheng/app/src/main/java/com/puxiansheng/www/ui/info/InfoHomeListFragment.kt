@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
+import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_info_list.*
@@ -53,11 +54,11 @@ class InfoHomeListFragment : AppFragment() {
 
         btSearch.addTextChangedListener {
             infoListViewModel.title = it.toString()
+            LiveDataBus.get().with("infoTitle")?.value = infoListViewModel.title
         }
         btSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && infoListViewModel.title.isNotEmpty()) {
                 hideKeyboard(btSearch)
-                appModel.searchCategory.postValue(mCategory)
                 return@OnEditorActionListener true
             }
             false
@@ -70,7 +71,7 @@ class InfoHomeListFragment : AppFragment() {
                     pager.adapter = InfoPagerAdapter(
                         fragmentManager = childFragmentManager,
                         fragments = it.map { category ->
-                            InfoListFragment.newInstance(category = category.menuID.toInt())
+                            NewInfoListFragment.newInstance(category = category.menuID.toInt())
                         },
                         titles = it.map { text ->
                             text.text
@@ -101,5 +102,8 @@ class InfoHomeListFragment : AppFragment() {
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+
+
 
 }

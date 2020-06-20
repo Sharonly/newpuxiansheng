@@ -25,17 +25,14 @@ import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
-import com.puxiansheng.www.ui.main.MainActivity
+import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.button_back
-import kotlinx.android.synthetic.main.fragment_mine.*
-import kotlinx.android.synthetic.main.activity_reset_password.*
 import kotlinx.android.synthetic.main.layout_login_by_password.*
 import kotlinx.android.synthetic.main.layout_login_by_password.ic_eye
 import kotlinx.android.synthetic.main.layout_register.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -119,7 +116,8 @@ class LoginActivity : MyBaseActivity() {
         lifecycleScope.launch {
             loginViewModel.getConfigInfo("protocol_url")?.let { configInfo ->
                 txt_pxs_agreement.setOnClickListener {
-                    val intent = Intent(this@LoginActivity, InfoDetailActivity::class.java)
+                    val intent = Intent(this@LoginActivity, ServiceActivity::class.java)
+                    intent.putExtra("title", "用户协议")
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
@@ -243,7 +241,7 @@ class LoginActivity : MyBaseActivity() {
                             SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
                             API.setAuthToken(it.token)
                             LiveDataBus.get().with("user")?.value = it
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
@@ -300,7 +298,6 @@ class LoginActivity : MyBaseActivity() {
                         lifecycleScope.launch() {
                             loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
                                 ?.let { result ->
-                                    Log.d("---login--", "result= " + result)
                                     loginViewModel.wechatLoginCode = ""
                                     if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
                                         val intent =
@@ -344,7 +341,7 @@ class LoginActivity : MyBaseActivity() {
                                             SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
                                             API.setAuthToken(result.token)
                                             LiveDataBus.get().with("user")?.value = result
-                                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                                             startActivity(intent)
                                             finish()
                                         }

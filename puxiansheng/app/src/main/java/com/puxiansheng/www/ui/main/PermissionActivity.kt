@@ -16,7 +16,7 @@ class PermissionActivity : MyBaseActivity() {
 
     override fun business() {
         button_go.setOnClickListener {
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, HomeActivity::class.java)
                 startActivity(intent)
             finish()
         }

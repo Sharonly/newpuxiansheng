@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.puxiansheng.www.common.SwipeMenuLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -128,7 +127,7 @@
     </RelativeLayout>
 
      <TextView
-        android:id="@+id/item_delete"
+        android:id="@+id/bt_delete"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:background="#88ff0000"

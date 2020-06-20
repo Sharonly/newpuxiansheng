@@ -137,20 +137,16 @@ class SearchActivity : MyBaseActivity() {
                 hideKeyboard(search_content)
                 layout_recommend.visibility = View.GONE
                 search_refresh.visibility = View.VISIBLE
-                Log.d(
-                    "---search",
-                    " IME_ACTION_SEARCH  searchViewModel.type = " + searchViewModel.type
-                )
                 list.removeAllViews()
                 when (searchViewModel.type) {
                     0 -> {
-                        val intent = Intent(this, TransferOutOrderActivity::class.java)
+                        val intent = Intent(this, NewTransferOutOrdersActivity::class.java)
                         intent.putExtra("title", searchViewModel.searchTitle)
                         startActivity(intent)
                     }
 
                     1 -> {
-                        val intent = Intent(this, TransferInOrdersActivity::class.java)
+                        val intent = Intent(this, NewTransferInOrdersActivity::class.java)
                         intent.putExtra("title", searchViewModel.searchTitle)
                         startActivity(intent)
                     }

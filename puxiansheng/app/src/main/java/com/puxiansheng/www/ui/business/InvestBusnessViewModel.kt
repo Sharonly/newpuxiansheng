@@ -49,6 +49,12 @@ class InvestBusnessViewModel(application: Application) : AndroidViewModel(applic
     fun getBusinesssFromLocal() =
         businessRepository.getBusinessFromRoom()
 
+    suspend fun getBusinessList() = withContext(viewModelScope.coroutineContext+Dispatchers.IO){
+        businessRepository.requestRemoteBusiness(title = title,page = currentPage).let {
+            if (it.succeeded) (it as APIRst.Success).data.data?.business else null
+        }
+    }
+
     suspend fun requestBusinessList()= withContext(Dispatchers.IO) {
         businessRepository.requestRemoteBusiness(title = title,page = currentPage).let {
 //            return@let if (it.succeeded) (it as APIRst.Success).data.data?.business else null

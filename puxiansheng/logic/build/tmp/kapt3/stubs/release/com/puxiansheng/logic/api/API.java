@@ -28,7 +28,7 @@ public final class API {
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String API_SECRET = "6385dab0cee34b0e9989df190522d449";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String API_VERSION = "331";
+    public static final java.lang.String API_VERSION = "330";
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String WEIXIN_APP_ID = "wxe5266f2fb1236eee";
     @org.jetbrains.annotations.NotNull()
@@ -53,166 +53,166 @@ public final class API {
     public static final java.lang.String USER_CITY_ID = "city_id";
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String USER_CITY_NAME = "city_name";
-    private static final java.lang.String API_ADDRESS = "https://api3.puxiansheng.com/";
-    private static final java.lang.String STORAGE_ADDRESS = "https://api3.puxiansheng.com/";
+    private static final java.lang.String API_ADDRESS = "https://api3.51wpu.com.cn/";
+    private static final java.lang.String STORAGE_ADDRESS = "https://api3.51wpu.com.cn/";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_LOGIN = "https://api3.puxiansheng.com/api/login.html";
+    public static final java.lang.String DO_LOGIN = "https://api3.51wpu.com.cn/api/login.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_LOGIN_BY_PASS = "https://api3.puxiansheng.com/api/user_login.html";
+    public static final java.lang.String DO_LOGIN_BY_PASS = "https://api3.51wpu.com.cn/api/user_login.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_LOGIN_BY_PHONE = "https://api3.puxiansheng.com/api/sms_login.html";
+    public static final java.lang.String DO_LOGIN_BY_PHONE = "https://api3.51wpu.com.cn/api/sms_login.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_LOGIN_BY_WECHAT = "https://api3.puxiansheng.com/api/wechat_login.html";
+    public static final java.lang.String DO_LOGIN_BY_WECHAT = "https://api3.51wpu.com.cn/api/wechat_login.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_REGISTER = "https://api3.puxiansheng.com/api/register.html";
+    public static final java.lang.String DO_REGISTER = "https://api3.51wpu.com.cn/api/register.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_FORGET_PASSWORD = "https://api3.puxiansheng.com/api/user_change_pwd.html";
+    public static final java.lang.String DO_FORGET_PASSWORD = "https://api3.51wpu.com.cn/api/user_change_pwd.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_LOGOUT = "https://api3.puxiansheng.com/api/login_out.html";
+    public static final java.lang.String DO_LOGOUT = "https://api3.51wpu.com.cn/api/login_out.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_BIND_MOBILE_NUMBER = "https://api3.puxiansheng.com/api/auth/bind_phone.html";
+    public static final java.lang.String DO_BIND_MOBILE_NUMBER = "https://api3.51wpu.com.cn/api/auth/bind_phone.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_RESET_PASSWORD = "https://api3.puxiansheng.com/api/user_change/edit_pwd.html";
+    public static final java.lang.String DO_RESET_PASSWORD = "https://api3.51wpu.com.cn/api/user_change/edit_pwd.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_FAVORITE = "https://api3.puxiansheng.com/api/set_collect.html";
+    public static final java.lang.String DO_FAVORITE = "https://api3.51wpu.com.cn/api/set_collect.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_INFO = "https://api3.puxiansheng.com/api/get_userinfo.html";
+    public static final java.lang.String GET_USER_INFO = "https://api3.51wpu.com.cn/api/get_userinfo.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_SYSTEM_CONFIG = "https://api3.puxiansheng.com/api/config.html";
+    public static final java.lang.String GET_SYSTEM_CONFIG = "https://api3.51wpu.com.cn/api/config.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_TOKEN = "https://api3.puxiansheng.com/api/get_token.token";
+    public static final java.lang.String GET_TOKEN = "https://api3.51wpu.com.cn/api/get_token.token";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_VERIFICATION_CODE = "https://api3.puxiansheng.com/api/send_msg.html";
+    public static final java.lang.String GET_VERIFICATION_CODE = "https://api3.51wpu.com.cn/api/send_msg.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_IMAGE_CODE = "https://api3.puxiansheng.com/api/get_captcha.html";
+    public static final java.lang.String GET_IMAGE_CODE = "https://api3.51wpu.com.cn/api/get_captcha.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SAVE_USER_INFO = "https://api3.puxiansheng.com/api/user_edit_save.html";
+    public static final java.lang.String SAVE_USER_INFO = "https://api3.51wpu.com.cn/api/user_edit_save.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SAVE_USER_ICON = "https://api3.puxiansheng.com/api/upload/header_img.html";
+    public static final java.lang.String SAVE_USER_ICON = "https://api3.51wpu.com.cn/api/upload/header_img.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_JOIN_LIST = "https://api3.puxiansheng.com/api/join/get_list.html";
+    public static final java.lang.String GET_JOIN_LIST = "https://api3.51wpu.com.cn/api/join/get_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_JOIN_DETAIL = "https://api3.puxiansheng.com/api/join/get_info.html";
+    public static final java.lang.String GET_JOIN_DETAIL = "https://api3.51wpu.com.cn/api/join/get_info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_JOIN_INFO = "https://api3.puxiansheng.com/api/join/submit.html";
+    public static final java.lang.String SUBMIT_JOIN_INFO = "https://api3.51wpu.com.cn/api/join/submit.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_HISTORY_SEARCH = "https://api3.puxiansheng.com/api/history_search.html";
+    public static final java.lang.String GET_HISTORY_SEARCH = "https://api3.51wpu.com.cn/api/history_search.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DELETE_HISTORY_SEARCH = "https://api3.puxiansheng.com/api/history/search/del.html";
+    public static final java.lang.String DELETE_HISTORY_SEARCH = "https://api3.51wpu.com.cn/api/history/search/del.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_RECOMMEND_SEARCH = "https://api3.puxiansheng.com/api/transfer/hot/search.html";
+    public static final java.lang.String GET_RECOMMEND_SEARCH = "https://api3.51wpu.com.cn/api/transfer/hot/search.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_IMAGES = "https://api3.puxiansheng.com/api/get_images.html";
+    public static final java.lang.String GET_IMAGES = "https://api3.51wpu.com.cn/api/get_images.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_IMAGE = "https://api3.puxiansheng.com/get_images_info.html";
+    public static final java.lang.String GET_IMAGE = "https://api3.51wpu.com.cn/get_images_info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_HEADLINE = "https://api3.puxiansheng.com/api/get_headlines.html";
+    public static final java.lang.String GET_HEADLINE = "https://api3.51wpu.com.cn/api/get_headlines.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_ADVERT = "https://api3.puxiansheng.com/api/ad/get_list.html";
+    public static final java.lang.String GET_ADVERT = "https://api3.51wpu.com.cn/api/ad/get_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_ADVERT = "https://api3.puxiansheng.com/api/ad/ad_report.html";
+    public static final java.lang.String SUBMIT_ADVERT = "https://api3.51wpu.com.cn/api/ad/ad_report.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_LIKE_SHOP = "https://api3.puxiansheng.com/api/transfer/get_user_like.html";
+    public static final java.lang.String GET_USER_LIKE_SHOP = "https://api3.51wpu.com.cn/api/transfer/get_user_like.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_INFO_CATEGORY = "https://api3.puxiansheng.com/api/article/get_cate_new.html";
+    public static final java.lang.String GET_INFO_CATEGORY = "https://api3.51wpu.com.cn/api/article/get_cate_new.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_INFO_LIST = "https://api3.puxiansheng.com/api/article/get_list.html";
+    public static final java.lang.String GET_INFO_LIST = "https://api3.51wpu.com.cn/api/article/get_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MESSAGE_CATEGORY = "https://api3.puxiansheng.com/api/notice/get_cate_list.html";
+    public static final java.lang.String GET_MESSAGE_CATEGORY = "https://api3.51wpu.com.cn/api/notice/get_cate_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MESSAGE_LIST = "https://api3.puxiansheng.com/api/notice/get_msg_list.html";
+    public static final java.lang.String GET_MESSAGE_LIST = "https://api3.51wpu.com.cn/api/notice/get_msg_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MESSAGE_DETAIL = "https://api3.puxiansheng.com/api/notice/get_info.html";
+    public static final java.lang.String GET_MESSAGE_DETAIL = "https://api3.51wpu.com.cn/api/notice/get_info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_AREA_BY_CITY_ID = "https://api3.puxiansheng.com/api/area/list.html";
+    public static final java.lang.String GET_AREA_BY_CITY_ID = "https://api3.51wpu.com.cn/api/area/list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_SUPPORTED_CITIES = "https://api3.puxiansheng.com/api/area/get_open.html";
+    public static final java.lang.String GET_SUPPORTED_CITIES = "https://api3.51wpu.com.cn/api/area/get_open.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_CURRENT_LOCATION = "https://api3.puxiansheng.com/api/area/position.html";
+    public static final java.lang.String GET_CURRENT_LOCATION = "https://api3.51wpu.com.cn/api/area/position.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DO_UPLOAD_IMAGE = "https://api3.puxiansheng.com/api/upload/transfer_img.html";
+    public static final java.lang.String DO_UPLOAD_IMAGE = "https://api3.51wpu.com.cn/api/upload/transfer_img.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_SIMPLE_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer/fast_transfer.html";
+    public static final java.lang.String SUBMIT_SIMPLE_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer/fast_transfer.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_SIMPLE_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/find/fast_find.html";
+    public static final java.lang.String SUBMIT_SIMPLE_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find/fast_find.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer/shop_submit.html";
+    public static final java.lang.String SUBMIT_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer/shop_submit.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/find/shop_submit.html";
+    public static final java.lang.String SUBMIT_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find/shop_submit.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_TRANSFER_OUT_ORDERS = "https://api3.puxiansheng.com/api/transfer/get_list.html";
+    public static final java.lang.String GET_REMOTE_TRANSFER_OUT_ORDERS = "https://api3.51wpu.com.cn/api/transfer/get_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_TRANSFER_IN_ORDERS = "https://api3.puxiansheng.com/api/find/get_list.html";
+    public static final java.lang.String GET_REMOTE_TRANSFER_IN_ORDERS = "https://api3.51wpu.com.cn/api/find/get_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_TRANSFER_SUCCESS_ORDERS = "https://api3.puxiansheng.com/api/transfer/get_success.html";
+    public static final java.lang.String GET_REMOTE_TRANSFER_SUCCESS_ORDERS = "https://api3.51wpu.com.cn/api/transfer/get_success.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer_shop/info.html";
+    public static final java.lang.String GET_REMOTE_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer_shop/info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/find_shop/info.html";
+    public static final java.lang.String GET_REMOTE_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find_shop/info.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MINE_TRANSFER_OUT_ORDERS = "https://api3.puxiansheng.com/api/user/transfer.html";
+    public static final java.lang.String GET_MINE_TRANSFER_OUT_ORDERS = "https://api3.51wpu.com.cn/api/user/transfer.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_MINE_TRANSFER_IN_ORDERS = "https://api3.puxiansheng.com/api/user/get_find_shop_issue.html";
+    public static final java.lang.String GET_MINE_TRANSFER_IN_ORDERS = "https://api3.51wpu.com.cn/api/user/get_find_shop_issue.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DELETE_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/user/del_find.html";
+    public static final java.lang.String DELETE_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/user/del_find.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DELETE_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/user/del_transfer.html";
+    public static final java.lang.String DELETE_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/user/del_transfer.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DELETE_FAVOR_ORDER = "https://api3.puxiansheng.com/api/user/collect_null.html";
+    public static final java.lang.String DELETE_FAVOR_ORDER = "https://api3.51wpu.com.cn/api/user/collect_null.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String REFRESH_SHOP = "https://api3.puxiansheng.com/api/user/update_shop_time.html";
+    public static final java.lang.String REFRESH_SHOP = "https://api3.51wpu.com.cn/api/user/update_shop_time.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String DELETE_HISTORY_ORDER = "https://api3.puxiansheng.com/api/new/clear_view_log.html";
+    public static final java.lang.String DELETE_HISTORY_ORDER = "https://api3.51wpu.com.cn/api/new/clear_view_log.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_EDIT_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer_shop/edit_echo.html";
+    public static final java.lang.String GET_EDIT_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer_shop/edit_echo.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_EDIT_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/find_shop/edit_echo.html";
+    public static final java.lang.String GET_EDIT_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find_shop/edit_echo.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_SAVE_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer/shop_submit_echo.html";
+    public static final java.lang.String GET_SAVE_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer/shop_submit_echo.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_RECOMMEND_TRANSFER_OUT_ORDER = "https://api3.puxiansheng.com/api/transfer/get_new_recommend.html";
+    public static final java.lang.String GET_RECOMMEND_TRANSFER_OUT_ORDER = "https://api3.51wpu.com.cn/api/transfer/get_new_recommend.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_RECOMMEND_TRANSFER_IN_ORDER = "https://api3.puxiansheng.com/api/find/get_new_recommend.html";
+    public static final java.lang.String GET_RECOMMEND_TRANSFER_IN_ORDER = "https://api3.51wpu.com.cn/api/find/get_new_recommend.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String SUBMIT_SUGGESTION = "https://api3.puxiansheng.com/api/feedback_submit.html";
+    public static final java.lang.String SUBMIT_SUGGESTION = "https://api3.51wpu.com.cn/api/feedback_submit.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REQUEST_TYPE = "https://api3.puxiansheng.com/api/get_feedback_cate.html";
+    public static final java.lang.String GET_REQUEST_TYPE = "https://api3.51wpu.com.cn/api/get_feedback_cate.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REQUEST_LIST = "https://api3.puxiansheng.com/api/get_problems.html";
+    public static final java.lang.String GET_REQUEST_LIST = "https://api3.51wpu.com.cn/api/get_problems.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_CALLBACK = "https://api3.puxiansheng.com/api/my_feedback.html";
+    public static final java.lang.String GET_USER_CALLBACK = "https://api3.51wpu.com.cn/api/my_feedback.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_FAVORITE = "https://api3.puxiansheng.com/api/user/collect_log.html";
+    public static final java.lang.String GET_FAVORITE = "https://api3.51wpu.com.cn/api/user/collect_log.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_HISTORY = "https://api3.puxiansheng.com/api/user/view_log.html";
+    public static final java.lang.String GET_HISTORY = "https://api3.51wpu.com.cn/api/user/view_log.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_ARTICLE_HISTORY = "https://api3.puxiansheng.com/api/article/get_view_list";
+    public static final java.lang.String GET_ARTICLE_HISTORY = "https://api3.51wpu.com.cn/api/article/get_view_list";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_ARTICLE_FAVORITE = "https://api3.puxiansheng.com/api/article/get_collect_list.html";
+    public static final java.lang.String GET_ARTICLE_FAVORITE = "https://api3.51wpu.com.cn/api/article/get_collect_list.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_PULISHED = "https://api3.puxiansheng.com/api/user/get_release_shop.html";
+    public static final java.lang.String GET_USER_PULISHED = "https://api3.51wpu.com.cn/api/user/get_release_shop.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_SOLD_OUT = "https://api3.puxiansheng.com/api/user/get_stop_shop.html";
+    public static final java.lang.String GET_USER_SOLD_OUT = "https://api3.51wpu.com.cn/api/user/get_stop_shop.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_PROCESSING = "https://api3.puxiansheng.com/api/user/get_verify_shop.html";
+    public static final java.lang.String GET_USER_PROCESSING = "https://api3.51wpu.com.cn/api/user/get_verify_shop.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_INDUSTRY_DATA = "https://api3.puxiansheng.com/api/shop/get_industry.html";
+    public static final java.lang.String GET_REMOTE_INDUSTRY_DATA = "https://api3.51wpu.com.cn/api/shop/get_industry.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_SIZE_DATA = "https://api3.puxiansheng.com/api/shop/get_acreage.html";
+    public static final java.lang.String GET_REMOTE_SIZE_DATA = "https://api3.51wpu.com.cn/api/shop/get_acreage.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_RENT_UNIT_DATA = "https://api3.puxiansheng.com/api/shop/get_ret_unit.html";
+    public static final java.lang.String GET_REMOTE_RENT_UNIT_DATA = "https://api3.51wpu.com.cn/api/shop/get_ret_unit.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_RENT_DATA = "https://api3.puxiansheng.com/api/shop/get_rent.html";
+    public static final java.lang.String GET_REMOTE_RENT_DATA = "https://api3.51wpu.com.cn/api/shop/get_rent.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_REMOTE_PROPERTY_DATA = "https://api3.puxiansheng.com/api/shop/get_property.html";
+    public static final java.lang.String GET_REMOTE_PROPERTY_DATA = "https://api3.51wpu.com.cn/api/shop/get_property.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_HOME_PAGE_STATISTICS_DATA = "https://api3.puxiansheng.com/api/shop/statistics.html";
+    public static final java.lang.String GET_HOME_PAGE_STATISTICS_DATA = "https://api3.51wpu.com.cn/api/shop/statistics.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_USER_RELEASE_COUNT = "https://api3.puxiansheng.com/api/user/release/count.html";
+    public static final java.lang.String GET_USER_RELEASE_COUNT = "https://api3.51wpu.com.cn/api/user/release/count.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_SERVICE_LINK = "https://api3.puxiansheng.com/api/config/kf_url.html";
+    public static final java.lang.String GET_SERVICE_LINK = "https://api3.51wpu.com.cn/api/config/kf_url.html";
     @org.jetbrains.annotations.NotNull()
-    public static final java.lang.String GET_CONFIG_URL = "https://api3.puxiansheng.com/api/config.html";
+    public static final java.lang.String GET_CONFIG_URL = "https://api3.51wpu.com.cn/api/config.html";
     private static final com.puxiansheng.logic.api.HttpInterceptor interceptor = null;
     @org.jetbrains.annotations.NotNull()
     private static final androidx.lifecycle.MutableLiveData<java.lang.Integer> logoutSignal = null;

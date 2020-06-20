@@ -65,7 +65,8 @@
             android:layout_toRightOf="@+id/industry"
             android:text=" — "
             android:textColor="@color/text_gray"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="invisible"/>
 
 
         <TextView
@@ -76,7 +77,8 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/line"
             android:textColor="@color/text_gray"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="invisible"/>
 
 
         <TextView

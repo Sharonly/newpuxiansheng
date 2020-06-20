@@ -18,7 +18,8 @@
         android:layout_height="73dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@mipmap/bg_bottom_tabbar">
+        android:background="@mipmap/bg_bottom_tabbar"
+        android:layout_marginTop="-23dp">
 
         <RadioButton
             style="@style/RadioGroupButtonStyle"

@@ -65,13 +65,14 @@ data class User(
 
     //xinzeng
     @ColumnInfo(name = "_view_city_name")
-    @SerializedName("view_path_city")
+    @SerializedName("city")
     var cityName: String = "",
 
     //xinzeng
     @ColumnInfo(name = "_view_city_path")
     @SerializedName("view_city_path_id")
     var userCityPath: String = "",
+
 
     @Ignore
     var password: String = "",

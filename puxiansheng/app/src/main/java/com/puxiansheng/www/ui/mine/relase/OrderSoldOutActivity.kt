@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.ui.mine.relase.adapter.PublicOrdersAdapter
 import com.puxiansheng.www.ui.mine.relase.adapter.ReleaseStateOrdersAdapter
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.synthetic.main.activity_my_all_release.button_back
 import kotlinx.android.synthetic.main.activity_my_pulished.*
 import kotlinx.android.synthetic.main.activity_order_list.order_list

@@ -180,11 +180,10 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                     return@setOnClickListener
                 }
             }
-Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+insertOrUpdateTransferOutOrderViewModel.contactPhone)
             insertOrUpdateTransferOutOrderViewModel.submit()
         }
 
-        insertOrUpdateTransferOutOrderViewModel.type = intent.getIntExtra("shopID", 0).toString()
+        insertOrUpdateTransferOutOrderViewModel.type = intent.getStringExtra("shopID")
 
         input_title.addTextChangedListener {
             insertOrUpdateTransferOutOrderViewModel.title = it.toString()
@@ -339,7 +338,7 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
 
         }
         button_input_floor.addTextChangedListener {
-            if (insertOrUpdateTransferOutOrderViewModel.floor != 0) {
+            if (it.toString().toInt() != 0) {
                 insertOrUpdateTransferOutOrderViewModel.floor = it.toString().toInt()
             }
         }
@@ -436,44 +435,44 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
         })
 
 
-        intent.getIntExtra("shopID", 0).toString().takeIf {
+        intent.getStringExtra("shopID").takeIf {
             it.isNotEmpty()
         }?.also {
             lifecycleScope.launch {
                 if (it != "null" || it != "0") {
                     insertOrUpdateTransferOutOrderViewModel.requestEditTransferOutOrderDetail(it)
                         ?.let { order ->
-                            order.shop?.shopID.toString().let { id ->
+                            order.shopID.toString().let { id ->
                                 insertOrUpdateTransferOutOrderViewModel.type = id
                             }
-                            order.shop?.images?.let { images ->
+                            order.images?.let { images ->
                                 insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(
                                     images.toMutableSet()
                                 )
                             }
 
-                            order.shop?.title?.let { title ->
+                            order.title?.let { title ->
                                 input_title.setText(title)
                                 insertOrUpdateTransferOutOrderViewModel.title = title
                             }
 
 
-                            order.shop?.size.toString().let { size ->
+                            order.size.toString().let { size ->
                                 button_select_size.setText(size)
                                 insertOrUpdateTransferOutOrderViewModel.size = size
                             }
 
-                            order.shop?.fee.toString().let { fee ->
+                            order.fee.toString().let { fee ->
                                 input_fee.setText(fee)
                                 insertOrUpdateTransferOutOrderViewModel.fee = fee
                             }
 
-                            order.shop?.rent.toString().let { rent ->
+                            order.rent.toString().let { rent ->
                                 bt_select_rent.setText(rent)
                                 insertOrUpdateTransferOutOrderViewModel.rent = rent
                             }
 
-                            order.shop?.includeFacilities?.let { include ->
+                            order.includeFacilities?.let { include ->
                                 insertOrUpdateTransferOutOrderViewModel.exclusive = include
                                 if (include == 0) {
                                     button_select_empty_transfer.text = "不可空转"
@@ -482,7 +481,7 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.runningState?.let { runningState ->
+                            order.runningState?.let { runningState ->
                                 insertOrUpdateTransferOutOrderViewModel.state = runningState
                                 if (runningState == 0) {
                                     button_select_state.text = "已停业"
@@ -491,12 +490,12 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.formattedArea?.let { finalLocationNode ->
+                            order.formattedFinalLocationNode?.let { finalLocationNode ->
                                 button_select_area.text = finalLocationNode
                             }
 
 
-                            order.shop?.address?.let { addressObj ->
+                            order.address?.let { addressObj ->
                                 edit_user_address.setText(addressObj.addressDetail)
                                 insertOrUpdateTransferOutOrderViewModel.address =
                                     addressObj.addressDetail
@@ -509,37 +508,37 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.newLng?.let {
+                            order.lng?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lng = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.newLat?.let {
+                            order.lat?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lat = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.industry?.let { industry ->
+                            order.industry?.let { industry ->
                                 insertOrUpdateTransferOutOrderViewModel.industry = industry
                             }
 
-                            order.shopOwner?.actualName?.let {
+                            order.shopOwnerName.let {
                                 input_name.setText(it)
                                 insertOrUpdateTransferOutOrderViewModel.contactName = it
                             }
 
-                            order.shopOwner?.userPhoneNumber?.let {
+                            order.shopOwnerPhoneNumbr?.let {
                                 input_phone.setText(it)
                                 insertOrUpdateTransferOutOrderViewModel.contactPhone = it
                             }
 
-                            order.shop?.formattedFinalIndustry?.let { finalIndustry ->
+                            order.formattedFinalIndustry?.let { finalIndustry ->
                                 button_select_industry.text = finalIndustry
                             }
 
-                            order.shop?.facilities?.let {
+                            order.facilities?.let {
                                 facilities_list.removeAllViews()
                                 val sb = StringBuilder()
                                 it.forEach { menuItem ->
@@ -549,24 +548,24 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.floor?.let {
+                            order.floor?.let {
                                 insertOrUpdateTransferOutOrderViewModel.floor = it
                                 if (it != 0) {
                                     button_input_floor.setText(it.toString())
                                 }
                             }
 
-                            order.shop?.description?.let { description ->
+                            order.description?.let { description ->
                                 input_description.setText(description)
                                 insertOrUpdateTransferOutOrderViewModel.description = description
                             }
 
-                            order.shop?.environment?.let { environment ->
+                            order.environment?.let { environment ->
                                 input_enverment.setText(environment)
                                 insertOrUpdateTransferOutOrderViewModel.environment = environment
                             }
 
-                            order.shop?.reason?.let { reason ->
+                            order.reason?.let { reason ->
                                 input_reason.setText(reason)
                                 insertOrUpdateTransferOutOrderViewModel.reason = reason
                             }
@@ -574,37 +573,37 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                 } else {
                     insertOrUpdateTransferOutOrderViewModel.requestSaveTransferOutOrderDetail()
                         ?.let { order ->
-                            order.shop?.shopID.toString().let { id ->
+                            order.shopID.toString().let { id ->
                                 insertOrUpdateTransferOutOrderViewModel.type = id
                             }
-                            order.shop?.images?.let { images ->
+                            order.images?.let { images ->
                                 insertOrUpdateTransferOutOrderViewModel.selectedImages.postValue(
                                     images.toMutableSet()
                                 )
                             }
 
-                            order.shop?.title?.let { title ->
+                            order.title?.let { title ->
                                 input_title.setText(title)
                                 insertOrUpdateTransferOutOrderViewModel.title = title
                             }
 
 
-                            order.shop?.size.toString().let { size ->
+                            order.size.toString().let { size ->
                                 button_select_size.setText(size)
                                 insertOrUpdateTransferOutOrderViewModel.size = size
                             }
 
-                            order.shop?.fee.toString().let { fee ->
+                            order.fee.toString().let { fee ->
                                 input_fee.setText(fee)
                                 insertOrUpdateTransferOutOrderViewModel.fee = fee
                             }
 
-                            order.shop?.rent.toString().let { rent ->
+                            order.rent.toString().let { rent ->
                                 bt_select_rent.setText(rent)
                                 insertOrUpdateTransferOutOrderViewModel.rent = rent
                             }
 
-                            order.shop?.includeFacilities?.let { include ->
+                            order.includeFacilities?.let { include ->
                                 insertOrUpdateTransferOutOrderViewModel.exclusive = include
                                 if (include == 0) {
                                     button_select_empty_transfer.text = "不可空转"
@@ -613,7 +612,7 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.runningState?.let { runningState ->
+                            order.runningState?.let { runningState ->
                                 insertOrUpdateTransferOutOrderViewModel.state = runningState
                                 if (runningState == 0) {
                                     button_select_state.text = "已停业"
@@ -622,12 +621,12 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.formattedArea?.let { finalLocationNode ->
+                            order.formattedFinalLocationNode?.let { finalLocationNode ->
                                 button_select_area.text = finalLocationNode
                             }
 
 
-                            order.shop?.address?.let { addressObj ->
+                            order.address?.let { addressObj ->
                                 edit_user_address.setText(addressObj.addressDetail)
                                 insertOrUpdateTransferOutOrderViewModel.address =
                                     addressObj.addressDetail
@@ -640,37 +639,44 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.newLng?.let {
+                            order.lng?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lng = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.newLat?.let {
+                            order.lat?.let {
                                 if (it != 0.0)
                                     insertOrUpdateTransferOutOrderViewModel.lat = it
                                 else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
-                            order.shop?.industry?.let { industry ->
+                            order.floor?.let {
+                                insertOrUpdateTransferOutOrderViewModel.floor = it
+                                if (it != 0) {
+                                    button_input_floor.setText(it.toString())
+                                }
+                            }
+
+                            order.industry?.let { industry ->
                                 insertOrUpdateTransferOutOrderViewModel.industry = industry
                             }
 
-                            order.shopOwner?.actualName?.let {
+                            order.shopOwnerName?.let {
                                 input_name.setText(it)
                                 insertOrUpdateTransferOutOrderViewModel.contactName = it
                             }
 
-                            order.shopOwner?.userPhoneNumber?.let {
+                            order.shopOwnerPhoneNumbr?.let {
                                 input_phone.setText(it)
                                 insertOrUpdateTransferOutOrderViewModel.contactPhone = it
                             }
 
-                            order.shop?.formattedFinalIndustry?.let { finalIndustry ->
+                            order.formattedFinalIndustry?.let { finalIndustry ->
                                 button_select_industry.text = finalIndustry
                             }
 
-                            order.shop?.facilities?.let {
+                            order.facilities?.let {
                                 facilities_list.removeAllViews()
                                 val sb = StringBuilder()
                                 it.forEach { menuItem ->
@@ -680,29 +686,29 @@ Log.d("----submit"," insertOrUpdateTransferOutOrderViewModel.contactPhone = "+in
                                 }
                             }
 
-                            order.shop?.floor?.let {
+                            order.floor?.let {
                                 insertOrUpdateTransferOutOrderViewModel.floor = it
                                 if (it != 0) {
                                     button_input_floor.setText(it.toString())
                                 }
                             }
 
-                            order.shop?.description?.let { description ->
+                            order.description?.let { description ->
                                 input_description.setText(description)
                                 insertOrUpdateTransferOutOrderViewModel.description = description
                             }
 
-                            order.shop?.environment?.let { environment ->
+                            order.environment?.let { environment ->
                                 input_enverment.setText(environment)
                                 insertOrUpdateTransferOutOrderViewModel.environment = environment
                             }
 
-                            order.shop?.reason?.let { reason ->
+                            order.reason?.let { reason ->
                                 input_reason.setText(reason)
                                 insertOrUpdateTransferOutOrderViewModel.reason = reason
                             }
 
-                            if (order.shop?.shopID.toString().isNullOrEmpty()) {
+                            if (order.shopID.toString().isNullOrEmpty()) {
                                 edit_user_address.inputType = InputType.TYPE_NULL
                             }
                         }

@@ -14,8 +14,11 @@ import kotlinx.coroutines.withContext
 
 class MessageListViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-    private val messageRepository = MessageRepository(MessageDatabase.getInstance(context).messageDao())
-    private var currentPage = 1
+    private val messageRepository =
+        MessageRepository(MessageDatabase.getInstance(context).messageDao())
+    var cityId = ""
+    var currentPage = 1
+    var title = ""
 
     private fun deleteMessageByCategory(
         category: Int
@@ -27,7 +30,8 @@ class MessageListViewModel(application: Application) : AndroidViewModel(applicat
     fun loadMore(category: Int, city: String? = null) = viewModelScope.launch(Dispatchers.IO) {
         getMessageByCategoryFromRemote(
             category = category,
-            city = city)
+            city = city
+        )
     }
 
 
@@ -46,17 +50,17 @@ class MessageListViewModel(application: Application) : AndroidViewModel(applicat
 
     private suspend fun getMessageByCategoryFromRemote(
         category: Int,
-        city: String? = null,title:String? = null
+        city: String? = null, title: String? = null
     ) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO
     ) {
         messageRepository.getInfoByCategoryFromRemote(
             category = category,
             page = currentPage,
-            city = city,title = title
+            city = city, title = title
         ).let {
             if (it.succeeded) (it as APIRst.Success).data.data?.infoList?.let { list ->
-                list.map {item ->
+                list.map { item ->
                     item.category = category
                 }
                 insertInfoIntoRoom(*list.toTypedArray())
@@ -67,6 +71,15 @@ class MessageListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
 
+    suspend fun getMessageListByCategory(category: Int) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            messageRepository.getInfoByCategoryFromRemote(
+                category = category,
+                page = currentPage,
+                city = cityId
+            ).let {
+                if (it.succeeded) (it as APIRst.Success).data.data?.infoList else null
+            }
+        }
 
     suspend fun getMessageByCategoryFromRoom(
         category: Int

@@ -49,7 +49,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
             lifecycleScope.launch {
                 viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
-                        MoreManagerDialog(order.shop?.shopID.toString(), 1, order.favorite).show(
+                        MoreManagerDialog(order.shopID.toString(), 1, order.favorite).show(
                             supportFragmentManager,
                             MoreManagerDialog::class.java.name
                         )
@@ -61,24 +61,24 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                 viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
 
-                        shop_title.text = order.shop?.title
+                        shop_title.text = order.title
 
-                        publish_date.text = order.shop?.formattedDate
+                        publish_date.text = order.formattedDate
 
-                        shop_number.text = "编号：${order.shop?.shopID}"
+                        shop_number.text = "编号：${order.shopID}"
 
-                        page_views.text = "浏览量：${order.shop?.formattedPageViews}"
+                        page_views.text = "浏览量：${order.formattedPageViews}"
 
                         format_address.text =
-                            "地址： ${order.shop?.formattedLocationNodes} ${order.shop?.address?.addressDetail}"
+                            "地址： ${order.formattedLocationNodes} ${order.address?.addressDetail}"
 
-                        rent.text = order.shop?.formattedRent
+                        rent.text = order.formattedRent
 
-                        size.text = order.shop?.formattedSize
+                        size.text = order.formattedSize
 
-                        industry.text = order.shop?.formattedFinalIndustry
+                        industry.text = order.formattedFinalIndustry
 
-                        order.shop?.formattedFacilities?.let { facilityItems ->
+                        order.formattedFacilities?.let { facilityItems ->
                             facilities.layoutManager =
                                 GridLayoutManager(this@TransferInOrderDetailActivity, 6)
                             facilities.adapter = FacilityAdapter(facilityItems)
@@ -92,7 +92,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
 
                             if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                                 Intent(Intent.ACTION_DIAL).apply {
-                                    data = Uri.parse("tel:${order.serviceAgent?.phone}")
+                                    data = Uri.parse("tel:${order.serviceAgentPhone}")
                                     startActivity(this)
                                 }
                             } else {
@@ -101,7 +101,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                             }
                         }
 
-                        var str1: String = order.shop?.description.toString()
+                        var str1: String = order.description.toString()
                         expand_description.currentText = str1
                         expand_description.clickListener = object : ExpandTextView.ClickListener {
                             override fun onContentTextClick() {

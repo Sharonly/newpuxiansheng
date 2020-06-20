@@ -13,12 +13,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class InfoListViewModel (application: Application) : AndroidViewModel(application) {
+class InfoListViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val infoRepository = InfoRepository(InfoDatabase.getInstance(context).infoDao())
-
-
-    private var currentPage = 1
+    var cityId = ""
+    var currentPage = 1
     var title = ""
 
     private fun deleteInfoByCategory(
@@ -28,11 +27,12 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
     }
 
     fun loadMore(category: Int, city: String? = null) = viewModelScope.launch(Dispatchers.IO) {
-            getInfoByCategoryFromRemote(
-                category = category,
-                city = city,
-                title = title)
-        }
+        getInfoByCategoryFromRemote(
+            category = category,
+            city = city,
+            title = title
+        )
+    }
 
 
     fun refresh(
@@ -55,10 +55,24 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
         }
     }
 
+
+    suspend fun getInfoListByCategory(
+        category: Int
+    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        infoRepository.getInfoByCategoryFromRemote(
+            category = category,
+            page = currentPage,
+            city = cityId,
+            title = title
+        ).let {
+            if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList else null
+        }
+    }
+
     private suspend fun getInfoByCategoryFromRemote(
         category: Int,
         city: String? = null,
-        title:String? = null
+        title: String? = null
     ) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO
     ) {
@@ -69,7 +83,7 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
             title = title
         ).let {
             if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList?.let { list ->
-                list.map {item ->
+                list.map { item ->
                     item.category = category
                 }
                 insertInfoIntoRoom(*list.toTypedArray())
@@ -92,13 +106,9 @@ class InfoListViewModel (application: Application) : AndroidViewModel(applicatio
     }
 
 
-
 //    fun getInfoByCategoryFromRoom(category: Int){
 //        infoRepository.getInfoByCategoryFromRoom(category = category)
 //    }
-
-
-
 
 
     private suspend fun insertInfoIntoRoom(

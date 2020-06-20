@@ -39,6 +39,14 @@ class FavoriteTransferOutOrdersViewModel(application: Application) : AndroidView
         }
     }
 
+    suspend fun getTransferOutOrders(page:Int) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        orderRepository.getFavoriteTransferOutOrdersFromRemote(page = page).let { apiRst ->
+            if (apiRst.succeeded) {
+                (apiRst as APIRst.Success).data.data?.data?.orders
+            } else null
+        }
+    }
+
     fun getFavoriteTransferOutOrdersFromRoom() =
         orderRepository.getOrdersByTypeFromRoom(Order.Type.TRANSFER_OUT_FAVORITE.value())
 

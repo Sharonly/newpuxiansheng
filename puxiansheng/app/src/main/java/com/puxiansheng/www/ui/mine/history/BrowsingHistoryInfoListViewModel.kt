@@ -51,6 +51,16 @@ class BrowsingHistoryInfoListViewModel (application: Application) : AndroidViewM
         }
     }
 
+     suspend fun getHistoryInfoListFromRemote(page: Int
+    ) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        infoRepository.getHistoryInfoFromRemote( page = page
+        ).let {
+            if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList else null
+        }
+    }
+
     private suspend fun getHistoryInfoFromRemote(
     ) = withContext(
         context = viewModelScope.coroutineContext + Dispatchers.IO

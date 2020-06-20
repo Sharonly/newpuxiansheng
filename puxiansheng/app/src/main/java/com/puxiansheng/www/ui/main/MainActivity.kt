@@ -60,7 +60,7 @@ class MainActivity : MyBaseActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
-        val stringExtra = intent?.getStringExtra("name")
+//        val stringExtra = intent?.getStringExtra("name")
     }
 
     override fun business() {
@@ -85,7 +85,6 @@ class MainActivity : MyBaseActivity() {
         LiveDataBus.get().with("user", User::class.java)
             ?.observe(this, Observer { user ->
                 user?.let {
-                    Log.d("---login","get user = "+user)
                     appModel?.currentUser?.postValue(user)
                 }
             })
@@ -170,23 +169,18 @@ class MainActivity : MyBaseActivity() {
             }
         })
 
-
         appModel?.currentSignatureTokenCode?.observe(this@MainActivity, Observer { code ->
             currentTokenCode = code
         })
 
         appModel?.requireLocalDevice()?.observe(this@MainActivity, Observer {
             it?.let {
-                appModel?.refreshSignatureToken(
-                    it,
-                    get("registration_id", "") as String
+                appModel?.refreshSignatureToken(it, get("registration_id", "") as String
                 )
             } ?: appModel?.requireDevice()
         })
 
         API.logoutSignal.observe(this@MainActivity, Observer {
-           // Log.d("---logout"," it = "+it)
-//            println("---logout1--->${it}")
             if (it == API.CODE_REQUIRE_LOGIN ||
                 it == API.CODE_ERROR_AUTH_TOKEN ||
                 it == API.CODE_AUTO_CODE_INVALID ||
@@ -196,13 +190,11 @@ class MainActivity : MyBaseActivity() {
                 it == API.CODE_BANNED_USER
             ) {
                 appModel?.forceLogout()
-//                println("---logout2--->${it}")
                 Toast.makeText(this, "当前登录已失效，请重新登录！", Toast.LENGTH_SHORT).show()
             }
         })
         applicationContext?.let {
             WechatAPI.instance = WXAPIFactory.createWXAPI(it, "wxe5266f2fb1236eee", true)
-//            WechatAPI.instance = WXAPIFactory.createWXAPI(it, API.WEIXIN_APP_ID, true)
         }
     }
 
@@ -211,6 +203,7 @@ class MainActivity : MyBaseActivity() {
         appModel = null
         super.onDestroy()
     }
+
 
 
 }

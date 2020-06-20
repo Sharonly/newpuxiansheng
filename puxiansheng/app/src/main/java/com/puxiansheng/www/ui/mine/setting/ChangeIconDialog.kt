@@ -25,7 +25,8 @@ import java.io.File
 class ChangeIconDialog() : DialogFragment() {
     private lateinit var binding: DialogChangeIconBinding
     var imageUri: Uri? = null
-
+    private val sdPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pxs"
+//    private val sdPath =MediaStore.EXTRA_OUTPUT + "/pxs"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,7 @@ class ChangeIconDialog() : DialogFragment() {
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btSelectPhoto.setOnClickListener {
+            dismiss()
             if (ContextCompat.checkSelfPermission(
                     requireActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -69,19 +71,23 @@ class ChangeIconDialog() : DialogFragment() {
                 intent.type = "image/*"
                 requireActivity().startActivityForResult(intent, 102)
             }
-            dismiss()
+
         }
 
-        val  sdPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/pxs";
+
         binding.btTakePicture.setOnClickListener {
             dismiss()
+
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE) // 启动系统相机
             val file = File("$sdPath/Head.jpg")
-            val cropImageUri = FileProvider.getUriForFile(requireActivity(), "${requireContext().packageName}.fileProvider", file)
+            val cropImageUri = FileProvider.getUriForFile(
+                requireActivity(),
+                "${requireContext().packageName}.fileProvider",
+                file
+            )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) // 为像片指定存储路径
             requireActivity().startActivityForResult(intent, 101)
-
-            LiveDataBus.get().with("Test",Uri::class.java)?.value=cropImageUri
+            LiveDataBus.get().with("Test", Uri::class.java)?.value = cropImageUri
         }
 
         binding.btCancel.setOnClickListener { dismiss() }

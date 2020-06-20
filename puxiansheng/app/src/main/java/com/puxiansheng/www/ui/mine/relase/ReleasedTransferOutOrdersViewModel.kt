@@ -17,8 +17,7 @@ import java.lang.StringBuilder
 class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
-    private var currentPage = 1
-    private var shouldLoad = true
+    private var page = 1
 
     private fun deleteOrdersByType(
         type: Int
@@ -31,7 +30,7 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
     }
 
     fun refresh() {
-        currentPage = 1
+        page = 1
         viewModelScope.launch {
             deleteOrdersByType(type = Order.Type.TRANSFER_OUT_PRIVATE.value())
             //delay(300)
@@ -51,7 +50,7 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
     }
 
     private fun getRemoteMineTransferOutOrders() {
-        orderRepository.getMineTransferOutOrdersFromRemote(page = currentPage).let { apiRst ->
+        orderRepository.getMineTransferOutOrdersFromRemote(page = page).let { apiRst ->
             if (apiRst.succeeded) {
                 (apiRst as APIRst.Success).data.data?.data?.orders?.let { list ->
                     list.map {
@@ -94,7 +93,7 @@ class ReleasedTransferOutOrdersViewModel(application: Application) : AndroidView
                         orderRepository.insertOrders(*orderList.toTypedArray())
                     }
                 }
-                currentPage += 1
+                page += 1
             } else null
         }
     }

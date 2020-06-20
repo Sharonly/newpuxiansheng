@@ -59,6 +59,13 @@ class OrderPublicViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    suspend fun getUserPublicOrders() =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+            orderRepository.getUserPublicOrder().let { apiRst ->
+            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.data else null
+            }
+        }
+
     suspend fun getRemoteUserPublicOrders() =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             orderRepository.getUserPublicOrder().let { apiRst ->

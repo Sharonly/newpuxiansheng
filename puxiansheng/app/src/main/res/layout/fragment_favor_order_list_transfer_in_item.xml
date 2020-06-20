@@ -154,7 +154,7 @@
 
 
     <TextView
-        android:id="@+id/item_delete"
+        android:id="@+id/bt_delete"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:background="#88ff0000"
