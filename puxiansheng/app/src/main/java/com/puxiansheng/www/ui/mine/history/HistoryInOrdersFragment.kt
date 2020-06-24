@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentFavorListOrdersBinding
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
@@ -58,25 +60,24 @@ class HistoryInOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
 
         list.adapter = adapter
 
-        hisViewModel.refreshType.observe(requireActivity(), Observer {
-            if(it == InfoItem.Type.ARTICLE_HISTORY.value()){
-                lifecycleScope.launch {
-                    viewModel.getHistoryInOrders(currentPage).let { list ->
-                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
-                    }
-
-                    hisViewModel.refreshType.observe(requireActivity(), Observer {
-                        if(it == Order.Type.TRANSFER_IN_HISTORY.value()){
-                            lifecycleScope.launch {
-                                viewModel.getHistoryInOrders(currentPage).let { list ->
-                                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
-                                }
-                            }
-                        }
-                    })
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.getHistoryInOrders(currentPage).let { list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
-        })
+            hisViewModel.refreshType.observe(requireActivity(), Observer {
+                if (it == Order.Type.TRANSFER_IN_HISTORY.value()) {
+                    lifecycleScope.launch {
+                        viewModel.getHistoryInOrders(currentPage).let { list ->
+                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                        }
+                    }
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
 
 
     }.root

@@ -36,7 +36,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="60dp"
                     android:layout_marginTop="38dp"
-                    android:src="@mipmap/ic_scan" />
+                    android:src="@mipmap/ic_scan"
+                    android:visibility="invisible"/>
 
                 <com.puxiansheng.www.common.CircleImageView
                     android:layout_below="@+id/icon_scan"
@@ -174,7 +175,54 @@
                 android:gravity="center_vertical"
                 android:text="隐私政策"
                 android:textColor="@color/input_text_blank"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="16dp"
+                android:src="@color/gray"
+                android:visibility="gone"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+
+
+            <TextView
+                android:id="@+id/call_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:drawableStart="@mipmap/icon_phone"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:text="咨询热线"
+                android:textColor="@color/input_text_blank"
+                android:textSize="13sp"
+
+                />
+
+            <TextView
+                android:id="@+id/phone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:drawableEnd="@mipmap/ic_arrow"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_gray"
+                android:textSize="13sp"
+               android:text="4008068999" />
+
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="match_parent"

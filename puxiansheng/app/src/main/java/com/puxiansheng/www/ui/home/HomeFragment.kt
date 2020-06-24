@@ -28,6 +28,7 @@ import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
+import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.common.LiveDataBus
 import com.puxiansheng.www.common.TextSwitchView
 import com.puxiansheng.www.common.url
@@ -50,7 +51,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class HomeFragment : Fragment(), OnRefreshLoadMoreListener {
+class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     private lateinit var outViewModel: HomeTransferOutOrdersViewModel
     private lateinit var inViewModel: HomeTransferInOrdersViewModel
     private lateinit var homeViewModel: HomeViewModel

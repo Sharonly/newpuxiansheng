@@ -21,8 +21,8 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
     val deleteResult = MutableLiveData<Int>()
     var searchTitle = ""
 
-    var type = 0
-    var usrId =SharedPreferencesUtil.get(API.LOGIN_USER_ID,0).toString()
+    var type = 1
+    var usrId = "0"
 
     suspend fun getHistorySearch() = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         userRepository.requireHistorySearch(type,usrId).let { apiRst ->

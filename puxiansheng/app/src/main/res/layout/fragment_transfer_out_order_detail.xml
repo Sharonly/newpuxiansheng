@@ -78,7 +78,8 @@
                 <com.puxiansheng.www.common.ImageSwitcher
                     android:id="@+id/image_switcher"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp" />
+                    android:layout_height="210dp"
+                    android:background="@mipmap/img_pxs_defult_big"/>
 
                 <TextView
                     android:id="@+id/img_index"

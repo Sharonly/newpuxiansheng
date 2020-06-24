@@ -85,16 +85,26 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
                     override fun refresh(order: OrderDetailObject) {
                         pulishedViewModel.shopId = order?.shopID.toString()
                         pulishedViewModel.type = order?.data_type.toString()
-                        lifecycleScope.launch {
-                            pulishedViewModel.refreshShopFromRemote().let {
-                                it
-                                Toast.makeText(
-                                    this@UserOrderPublicActivity,
-                                    it?.msg,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                        if(order.isUpdateTime == 0){
+                            lifecycleScope.launch {
+                                pulishedViewModel.refreshShopFromRemote().let {
+                                    it
+                                    Toast.makeText(this@UserOrderPublicActivity, it?.msg, Toast.LENGTH_SHORT).show() }
+                                isRefresh = true
+                                pulishedViewModel.getUserPublicOrders().let { list ->
+                                    adapter?.addList(
+                                        list as ArrayList<OrderDetailObject>,
+                                        isRefresh
+                                    )
+                                }
                             }
+                        }else{
+                            Toast.makeText(
+                                this@UserOrderPublicActivity,
+                                "本条今日刷新次数已用完",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
                         }
                     }
                 }

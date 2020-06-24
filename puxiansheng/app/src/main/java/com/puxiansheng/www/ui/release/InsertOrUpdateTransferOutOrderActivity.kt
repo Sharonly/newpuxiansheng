@@ -299,7 +299,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                     facilist.add(menuItem)
                     insertOrUpdateTransferOutOrderViewModel.facilities.postValue(facilist)
                 }
-                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(it)
+                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
                 facilities_list.removeAllViews()
                 val sb = StringBuilder()
                 it.forEach { menuItem ->
@@ -310,14 +310,15 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 supportFragmentManager,
                 SelectFacilityDialog::class.java.name
             )
+
         }
 
         facilities_list.layoutManager = GridLayoutManager(this, 6)
-        facilities_list.adapter = ReleaseFacilityAdapter(mutableListOf())
+        facilities_list.adapter = ReleaseFacilityAdapter(arrayListOf())
 
         insertOrUpdateTransferOutOrderViewModel.selectiveFacilityMenuData.observe(this, Observer {
             it?.takeIf { it.isNotEmpty() }?.let { list ->
-                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(list)
+                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(list.toMutableSet())
             }
         })
 
@@ -393,6 +394,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                 sb.append(menuItem.menuID).append(",")
                 insertOrUpdateTransferOutOrderViewModel.facility = sb.substring(0, sb.lastIndex)
             }
+            (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(it)
         })
 
 
@@ -546,6 +548,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                     insertOrUpdateTransferOutOrderViewModel.facility =
                                         sb.substring(0, sb.lastIndex)
                                 }
+                                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
                             }
 
                             order.floor?.let {
@@ -684,6 +687,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                     insertOrUpdateTransferOutOrderViewModel.facility =
                                         sb.substring(0, sb.lastIndex)
                                 }
+                                (facilities_list.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
                             }
 
                             order.floor?.let {

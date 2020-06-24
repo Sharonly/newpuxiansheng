@@ -18,10 +18,12 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.ui.login.LoginActivity
+import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
 import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.map.MapActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
+import com.puxiansheng.www.ui.order.dialog.ShopImageDialog
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap
 
@@ -43,6 +45,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
     private lateinit var viewModel: TransferOutOrderDetailViewModel
     private var tencentMap: TencentMap? = null
     private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+    private var images: List<BannerImage> = listOf()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_transfer_out_order_detail
@@ -71,7 +74,6 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
                 }
             }
-
         }
 
         //TODO
@@ -82,6 +84,14 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 //        uiSettings?.setZoomPosition(0)
 //        uiSettings?.setMyLocationButtonEnabled(true)
 //        tencentMap?.setMyLocationEnabled(true)
+
+        image_switcher.onImageClick {
+            Log.d("---imgswitch","onclick")
+            ShopImageDialog(this@TransferOutOrderDetailActivity,images).show(
+                supportFragmentManager,
+                AdvertmentDialog::class.java.name
+            )
+        }
 
         lifecycleScope.launch {
 //            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))
@@ -102,8 +112,11 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                                     image_switcher.getCurrentPos().toString() + "/" + list.size
                             }
                         }
+                        images = list
                     }
                 }
+
+
 
 
                 shop_title.text = order.title

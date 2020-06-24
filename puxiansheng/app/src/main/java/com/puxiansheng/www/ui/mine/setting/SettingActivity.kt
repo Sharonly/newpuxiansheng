@@ -12,7 +12,9 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,15 @@ class SettingActivity : MyBaseActivity() {
             settingViewModel.getConfigInfo("about_us_url")?.let { configInfo ->
                 user_company.setOnClickListener {
                     val intent = Intent(this@SettingActivity, AboutUsActivity::class.java)
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                }
+            }
+
+
+            settingViewModel.getConfigInfo("privacy_url")?.let { configInfo ->
+                name_consult.setOnClickListener {
+                    val intent = Intent(this@SettingActivity, InfoDetailActivity::class.java)
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
@@ -76,6 +87,9 @@ class SettingActivity : MyBaseActivity() {
             }
             startActivity(mIntent);
         }
+
+
+
 
 //        userSuggest.setOnClickListener {
 //            Navigation.findNavController(requireActivity(), R.id.homeNavHost)

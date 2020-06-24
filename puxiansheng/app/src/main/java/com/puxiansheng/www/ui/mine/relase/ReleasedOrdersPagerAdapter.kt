@@ -12,7 +12,6 @@ class ReleasedOrdersPagerAdapter(
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment = when (position) {
-//        0 -> ReleasedTransferOutOrdersFragment()
         0 -> ReleasedNewTransferOutOrdersFragment()
         else -> ReleasedNewTransferInOrdersFragment()
     }

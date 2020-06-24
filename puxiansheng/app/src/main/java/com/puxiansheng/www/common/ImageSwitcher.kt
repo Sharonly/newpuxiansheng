@@ -62,12 +62,14 @@ class ImageSwitcher : FrameLayout {
     }
 
     fun getCurrentPos():Int{
-        if(images.isNotEmpty()) {
-            return position + 1
+        return if(images.isNotEmpty()) {
+            position + 1
         }else{
-            return 1
+            1
         }
     }
+
+
 
 
     @ExperimentalCoroutinesApi
@@ -84,6 +86,7 @@ class ImageSwitcher : FrameLayout {
     fun onImageClick(onImageClick: (image: BannerImage) -> Unit) {
         (binding.imagePager.adapter as ImagePagerAdapter).setOnImageClick(onImageClick)
     }
+
 
     inner class ImagePagerAdapter : PagerAdapter() {
         private var onImageClick: ((image: BannerImage) -> Unit)? = null
@@ -116,6 +119,8 @@ class ImageSwitcher : FrameLayout {
         fun setOnImageClick(onImageClick: (image: BannerImage) -> Unit){
             this.onImageClick = onImageClick
         }
+
+
     }
 
     var listener:OnPageChange?=null

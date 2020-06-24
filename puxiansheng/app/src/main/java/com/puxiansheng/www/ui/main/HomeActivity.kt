@@ -55,20 +55,24 @@ class HomeActivity: MyBaseActivity() {
     private var messageHomeFragment: Fragment = MessageHomeListFragment()
     private val fragments = listOf(homeFragment,infoHomeFragment,releaseFragment,messageHomeFragment,mineFragment)
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        val stringExtra = intent?.getStringExtra("name")
-    }
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        setIntent(intent)
+//        val stringExtra = intent?.getStringExtra("name")
+//    }
 
     override fun getLayoutId(): Int {
        return R.layout.activity_new_home
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     override fun business() {
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
-            Log.d("---city--"," get city = "+it.nodeID.toString())
             appModel?.currentCity?.postValue(it)
             API.setCityId(it.nodeID.toString())
         })
@@ -212,8 +216,9 @@ class HomeActivity: MyBaseActivity() {
 
 
     override fun onDestroy() {
-        appModel = null
+//        appModel = null
         super.onDestroy()
+        finish()
     }
 
 
@@ -231,7 +236,7 @@ class HomeActivity: MyBaseActivity() {
             .hide(fragments[2])
             .hide(fragments[3])
             .hide(fragments[4])
-            .commit();
+            .commitAllowingStateLoss();
         appModel?.lastFragment = homeFragment
         radio_group_button.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             var mFragment: Fragment? = null
@@ -243,7 +248,7 @@ class HomeActivity: MyBaseActivity() {
                         if (appModel?.lastFragment !is HomeFragment) {
                             appModel?.lastFragment?.let {
                                 supportFragmentManager.beginTransaction().hide(it)
-                                    .show(homeFragment).commit()
+                                    .show(homeFragment).commitAllowingStateLoss()
                             }
                             appModel?.lastFragment = homeFragment
                         }
@@ -252,7 +257,7 @@ class HomeActivity: MyBaseActivity() {
                         if (appModel?.lastFragment !is InfoHomeListFragment) {
                             appModel?.lastFragment?.let {
                                 supportFragmentManager.beginTransaction().hide(it)
-                                    .show(infoHomeFragment).commit()
+                                    .show(infoHomeFragment).commitAllowingStateLoss()
                             }
                             appModel?.lastFragment = infoHomeFragment
                         }
@@ -263,7 +268,7 @@ class HomeActivity: MyBaseActivity() {
                             appModel?.lastFragment?.let {
                                 supportFragmentManager.beginTransaction().hide(
                                     it
-                                ).show(releaseFragment).commit()
+                                ).show(releaseFragment).commitAllowingStateLoss()
                             }
                             appModel?.lastFragment = releaseFragment
 
@@ -275,7 +280,7 @@ class HomeActivity: MyBaseActivity() {
                                 supportFragmentManager.beginTransaction().hide(it)
                                     .show(
                                         messageHomeFragment
-                                    ).commit()
+                                    ).commitAllowingStateLoss()
                             }
                             appModel?.lastFragment = messageHomeFragment
 
@@ -286,7 +291,7 @@ class HomeActivity: MyBaseActivity() {
                         if (appModel?.lastFragment !is MineFragment) {
                             appModel?.lastFragment?.let {
                                 supportFragmentManager.beginTransaction().hide(it)
-                                    .show(mineFragment).commit()
+                                    .show(mineFragment).commitAllowingStateLoss()
                             }
                             appModel?.lastFragment = mineFragment
                         }

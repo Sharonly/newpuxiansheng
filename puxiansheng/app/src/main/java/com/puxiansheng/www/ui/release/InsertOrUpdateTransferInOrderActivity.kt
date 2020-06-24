@@ -191,7 +191,7 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
                     facilist.add(menuItem)
                     insertOrUpdateTransferInOrderViewModel.facilities.postValue(facilist)
                 }
-                (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it)
+                (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
                 list_facilities.removeAllViews()
                 val sb = StringBuilder()
                 it.forEach { menuItem ->
@@ -207,7 +207,7 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
 
         insertOrUpdateTransferInOrderViewModel.selectiveFacilityMenuData.observe(this, Observer {
             it?.takeIf { it.isNotEmpty() }?.let { list ->
-                (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(list)
+                (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(list.toMutableSet())
             }
         })
 
@@ -314,7 +314,7 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
                                         insertOrUpdateTransferInOrderViewModel.facility =
                                             sb.substring(0, sb.lastIndex)
                                     }
-                                    (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it)
+                                    (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
                                 }
 
                                 order.description?.let { description ->

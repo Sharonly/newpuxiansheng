@@ -49,14 +49,16 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
 
     override fun business() {
         viewModel = ViewModelProvider(this)[NewTransferOutOrdersViewModel::class.java]
-
+        if(NetUtil.isNetworkConnected(this)) {
+            viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+            initView()
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
-        viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-        initView()
+
     }
 
 
@@ -249,18 +251,22 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                 adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
-        refreshLayout.finishLoadMore(700)
+        refreshLayout.finishLoadMore()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         isRefresh = true
         viewModel.currentPage = 1
+        if (NetUtil.isNetworkConnected(this)) {
         lifecycleScope.launch {
             viewModel.getTransferSuccessFromRemote().let {
                 adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
-        refreshLayout.finishRefresh(1000)
+        } else {
+            Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT)
+        }
+        refreshLayout.finishRefresh()
     }
 
 

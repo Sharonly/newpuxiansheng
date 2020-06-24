@@ -1,15 +1,10 @@
 package com.puxiansheng.www.ui.mine
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.http.SslError
-import android.os.Build
 import android.webkit.*
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_service_home.*
 import kotlinx.android.synthetic.main.fragment_service_home.button_back
 import kotlinx.android.synthetic.main.fragment_service_home.info_detail
@@ -26,6 +21,7 @@ class ServiceActivity : MyBaseActivity() {
             if (intent.getStringExtra("title").toString() == "用户协议") {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 onBackPressed()
             }

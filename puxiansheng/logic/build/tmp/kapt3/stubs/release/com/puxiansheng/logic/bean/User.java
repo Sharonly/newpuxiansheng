@@ -58,7 +58,7 @@ public final class User implements android.os.Parcelable {
     private int cityId;
     @org.jetbrains.annotations.NotNull()
     @androidx.room.ColumnInfo(name = "_view_city_name")
-    @com.google.gson.annotations.SerializedName(value = "view_path_city")
+    @com.google.gson.annotations.SerializedName(value = "city")
     private java.lang.String cityName;
     @org.jetbrains.annotations.NotNull()
     @androidx.room.ColumnInfo(name = "_view_city_path")

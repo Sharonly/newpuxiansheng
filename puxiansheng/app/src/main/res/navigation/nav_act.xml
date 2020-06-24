@@ -36,10 +36,6 @@
             android:id="@+id/action_mainFragment_to_myfarvorFragment"
             app:destination="@+id/myfarvorFragment" />
 
-        <action
-            android:id="@+id/action_mainFragment_to_serviceFragment"
-            app:destination="@id/serviceFragment" />
-
     </fragment>
 
 
@@ -80,12 +76,6 @@
         tools:layout="@layout/fragment_mine">
 
     </fragment>
-
-
-    <fragment
-        android:id="@+id/serviceFragment"
-        android:name="com.puxiansheng.www.ui.mine.ServiceActivity"
-        android:label="ServiceFragment"/>
 
 
     <fragment

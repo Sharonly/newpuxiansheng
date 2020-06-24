@@ -191,6 +191,30 @@
                 android:background="@color/line_gray"
                 android:layout_below="@+id/user_company"/>
 
+<!--            <TextView-->
+<!--                android:id="@+id/txt_consult"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="53dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textColor="@color/input_text_blank"-->
+<!--                android:layout_marginLeft="16dp"-->
+<!--                android:layout_below="@+id/line4"-->
+<!--                android:textSize="16sp"-->
+<!--                android:text="@string/term_consult"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/name_consult"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="54dp"-->
+<!--                android:textColor="@color/text_gray"-->
+<!--                android:layout_alignTop="@+id/txt_consult"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:text="@string/consult_name"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:textSize="16sp"/>-->
+
+
             <TextView
                 android:id="@+id/txt_consult"
                 android:layout_width="wrap_content"
@@ -200,16 +224,16 @@
                 android:layout_marginLeft="16dp"
                 android:layout_below="@+id/line4"
                 android:textSize="16sp"
-                android:text="@string/term_consult"/>
+                android:text="隐私政策"/>
 
             <TextView
                 android:id="@+id/name_consult"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:layout_alignTop="@+id/txt_consult"
                 android:gravity="center_vertical"
-                android:text="@string/consult_name"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:textSize="16sp"/>

@@ -115,7 +115,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }.await()
 
     suspend fun loginByType(loginType: Int) = viewModelScope.async(Dispatchers.IO) {
-        Log.d("---login--","logintype = "+loginType)
+        Log.d("---intent--","logintype = "+loginType)
         when (loginType) {
             MODE_LOGIN_WITH_PASSWORD -> {
                 userRepository.loginByPass(userAccount = userAccount, userPassword = userPassword)
@@ -134,7 +134,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     .let { apiRst -> dealLoginDate(apiRst) }
             }
             MODE_REGISTER -> {
-                Log.d("---login--","register = "+loginType)
                 userRepository.register(
                     userAccount = userAccount,
                     verificationCode = verificationCode
@@ -217,7 +216,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun dealLoginDate(apiRst: APIRst<Response>) = viewModelScope.async(Dispatchers.IO) {
         if (apiRst.succeeded) {
-            Log.d("--login","apiRst.succeeded ")
+            Log.d("--intent","apiRst.succeeded ")
             if (com.puxiansheng.util.BuildConfig.DEBUG) println("apiRst.succeeded === ")
             (apiRst as APIRst.Success).let { apiResp ->
                 apiResp.data.body?.string()?.let { body ->
@@ -230,6 +229,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                                     user.loginTimestamp = System.currentTimeMillis()
                                     user.loginState = 1
                                     userRepository.insertUser(user)
+                                    Log.d("--intent","apiRst.insertUser-- ")
                                     return@async user
                                 }
                             }
@@ -247,7 +247,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             }
         } else {
             (apiRst as APIRst.Error).let {
-                if (com.puxiansheng.util.BuildConfig.DEBUG) println("apiRst.Error = $apiRst")
+                if (com.puxiansheng.util.BuildConfig.DEBUG) Log.d("--intent","apiRst.Error = $apiRst")
                 toastMsg.postValue(it.exception.message)
             }
             return@async null

@@ -46,6 +46,7 @@ class LoginActivity : MyBaseActivity() {
     private lateinit var loginViewModel: LoginViewModel
     var loginType = MODE_LOGIN_WITH_PASSWORD
     var passIsShow = false
+    var isLogin = false
 
     override fun getLayoutId(): Int {
         return R.layout.activity_login
@@ -160,11 +161,11 @@ class LoginActivity : MyBaseActivity() {
 
 
         ic_eye.setOnClickListener {
-            if(!passIsShow){
+            if (!passIsShow) {
                 input_user_password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 ic_eye.setImageResource(R.mipmap.ic_yincang)
                 passIsShow = true
-            }else {
+            } else {
                 input_user_password.inputType =
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 ic_eye.setImageResource(R.mipmap.ic_xianshi)
@@ -206,45 +207,50 @@ class LoginActivity : MyBaseActivity() {
                     return@setOnClickListener
                 }
             }
+
             lifecycleScope.launch() {
-                loginViewModel.loginByType(loginType)?.let {
-                    if (it is User) {
-                        if (loginType == MODE_REGISTER) {
-                            loginViewModel.userAccount = input_user_phonenum.text.toString()
-                            loginViewModel.loginMode.postValue(MODE_LOGIN_WITH_PASSWORD)
-                            LoginSuccessDialog(it.tipsMsg).show(
-                                supportFragmentManager,
-                                LoginSuccessDialog::class.java.name
-                            )
-                            initLoginView()
-                        } else {
-                            SharedPreferencesUtil.put(
-                                API.LOGIN_USER_TOKEN,
-                                it.token
-                            )
-                            SharedPreferencesUtil.put(
-                                API.LOGIN_NICK_NAME,
-                                it.name
-                            )
-                            SharedPreferencesUtil.put(
-                                API.LOGIN_ACTUL_NAME,
-                                it.actualName
-                            )
-                            SharedPreferencesUtil.put(
-                                API.LOGIN_USER_ICON,
-                                it.icon
-                            )
-                            SharedPreferencesUtil.put(
-                                API.LOGIN_USER_PHONE,
-                                it.userPhoneNumber
-                            )
-                            SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
-                            API.setAuthToken(it.token)
-                            LiveDataBus.get().with("user")?.value = it
-                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                if (!isLogin) {
+                    isLogin = true
+                    loginViewModel.loginByType(loginType)?.let {
+                        if (it is User) {
+                            if (loginType == MODE_REGISTER) {
+                                loginViewModel.userAccount = input_user_phonenum.text.toString()
+                                loginViewModel.loginMode.postValue(MODE_LOGIN_WITH_PASSWORD)
+                                LoginSuccessDialog(it.tipsMsg).show(
+                                    supportFragmentManager,
+                                    LoginSuccessDialog::class.java.name
+                                )
+                                initLoginView()
+                            } else {
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_USER_TOKEN,
+                                    it.token
+                                )
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_NICK_NAME,
+                                    it.name
+                                )
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_ACTUL_NAME,
+                                    it.actualName
+                                )
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_USER_ICON,
+                                    it.icon
+                                )
+                                SharedPreferencesUtil.put(
+                                    API.LOGIN_USER_PHONE,
+                                    it.userPhoneNumber
+                                )
+                                SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
+                                API.setAuthToken(it.token)
+                                LiveDataBus.get().with("user")?.value = it
+                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
                         }
+                        isLogin = false
                     }
                 }
             }
@@ -292,61 +298,74 @@ class LoginActivity : MyBaseActivity() {
 
         loginViewModel.wechatCode.observe(this@LoginActivity, Observer { weChatCode ->
             weChatCode?.let { code ->
+                Log.d("intent", " MODE_LOGIN_WITH_WECHAT = " + code)
                 if (code.isNotEmpty()) {
                     loginViewModel.wechatLoginCode = code
                     if (loginViewModel.wechatLoginCode.isNotEmpty()) {
                         lifecycleScope.launch() {
-                            loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
-                                ?.let { result ->
-                                    loginViewModel.wechatLoginCode = ""
-                                    if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
-                                        val intent =
-                                            Intent(context, BindMobileNumberActivity::class.java)
-                                        intent.putExtra(
-                                            "id",
-                                            result.dataObject?.result.toString() ?: "-99"
-                                        )
-                                        context.startActivity(intent)
-                                    } else {
-                                        if (result is User) {
-                                            Log.d("---login--", "is User")
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_USER_ID,
-                                                result.userID
+                            Log.d("intent", " loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT) ")
+                            if (!isLogin) {
+                                isLogin = true
+                                loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
+                                    ?.let { result ->
+                                        loginViewModel.wechatLoginCode = ""
+                                        if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
+                                            val intent =
+                                                Intent(
+                                                    context,
+                                                    BindMobileNumberActivity::class.java
+                                                )
+                                            intent.putExtra(
+                                                "id",
+                                                result.dataObject?.result.toString() ?: "-99"
                                             )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_USER_TOKEN,
-                                                result.token
-                                            )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_NICK_NAME,
-                                                result.name
-                                            )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_ACTUL_NAME,
-                                                result.actualName
-                                            )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_USER_ICON,
-                                                result.icon
-                                            )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_USER_PHONE,
-                                                result.userPhoneNumber
-                                            )
-                                            SharedPreferencesUtil.put(
-                                                API.LOGIN_USER_STATE,
-                                                1
-                                            )
-                                            SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
-                                            API.setAuthToken(result.token)
-                                            LiveDataBus.get().with("user")?.value = result
-                                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                                            startActivity(intent)
-                                            finish()
+                                            context.startActivity(intent)
+                                        } else {
+                                            if (result is User) {
+                                                Log.d("---login--", "is User")
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_USER_ID,
+                                                    result.userID
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_USER_TOKEN,
+                                                    result.token
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_NICK_NAME,
+                                                    result.name
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_ACTUL_NAME,
+                                                    result.actualName
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_USER_ICON,
+                                                    result.icon
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_USER_PHONE,
+                                                    result.userPhoneNumber
+                                                )
+                                                SharedPreferencesUtil.put(
+                                                    API.LOGIN_USER_STATE,
+                                                    1
+                                                )
+                                                SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
+                                                API.setAuthToken(result.token)
+                                                LiveDataBus.get().with("user")?.value = result
+                                                val intent =
+                                                    Intent(
+                                                        this@LoginActivity,
+                                                        HomeActivity::class.java
+                                                    )
+                                                startActivity(intent)
+                                                finish()
+                                            }
                                         }
+                                        isLogin = false
                                     }
-                                }
+                            }
                         }
                     }
                 }
@@ -372,6 +391,7 @@ class LoginActivity : MyBaseActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
+        Log.d("---intent", " intent?.extras?  " + intent?.extras?.getString("authCode"))
         loginViewModel?.wechatCode?.postValue(intent?.extras?.getString("authCode"))
     }
 

@@ -132,6 +132,7 @@ class RemoteUserRepository {
     ).let {
         Log.d("---login--","DO_LOGIN_BY_WECHAT it = "+it)
         callForJson(it)
+//        call(it)
     }
 
     fun logout(

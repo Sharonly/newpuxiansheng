@@ -13,8 +13,7 @@
             android:src="@mipmap/banner_head_bg"
             android:paddingTop="140dp"
             android:scaleType="fitXY"
-            android:background="@color/appMain"
-            />
+            android:background="@mipmap/bg_defult_banner" />
 
         <com.youth.banner.Banner
             android:id="@+id/banner"

@@ -14,8 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.logic.bean.Order
+import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.databinding.DialogAdvertBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.android.synthetic.main.recycler_fast_transfer_bg_item.*
 import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.launch
@@ -52,6 +54,13 @@ class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
         lifecycleOwner = viewLifecycleOwner
 
         imgSwitcher.setImages(baners)
+        imgIndex.text = imgSwitcher.getCurrentPos().toString() + "/" + baners.size
+        imgSwitcher.listener = object : ImageSwitcher.OnPageChange {
+            override fun onScrolled(index: Int) {
+                imgIndex.text =
+                    imgSwitcher.getCurrentPos().toString() + "/" + baners.size
+            }
+        }
         imgSwitcher.onImageClick { image: BannerImage ->
             Log.d("---jump--"," image= "+image.jump_param+"  ="+image.jump_type+"   ="+image.jump_view)
             appModel.pictureIntent(context,image) }

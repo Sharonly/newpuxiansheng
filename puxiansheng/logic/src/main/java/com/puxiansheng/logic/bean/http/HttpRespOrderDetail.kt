@@ -214,6 +214,9 @@ data class OrderDetailObject(
     @SerializedName("jump_param")
     var jump_param: String = "",
 
+    @SerializedName("is_update_time")
+    var isUpdateTime :Int = 0,
+
     @SerializedName("data")
     var articles: List<ArticleBean>? = null
 

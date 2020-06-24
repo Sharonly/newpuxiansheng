@@ -74,10 +74,25 @@ class UserOrderProcessingActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                         viewModel.shopId = order?.shopID.toString()
                         viewModel.type = order?.data_type.toString()
                         lifecycleScope.launch {
-                            viewModel.refreshShopFromRemote().let {
-                                it
-                                Toast.makeText(this@UserOrderProcessingActivity, it?.msg, Toast.LENGTH_SHORT)
-                                        .show()
+                            if(order.isUpdateTime == 0){
+                                lifecycleScope.launch {
+                                    viewModel.refreshShopFromRemote().let {
+                                        it
+                                        Toast.makeText(this@UserOrderProcessingActivity, it?.msg, Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                    isRefresh = true
+                                    viewModel.getRemoteUserDealOrders().let { list ->
+                                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                                    }
+                                }
+                            }else{
+                                Toast.makeText(
+                                    this@UserOrderProcessingActivity,
+                                    "本条今日刷新次数已用完",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
                             }
                         }
                     }

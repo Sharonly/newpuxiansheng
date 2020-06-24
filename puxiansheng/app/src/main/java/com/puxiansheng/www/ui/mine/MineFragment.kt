@@ -62,11 +62,11 @@ class MineFragment : AppFragment() {
             lifecycleScope.launch {
                 mineViewModel.getUserInformationFromRemote()?.let {
                     if (it is User) {
-                        Log.d("---imageicon","UserInformation it.icon = "+it.icon)
+                        Log.d("---imageicon", "UserInformation it.icon = " + it.icon)
                         user_icon.urlIcon(it.icon)
                         user_account.text = it.nickName ?: it.actualName
                         user_phone.visibility = View.VISIBLE
-                        user_phone.text = get(API.LOGIN_USER_PHONE,"").toString()
+                        user_phone.text = get(API.LOGIN_USER_PHONE, "").toString()
                         SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
                     } else {
                         user_account.text = "请登录"
@@ -117,11 +117,11 @@ class MineFragment : AppFragment() {
         lifecycleScope.launch {
             mineViewModel.getUserInformationFromRemote()?.let {
                 if (it is User) {
-                    Log.d("---imageicon","UserInformation it.icon = "+it.icon)
+                    Log.d("---imageicon", "UserInformation it.icon = " + it.icon)
                     user_icon.urlIcon(it.icon)
                     user_account.text = it.nickName ?: it.actualName
                     user_phone.visibility = View.VISIBLE
-                    user_phone.text = get(API.LOGIN_USER_PHONE,"").toString()
+                    user_phone.text = get(API.LOGIN_USER_PHONE, "").toString()
                     SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
                 } else {
                     user_account.text = "请登录"
@@ -144,6 +144,7 @@ class MineFragment : AppFragment() {
             mineViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
                 bt_my_kefu.setOnClickListener {
                     val intent = Intent(context, ServiceActivity::class.java)
+                    intent.putExtra("title", "我的客服")
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
@@ -281,7 +282,12 @@ class MineFragment : AppFragment() {
             }
         }
 
-
+        phoneNum.setOnClickListener {
+            Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${phoneNum.text}")
+                startActivity(this)
+            }
+        }
 
         messageManager.setOnClickListener {
             val mIntent = Intent(Intent.ACTION_VIEW)
@@ -309,9 +315,9 @@ class MineFragment : AppFragment() {
                     isLogin = true
                     userAccount?.text = user.name ?: user.nickName
                     userPhone?.visibility = View.VISIBLE
-                    userPhone?.text = get(API.LOGIN_USER_PHONE,"").toString()
+                    userPhone?.text = get(API.LOGIN_USER_PHONE, "").toString()
                     SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
-                    Log.d("---imageicon"," user.icon = "+user.icon)
+                    Log.d("---imageicon", " user.icon = " + user.icon)
                     if (user.icon.isNotEmpty()) {
                         userIcon?.urlIcon(user.icon)
                     }

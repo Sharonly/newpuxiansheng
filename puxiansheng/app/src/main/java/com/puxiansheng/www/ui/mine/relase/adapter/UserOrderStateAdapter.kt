@@ -63,7 +63,7 @@ class UserOrderStateAdapter(
         return 0
     }
 
-    @SuppressLint("Range")
+    @SuppressLint("Range", "ResourceAsColor")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is UserOrderViewHolder) {
             var shopInfo = dataList[position]
@@ -81,6 +81,14 @@ class UserOrderStateAdapter(
                     holder.btDelete.visibility = View.VISIBLE
                     holder.btEdit.visibility = View.VISIBLE
                     holder.btRefresh.visibility = View.VISIBLE
+
+                    if(shopInfo.isUpdateTime == 1) {
+                        holder.btRefresh.setTextColor(Color.parseColor("#989796"))
+                        holder.btRefresh.setBackgroundResource(R.drawable.bg_bt_edit)
+                    }else{
+                        holder.btRefresh.setTextColor(Color.parseColor("#F78934"))
+                        holder.btRefresh.setBackgroundResource(R.drawable.bg_bt_delete)
+                    }
                 }
 
                 shopInfo?.state?.let { status ->

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.LiveDataBus
@@ -80,6 +82,7 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
         adapter = NewInfoListAdapter(requireContext(), arrayListOf())
         list.adapter = adapter
 
+        if (NetUtil.isNetworkConnected(requireContext())) {
         lifecycleScope.launch {
             viewModel.getInfoListByCategory(category).let {
                 adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
@@ -96,30 +99,41 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
                     }
                 }
             })
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
 
     }.root
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         viewModel.currentPage += 1
         isRefresh = false
+        if (NetUtil.isNetworkConnected(requireContext())) {
         lifecycleScope.launch {
             viewModel.getInfoListByCategory(category).let {
                 adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
             }
         }
-        refreshLayout.finishLoadMore(1000)
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
+        refreshLayout.finishLoadMore()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         viewModel.title =""
         viewModel.currentPage = 1
         isRefresh = true
+        if (NetUtil.isNetworkConnected(requireContext())) {
         lifecycleScope.launch {
             viewModel.getInfoListByCategory(category).let {
                 adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
             }
         }
-        refreshLayout.finishRefresh(1000)
+    } else {
+        Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+    }
+        refreshLayout.finishRefresh()
     }
 
 

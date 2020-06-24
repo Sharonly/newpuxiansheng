@@ -27,7 +27,7 @@ class ReleaseFacilityAdapter (
     override fun onBindViewHolder(holder: MenuItemHolder, position: Int) =
         holder.bind(list[position], holder.adapterPosition)
 
-    fun setMenuData(menuData: List<MenuItem>) {
+    fun setMenuData(menuData: MutableSet<MenuItem>) {
         list = menuData.toMutableList()
         notifyDataSetChanged()
     }

@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.mine.relase
 
+import android.annotation.SuppressLint
 import com.google.android.material.tabs.TabLayoutMediator
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -15,6 +16,7 @@ class MyReleaseAllActivity :MyBaseActivity(){
     }
 
 
+    @SuppressLint("ResourceType")
     private fun initView(){
         pager.adapter = ReleasedOrdersPagerAdapter(
             fragmentManager = supportFragmentManager,
@@ -29,6 +31,8 @@ class MyReleaseAllActivity :MyBaseActivity(){
                     else -> ""
                 }
             }).attach()
+
+//        tabs.setSelectedTabIndicator(1)
 
         button_back.setOnClickListener {
            onBackPressed()

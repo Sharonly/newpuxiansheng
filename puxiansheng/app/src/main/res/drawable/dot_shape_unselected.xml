@@ -3,9 +3,9 @@
     android:shape="oval"
     android:useLevel="false">
 
-    <solid android:color="#f5f5f5" />
+    <solid android:color="@color/bg_bt_confirm_gray" />
 
     <size
-        android:width="5dp"
-        android:height="5dp" />
+        android:width="6dp"
+        android:height="6dp" />
 </shape>

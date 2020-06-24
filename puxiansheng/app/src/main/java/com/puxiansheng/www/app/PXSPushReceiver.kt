@@ -49,11 +49,13 @@ class PXSPushReceiver : JPushMessageReceiver() {
             1 -> when (data.jump_view) {
                 "transfer_list" -> {
                     val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+                    intent.putExtra("title", "*")
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
                 "find_list" -> {
                     val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+                    intent.putExtra("title", "*")
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
@@ -84,17 +86,19 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 }
 
                 "transfer_shop" -> {
-                    val intent2 = Intent(context, NewTransferOutOrdersActivity::class.java)
-                    context.startActivity(intent2)
+                    val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+                    intent.putExtra("title", "*")
+                    context.startActivity(intent)
                 }
 
                 "find_shop" -> {
-                    val intent2 = Intent(context, NewTransferInOrdersActivity::class.java)
-                    context.startActivity(intent2)
+                    val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+                    intent.putExtra("title", "*")
+                    context.startActivity(intent)
                 }
                 "notice_list" -> {
-                    val intent2 = Intent(context, NewTransferSuccessOrdersActivity::class.java)
-                    context.startActivity(intent2)
+                    val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+                    context.startActivity(intent)
                 }
             }
 

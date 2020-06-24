@@ -28,9 +28,17 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.message.MessageDetailActivity
+import com.puxiansheng.www.ui.mine.ServiceActivity
+import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
+import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
+import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.ticker
@@ -352,7 +360,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun pictureIntent(context: Activity, image: BannerImage) {
-        Log.d("---jump--"," pictureIntent--->${image.jump_param}--->${image.imageUrl}")
+        Log.d("---jump--"," pictureIntent--->${image.jump_param}--->${image.imageUrl}"+"   image.jump_type = "+image.jump_type+"  image.jump_view =  "+image.jump_view+"  image.jump_param = "+image.jump_param)
         when (image.jump_type) {
             1 -> {
                 when (image.jump_view) {
@@ -360,19 +368,45 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     "transfer_list" -> {
                         val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+                        intent.putExtra("title", "*")
                         context.startActivity(intent)
                     }
                     "find_list" -> {
                         val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+                        intent.putExtra("title", "*")
                         context.startActivity(intent)
                     }
 
-                    "activity_list" -> {//文章列表
 
+                    "activity_list" -> {//文章列表
+                        val intent = Intent(context, HomeActivity::class.java)
+                        intent.putExtra("name", "5")
+                        context.startActivity(intent)
                     }
                     "user_center" -> {
 
                     }
+
+                    "join_list" ->{
+                        val intent = Intent(context, BusinessListActivity::class.java)
+                        intent.putExtra("title", "*")
+                        context.startActivity(intent)
+                    }
+
+                    "quick_transfer" ->{
+                        val intent = Intent(context, FastTransferOutActivity::class.java)
+                        context.startActivity(intent)
+                    }
+
+                    "quick_find" ->{
+                        val intent = Intent(context, FastTransferInActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                    "about_us" ->{
+                        val intent = Intent(context, AboutUsActivity::class.java)
+                        context.startActivity(intent)
+                    }
+
                     "shop_success" -> {//成功案例
                         val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
                         context.startActivity(intent)
@@ -407,6 +441,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 intent.putExtra("url", image.jump_param)
                 context.startActivity(intent)
             }
+
+            6 ->{
+                val intent = Intent(context,
+                    InsertOrUpdateTransferOutOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+
+            }
+            7->{
+                val intent = Intent( context,
+                    InsertOrUpdateTransferInOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            8 ->{
+                val intent = Intent( context,
+                    TransferOutOrderDetailActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            9 ->{
+                val intent = Intent( context,
+                    MessageDetailActivity::class.java
+                )
+                intent.putExtra("noticeId", image.jump_param)
+                context.startActivity(intent)
+            }
+
         }
 
     }

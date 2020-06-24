@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.MessageItem
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.LiveDataBus
@@ -34,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MessageListFragment(): Fragment() , OnRefreshLoadMoreListener {
+class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
     companion object {
 
         fun newInstance(category: Int) = MessageListFragment().apply {
@@ -66,7 +68,7 @@ class MessageListFragment(): Fragment() , OnRefreshLoadMoreListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =  FragmentNewInfoListBinding.inflate(inflater).apply {
+    ): View? = FragmentNewInfoListBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         viewModel.cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
@@ -81,24 +83,48 @@ class MessageListFragment(): Fragment() , OnRefreshLoadMoreListener {
         adapter = NewMessageListAdapter(requireContext(), arrayListOf())
         list.adapter = adapter
 
-        lifecycleScope.launch {
-            viewModel.getMessageListByCategory(category).let {
-                adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
-            }
-        }
-
-        LiveDataBus.get().with("infoTitle", String::class.java)
-            ?.observe(requireActivity(), Observer {
-                viewModel.title = it.toString()
-                isRefresh = true
-                lifecycleScope.launch {
-                    viewModel.getMessageListByCategory(category).let {
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.getMessageListByCategory(category).let {
+                    if (!it.isNullOrEmpty()) {
                         adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
                     }
                 }
-            })
+            }
+        }
+
+//        LiveDataBus.get().with("infoTitle", String::class.java)
+//            ?.observe(requireActivity(), Observer {
+//                viewModel.title = it.toString()
+//                isRefresh = true
+//                lifecycleScope.launch {
+//                    viewModel.getMessageListByCategory(category).let {
+//                        adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+//                    }
+//                }
+//            })
 
     }.root
+
+
+    override fun onResume() {
+        super.onResume()
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.title = ""
+                viewModel.currentPage = 1
+                isRefresh = true
+                viewModel.getMessageListByCategory(category).let {
+                    if (!it.isNullOrEmpty()) {
+                        adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
+    }
+
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         viewModel.currentPage += 1
@@ -108,19 +134,23 @@ class MessageListFragment(): Fragment() , OnRefreshLoadMoreListener {
                 adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
             }
         }
-        refreshLayout.finishLoadMore(1000)
+        refreshLayout.finishLoadMore()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        viewModel.title =""
+        viewModel.title = ""
         viewModel.currentPage = 1
         isRefresh = true
-        lifecycleScope.launch {
-            viewModel.getMessageListByCategory(category).let {
-                adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            lifecycleScope.launch {
+                viewModel.getMessageListByCategory(category).let {
+                    adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
+                }
             }
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
         }
-        refreshLayout.finishRefresh(1000)
+        refreshLayout.finishRefresh()
     }
 
 

@@ -64,6 +64,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                                 this@MessageDetailActivity,
                                                 NewTransferOutOrdersActivity::class.java
                                             )
+                                            intent.putExtra("title", "*")
                                             startActivity(intent)
                                         }
                                         "find_list" -> {
@@ -71,6 +72,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                                 this@MessageDetailActivity,
                                                 NewTransferInOrdersActivity::class.java
                                             )
+                                            intent.putExtra("title", "*")
                                             startActivity(intent)
                                         }
 

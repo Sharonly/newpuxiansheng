@@ -18,7 +18,7 @@ class InvestBusnessViewModel(application: Application) : AndroidViewModel(applic
     private val context = getApplication<Application>().applicationContext
     private val imageRepository = ImageRepository()
     private val businessRepository = BusinessRepository(BusinessDatabase.getInstance(context).businessDao())
-    var currentPage = 0
+    var currentPage = 1
     var title = ""
     var name = ""
     var phone = ""

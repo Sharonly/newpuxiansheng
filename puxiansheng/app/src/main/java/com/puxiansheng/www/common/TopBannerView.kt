@@ -67,7 +67,7 @@ class TopBannerView : FrameLayout  ,LifecycleEventObserver {
                     if (vibrantColor != null) {
                         bgBanner.setBackgroundColor(vibrantColor)
                     }else{
-                        bgBanner.setBackgroundColor(R.color.appMain)
+                        bgBanner.setBackgroundColor(R.color.white)
                     }
 //                    MainActivity.setStatusBarColor(this@MainActivity, vibrantColor)
                 }

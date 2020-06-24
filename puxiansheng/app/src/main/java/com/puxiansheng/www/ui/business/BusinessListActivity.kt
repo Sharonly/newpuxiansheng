@@ -3,6 +3,7 @@ package com.puxiansheng.www.ui.business
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -97,6 +98,7 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
                 image_switcher.setImages(banners)
             }
 
+            isRefresh = true
             viewModel.getBusinessList()?.let {
                 adapter?.addList(it as ArrayList<BusinessBean>, isRefresh)
             }
@@ -113,9 +115,11 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         isRefresh = false
+        Log.d("---business","isRefresh = "+isRefresh)
         viewModel.currentPage += 1
         lifecycleScope.launch {
             viewModel.getBusinessList()?.let {
+                Log.d("---business","it = "+it.size)
                 adapter?.addList(it as ArrayList<BusinessBean>, isRefresh)
             }
         }
@@ -133,6 +137,7 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
             }
 
             viewModel.getBusinessList()?.let {
+                Log.d("---business","onRefresh it = "+it.size)
                 adapter?.addList(it as ArrayList<BusinessBean>, isRefresh)
             }
         }
