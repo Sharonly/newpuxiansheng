@@ -35,7 +35,7 @@ public final class InfoDao_Impl implements InfoDao {
     this.__insertionAdapterOfInfoItem = new EntityInsertionAdapter<InfoItem>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `table_info` (`_id`,`_info_id`,`_title`,`_release_date`,`_image`,`_category`,`_author`,`_url`,`_page_views`,`_param`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `table_info` (`_id`,`_info_id`,`_title`,`micro`,`_release_date`,`_image`,`_category`,`_author`,`_url`,`_page_views`,`_param`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -47,32 +47,37 @@ public final class InfoDao_Impl implements InfoDao {
         } else {
           stmt.bindString(3, value.getTitle());
         }
-        if (value.getDate() == null) {
+        if (value.getMicro() == null) {
           stmt.bindNull(4);
         } else {
-          stmt.bindString(4, value.getDate());
+          stmt.bindString(4, value.getMicro());
         }
-        if (value.getImage() == null) {
+        if (value.getDate() == null) {
           stmt.bindNull(5);
         } else {
-          stmt.bindString(5, value.getImage());
+          stmt.bindString(5, value.getDate());
         }
-        stmt.bindLong(6, value.getCategory());
-        if (value.getAuthor() == null) {
-          stmt.bindNull(7);
+        if (value.getImage() == null) {
+          stmt.bindNull(6);
         } else {
-          stmt.bindString(7, value.getAuthor());
+          stmt.bindString(6, value.getImage());
         }
-        if (value.getUrl() == null) {
+        stmt.bindLong(7, value.getCategory());
+        if (value.getAuthor() == null) {
           stmt.bindNull(8);
         } else {
-          stmt.bindString(8, value.getUrl());
+          stmt.bindString(8, value.getAuthor());
         }
-        stmt.bindLong(9, value.getPageViews());
-        if (value.getJump_param() == null) {
-          stmt.bindNull(10);
+        if (value.getUrl() == null) {
+          stmt.bindNull(9);
         } else {
-          stmt.bindString(10, value.getJump_param());
+          stmt.bindString(9, value.getUrl());
+        }
+        stmt.bindLong(10, value.getPageViews());
+        if (value.getJump_param() == null) {
+          stmt.bindNull(11);
+        } else {
+          stmt.bindString(11, value.getJump_param());
         }
       }
     };
@@ -172,6 +177,7 @@ public final class InfoDao_Impl implements InfoDao {
             final int _cursorIndexOfItemID = CursorUtil.getColumnIndexOrThrow(cursor, "_id");
             final int _cursorIndexOfInfoID = CursorUtil.getColumnIndexOrThrow(cursor, "_info_id");
             final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(cursor, "_title");
+            final int _cursorIndexOfMicro = CursorUtil.getColumnIndexOrThrow(cursor, "micro");
             final int _cursorIndexOfDate = CursorUtil.getColumnIndexOrThrow(cursor, "_release_date");
             final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(cursor, "_image");
             final int _cursorIndexOfCategory = CursorUtil.getColumnIndexOrThrow(cursor, "_category");
@@ -188,6 +194,8 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpInfoID = cursor.getInt(_cursorIndexOfInfoID);
               final String _tmpTitle;
               _tmpTitle = cursor.getString(_cursorIndexOfTitle);
+              final String _tmpMicro;
+              _tmpMicro = cursor.getString(_cursorIndexOfMicro);
               final String _tmpDate;
               _tmpDate = cursor.getString(_cursorIndexOfDate);
               final String _tmpImage;
@@ -202,7 +210,7 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpPageViews = cursor.getInt(_cursorIndexOfPageViews);
               final String _tmpJump_param;
               _tmpJump_param = cursor.getString(_cursorIndexOfJumpParam);
-              _item = new InfoItem(_tmpItemID,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
+              _item = new InfoItem(_tmpItemID,_tmpInfoID,_tmpTitle,_tmpMicro,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
               _res.add(_item);
             }
             return _res;
@@ -225,6 +233,7 @@ public final class InfoDao_Impl implements InfoDao {
             final int _cursorIndexOfItemID = CursorUtil.getColumnIndexOrThrow(cursor, "_id");
             final int _cursorIndexOfInfoID = CursorUtil.getColumnIndexOrThrow(cursor, "_info_id");
             final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(cursor, "_title");
+            final int _cursorIndexOfMicro = CursorUtil.getColumnIndexOrThrow(cursor, "micro");
             final int _cursorIndexOfDate = CursorUtil.getColumnIndexOrThrow(cursor, "_release_date");
             final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(cursor, "_image");
             final int _cursorIndexOfCategory = CursorUtil.getColumnIndexOrThrow(cursor, "_category");
@@ -241,6 +250,8 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpInfoID = cursor.getInt(_cursorIndexOfInfoID);
               final String _tmpTitle;
               _tmpTitle = cursor.getString(_cursorIndexOfTitle);
+              final String _tmpMicro;
+              _tmpMicro = cursor.getString(_cursorIndexOfMicro);
               final String _tmpDate;
               _tmpDate = cursor.getString(_cursorIndexOfDate);
               final String _tmpImage;
@@ -255,7 +266,7 @@ public final class InfoDao_Impl implements InfoDao {
               _tmpPageViews = cursor.getInt(_cursorIndexOfPageViews);
               final String _tmpJump_param;
               _tmpJump_param = cursor.getString(_cursorIndexOfJumpParam);
-              _item = new InfoItem(_tmpItemID,_tmpInfoID,_tmpTitle,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
+              _item = new InfoItem(_tmpItemID,_tmpInfoID,_tmpTitle,_tmpMicro,_tmpDate,_tmpImage,_tmpCategory,_tmpAuthor,_tmpUrl,_tmpPageViews,_tmpJump_param);
               _res.add(_item);
             }
             return _res;

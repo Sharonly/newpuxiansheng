@@ -55,6 +55,7 @@ class NewInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>) 
         if (holder is InfoViewHolder) {
             var info = lists[position]
             holder.title.text = info?.title
+            holder.desc.text = info?.micro
             holder.data.text = info?.date
             holder.pageViews.text = info?.pageViews.toString()
             holder.icon.url(info?.image)
@@ -72,6 +73,7 @@ class NewInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>) 
         val root:View = containerView.findViewById(R.id.layout)
         val icon:ImageView = containerView.findViewById(R.id.icon)
         val title:TextView = containerView.findViewById(R.id.title)
+        val desc:TextView =  containerView.findViewById(R.id.desc)
         val pageViews:TextView = containerView.findViewById(R.id.page_views)
         val data:TextView = containerView.findViewById(R.id.data)
 

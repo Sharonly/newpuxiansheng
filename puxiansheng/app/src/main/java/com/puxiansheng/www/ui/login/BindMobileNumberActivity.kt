@@ -1,7 +1,6 @@
 package com.puxiansheng.www.ui.login
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
@@ -12,9 +11,8 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.ui.main.HomeActivity
-import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bind_phone.*
 import kotlinx.android.synthetic.main.activity_bind_phone.input_account
 import kotlinx.android.synthetic.main.activity_bind_phone.input_vertoken
@@ -41,7 +39,6 @@ class BindMobileNumberActivity : MyBaseActivity() {
 
 
 private fun initView(){
-
     input_account.addTextChangedListener { editable ->
         editable?.toString()?.let {
             viewModel.userAccount = it
@@ -148,7 +145,6 @@ private fun initView(){
                 requestVerificationCode.isEnabled = false
             }
         })
-
 
     }
 

@@ -15,7 +15,6 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.HomeActivity
-import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity

@@ -17,7 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.databinding.DialogChangeIconBinding
 import java.io.File
 

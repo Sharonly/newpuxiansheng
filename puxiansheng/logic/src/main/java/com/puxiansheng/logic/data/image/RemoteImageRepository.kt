@@ -12,6 +12,18 @@ import com.puxiansheng.util.http.buildRequest
 
 class RemoteImageRepository {
 
+    fun requestMenuImages(): APIRst<APIResp<HttpRespBannerImages>> =
+        buildRequest(
+            url = API.GET_HOME_MENU, fieldMap = mutableMapOf<String,String>().also {
+                it["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            Log.d("homeMenu","it = "+it)
+            API.call(it)
+        }
+
+
     fun requestRemoteImages(position: String): APIRst<APIResp<HttpRespBannerImages>> =
         buildRequest(
             url = API.GET_IMAGES, fieldMap = mutableMapOf(
@@ -23,6 +35,8 @@ class RemoteImageRepository {
         ).let {
             API.call(it)
         }
+
+
 
 
     fun requestRemoteBanner(position: String): APIRst<APIResp<HttpRespBanner>> =

@@ -9,6 +9,9 @@ data class BannerImage(
     @SerializedName("img")
     val imageUrl: String = "",
 
+    @SerializedName("title")
+    val title: String = "",
+
     @SerializedName("img_height")
     val imageHeight: Int = 0,
 
@@ -25,5 +28,14 @@ data class BannerImage(
     val jump_view: String = "",
 
     @SerializedName("jump_param")
-    val jump_param: String = ""
+    val jump_param: String = "",
+
+    @SerializedName("api_jump_type")
+    val api_jump_type: Int?= 0,
+
+    @SerializedName("api_jump_view")
+    val api_jump_view: String = "",
+
+    @SerializedName("api_jump_param")
+    val api_jump_param: String = ""
 )

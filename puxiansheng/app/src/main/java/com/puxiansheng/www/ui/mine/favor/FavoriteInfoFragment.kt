@@ -1,9 +1,7 @@
 package com.puxiansheng.www.ui.mine.favor
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentMineFavorInnerFragmentBinding
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import kotlinx.coroutines.launch
 

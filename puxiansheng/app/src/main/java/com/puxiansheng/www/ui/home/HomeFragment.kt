@@ -11,39 +11,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
-import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.AppFragment
-import com.puxiansheng.www.common.LiveDataBus
-import com.puxiansheng.www.common.TextSwitchView
-import com.puxiansheng.www.common.url
+import com.puxiansheng.www.common.*
 import com.puxiansheng.www.databinding.FragmentHomeBinding
-import com.puxiansheng.www.ui.business.BusinessListActivity
-import com.puxiansheng.www.ui.business.InvestBusinessActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
-import com.puxiansheng.www.ui.order.*
-import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
-import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.search.SearchActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.youth.banner.listener.OnBannerClickListener
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -129,39 +119,45 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
         resources.displayMetrics.widthPixels.times(0.65).let {
             topBannerView.layoutParams.height = it.toInt()
-            topBannerView.onImageClick { image: BannerImage ->
-                appModel.pictureIntent(requireActivity(), image)
-            }
+//            topBannerView.onImageClick { image: BannerImage ->
+//                appModel.pictureIntent(requireActivity(), image)
+//            }
         }
 
-        simpleTransferOut.setOnClickListener {
-//            val intent = Intent(requireActivity(), TransferOutOrderActivity::class.java)
-            val intent = Intent(requireActivity(), NewTransferOutOrdersActivity::class.java)
-            intent.putExtra("title", "*")
-            startActivity(intent)
-        }
+//        simpleTransferOut.setOnClickListener {
+////            val intent = Intent(requireActivity(), TransferOutOrderActivity::class.java)
+//            val intent = Intent(requireActivity(), NewTransferOutOrdersActivity::class.java)
+//            intent.putExtra("title", "*")
+//            startActivity(intent)
+//        }
+//
+//        simpleTransferIn.setOnClickListener {
+//            val intent = Intent(requireActivity(), NewTransferInOrdersActivity::class.java)
+//            intent.putExtra("title", "*")
+//            startActivity(intent)
+//        }
+//
+//        investmentBusiness.setOnClickListener {
+//            val intent = Intent(requireActivity(), BusinessListActivity::class.java)
+//            intent.putExtra("title", "*")
+//            startActivity(intent)
+//        }
+//
+//        fastTransferOut.setOnClickListener {
+//            val intent = Intent(requireActivity(), FastTransferOutActivity::class.java)
+//            startActivity(intent)
+//        }
+//
+//        fastTransferIn.setOnClickListener {
+//            val intent = Intent(requireActivity(), FastTransferInActivity::class.java)
+//            startActivity(intent)
+//        }
 
-        simpleTransferIn.setOnClickListener {
-            val intent = Intent(requireActivity(), NewTransferInOrdersActivity::class.java)
-            intent.putExtra("title", "*")
-            startActivity(intent)
-        }
-
-        investmentBusiness.setOnClickListener {
-            val intent = Intent(requireActivity(), BusinessListActivity::class.java)
-            intent.putExtra("title", "*")
-            startActivity(intent)
-        }
-
-        fastTransferOut.setOnClickListener {
-            val intent = Intent(requireActivity(), FastTransferOutActivity::class.java)
-            startActivity(intent)
-        }
-
-        fastTransferIn.setOnClickListener {
-            val intent = Intent(requireActivity(), FastTransferInActivity::class.java)
-            startActivity(intent)
-        }
+        val linearLayoutManager =
+            LinearLayoutManager(requireContext())
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        menus.layoutManager = linearLayoutManager
+        menus.adapter = HomeMenuAdapter(requireActivity(),mutableListOf())
 
 
         //动态添加tabitem
@@ -219,9 +215,20 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             isLoading = true
 
             lifecycleScope.launch {
+                homeViewModel.requestMenuImage()?.let {
+                    Log.d("homeMenu","requestMenuImage it = "+it.size)
+                    (menus.adapter as HomeMenuAdapter).setMenuData(it)
+                }
+
                 //                delay(300)
                 homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
                     topBannerView.setBannerImages(banners)
+                    topBannerView.itemClickListener =
+                        OnBannerListener { position ->
+                            Log.d("banner"," itemClickListener = "+position)
+                            var banner = banners[position]
+                            appModel.pictureIntent(requireActivity(),banner)
+                        }
                 }
                 homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
                     imgThree.url(banners[0].imageUrl)
@@ -294,6 +301,8 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         if (!hidden) {
             if (NetUtil.isNetworkConnected(requireContext())) {
                 var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+                button_select_location.text = SharedPreferencesUtil.get(API.USER_CITY_NAME,"中国").toString()
+
                 isRerfrshLeft = true
                 isRerfrshRight = true
                 leftCurrentPage = 1
@@ -334,7 +343,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                         leftCurrentPage
                     )
                         .let {
-                            leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                            if(!it.isNullOrEmpty()) {
+                                leftAdapter?.addList(
+                                    it as ArrayList<OrderDetailObject>,
+                                    isRerfrshLeft
+                                )
+                            }
                         }
 
                     inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
@@ -342,10 +356,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                         rightCurrentPage
                     )
                         .let {
-                            rightAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
-                                isRerfrshRight
-                            )
+                            if (!it.isNullOrEmpty()) {
+                                rightAdapter?.addList(
+                                    it as ArrayList<OrderDetailObject>,
+                                    isRerfrshRight
+                                )
+                            }
                         }
                 }
                 pxs_headline.startTimer()
@@ -395,10 +411,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                             rightCurrentPage
                         )
                             .let {
-                                rightAdapter?.addList(
-                                    it as ArrayList<OrderDetailObject>,
-                                    isRerfrshRight
-                                )
+                                if (!it.isNullOrEmpty()) {
+                                    rightAdapter?.addList(
+                                        it as ArrayList<OrderDetailObject>,
+                                        isRerfrshRight
+                                    )
+                                }
                             }
                     }
 
@@ -420,6 +438,10 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             rightCurrentPage = 1
 
             lifecycleScope.launch {
+                homeViewModel.requestMenuImage()?.let {
+                    (menus.adapter as HomeMenuAdapter).setMenuData(it)
+                }
+
                 homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
                     top_banner_view.setBannerImages(banners)
                 }
@@ -451,7 +473,9 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                     leftCurrentPage
                 )
                     .let {
-                        leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                        if(!it.isNullOrEmpty()) {
+                            leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                        }
                     }
 
                 inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
@@ -459,7 +483,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                     rightCurrentPage
                 )
                     .let {
-                        rightAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshRight)
+                        if(!it.isNullOrEmpty()) {
+                            rightAdapter?.addList(
+                                it as ArrayList<OrderDetailObject>,
+                                isRerfrshRight
+                            )
+                        }
                     }
             }
         } else {

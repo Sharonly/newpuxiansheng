@@ -1,31 +1,23 @@
 package com.puxiansheng.www.ui.info
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.InfoItem
-import com.puxiansheng.logic.bean.LocationNode
-import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.LiveDataBus
-import com.puxiansheng.www.databinding.FragmentInfoListBinding
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.databinding.FragmentNewInfoListBinding
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -85,7 +77,9 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
         if (NetUtil.isNetworkConnected(requireContext())) {
         lifecycleScope.launch {
             viewModel.getInfoListByCategory(category).let {
-                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                if (!it.isNullOrEmpty()) {
+                    adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                }
             }
         }
 
@@ -95,7 +89,9 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
                 isRefresh = true
                 lifecycleScope.launch {
                     viewModel.getInfoListByCategory(category).let {
-                        adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                        if (!it.isNullOrEmpty()) {
+                            adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                        }
                     }
                 }
             })
@@ -127,7 +123,9 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
         if (NetUtil.isNetworkConnected(requireContext())) {
         lifecycleScope.launch {
             viewModel.getInfoListByCategory(category).let {
-                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                if (!it.isNullOrEmpty()) {
+                    adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                }
             }
         }
     } else {

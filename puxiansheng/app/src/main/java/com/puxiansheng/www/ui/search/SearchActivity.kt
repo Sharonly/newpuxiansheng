@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -16,26 +15,16 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.logic.bean.BusinessBean
-import com.puxiansheng.logic.bean.InfoItem
-import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.business.*
-import com.puxiansheng.www.ui.info.InfoDetailActivity
-import com.puxiansheng.www.ui.info.InfoListAdapter
-import com.puxiansheng.www.ui.info.InfoListViewModel
 import com.puxiansheng.www.ui.order.*
-import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.fragment_invest_business.*
 import kotlinx.coroutines.launch
 
 

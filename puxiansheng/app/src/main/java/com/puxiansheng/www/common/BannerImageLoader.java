@@ -2,6 +2,8 @@ package com.puxiansheng.www.common;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.List;
@@ -23,9 +26,14 @@ public class BannerImageLoader extends ImageLoader {
     private Context context;
     private List<ColorInfo> colorList;
     private Palette palette;
+    private OnBannerListener mOnBannerListener;
 
     public BannerImageLoader(List<ColorInfo> colorList) {
         this.colorList = colorList;
+    }
+
+    public void setOnclickListener(OnBannerListener listener){
+        this.mOnBannerListener = listener;
     }
 
     //具体方法内容自己去选择，次方法是为了减少banner过多的依赖第三方包，所以将这个权限开放给使用者去选择
@@ -34,6 +42,21 @@ public class BannerImageLoader extends ImageLoader {
         this.context = context;
         if (imgObj != null) {
             imageView.setPadding(16, 0, 16, 0);
+
+
+            //TODo  待点击优化
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("bannerAA","66666");
+                    if(mOnBannerListener != null){
+                        mOnBannerListener.OnBannerClick(0);
+                    }
+
+                }
+            });
+
+
             Glide.with(context).asBitmap().load(imgObj.toString()).listener(new RequestListener<Bitmap>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {

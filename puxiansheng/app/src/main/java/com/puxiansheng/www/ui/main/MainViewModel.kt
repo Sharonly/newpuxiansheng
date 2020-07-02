@@ -23,7 +23,6 @@ import com.puxiansheng.logic.data.system.SystemDatabase
 import com.puxiansheng.logic.data.system.SystemRepository
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.util.http.APIRst
@@ -31,8 +30,8 @@ import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
-import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
@@ -77,6 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val searchCategory = MutableLiveData<Int>()
 
 
+
     val saveAddress = MutableLiveData<String>()
 
     fun requireLocalDevice() = deviceRepository.getDevice()
@@ -116,12 +116,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     apiResult.data.data?.adList?.adInfo.let {
                         currentAdvert.postValue(it)
                     }
-
                 } else {
                     ticker.receive()
                 }
             }
         }
+
+
+   suspend fun getSignatureVersion(device: Device,registrationId:String) = withContext(viewModelScope.coroutineContext+Dispatchers.IO)
+       {
+            systemRepository.requireSignatureToken(device,registrationId = registrationId).let { apiResult ->
+                if (apiResult.succeeded) {
+                    apiResult as APIRst.Success
+                    apiResult.data.data?.token?.let {
+                        API.setSignatureToken(it)
+                        currentSignatureToken.postValue(it)
+                        currentSignatureTokenCode.postValue(apiResult.data.code)
+                    }
+                    apiResult.data.data?.newPackage?.let {
+                        currentNewPackage.postValue(it)
+                    }
+                } else {
+                    toastMsg.postValue("获取版本信息失败")
+                }
+            }
+        }
+
 
     /**
      * automatically refresh the signature token by every three minutes.
@@ -269,6 +289,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     currentCity.postValue(node)
                     API.setCityId(node.nodeID.toString())
                     put(API.USER_CITY_ID, node.nodeID)
+                    put(API.USER_CITY_NAME, node.text)
                 }
             }
         }
@@ -341,6 +362,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     override fun onCleared() {
+        Log.d("token","  ticker.cancel() -----")
         ticker.cancel()
         super.onCleared()
     }
@@ -419,7 +441,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //                context.startActivity(intent)
 
                 //TODO  2020/6/8
-                val intent = Intent(context, InfoDetailActivity::class.java)
+                val intent = Intent(context, WebViewActivity::class.java)
                 intent.putExtra("url", image.jump_param)
                 context.startActivity(intent)
             }

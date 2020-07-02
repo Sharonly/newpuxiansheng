@@ -26,6 +26,7 @@ import kotlinx.android.extensions.LayoutContainer
         fun bind(infoItem: InfoItem?) {
             binding.title.text = infoItem?.title
             binding.data.text = infoItem?.date
+            binding.desc.text = infoItem?.micro
             binding.pageViews.text = infoItem?.pageViews.toString()
             binding.icon.url(infoItem?.image ?: "")
             binding.root.setOnClickListener {

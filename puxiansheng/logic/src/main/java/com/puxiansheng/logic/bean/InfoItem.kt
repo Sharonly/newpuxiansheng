@@ -21,6 +21,10 @@ data class InfoItem(
     @ColumnInfo(name = "_title")
     val title: String = "0",
 
+
+    @SerializedName("micro")
+    val micro: String = "",
+
     @SerializedName("update_time")
     @ColumnInfo(name = "_release_date")
     val date: String = "",

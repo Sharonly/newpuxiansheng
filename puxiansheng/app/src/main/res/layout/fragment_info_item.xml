@@ -38,11 +38,25 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="18dp"
             android:layout_toRightOf="@+id/icon_card"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="18dp"
+            android:layout_toRightOf="@+id/icon_card"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_gray"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/data"
@@ -50,10 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/title"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
             android:drawableLeft="@mipmap/icon_time"
             android:drawablePadding="4dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="8dp"
             android:textSize="12sp" />
 
         <TextView
@@ -63,11 +76,11 @@
             android:layout_alignTop="@+id/data"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="10dp"
             android:drawableLeft="@mipmap/ic_eye"
+            android:gravity="right"
             android:drawablePadding="4dp"
-            android:layout_marginBottom="13dp"
-            android:layout_marginRight="44dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="20dp"
             android:textSize="12sp" />
 
     </RelativeLayout>

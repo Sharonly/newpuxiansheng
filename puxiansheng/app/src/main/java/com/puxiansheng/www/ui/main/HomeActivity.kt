@@ -4,11 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.annotation.IdRes
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,7 +16,7 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
@@ -47,19 +43,65 @@ class HomeActivity: MyBaseActivity() {
     )
     private var appModel: MainViewModel? = null
     private var isUpDialogShow: Boolean = false
+    var isAdvertDialogShow: Boolean = false
     private var currentTokenCode: Int = 0
+
+//    private var homeFragment: HomeFragment? = null
+//    private var infoHomeFragment: InfoHomeListFragment? = null
+//    private var releaseFragment: ReleaseFragment? = null
+//    private var messageHomeFragment: MessageHomeListFragment? = null
+//    private var mineFragment: MineFragment? = null
+
+
     private val homeFragment: Fragment = HomeFragment()
     private val infoHomeFragment: Fragment = InfoHomeListFragment()
     private val releaseFragment: Fragment = ReleaseFragment()
     private val mineFragment: Fragment = MineFragment()
-    private var messageHomeFragment: Fragment = MessageHomeListFragment()
+    private val messageHomeFragment: Fragment = MessageHomeListFragment()
     private val fragments = listOf(homeFragment,infoHomeFragment,releaseFragment,messageHomeFragment,mineFragment)
+    private val HOME_FRAGMENT_KEY = "homeFragment"
+    private val INFO_FRAGMENT_KEY = "infoHomeFragment"
+    private val RELEASE_FRAGMENT_KEY = "releaseFragment"
+    private val MESSAGE_FRAGMENT_KEY = "messageHomeFragment"
+    private val MINE_FRAGMENT_KEY = "mineFragment"
+    private var fragmentList = arrayListOf<Fragment>()
 
 //    override fun onNewIntent(intent: Intent?) {
 //        super.onNewIntent(intent)
 //        setIntent(intent)
 //        val stringExtra = intent?.getStringExtra("name")
 //    }
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        checkNet()
+//        if (savedInstanceState != null) {
+//            /*获取保存的fragment  没有的话返回null*/
+//            homeFragment = supportFragmentManager.getFragment(savedInstanceState, HOME_FRAGMENT_KEY) as HomeFragment?
+//            infoHomeFragment = supportFragmentManager.getFragment(savedInstanceState, INFO_FRAGMENT_KEY) as InfoHomeListFragment?
+//            releaseFragment = supportFragmentManager.getFragment(savedInstanceState, RELEASE_FRAGMENT_KEY) as ReleaseFragment?
+//            messageHomeFragment = supportFragmentManager.getFragment(savedInstanceState, MESSAGE_FRAGMENT_KEY) as MessageHomeListFragment?
+//            mineFragment = supportFragmentManager.getFragment(savedInstanceState, MINE_FRAGMENT_KEY) as MineFragment?
+//
+//            homeFragment?.let { addToList(it) }
+//            infoHomeFragment?.let { addToList(it) }
+//            releaseFragment?.let { addToList(it) }
+//            messageHomeFragment?.let { addToList(it) }
+//            mineFragment?.let { addToList(it) }
+//
+//        } else {
+//            initFragment()
+//        }
+//
+//    }
+
+    private fun addToList(fragment :Fragment ) {
+        if (fragment != null) {
+            fragmentList.add(fragment)
+        }
+    }
+
+
 
     override fun getLayoutId(): Int {
        return R.layout.activity_new_home
@@ -70,14 +112,23 @@ class HomeActivity: MyBaseActivity() {
         finish()
     }
 
-    override fun business() {
+    override  fun business() {
+        getSharedPreferences("pxs_privacy", Context.MODE_PRIVATE).let {
+            it.getInt("show_privacy", 0).let { isShow ->
+                if (isShow == 0) {
+                    val intent = Intent(context, StartActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }
+
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
             appModel?.currentCity?.postValue(it)
             API.setCityId(it.nodeID.toString())
         })
-
-        initView()
+        initFragment()
 
         ActivityCompat.requestPermissions(
             this,
@@ -122,11 +173,18 @@ class HomeActivity: MyBaseActivity() {
                     lifecycleScope.launch {
                         appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
                             if (it.code == API.CODE_SUCCESS) {
-                                if (it?.data?.banners?.isNotEmpty()!!) {
-                                    AdvertmentDialog(context = this@HomeActivity, baners = it?.data?.banners!!).show(
+                                if (!isAdvertDialogShow && it?.data?.banners?.isNotEmpty()!!) {
+                                    var dialog =  AdvertmentDialog(context = this@HomeActivity, baners = it?.data?.banners!!)
+                                    dialog.show(
                                         supportFragmentManager,
                                         AdvertmentDialog::class.java.name
                                     )
+                                    isAdvertDialogShow = true
+                                    dialog.listener = object : AdvertmentDialog.OnDissListener{
+                                        override fun onDiss() {
+                                            isAdvertDialogShow = false
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -217,12 +275,28 @@ class HomeActivity: MyBaseActivity() {
 
     override fun onDestroy() {
 //        appModel = null
+        Log.d("homeactivity","-----onDestroy")
         super.onDestroy()
         finish()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("homeactivity","-----onResume")
+        appModel?.requireLocalDevice()?.observe(this, Observer {
+            it?.let {
+                lifecycleScope.launch {
+                    appModel?.getSignatureVersion(
+                        it,
+                        SharedPreferencesUtil.get("registration_id", "") as String
+                    )
+                }
+            } ?: appModel?.requireDevice()
+        })
+    }
 
-    private fun initView() {
+
+    private fun initFragment() {
         //初始化显示的Fragment(外层的)
         supportFragmentManager
             .beginTransaction()
@@ -236,71 +310,130 @@ class HomeActivity: MyBaseActivity() {
             .hide(fragments[2])
             .hide(fragments[3])
             .hide(fragments[4])
-            .commitAllowingStateLoss();
+            .commitAllowingStateLoss()
+
+//        homeFragment = HomeFragment()
+//        addFragment(homeFragment!!)
+//        showFragment(homeFragment!!)
+
         appModel?.lastFragment = homeFragment
-        radio_group_button.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
-            var mFragment: Fragment? = null
-            override fun onCheckedChanged(group: RadioGroup, @IdRes checkedId: Int) {
 
-
-                when (checkedId) {
-                    R.id.navigation_home -> {
-                        if (appModel?.lastFragment !is HomeFragment) {
-                            appModel?.lastFragment?.let {
-                                supportFragmentManager.beginTransaction().hide(it)
-                                    .show(homeFragment).commitAllowingStateLoss()
-                            }
-                            appModel?.lastFragment = homeFragment
+        radio_group_button.setOnCheckedChangeListener { group, checkedId ->
+            Log.d("---homeactivity"," appModel?.lastFragment = "+appModel?.lastFragment)
+            if (appModel?.lastFragment == null) {
+                finish()
+            }
+            when (checkedId) {
+                R.id.navigation_home -> {
+                    if (appModel?.lastFragment !is HomeFragment) {
+                        appModel?.lastFragment?.let {
+                            supportFragmentManager.beginTransaction().hide(it)
+                                .show(homeFragment).commitAllowingStateLoss()
                         }
-                    }
-                    R.id.navigation_info -> {
-                        if (appModel?.lastFragment !is InfoHomeListFragment) {
-                            appModel?.lastFragment?.let {
-                                supportFragmentManager.beginTransaction().hide(it)
-                                    .show(infoHomeFragment).commitAllowingStateLoss()
-                            }
-                            appModel?.lastFragment = infoHomeFragment
-                        }
-                    }
-
-                    R.id.navigation_release -> {
-                        if (appModel?.lastFragment !is ReleaseFragment) {
-                            appModel?.lastFragment?.let {
-                                supportFragmentManager.beginTransaction().hide(
-                                    it
-                                ).show(releaseFragment).commitAllowingStateLoss()
-                            }
-                            appModel?.lastFragment = releaseFragment
-
-                        }
-                    }
-                    R.id.navigation_message -> {
-                        if (appModel?.lastFragment !is MessageHomeListFragment) {
-                            appModel?.lastFragment?.let {
-                                supportFragmentManager.beginTransaction().hide(it)
-                                    .show(
-                                        messageHomeFragment
-                                    ).commitAllowingStateLoss()
-                            }
-                            appModel?.lastFragment = messageHomeFragment
-
-                        }
-                    }
-
-                    R.id.navigation_mine -> {
-                        if (appModel?.lastFragment !is MineFragment) {
-                            appModel?.lastFragment?.let {
-                                supportFragmentManager.beginTransaction().hide(it)
-                                    .show(mineFragment).commitAllowingStateLoss()
-                            }
-                            appModel?.lastFragment = mineFragment
-                        }
+                        appModel?.lastFragment = homeFragment
                     }
                 }
+
+//                    if (homeFragment == null) {
+//                        homeFragment = HomeFragment()
+//                    }
+//                    addFragment(homeFragment!!)
+//                    showFragment(homeFragment!!)
+//
+//                }
+                R.id.navigation_info -> {
+                    if (appModel?.lastFragment !is InfoHomeListFragment) {
+                        appModel?.lastFragment?.let {
+                            supportFragmentManager.beginTransaction().hide(it)
+                                .show(infoHomeFragment).commitAllowingStateLoss()
+                        }
+                        appModel?.lastFragment = infoHomeFragment
+                    }
+
+//                    if (infoHomeFragment == null) {
+//                        infoHomeFragment = InfoHomeListFragment()
+//                    }
+//                    addFragment(infoHomeFragment!!)
+//                    showFragment(infoHomeFragment!!)
+                }
+
+                R.id.navigation_release -> {
+                    if (appModel?.lastFragment !is ReleaseFragment) {
+                        appModel?.lastFragment?.let {
+                            supportFragmentManager.beginTransaction().hide(
+                                it
+                            ).show(releaseFragment).commitAllowingStateLoss()
+                        }
+                        appModel?.lastFragment = releaseFragment
+
+                    }
+//                    if (releaseFragment == null) {
+//                        releaseFragment = ReleaseFragment()
+//                    }
+//                    addFragment(releaseFragment!!)
+//                    showFragment(releaseFragment!!)
+
+                }
+                R.id.navigation_message -> {
+                    if (appModel?.lastFragment !is MessageHomeListFragment) {
+                        appModel?.lastFragment?.let {
+                            supportFragmentManager.beginTransaction().hide(it)
+                                .show(
+                                    messageHomeFragment
+                                ).commitAllowingStateLoss()
+                        }
+                        appModel?.lastFragment = messageHomeFragment
+
+                    }
+
+//                    if (messageHomeFragment == null) {
+//                        messageHomeFragment = MessageHomeListFragment()
+//                    }
+//                    addFragment(messageHomeFragment!!)
+//                    showFragment(messageHomeFragment!!)
+                }
+
+                R.id.navigation_mine -> {
+                    if (appModel?.lastFragment !is MineFragment) {
+                        appModel?.lastFragment?.let {
+                            supportFragmentManager.beginTransaction().hide(it)
+                                .show(mineFragment).commitAllowingStateLoss()
+                        }
+                        appModel?.lastFragment = mineFragment
+                    }
+
+//                    if (mineFragment == null) {
+//                        mineFragment = MineFragment()
+//                    }
+//                    addFragment(mineFragment!!)
+//                    showFragment(mineFragment!!)
+                }
             }
-        })
+        }
         // 保证第一次会回调OnCheckedChangeListener
         navigation_home?.isChecked = true
+    }
+
+
+    /*添加fragment*/
+    private fun addFragment(fragment :Fragment ) {
+        /*判断该fragment是否已经被添加过  如果没有被添加  则添加*/
+        if (!fragment.isAdded) {
+            supportFragmentManager.beginTransaction().add(R.id.home_container, fragment).commitAllowingStateLoss()
+            /*添加到 fragmentList*/
+            fragmentList.add(fragment);
+        }
+    }
+
+    /*显示fragment*/
+    private fun showFragment(fragment :Fragment) {
+        fragmentList.forEach { frag ->
+            if (frag != fragment) {
+                /*先隐藏其他fragment*/
+                supportFragmentManager.beginTransaction().hide(frag).commit();
+            }
+        }
+        supportFragmentManager.beginTransaction().show(fragment).commit();
     }
 
 

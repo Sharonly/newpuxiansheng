@@ -63,7 +63,12 @@ class UserOrderProcessingActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                                 isRefresh = true
                                 lifecycleScope.launch {
                                     viewModel.getRemoteUserDealOrders().let { list ->
-                                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                                        if (!list.isNullOrEmpty()) {
+                                            adapter?.addList(
+                                                list as ArrayList<OrderDetailObject>,
+                                                isRefresh
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -83,7 +88,12 @@ class UserOrderProcessingActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                                     }
                                     isRefresh = true
                                     viewModel.getRemoteUserDealOrders().let { list ->
-                                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                                        if (!list.isNullOrEmpty()) {
+                                            adapter?.addList(
+                                                list as ArrayList<OrderDetailObject>,
+                                                isRefresh
+                                            )
+                                        }
                                     }
                                 }
                             }else{
@@ -107,7 +117,9 @@ class UserOrderProcessingActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         if (NetUtil.isNetworkConnected(this)) {
         lifecycleScope.launch {
             viewModel.getRemoteUserDealOrders().let { list ->
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                if (!list.isNullOrEmpty())  {
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
             }
         }
       } else {
@@ -123,7 +135,9 @@ class UserOrderProcessingActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         isRefresh = true
         lifecycleScope.launch {
             viewModel.getRemoteUserDealOrders().let { list ->
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                if (!list.isNullOrEmpty()) {
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
             }
         }
         refreshLayout.finishRefresh(1000)

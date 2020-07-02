@@ -14,7 +14,7 @@ import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.databinding.FragmentLocationNodeItemBinding
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_location.*

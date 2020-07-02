@@ -27,11 +27,12 @@ object API {
     const val CODE_ERROR_ACCOUNT_OR_PWD = 1006//用户名或密码错误
 
     const val CODE_BANNED_USER = 1007//用户被禁用
-    const val CODE_AUTO_CODE_EMPTY = 1008//用户TOKEN错误
-    const val CODE_AUTO_CODE_ERROR = 1009//用户TOKEN过期
+    const val CODE_AUTO_CODE_EMPTY = 1008//用户TOKEN为空
+    const val CODE_AUTO_CODE_ERROR = 1009//用户TOKEN错误
     const val CODE_AUTO_CODE_EXPIRED = 1010//用户TOKEN过期
-    const val CODE_AUTO_CODE_INVALID = 1011//用户TOKEN过期
+    const val CODE_AUTO_CODE_INVALID = 1011//用户TOKEN失效
     const val CODE_REQUIRE_LOGIN = 1012//重新登录
+
 
     const val CODE_SERVER_ERROR = 5000//服务器异常
     const val CODE_BAND_MOBILE_NUMBER = 4012//需要绑定手机号
@@ -42,7 +43,7 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "330"
+    const val API_VERSION = "332"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
@@ -58,12 +59,12 @@ object API {
     const val USER_CITY_ID = "city_id"
     const val USER_CITY_NAME = "city_name"
 
-    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
-    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
+//    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
+//    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
 
 
-//    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
-//    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
+    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
+    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
 
     //login
     const val DO_LOGIN = API_ADDRESS + "api/login.html"
@@ -84,6 +85,8 @@ object API {
     const val GET_IMAGE_CODE = API_ADDRESS + "api/get_captcha.html"
     const val SAVE_USER_INFO = API_ADDRESS + "api/user_edit_save.html"
     const val SAVE_USER_ICON = API_ADDRESS+"api/upload/header_img.html"
+
+    const val GET_HOME_MENU = API_ADDRESS+"api/home_menu.html"
 
     const val GET_JOIN_LIST = API_ADDRESS + "api/join/get_list.html"
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
@@ -191,6 +194,7 @@ object API {
     private val interceptor = HttpInterceptor("", "","")
 
     val logoutSignal = MutableLiveData<Int>()
+    val getToken = MutableLiveData<Int>()
 
     val httpClient = OkHttpClient.Builder()
         .addInterceptor(interceptor)

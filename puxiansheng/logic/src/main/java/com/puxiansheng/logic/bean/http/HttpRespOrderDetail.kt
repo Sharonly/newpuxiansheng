@@ -20,6 +20,12 @@ data class OrderDetailObject(
     @SerializedName("update_time")
     var updateTime: Long = 0,
 
+    @SerializedName("checked_id")
+    var checkId: Int = 0,
+
+    @SerializedName("status")
+    var status: Int = 0,
+
     @SerializedName("img_ids")
     var images: List<String>? = null,
 
@@ -45,6 +51,7 @@ data class OrderDetailObject(
     @SerializedName("is_vip")
     var isVip: Int = 0,
 
+
     @SerializedName("is_hot")
     var isHot: Int = 0,
 
@@ -62,7 +69,6 @@ data class OrderDetailObject(
 
     @SerializedName("city_id")
     var city_id: Long = 0,
-
 
 
     @SerializedName("transfer_fee")
@@ -118,10 +124,10 @@ data class OrderDetailObject(
     var runningState: Int = 0,
 
     @SerializedName("lng")
-    var lng: Double = 0.0,
+    var lng: String = "",
 
     @SerializedName("lat")
-    var lat: Double = 0.0,
+    var lat: String = "",
 
     @SerializedName("can_empty")
     var includeFacilities: Int = 0,
@@ -215,7 +221,7 @@ data class OrderDetailObject(
     var jump_param: String = "",
 
     @SerializedName("is_update_time")
-    var isUpdateTime :Int = 0,
+    var isUpdateTime: Int = 0,
 
     @SerializedName("data")
     var articles: List<ArticleBean>? = null

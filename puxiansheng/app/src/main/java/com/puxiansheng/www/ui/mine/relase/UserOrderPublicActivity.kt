@@ -69,12 +69,13 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
                             override fun onDiss() {
                                 isRefresh = true
                                 lifecycleScope.launch {
-                                    Log.d("---delete", "  isRefresh = " + isRefresh)
                                     pulishedViewModel.getUserPublicOrders().let { list ->
-                                        adapter?.addList(
-                                            list as ArrayList<OrderDetailObject>,
-                                            isRefresh
-                                        )
+                                        if (!list.isNullOrEmpty()) {
+                                            adapter?.addList(
+                                                list as ArrayList<OrderDetailObject>,
+                                                isRefresh
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -92,10 +93,12 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
                                     Toast.makeText(this@UserOrderPublicActivity, it?.msg, Toast.LENGTH_SHORT).show() }
                                 isRefresh = true
                                 pulishedViewModel.getUserPublicOrders().let { list ->
-                                    adapter?.addList(
-                                        list as ArrayList<OrderDetailObject>,
-                                        isRefresh
-                                    )
+                                    if (!list.isNullOrEmpty()) {
+                                        adapter?.addList(
+                                            list as ArrayList<OrderDetailObject>,
+                                            isRefresh
+                                        )
+                                    }
                                 }
                             }
                         }else{
@@ -116,7 +119,9 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         if (NetUtil.isNetworkConnected(this)) {
             lifecycleScope.launch {
                 pulishedViewModel.getUserPublicOrders().let { list ->
-                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                    if (!list.isNullOrEmpty()) {
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                    }
                 }
             }
         } else {
@@ -132,7 +137,9 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         isRefresh = true
         lifecycleScope.launch {
             pulishedViewModel.getUserPublicOrders().let { list ->
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                if (!list.isNullOrEmpty()) {
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
             }
         }
         refreshLayout.finishRefresh(1000)

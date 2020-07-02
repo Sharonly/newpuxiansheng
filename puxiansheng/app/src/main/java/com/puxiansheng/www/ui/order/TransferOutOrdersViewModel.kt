@@ -47,7 +47,7 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
         currentCity = city
         currentPage = 1
         deleteOrdersByType(type = Order.Type.TRANSFER_OUT.value())
-        loadMore()
+//        loadMore()
     }
 
     fun getTransferOutOrdersFromLocal() =
@@ -88,8 +88,8 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 isRecommend = shop.isRecommend,
                                 isLargeOrder = shop.isLargeOrder,
                                 largeOrderImg = shop.largeOrderImg,
-                                newLat = shop.lng,
-                                newLng = shop.lat,
+                                newLat = shop.lat!!.toDouble(),
+                                newLng = shop.lng!!.toDouble(),
                                 image = shop.image,
                                 images = shop.images,
                                 floor = shop.floor,
@@ -151,8 +151,8 @@ class TransferOutOrdersViewModel(application: Application) : AndroidViewModel(ap
                                 isHot = shop.isHot,
                                 isRecommend = shop.isRecommend,
                                 isLargeOrder = shop.isLargeOrder,
-                                newLat = shop.lng,
-                                newLng = shop.lat,
+                                newLat = shop.lat!!.toDouble(),
+                                newLng = shop.lng!!.toDouble(),
                                 image = shop.image,
                                 images = shop.images,
                                 floor = shop.floor,

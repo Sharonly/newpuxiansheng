@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.release
 
+import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
@@ -16,7 +17,6 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
-import com.tencent.mm.opensdk.utils.Log
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_area
@@ -57,7 +57,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
-
+Log.d(" insertOr"," SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE = "+SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString())
         input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
 

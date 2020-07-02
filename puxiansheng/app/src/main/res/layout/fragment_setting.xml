@@ -76,13 +76,13 @@
 
             <TextView
                 android:id="@+id/user_phone_num"
-                android:layout_width="wrap_content"
+                android:layout_width="400dp"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
                 android:drawableRight="@mipmap/ic_arrow"
                 android:layout_alignTop="@+id/txt_userinfo"
                 android:drawablePadding="6dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:textSize="16sp"/>
@@ -107,13 +107,13 @@
 
             <TextView
                 android:id="@+id/change_password"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
                 android:drawableRight="@mipmap/ic_arrow"
                 android:layout_alignTop="@+id/txt_password"
                 android:drawablePadding="6dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:text="@string/change_password"
@@ -140,13 +140,13 @@
 
             <TextView
                 android:id="@+id/change_permission"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
                 android:drawableRight="@mipmap/ic_arrow"
                 android:layout_alignTop="@+id/txt_permission"
                 android:drawablePadding="6dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:text="修改"
@@ -172,13 +172,13 @@
 
             <TextView
                 android:id="@+id/user_company"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
                 android:drawableRight="@mipmap/ic_arrow"
                 android:layout_alignTop="@+id/txt_about_us"
                 android:drawablePadding="6dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
                 android:text="@string/company_name"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
@@ -215,35 +215,35 @@
 <!--                android:textSize="16sp"/>-->
 
 
-            <TextView
-                android:id="@+id/txt_consult"
-                android:layout_width="wrap_content"
-                android:layout_height="53dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/input_text_blank"
-                android:layout_marginLeft="16dp"
-                android:layout_below="@+id/line4"
-                android:textSize="16sp"
-                android:text="隐私政策"/>
+<!--            <TextView-->
+<!--                android:id="@+id/txt_consult"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="53dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textColor="@color/input_text_blank"-->
+<!--                android:layout_marginLeft="16dp"-->
+<!--                android:layout_below="@+id/line4"-->
+<!--                android:textSize="16sp"-->
+<!--                android:text="隐私政策"/>-->
 
-            <TextView
-                android:id="@+id/name_consult"
-                android:layout_width="50dp"
-                android:layout_height="54dp"
-                android:textColor="@color/text_gray"
-                android:drawableRight="@mipmap/ic_arrow"
-                android:layout_alignTop="@+id/txt_consult"
-                android:gravity="center_vertical"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"
-                android:textSize="16sp"/>
+<!--            <TextView-->
+<!--                android:id="@+id/name_consult"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="54dp"-->
+<!--                android:textColor="@color/text_gray"-->
+<!--                android:drawableRight="@mipmap/ic_arrow"-->
+<!--                android:layout_alignTop="@+id/txt_consult"-->
+<!--                android:gravity="center_vertical|right"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:textSize="16sp"/>-->
 
-            <View
-                android:id="@+id/line5"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_gray"
-                android:layout_below="@+id/name_consult"/>
+<!--            <View-->
+<!--                android:id="@+id/line5"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:background="@color/line_gray"-->
+<!--                android:layout_below="@+id/name_consult"/>-->
 
             <TextView
                 android:id="@+id/txt_version"
@@ -251,18 +251,20 @@
                 android:layout_height="53dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/input_text_blank"
-                android:layout_below="@+id/line5"
+                android:layout_below="@+id/line4"
                 android:layout_marginLeft="16dp"
                 android:textSize="16sp"
                 android:text="@string/current_version"/>
 
             <TextView
                 android:id="@+id/curren_version"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:textColor="@color/text_gray"
                 android:layout_alignTop="@+id/txt_version"
-                android:gravity="center_vertical"
+                android:drawableRight="@mipmap/ic_arrow"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical|right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:textSize="16sp"/>

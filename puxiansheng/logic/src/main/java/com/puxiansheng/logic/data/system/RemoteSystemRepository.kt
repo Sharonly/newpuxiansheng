@@ -70,6 +70,7 @@ class RemoteSystemRepository {
             map["sign"] = signNew(signatureToken = null, fieldMap = map, method = "POST")
         }
     ).let {
+        Log.d("homeactivity"," get tpken = "+it)
         call(it)
     }
 

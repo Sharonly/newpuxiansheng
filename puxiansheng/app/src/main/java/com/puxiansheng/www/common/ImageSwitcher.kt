@@ -98,7 +98,7 @@ class ImageSwitcher : FrameLayout {
         override fun instantiateItem(container: ViewGroup, position: Int): Any =
             ImageView(context).apply {
                 adjustViewBounds = true
-                scaleType = ImageView.ScaleType.FIT_XY
+                scaleType = ImageView.ScaleType.CENTER
                 layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             }.let {
                 it.urlBg(images[position].imageUrl)

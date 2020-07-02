@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MenuItem
 import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -14,12 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
-import kotlinx.android.synthetic.main.fragment_map_find_address.*
-import kotlinx.android.synthetic.main.fragment_map_find_address.button_back
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
+import com.tencent.tencentmap.mapsdk.maps.TencentMap
+import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
+import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng
+import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_map_location.*
 import java.net.URLDecoder
 
 
@@ -28,6 +30,10 @@ class MapActivity : MyBaseActivity() {
         "https://apis.map.qq.com/uri/v1/geocoder?coord=39.904956,116.389449&referer=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
     private lateinit var insertOrUpdateTransferOutOrderViewModel: InsertOrUpdateTransferOutOrderViewModel
     private lateinit var appModel: MainViewModel
+    private var tencentMap: TencentMap? = null
+    private var lat = 23.02067
+    private var lng = 113.75179
+
     val LOCATION_CODE = 1315
     var isNeedCheck = true
     private val requestCodePermissions = 100
@@ -37,7 +43,7 @@ class MapActivity : MyBaseActivity() {
     )
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_map_find_address
+        return R.layout.activity_map_location
     }
 
     override fun business() {
@@ -45,6 +51,9 @@ class MapActivity : MyBaseActivity() {
         button_back.setOnClickListener {
             onBackPressed()
         }
+
+        lat =  intent.getDoubleExtra("lat",23.02067)
+        lng =  intent.getDoubleExtra("lng",113.75179)
 
         ActivityCompat.requestPermissions(
             this,
@@ -152,6 +161,70 @@ class MapActivity : MyBaseActivity() {
             userAgentString
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
+
+        initMap()
     }
+
+
+    private fun initMap() {
+        tencentMap = map_view.getMap()
+        val uiSettings = tencentMap?.getUiSettings()
+        uiSettings?.setLogoPosition(3)
+        uiSettings?.setZoomControlsEnabled(true)
+        uiSettings?.setZoomPosition(0)
+        uiSettings?.setMyLocationButtonEnabled(true)
+        tencentMap?.setMyLocationEnabled(true)
+
+        //中心点
+        val cp = CameraPosition(lat?.let {
+            lng?.let { it1 ->
+                LatLng(it, it1)
+            }
+        }, 15f, 45f, 45f)
+        val cameraUpdate = CameraUpdateFactory.newCameraPosition(cp)
+        tencentMap?.moveCamera(cameraUpdate)
+
+        //设置浮窗
+        tencentMap?.addMarker(
+            MarkerOptions().position(lat?.let {
+                lng?.let { it1 ->
+                    LatLng(it, it1)
+                }
+            })
+//                            .title("${bean.area_path_name}-${bean.address}")
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.defaultMarker())
+                .draggable(true)
+        )?.showInfoWindow()
+    }
+
+    override fun onStart() {
+        map_view.onStart()
+        super.onStart()
+
+    }
+
+    override fun onResume() {
+        map_view.onResume()
+        super.onResume()
+
+    }
+
+    override fun onPause() {
+        map_view.onPause()
+        super.onPause()
+
+    }
+
+    override fun onStop() {
+        map_view.onStop()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        map_view.onDestroy()
+        super.onDestroy()
+    }
+
 
 }

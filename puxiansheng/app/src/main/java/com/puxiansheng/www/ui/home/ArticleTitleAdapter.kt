@@ -10,7 +10,6 @@ import com.puxiansheng.logic.bean.ArticleBean
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.ArticleTitleItmBinding
 import com.puxiansheng.www.ui.info.InfoDetailActivity
-import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 
 class ArticleTitleAdapter(

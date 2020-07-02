@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.net.http.SslError
+import android.view.View
 import android.webkit.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 class InvestBusinessDetailActivity : MyBaseActivity() {
     private lateinit var viewModel: BusinessDetailViewModel
     private var imges = mutableListOf<String>()
+    var shopUrl = ""
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_invest_business_detail
@@ -38,6 +40,8 @@ class InvestBusinessDetailActivity : MyBaseActivity() {
         button_back.setOnClickListener {
             onBackPressed()
         }
+
+        shopUrl = intent.getStringExtra("url").toString()
 
         info_detail.apply {
             webChromeClient = WebChromeClient()
@@ -91,12 +95,13 @@ class InvestBusinessDetailActivity : MyBaseActivity() {
                         }
                     }
 
-                    button_more.setOnClickListener {
-                        MoreManagerDialog(business.id.toString(), 2, 0).show(
-                            supportFragmentManager,
-                            MoreManagerDialog::class.java.name
-                        )
-                    }
+                    button_more.visibility = View.INVISIBLE
+//                    button_more.setOnClickListener {
+//                        MoreManagerDialog(business.id.toString(),business.name, business.thumb_img,shopUrl,2, 0).show(
+//                            supportFragmentManager,
+//                            MoreManagerDialog::class.java.name
+//                        )
+//                    }
                 }
         }
 

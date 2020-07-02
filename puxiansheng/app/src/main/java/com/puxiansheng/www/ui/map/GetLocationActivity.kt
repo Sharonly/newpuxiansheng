@@ -5,16 +5,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MenuItem
 import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.puxiansheng.logic.bean.MapAddress
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
 import kotlinx.android.synthetic.main.fragment_map_find_address.*
@@ -28,6 +27,7 @@ class GetLocationActivity : MyBaseActivity() {
     val LOCATION_CODE = 1315
     var isNeedCheck = true
     private val requestCodePermissions = 100
+    private var mapAddress: MapAddress? = null
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
@@ -53,7 +53,11 @@ class GetLocationActivity : MyBaseActivity() {
         initView()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, paramArrayOfInt: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        paramArrayOfInt: IntArray
+    ) {
         when (requestCode) {
             requestCodePermissions -> if (!verifyPermissions(paramArrayOfInt)) {
                 isNeedCheck = false
@@ -84,9 +88,9 @@ class GetLocationActivity : MyBaseActivity() {
 
 
     private fun initView() {
-        if(intent.getStringExtra("location")=="0.0,0.0"){
+        if (intent.getStringExtra("location") == "0.0,0.0") {
             Toast.makeText(this, "请打开GPS来获取您的定位", Toast.LENGTH_LONG).show()
-        }else {
+        } else {
             Log.d("---location---", " intent.getStringExtra " + intent.getStringExtra("location"))
             val sb = StringBuilder()
             sb.append("https://apis.map.qq.com/tools/locpicker?search=1&type=0&coordtype=5&coord=")
@@ -97,7 +101,10 @@ class GetLocationActivity : MyBaseActivity() {
         map_webview.apply {
             webChromeClient = WebChromeClient()
             webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
                     if (!request?.url.toString().startsWith("http://callback")) {
                         view?.loadUrl(request?.url.toString())
                     } else {
@@ -114,7 +121,8 @@ class GetLocationActivity : MyBaseActivity() {
                         put("my_location", address)
                         intent.putExtra("mes", address);//返回值
                         Log.d("----map", "  address = " + address)
-                        LiveDataBus.get().with("Map")?.value = address
+                        mapAddress = MapAddress(address, lng.toDouble(), lat.toDouble())
+                        LiveDataBus.get().with("Map")?.value = mapAddress
                         finish()
                     }
                     return true

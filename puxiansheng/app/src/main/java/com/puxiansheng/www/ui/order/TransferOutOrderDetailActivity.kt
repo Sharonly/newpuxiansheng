@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -67,9 +68,15 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 viewModel.requestTransferOutOrderDetail(
                     intent.getStringExtra("shopID")
                 )?.let { order ->
+                    var shopImg = ""
+                    if (order.images.isNullOrEmpty()) {
+                        shopImg = ""
+                    } else {
+                        shopImg = order.images?.get(0).toString()
+                    }
                     MoreManagerDialog(
-                        order.shopID.toString(),
-                        0,
+                        order.shopID.toString(), order.title, shopImg, ""
+                        , 0,
                         order.favorite
                     ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
                 }
@@ -86,8 +93,8 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 //        tencentMap?.setMyLocationEnabled(true)
 
         image_switcher.onImageClick {
-            Log.d("---imgswitch","onclick")
-            ShopImageDialog(this@TransferOutOrderDetailActivity,images).show(
+            Log.d("---imgswitch", "onclick")
+            ShopImageDialog(this@TransferOutOrderDetailActivity, images).show(
                 supportFragmentManager,
                 AdvertmentDialog::class.java.name
             )
@@ -98,6 +105,8 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
             viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))?.let { order ->
 //                    if(order.shop?.images?.size == 0)
 //                        imageSwitcher.setImages(list)
+                Log.d("shopcheck", " order.checkId = " + order.checkId)
+
                 if (order.images?.size == 0) {
 
                 } else {
@@ -116,8 +125,11 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
-
-
+                if(order.checkId == 1 && order.status == 1){
+                    bt_more.visibility = View.VISIBLE
+                } else {
+                    bt_more.visibility = View.INVISIBLE
+                }
 
                 shop_title.text = order.title
                 shop_number.text = "店铺编号：${order.shopID}"
@@ -135,14 +147,20 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 address.text = order.address?.addressDetail
 
                 address.setOnClickListener {
-                    val intent =
-                        Intent(this@TransferOutOrderDetailActivity, MapActivity::class.java)
-                    intent.putExtra(
-                        "location",
-                        order.lat.toString() + "," + order.lng.toString()
-                    )
-                    Log.d("get_location"," lat = "+order.lat.toString()+"  lng = "+order.lng.toString())
-                    startActivity(intent)
+                    if (order.lat.isNullOrEmpty() || order.lng.isNullOrEmpty() ) {
+                        Toast.makeText(
+                            this@TransferOutOrderDetailActivity,
+                            "当前店铺没有获取定位",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val intent =
+                            Intent(this@TransferOutOrderDetailActivity, MapActivity::class.java)
+                        intent.putExtra("location", order.lat + "," + order.lng)
+                        intent.putExtra("lat", order.lat!!.toDouble())
+                        intent.putExtra("lng", order.lng!!.toDouble())
+                        startActivity(intent)
+                    }
                 }
 
                 //TODO  现获取经纬度是0，初步怀疑是本地double类型与后台冲突，牵涉太多不好改，现用东莞经纬度测试
@@ -180,7 +198,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 } else {
                     img_success.visibility = View.GONE
                     recommend_orders.visibility = View.VISIBLE
-                    bg_map.visibility =View.VISIBLE
+                    bg_map.visibility = View.VISIBLE
                     bt_connect_kf.visibility = View.VISIBLE
                 }
 

@@ -20,14 +20,10 @@ class StartActivity : MyBaseActivity() {
     }
 
     override fun business() {
-
-        
-
         webview.loadUrl("file:///android_asset/privacy.html")
-        webview.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN;
+        webview.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         webview.settings.loadWithOverviewMode = true;
-        webview.settings.setSupportZoom(true);
-
+        webview.settings.setSupportZoom(true)
 
 
         ic_selected.setOnClickListener {

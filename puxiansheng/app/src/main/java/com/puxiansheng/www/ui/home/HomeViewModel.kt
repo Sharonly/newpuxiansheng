@@ -25,6 +25,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var currentCity = ""
     private var currentPage = 1;
 
+    suspend fun requestMenuImage() =
+        withContext(Dispatchers.IO) {
+            imageRepository.requestMenuImages().let {
+                return@let if (it.succeeded) (it as APIRst.Success).data.data?.banners else null
+            }
+        }
+
     suspend fun requestBannerImage(where: String) =
         withContext(Dispatchers.IO) {
             imageRepository.requestRemoteImages(where).let {

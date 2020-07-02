@@ -47,8 +47,6 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         }
 
         refreshlayout.setOnRefreshLoadMoreListener(this@UserOrderSoldOutActivity)
-
-
         adapter =
                 UserOrderStateAdapter(this@UserOrderSoldOutActivity, arrayListOf(), deleteListener = object : UserOrderStateAdapter.DeleteListener {
                     override fun delete(order: OrderDetailObject) {
@@ -65,7 +63,12 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
                                 isRefresh = true
                                 lifecycleScope.launch {
                                     viewModel.getRemoteSoldOutOrders().let { list ->
-                                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                                        if (!list.isNullOrEmpty()) {
+                                            adapter?.addList(
+                                                list as ArrayList<OrderDetailObject>,
+                                                isRefresh
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -79,7 +82,9 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         if (NetUtil.isNetworkConnected(this)) {
             lifecycleScope.launch {
                 viewModel.getRemoteSoldOutOrders().let { list ->
-                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                    if (!list.isNullOrEmpty()) {
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                    }
                 }
             }
         } else {
@@ -95,7 +100,9 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         isRefresh = true
         lifecycleScope.launch {
             viewModel.getRemoteSoldOutOrders().let { list ->
-                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                if (!list.isNullOrEmpty()) {
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
             }
         }
         refreshLayout.finishRefresh(1000)

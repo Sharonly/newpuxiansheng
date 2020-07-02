@@ -13,7 +13,7 @@
     <color name="bg_upgrade_dialog">#BF4d4d4d</color>
     <color name="color_upgrade_now">#0559ff</color>
     <color name="tab_orange">#F78934</color>
-    <color name="white">#ffffff</color>
+    <color name="white">#ffffffff</color>
     <color name="input_text_blank">#252525</color>
     <color name="text_gray">#989796</color>
     <color name="line_gray">#F0EFED</color>

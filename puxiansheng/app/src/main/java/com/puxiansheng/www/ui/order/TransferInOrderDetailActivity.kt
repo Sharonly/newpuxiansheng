@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.order
 
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
+import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.bt_connect_kf
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.button_back
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.expand_description
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.facilities
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.rent
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.shop_number
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.shop_title
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.size
+import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -49,7 +52,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
             lifecycleScope.launch {
                 viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
-                        MoreManagerDialog(order.shopID.toString(), 1, order.favorite).show(
+                        MoreManagerDialog(order.shopID.toString(), order.title,order.image,"",1, order.favorite).show(
                             supportFragmentManager,
                             MoreManagerDialog::class.java.name
                         )
@@ -60,6 +63,12 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
             lifecycleScope.launch {
                 viewModel.requestTransferInOrderDetail(intent.getStringExtra("shopID"))
                     ?.let { order ->
+
+                        if(order.checkId == 1 && order.status == 1){
+                            button_more.visibility = View.VISIBLE
+                        }else{
+                            button_more.visibility = View.INVISIBLE
+                        }
 
                         shop_title.text = order.title
 

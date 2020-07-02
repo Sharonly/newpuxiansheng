@@ -254,10 +254,8 @@ class NewTransferOutOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         isRefresh = false
         viewModel.currentPage += 1
-        Log.d(" onLoadMore-----  ", "  viewModel.currentPage----- " + viewModel.currentPage)
         lifecycleScope.launch {
             viewModel.getTransferOutOrdersFromRemote().let {
-                Log.d(" onLoadMore-----  ", " list ----- " + it)
                 adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
             }
         }

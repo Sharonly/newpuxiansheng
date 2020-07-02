@@ -17,6 +17,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.databinding.DialogAdvertBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.android.synthetic.main.recycler_fast_transfer_bg_item.*
 import kotlinx.coroutines.channels.ticker
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
 ) : DialogFragment() {
     private lateinit var appModel: MainViewModel
-
+    var listener: OnDissListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +67,7 @@ class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
             appModel.pictureIntent(context,image) }
         btClose.setOnClickListener {
             dismiss()
+            listener?.onDiss()
         }
 
         imgSwitcher.loop(
@@ -84,6 +86,8 @@ class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
 //        }
     }.root
 
-
+    interface OnDissListener {
+        fun onDiss()
+    }
 
 }

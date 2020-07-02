@@ -2,7 +2,6 @@ package com.puxiansheng.www.ui.login
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.util.TypedValue
@@ -19,9 +18,8 @@ import com.puxiansheng.util.Regular
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.login.WechatAPI
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
@@ -54,12 +52,9 @@ class LoginActivity : MyBaseActivity() {
 
     override fun business() {
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-    }
-
-    override fun onResume() {
-        super.onResume()
         initView()
     }
+
 
     private fun initView() {
         button_back.setOnClickListener {
@@ -271,7 +266,12 @@ class LoginActivity : MyBaseActivity() {
                 Toast.makeText(context, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+            loginViewModel.userAccount.let {
+                if (!Regular.isPhoneNumber(it)) {
+                    input_user_phonenum.error = resources.getString(R.string.login_error_account)
+                    return@setOnClickListener
+                }
+            }
             lifecycleScope.launch {
                 loginViewModel.requestVerificationCode()?.let {
                     if (it == API.CODE_SUCCESS) {
@@ -283,7 +283,9 @@ class LoginActivity : MyBaseActivity() {
         }
 
         loginViewModel.toastMsg.observe(this@LoginActivity, Observer {
+            Log.d("login"," toastMsg = "+it)
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            isLogin = false
         })
         loginViewModel.countDown.observe(this@LoginActivity, Observer {
             if (it == 0) {

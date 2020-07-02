@@ -38,13 +38,13 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
     var address = ""
     var exclusive = 0//rather can transfer without facility.
     var state = 0//rather the shop still running.
-    var lng = 0.0
-    var lat =0.0
+    var lng: Double? = null
+    var lat: Double? = null
     var floor = 0
 
     var images: String? = null
     var contactName: String = ""
-    var contactPhone:  String = ""
+    var contactPhone: String = ""
     var description: String? = null
     var facility: String? = null
     var environment: String? = null
@@ -191,7 +191,6 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
 //            } else null
         }
     }
-
 
 
     suspend fun requestSaveTransferOutOrderDetail(

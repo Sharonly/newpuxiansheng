@@ -9,34 +9,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
-import com.puxiansheng.www.common.url
 import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMineBinding
-import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.mine.history.MyHistoryActivity
 import com.puxiansheng.www.ui.mine.favor.MyfarvorActivity
 import com.puxiansheng.www.ui.mine.relase.*
-import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.mine.setting.SettingActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.fragment_mine.user_icon
-import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
 
 class MineFragment : AppFragment() {
@@ -44,6 +39,7 @@ class MineFragment : AppFragment() {
     private lateinit var appModel: MainViewModel
     var isLoading = false
     private var isLogin = false
+    var phone = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,12 +58,13 @@ class MineFragment : AppFragment() {
             lifecycleScope.launch {
                 mineViewModel.getUserInformationFromRemote()?.let {
                     if (it is User) {
-                        Log.d("---imageicon", "UserInformation it.icon = " + it.icon)
                         user_icon.urlIcon(it.icon)
                         user_account.text = it.nickName ?: it.actualName
                         user_phone.visibility = View.VISIBLE
-                        user_phone.text = get(API.LOGIN_USER_PHONE, "").toString()
                         SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
+                        phone =it.userPhoneNumber
+                        phone = phone.substring(0, 3) + "****" + phone.substring(7, 11)
+                        user_phone.text = phone
                     } else {
                         user_account.text = "请登录"
                         user_phone.visibility = View.INVISIBLE
@@ -100,7 +97,7 @@ class MineFragment : AppFragment() {
 
                 mineViewModel.getConfigInfo("privacy_url")?.let { configInfo ->
                     privacy.setOnClickListener {
-                        val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                        val intent = Intent(requireActivity(), WebViewActivity::class.java)
                         intent.putExtra("url", configInfo)
                         startActivity(intent)
                     }
@@ -121,8 +118,10 @@ class MineFragment : AppFragment() {
                     user_icon.urlIcon(it.icon)
                     user_account.text = it.nickName ?: it.actualName
                     user_phone.visibility = View.VISIBLE
-                    user_phone.text = get(API.LOGIN_USER_PHONE, "").toString()
                     SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
+                    phone =it.userPhoneNumber
+                    phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+                    user_phone.text = phone
                 } else {
                     user_account.text = "请登录"
                     user_phone.visibility = View.INVISIBLE
@@ -152,7 +151,7 @@ class MineFragment : AppFragment() {
 
             mineViewModel.getConfigInfo("privacy_url")?.let { configInfo ->
                 privacy.setOnClickListener {
-                    val intent = Intent(requireActivity(), InfoDetailActivity::class.java)
+                    val intent = Intent(requireActivity(), WebViewActivity::class.java)
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
                 }
@@ -315,8 +314,9 @@ class MineFragment : AppFragment() {
                     isLogin = true
                     userAccount?.text = user.name ?: user.nickName
                     userPhone?.visibility = View.VISIBLE
-                    userPhone?.text = get(API.LOGIN_USER_PHONE, "").toString()
-                    SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
+                    phone =it.userPhoneNumber
+                    phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+                    userPhone?.text = phone
                     Log.d("---imageicon", " user.icon = " + user.icon)
                     if (user.icon.isNotEmpty()) {
                         userIcon?.urlIcon(user.icon)

@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -90,6 +91,7 @@ class UpgradeDialog(var context: Activity,
         }
 
         buttonSure.setOnClickListener {
+            Log.d("---upgrade","upgradeType = "+upgradeType)
             when (upgradeType) {
                 0 -> dismiss()
                 1 -> {

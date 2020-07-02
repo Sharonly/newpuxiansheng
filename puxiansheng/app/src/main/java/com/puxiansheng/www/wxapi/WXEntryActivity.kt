@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.ui.login.LoginActivity
+import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
@@ -41,13 +42,17 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
                 Log.d("login","code = "+code)
                 intent.putExtra("authCode", code.toString())
                 sendBroadcast(intent)
+                startActivity(intent)
+            }else if(baseResp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX){
+                // 只是做了简单的finish操作
+                finish();
             }
             BaseResp.ErrCode.ERR_AUTH_DENIED, BaseResp.ErrCode.ERR_USER_CANCEL -> {
             }
             else -> {
             }
         }
-        startActivity(intent)
+
         finish()
     }
 }

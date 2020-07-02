@@ -71,8 +71,8 @@ class RemoteOrderRepository {
         fee: String = "",
         area: String = "",
         address: String = "",
-        lng: Double = 0.0,
-        lat: Double = 0.0,
+        lng: Double? = null,
+        lat: Double? = null,
         exclusive: Int = 0,
         state: Int = 0,
         floor: Int = 0,
@@ -95,8 +95,6 @@ class RemoteOrderRepository {
             "rent" to rent,
             "transfer_fee" to fee,
             "city_path_id" to area,
-            "lng" to lng.toString(),
-            "lat" to lat.toString(),
             "address" to address,
             "can_empty" to exclusive.toString(),
             "is_opening" to state.toString(),
@@ -108,6 +106,14 @@ class RemoteOrderRepository {
                 if (it != "") {
                     map["img_ids"] = images
                 }
+            }
+
+            lat?.let {
+                map["lat"] = lat.toString()
+            }
+
+            lng?.let {
+                map["lng"] = lng.toString()
             }
 
             description?.let {
@@ -157,7 +163,7 @@ class RemoteOrderRepository {
         contactName: String = "",
         contactPhone: String = "",
         facility: String? = null,
-        description: String ? = null,
+        description: String? = null,
         floor: Int = 0
     ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
         url = API.SUBMIT_TRANSFER_IN_ORDER,
@@ -691,7 +697,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.e("---updata"," it = "+it)
+        Log.e("---updata", " it = " + it)
         API.call(it)
     }
 

@@ -55,6 +55,7 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
     override fun getItemViewType(position: Int): Int {
         if (!dataList.isNullOrEmpty()) {
             when (dataList?.get(position)?.data_type) {
+                "transfer_large" -> return 1
                 "transfer_list" -> return 1
                 "find_list" -> return 2
             }
@@ -65,7 +66,7 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TransferOutViewHolder) {
             var shopInfo = dataList[position]
-            println("item---》${shopInfo}")
+            println("item---》$position---- ${shopInfo}")
             shopInfo?.isLargeOrder.let { it ->
                 if (it == 1) {
                     holder.normalLayout.visibility = View.GONE

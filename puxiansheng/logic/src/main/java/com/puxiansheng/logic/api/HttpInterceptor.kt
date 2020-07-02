@@ -1,7 +1,9 @@
 package com.puxiansheng.logic.api
 
 import android.util.Log
+import androidx.work.impl.utils.LiveDataUtils
 import com.google.gson.Gson
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.http.APIResp
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -43,7 +45,7 @@ class HttpInterceptor(
             API.logoutSignal.postValue(JSONObject(body).optInt("code", -99))
 //            Log.d("----77"," JSONObject(body).optInt = "+JSONObject(body).optInt("code", -99))
 //            Log.d("----77"," JSONObject(body)= "+JSONObject(body))
-
+            API.getToken.postValue(JSONObject(body).optInt("code", -99))
 
         }
         resp.newBuilder().body(originalBody?.toResponseBody(resp.body?.contentType())).build()

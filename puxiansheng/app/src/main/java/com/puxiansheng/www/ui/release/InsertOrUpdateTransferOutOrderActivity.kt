@@ -10,7 +10,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.MapAddress
 import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.logic.util.GlideImageEngine
 import com.puxiansheng.util.ext.SharedPreferencesUtil
@@ -37,7 +37,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.LiveDataBus
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.order.dialog.*
@@ -55,6 +55,7 @@ import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_f
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_reason
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_title
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.submit
+import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -239,6 +240,10 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             insertOrUpdateTransferOutOrderViewModel.fee = it.toString()
         }
 
+        edit_user_address.addTextChangedListener{
+            insertOrUpdateTransferOutOrderViewModel.address = it.toString()
+        }
+
 
         button_select_state.setOnClickListener {
             SelectStateRangeDialog(onSelectState = {
@@ -277,13 +282,15 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             )
         }
 
-        LiveDataBus.get().with("Map", String::class.java)?.observe(this, Observer {
-            edit_user_address.setText(it)
-            insertOrUpdateTransferOutOrderViewModel.address = it
+        LiveDataBus.get().with("Map", MapAddress::class.java)?.observe(this, Observer {
+            edit_user_address.setText(it.addressDesc)
+            var df = DecimalFormat("#.000");
+            insertOrUpdateTransferOutOrderViewModel.address = it.addressDesc
+            insertOrUpdateTransferOutOrderViewModel.lat = df.format(it.lat).toDouble()
+            insertOrUpdateTransferOutOrderViewModel.lng = df.format(it.lng).toDouble()
         })
 
         button_select_address.setOnClickListener {
-
             var location = getLngAndLat(this)
             //  edit_user_address.inputType = InputType.TYPE_NULL
             val intent = Intent(this, GetLocationActivity::class.java)
@@ -511,16 +518,28 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                             }
 
                             order.lng?.let {
-                                if (it != 0.0)
-                                    insertOrUpdateTransferOutOrderViewModel.lng = it
-                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                                if (it != 0.0)
+                                    insertOrUpdateTransferOutOrderViewModel.lng = it.toDouble()
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
                             order.lat?.let {
-                                if (it != 0.0)
-                                    insertOrUpdateTransferOutOrderViewModel.lat = it
-                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                                if (it != 0.0)
+                                    insertOrUpdateTransferOutOrderViewModel.lat = it.toDouble()
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
+
+//                            order.lng?.let {
+//                                if (it != 0.0)
+//                                    insertOrUpdateTransferOutOrderViewModel.lng = it
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                            }
+//
+//                            order.lat?.let {
+//                                if (it != 0.0)
+//                                    insertOrUpdateTransferOutOrderViewModel.lat = it
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                            }
 
                             order.industry?.let { industry ->
                                 insertOrUpdateTransferOutOrderViewModel.industry = industry
@@ -643,16 +662,24 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                             }
 
                             order.lng?.let {
-                                if (it != 0.0)
-                                    insertOrUpdateTransferOutOrderViewModel.lng = it
-                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+                                insertOrUpdateTransferOutOrderViewModel.lng = it.toDouble()
                             }
 
                             order.lat?.let {
-                                if (it != 0.0)
-                                    insertOrUpdateTransferOutOrderViewModel.lat = it
-                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+                                insertOrUpdateTransferOutOrderViewModel.lat = it.toDouble()
                             }
+
+//                            order.lng?.let {
+//                                if (it != 0.0)
+//                                    insertOrUpdateTransferOutOrderViewModel.lng = it
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                            }
+//
+//                            order.lat?.let {
+//                                if (it != 0.0)
+//                                    insertOrUpdateTransferOutOrderViewModel.lat = it
+//                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
+//                            }
 
                             order.floor?.let {
                                 insertOrUpdateTransferOutOrderViewModel.floor = it
@@ -712,9 +739,9 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                 insertOrUpdateTransferOutOrderViewModel.reason = reason
                             }
 
-                            if (order.shopID.toString().isNullOrEmpty()) {
-                                edit_user_address.inputType = InputType.TYPE_NULL
-                            }
+//                            if (order.shopID.toString().isNullOrEmpty()) {
+//                                edit_user_address.inputType = InputType.TYPE_NULL
+//                            }
                         }
                 }
             }
