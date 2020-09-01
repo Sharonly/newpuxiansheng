@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
+import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.logic.data.location.LocationRepository
 import com.puxiansheng.logic.data.menu.MenuDatabase
 import com.puxiansheng.logic.data.menu.MenuRepository
@@ -32,4 +34,5 @@ class SelectAreaViewModel(application: Application) : AndroidViewModel(applicati
             }
         }
     }
+
 }

@@ -71,7 +71,7 @@ inline fun <reified T> call(
     }.fold(onSuccess = {
         convert(it)
     }, onFailure = {
-        if (BuildConfig.DEBUG) println(it)
+        if (BuildConfig.DEBUG) println("onFailure $it")
         APIRst.Error(it)
     })
 

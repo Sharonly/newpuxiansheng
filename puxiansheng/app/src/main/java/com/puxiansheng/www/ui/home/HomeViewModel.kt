@@ -26,22 +26,22 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private var currentPage = 1;
 
     suspend fun requestMenuImage() =
-        withContext(Dispatchers.IO) {
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
             imageRepository.requestMenuImages().let {
                 return@let if (it.succeeded) (it as APIRst.Success).data.data?.banners else null
             }
         }
 
     suspend fun requestBannerImage(where: String) =
-        withContext(Dispatchers.IO) {
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
             imageRepository.requestRemoteImages(where).let {
                 return@let if (it.succeeded) (it as APIRst.Success).data.data?.banners else null
             }
         }
 
-    suspend fun requestMarqueeMessage(page: String) =
-        withContext(Dispatchers.IO) {
-            marqueeInfoRepository.requestRemoteInfoMarquee(page).let {
+    suspend fun requestMarqueeMessage(page: String,city:String) =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
+            marqueeInfoRepository.requestRemoteInfoMarquee(page,city).let {
                 return@let if (it.succeeded) (it as APIRst.Success).data.data?.data?.infos else null
             }
         }

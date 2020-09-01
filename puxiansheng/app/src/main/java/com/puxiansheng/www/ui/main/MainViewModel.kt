@@ -38,6 +38,7 @@ import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.ticker
@@ -350,6 +351,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun forceLogout() {
         currentUser.value?.copy(loginState = 0)?.let { user ->
+            MobclickAgent.onProfileSignOff()
             put(API.LOGIN_USER_TOKEN, "")
             put(API.LOGIN_NICK_NAME, "")
             put(API.LOGIN_ACTUL_NAME, "")
@@ -381,122 +383,122 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun pictureIntent(context: Activity, image: BannerImage) {
-        Log.d("---jump--"," pictureIntent--->${image.jump_param}--->${image.imageUrl}"+"   image.jump_type = "+image.jump_type+"  image.jump_view =  "+image.jump_view+"  image.jump_param = "+image.jump_param)
-        when (image.jump_type) {
-            1 -> {
-                when (image.jump_view) {
-                    "index" -> {
-                    }
-                    "transfer_list" -> {
-                        val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
-                        intent.putExtra("title", "*")
-                        context.startActivity(intent)
-                    }
-                    "find_list" -> {
-                        val intent = Intent(context, NewTransferInOrdersActivity::class.java)
-                        intent.putExtra("title", "*")
-                        context.startActivity(intent)
-                    }
-
-
-                    "activity_list" -> {//文章列表
-                        val intent = Intent(context, HomeActivity::class.java)
-                        intent.putExtra("name", "5")
-                        context.startActivity(intent)
-                    }
-                    "user_center" -> {
-
-                    }
-
-                    "join_list" ->{
-                        val intent = Intent(context, BusinessListActivity::class.java)
-                        intent.putExtra("title", "*")
-                        context.startActivity(intent)
-                    }
-
-                    "quick_transfer" ->{
-                        val intent = Intent(context, FastTransferOutActivity::class.java)
-                        context.startActivity(intent)
-                    }
-
-                    "quick_find" ->{
-                        val intent = Intent(context, FastTransferInActivity::class.java)
-                        context.startActivity(intent)
-                    }
-                    "about_us" ->{
-                        val intent = Intent(context, AboutUsActivity::class.java)
-                        context.startActivity(intent)
-                    }
-
-                    "shop_success" -> {//成功案例
-                        val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
-                        context.startActivity(intent)
-                    }
-                }
-            }
-            2 -> {//打开链接
-//                val intent = Intent(Intent.ACTION_VIEW)
-//                intent.data = Uri.parse(image.jump_param)
+//    fun pictureIntent(context: Activity, image: BannerImage) {
+//        Log.d("---jump--"," pictureIntent--->${image.jump_param}--->${image.imageUrl}"+"   image.jump_type = "+image.jump_type+"  image.jump_view =  "+image.jump_view+"  image.jump_param = "+image.jump_param)
+//        when (image.jump_type) {
+//            1 -> {
+//                when (image.jump_view) {
+//                    "index" -> {
+//                    }
+//                    "transfer_list" -> {
+//                        val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+//                        intent.putExtra("title", "*")
+//                        context.startActivity(intent)
+//                    }
+//                    "find_list" -> {
+//                        val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+//                        intent.putExtra("title", "*")
+//                        context.startActivity(intent)
+//                    }
+//
+//
+//                    "activity_list" -> {//文章列表
+//                        val intent = Intent(context, HomeActivity::class.java)
+//                        intent.putExtra("name", "5")
+//                        context.startActivity(intent)
+//                    }
+//                    "user_center" -> {
+//
+//                    }
+//
+//                    "join_list" ->{
+//                        val intent = Intent(context, BusinessListActivity::class.java)
+//                        intent.putExtra("title", "*")
+//                        context.startActivity(intent)
+//                    }
+//
+//                    "quick_transfer" ->{
+//                        val intent = Intent(context, FastTransferOutActivity::class.java)
+//                        context.startActivity(intent)
+//                    }
+//
+//                    "quick_find" ->{
+//                        val intent = Intent(context, FastTransferInActivity::class.java)
+//                        context.startActivity(intent)
+//                    }
+//                    "about_us" ->{
+//                        val intent = Intent(context, AboutUsActivity::class.java)
+//                        context.startActivity(intent)
+//                    }
+//
+//                    "shop_success" -> {//成功案例
+//                        val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+//                        context.startActivity(intent)
+//                    }
+//                }
+//            }
+//            2 -> {//打开链接
+////                val intent = Intent(Intent.ACTION_VIEW)
+////                intent.data = Uri.parse(image.jump_param)
+////                context.startActivity(intent)
+//
+//                //TODO  2020/6/8
+//                val intent = Intent(context, WebViewActivity::class.java)
+//                intent.putExtra("url", image.jump_param)
 //                context.startActivity(intent)
-
-                //TODO  2020/6/8
-                val intent = Intent(context, WebViewActivity::class.java)
-                intent.putExtra("url", image.jump_param)
-                context.startActivity(intent)
-            }
-
-            3 -> {//找店详情
-                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", image.jump_param)
-                context.startActivity(intent)
-            }
-
-            4 -> {//转铺详情
-                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", image.jump_param)
-                context.startActivity(intent)
-            }
-
-            5 -> {//文章详情
-                val intent = Intent(context, InfoDetailActivity::class.java)
-                intent.putExtra("url", image.jump_param)
-                context.startActivity(intent)
-            }
-
-            6 ->{
-                val intent = Intent(context,
-                    InsertOrUpdateTransferOutOrderActivity::class.java
-                )
-                intent.putExtra("shopID", image.jump_param)
-                context.startActivity(intent)
-
-            }
-            7->{
-                val intent = Intent( context,
-                    InsertOrUpdateTransferInOrderActivity::class.java
-                )
-                intent.putExtra("shopID", image.jump_param)
-                context.startActivity(intent)
-            }
-            8 ->{
-                val intent = Intent( context,
-                    TransferOutOrderDetailActivity::class.java
-                )
-                intent.putExtra("shopID", image.jump_param)
-                context.startActivity(intent)
-            }
-            9 ->{
-                val intent = Intent( context,
-                    MessageDetailActivity::class.java
-                )
-                intent.putExtra("noticeId", image.jump_param)
-                context.startActivity(intent)
-            }
-
-        }
-
-    }
+//            }
+//
+//            3 -> {//找店详情
+//                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+//                intent.putExtra("shopID", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//
+//            4 -> {//转铺详情
+//                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+//                intent.putExtra("shopID", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//
+//            5 -> {//文章详情
+//                val intent = Intent(context, InfoDetailActivity::class.java)
+//                intent.putExtra("url", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//
+//            6 ->{
+//                val intent = Intent(context,
+//                    InsertOrUpdateTransferOutOrderActivity::class.java
+//                )
+//                intent.putExtra("shopID", image.jump_param)
+//                context.startActivity(intent)
+//
+//            }
+//            7->{
+//                val intent = Intent( context,
+//                    InsertOrUpdateTransferInOrderActivity::class.java
+//                )
+//                intent.putExtra("shopID", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//            8 ->{
+//                val intent = Intent( context,
+//                    TransferOutOrderDetailActivity::class.java
+//                )
+//                intent.putExtra("shopID", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//            9 ->{
+//                val intent = Intent( context,
+//                    MessageDetailActivity::class.java
+//                )
+//                intent.putExtra("noticeId", image.jump_param)
+//                context.startActivity(intent)
+//            }
+//
+//        }
+//
+//    }
 
 
 }

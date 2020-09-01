@@ -17,6 +17,7 @@ import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.common.PermissionPageUtils
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.launch
 
@@ -162,6 +163,7 @@ class SettingActivity : MyBaseActivity() {
             lifecycleScope.launch {
                 settingViewModel.logout()?.let {
                     if (it.code == API.CODE_SUCCESS) {
+                        MobclickAgent.onProfileSignOff()
                         Log.d("---logout ", " CODE_SUCCESS ")
 //                        appModel.currentUser.value?.copy(loginState = 0)?.let { user ->
                         //settingViewModel.logout(user)
@@ -205,6 +207,14 @@ class SettingActivity : MyBaseActivity() {
         startActivity(mIntent)
     }
 
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("SettingActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("SettingActivity")
+//    }
 
 }

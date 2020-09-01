@@ -3,14 +3,16 @@ package com.puxiansheng.www.ui.order
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.net.http.SslError
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.gson.Gson
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.util.ext.SharedPreferencesUtil
@@ -20,18 +22,17 @@ import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
-import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.map.MapActivity
-import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import com.puxiansheng.www.ui.order.dialog.ShopImageDialog
-import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap
-
+import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
+import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.button_back
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -47,6 +48,8 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
     private var tencentMap: TencentMap? = null
     private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
     private var images: List<BannerImage> = listOf()
+    var type = 0
+    var showMore = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_transfer_out_order_detail
@@ -76,7 +79,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                     MoreManagerDialog(
                         order.shopID.toString(), order.title, shopImg, ""
-                        , 0,
+                        , type,
                         order.favorite
                     ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
                 }
@@ -125,10 +128,15 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
-                if(order.checkId == 1 && order.status == 1){
+                if (order.checkId == 1 && order.status == 1) {
                     bt_more.visibility = View.VISIBLE
                 } else {
                     bt_more.visibility = View.INVISIBLE
+                }
+                if (order.isSuccess != 1) {
+                    type = 0
+                } else {
+                    type = 999
                 }
 
                 shop_title.text = order.title
@@ -147,7 +155,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                 address.text = order.address?.addressDetail
 
                 address.setOnClickListener {
-                    if (order.lat.isNullOrEmpty() || order.lng.isNullOrEmpty() ) {
+                    if (order.lat.isNullOrEmpty() || order.lng.isNullOrEmpty()) {
                         Toast.makeText(
                             this@TransferOutOrderDetailActivity,
                             "当前店铺没有获取定位",
@@ -209,8 +217,47 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     facilities.adapter = FacilityAdapter(facilityItems)
                 }
 
+//                var str1: String = order.description
+//                expand_description.loadDataWithBaseURL(null,order.description, "text/html", "utf-8", null)
+//                bt_show_more.setOnClickListener {
+//                    if(!showMore){
+//                        showMore = true
+//                        val webParams = web.layoutParams
+//                        webParams.height = TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP,
+//                            700f,
+//                            resources.displayMetrics).toInt()
+//                        web.layoutParams = webParams
+//
+//                        val linearParams = expand_description.layoutParams
+//                        linearParams.height = TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP,
+//                            700f,
+//                            resources.displayMetrics).toInt()
+//                        expand_description.layoutParams = linearParams
+//                        bt_show_more.text = "收起"
+//                    }else{
+//                        showMore = false
+//                        val webParams = web.layoutParams
+//                        webParams.height = TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP,
+//                            74f,
+//                            resources.displayMetrics).toInt()
+//                        web.layoutParams = webParams
+//                        val linearParams = expand_description.layoutParams
+//                        linearParams.height = TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP,
+//                            74f,
+//                            resources.displayMetrics
+//                        ).toInt()
+//
+//                        expand_description.layoutParams = linearParams
+//                        bt_show_more.text = "展开"
+//                    }
+//                }
 
-                var str1: String = order.description.toString()
+                var str1: String = order.description
+
                 expand_description.currentText = str1
                 expand_description.clickListener = object : ExpandTextView.ClickListener {
                     override fun onContentTextClick() {
@@ -222,29 +269,29 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
-                var strEnvironment: String = order.environment.toString()
-                expand_environment.currentText = strEnvironment
-                expand_environment.clickListener = object : ExpandTextView.ClickListener {
-                    override fun onContentTextClick() {
-                        expand_environment.currentText = strEnvironment
-                    }
-
-                    override fun onSpecialTextClick(currentExpand: Boolean) {
-                        expand_environment.isExpand = !currentExpand
-                    }
-                }
-
-                var strReason: String = order.reason.toString()
-                expand_reason.currentText = strReason
-                expand_reason.clickListener = object : ExpandTextView.ClickListener {
-                    override fun onContentTextClick() {
-                        expand_reason.currentText = strReason
-                    }
-
-                    override fun onSpecialTextClick(currentExpand: Boolean) {
-                        expand_reason.isExpand = !currentExpand
-                    }
-                }
+//                var strEnvironment: String = order.environment.toString()
+//                expand_environment.currentText = strEnvironment
+//                expand_environment.clickListener = object : ExpandTextView.ClickListener {
+//                    override fun onContentTextClick() {
+//                        expand_environment.currentText = strEnvironment
+//                    }
+//
+//                    override fun onSpecialTextClick(currentExpand: Boolean) {
+//                        expand_environment.isExpand = !currentExpand
+//                    }
+//                }
+//
+//                var strReason: String = order.reason.toString()
+//                expand_reason.currentText = strReason
+//                expand_reason.clickListener = object : ExpandTextView.ClickListener {
+//                    override fun onContentTextClick() {
+//                        expand_reason.currentText = strReason
+//                    }
+//
+//                    override fun onSpecialTextClick(currentExpand: Boolean) {
+//                        expand_reason.isExpand = !currentExpand
+//                    }
+//                }
 
                 bt_connect_kf.setOnClickListener {
                     if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString()
@@ -285,5 +332,14 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("TransferOutOrderDetailActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("TransferOutOrderDetailActivity")
+//    }
 
 }

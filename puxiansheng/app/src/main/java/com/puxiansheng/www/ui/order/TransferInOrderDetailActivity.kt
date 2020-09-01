@@ -13,6 +13,7 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.bt_connect_kf
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.button_back
@@ -110,7 +111,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                             }
                         }
 
-                        var str1: String = order.description.toString()
+                        var str1: String = order.description
                         expand_description.currentText = str1
                         expand_description.clickListener = object : ExpandTextView.ClickListener {
                             override fun onContentTextClick() {
@@ -128,5 +129,13 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
             }
         }
 
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("TransferInOrderDetailActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("TransferInOrderDetailActivity")
+//    }
 }

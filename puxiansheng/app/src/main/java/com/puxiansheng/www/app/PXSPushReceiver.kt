@@ -123,6 +123,9 @@ class PXSPushReceiver : JPushMessageReceiver() {
             5 -> {//文章详情
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", data.jump_param)
+                intent.putExtra("shop_Id", "")
+                intent.putExtra("title","")
+                intent.putExtra("img", "")
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

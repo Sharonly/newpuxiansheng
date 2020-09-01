@@ -37,7 +37,6 @@ class BindMobileNumberViewModel(application: Application) : AndroidViewModel(app
 
 
     suspend fun requestVerificationCode(
-
     ) = viewModelScope.async(Dispatchers.IO) {
         systemRepository.requestVerificationCode(
             phoneNumber = userAccount,

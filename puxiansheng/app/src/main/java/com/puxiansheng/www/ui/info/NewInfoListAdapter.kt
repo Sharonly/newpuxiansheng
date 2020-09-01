@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
+import com.puxiansheng.www.tools.UMengKeys
+import com.umeng.analytics.MobclickAgent
 
 class NewInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -63,10 +67,20 @@ class NewInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>) 
             holder.root.setOnClickListener {
                 val intent = Intent(mContext, InfoDetailActivity::class.java)
                 intent.putExtra("url", info?.jump_param)
+                intent.putExtra("shop_Id", info?.infoID)
+                intent.putExtra("title", info?.title)
+                intent.putExtra("img", info?.image)
                 mContext.startActivity(intent)
+
+                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+                    API.LOGIN_USER_ID,
+                    0
+                ).toString())
+                MobclickAgent.onEvent(mContext, UMengKeys.ESSAY_TAG,info.category.toString())
             }
         }
     }
+
 
 
     inner class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {

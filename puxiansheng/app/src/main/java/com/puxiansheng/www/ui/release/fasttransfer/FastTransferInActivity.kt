@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.release.fasttransfer
 
+import android.content.Context
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -12,17 +13,25 @@ import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.urlBg
+import com.puxiansheng.www.tools.UMengKeys
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_fast_transfer.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FastTransferInActivity : MyBaseActivity() {
     private lateinit var viewModel: SimpleOrderViewModel
+    private var mContext: Context? = null
     override fun getLayoutId(): Int {
         return R.layout.activity_fast_transfer
     }
 
     override fun business() {
+        mContext = this
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+            API.LOGIN_USER_ID,
+            0
+        ).toString())
         viewModel = ViewModelProvider(this)[SimpleOrderViewModel::class.java]
         initView()
     }
@@ -63,5 +72,14 @@ class FastTransferInActivity : MyBaseActivity() {
 
 
     }
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("FastTransferInActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("FastTransferInActivity")
+//    }
 
 }

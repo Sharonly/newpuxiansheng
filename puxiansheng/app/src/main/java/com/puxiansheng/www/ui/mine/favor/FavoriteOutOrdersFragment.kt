@@ -20,6 +20,7 @@ import com.puxiansheng.www.databinding.FragmentFavorListOrdersBinding
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
@@ -61,8 +62,9 @@ class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
                     deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                         override fun onDiss() {
                             isRefresh = true
+                            currentPage= 1
                             lifecycleScope.launch {
-                                viewModel.getTransferOutOrders(currentPage).let {list->
+                                viewModel.getTransferOutOrders(currentPage)?.let {list->
                                     adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                                 }
                             }
@@ -76,7 +78,7 @@ class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
 
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getTransferOutOrders(currentPage).let { list ->
+                viewModel.getTransferOutOrders(currentPage)?.let { list ->
                     adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
@@ -90,7 +92,9 @@ class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage += 1
         isRefresh = false
         lifecycleScope.launch {
-            viewModel.getTransferOutOrders(currentPage)
+            viewModel.getTransferOutOrders(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishLoadMore(2000)
     }
@@ -99,8 +103,21 @@ class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage = 1
         isRefresh = true
         lifecycleScope.launch {
-            viewModel.getTransferOutOrders(currentPage)
+            viewModel.getTransferOutOrders(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishRefresh(2000)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("FavoriteOutOrdersFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("FavoriteOutOrdersFragment")
     }
 }

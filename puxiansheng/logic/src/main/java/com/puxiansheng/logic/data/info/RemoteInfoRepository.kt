@@ -48,6 +48,7 @@ class RemoteInfoRepository {
             },
             method = METHOD.GET
         ).let {
+            Log.d("---Info"," GET_INFO_LIST it= "+it)
             API.call(it)
         }
 

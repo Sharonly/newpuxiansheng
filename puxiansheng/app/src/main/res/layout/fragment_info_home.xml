@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"/>
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+            android:id="@+id/info_home_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

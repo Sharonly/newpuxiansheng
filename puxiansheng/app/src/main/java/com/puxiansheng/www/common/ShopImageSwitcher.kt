@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.puxiansheng.logic.bean.BannerImage
@@ -218,4 +220,25 @@ class ShopImageSwitcher : FrameLayout {
     interface OnPageChange {
         fun onScrolled(index: Int)
     }
+
+//    fun startBanner(){
+//        binding.banner.startAutoPlay()
+//    }
+//
+//    fun stopBanner(){
+//        binding.banner.stopAutoPlay()
+//    }
+//
+//
+//    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+//        when(event){
+//            Lifecycle.Event.ON_PAUSE->{
+//                stopBanner()
+//            }
+//
+//            Lifecycle.Event.ON_RESUME->{
+//                startBanner()
+//            }
+//        }
+//    }
 }

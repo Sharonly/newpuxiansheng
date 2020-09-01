@@ -52,6 +52,7 @@ private fun initView(){
 
 
     requestVerificationCode.setOnClickListener {
+        viewModel.requestType = "bind_phone"
         if (viewModel.userAccount == "") {
             Toast.makeText(this, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
             return@setOnClickListener

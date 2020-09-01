@@ -13,11 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
@@ -26,6 +27,7 @@ import com.puxiansheng.www.ui.message.MessageHomeListFragment
 import com.puxiansheng.www.ui.mine.MineFragment
 import com.puxiansheng.www.ui.release.ReleaseFragment
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_new_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -282,7 +284,6 @@ class HomeActivity: MyBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("homeactivity","-----onResume")
         appModel?.requireLocalDevice()?.observe(this, Observer {
             it?.let {
                 lifecycleScope.launch {
@@ -331,6 +332,7 @@ class HomeActivity: MyBaseActivity() {
                                 .show(homeFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = homeFragment
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "HomeFragment")
                     }
                 }
 
@@ -348,6 +350,7 @@ class HomeActivity: MyBaseActivity() {
                                 .show(infoHomeFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = infoHomeFragment
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "InfoHomeListFragment")
                     }
 
 //                    if (infoHomeFragment == null) {
@@ -365,7 +368,7 @@ class HomeActivity: MyBaseActivity() {
                             ).show(releaseFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = releaseFragment
-
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "ReleaseFragment")
                     }
 //                    if (releaseFragment == null) {
 //                        releaseFragment = ReleaseFragment()
@@ -383,7 +386,7 @@ class HomeActivity: MyBaseActivity() {
                                 ).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = messageHomeFragment
-
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MessageHomeListFragment")
                     }
 
 //                    if (messageHomeFragment == null) {
@@ -400,6 +403,7 @@ class HomeActivity: MyBaseActivity() {
                                 .show(mineFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = mineFragment
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MineFragment")
                     }
 
 //                    if (mineFragment == null) {

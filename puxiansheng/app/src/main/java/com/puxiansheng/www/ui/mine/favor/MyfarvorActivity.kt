@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_favor.*
 
 class MyfarvorActivity : MyBaseActivity() {
@@ -38,4 +39,15 @@ class MyfarvorActivity : MyBaseActivity() {
 
 
     }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("MyfarvorActivity")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MyfarvorActivity")
+//    }
 }

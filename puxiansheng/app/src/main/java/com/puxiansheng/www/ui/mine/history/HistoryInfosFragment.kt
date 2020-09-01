@@ -20,6 +20,7 @@ import com.puxiansheng.www.databinding.FragmentNewInfoListBinding
 import com.puxiansheng.www.ui.info.NewInfoListAdapter
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class HistoryInfosFragment : Fragment(), OnRefreshLoadMoreListener {
@@ -60,14 +61,14 @@ class HistoryInfosFragment : Fragment(), OnRefreshLoadMoreListener {
 
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getHistoryInfoListFromRemote(currentPage).let { list ->
+                viewModel.getHistoryInfoListFromRemote(currentPage)?.let { list ->
                     adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
                 }
             }
             hisViewModel.refreshType.observe(requireActivity(), Observer {
                 if (it == InfoItem.Type.ARTICLE_HISTORY.value()) {
                     lifecycleScope.launch {
-                        viewModel.getHistoryInfoListFromRemote(currentPage).let { list ->
+                        viewModel.getHistoryInfoListFromRemote(currentPage)?.let { list ->
                             adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
                         }
                     }
@@ -85,7 +86,9 @@ class HistoryInfosFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage += 1
         isRefresh = false
         lifecycleScope.launch {
-            viewModel.getHistoryInfoListFromRemote(currentPage)
+            viewModel.getHistoryInfoListFromRemote(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
+            }
         }
         refreshLayout.finishLoadMore(1000)
     }
@@ -94,8 +97,21 @@ class HistoryInfosFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage = 1
         isRefresh = true
         lifecycleScope.launch {
-            viewModel.getHistoryInfoListFromRemote(currentPage)
+            viewModel.getHistoryInfoListFromRemote(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
+            }
         }
         refreshLayout.finishRefresh(1000)
     }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("HistoryInfosFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("HistoryInfosFragment")
+    }
+
 }

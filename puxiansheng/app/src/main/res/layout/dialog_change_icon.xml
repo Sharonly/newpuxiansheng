@@ -42,12 +42,14 @@
                     android:textColor="@color/input_text_blank"
                     android:gravity="center"
                     android:textSize="14sp"
-                    android:text="拍一张" />
+                    android:text="拍一张"
+                    android:visibility="gone"/>
 
                 <View
                     android:background="#FAFAFA"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:visibility="gone"/>
 
 
 

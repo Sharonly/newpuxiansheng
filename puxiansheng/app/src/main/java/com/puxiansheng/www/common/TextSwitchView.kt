@@ -9,15 +9,15 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.puxiansheng.logic.bean.MarqueeInfo
 import com.puxiansheng.www.R
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListener ,LifecycleEventObserver{
     private var index = -1
-    private var infos: List<MarqueeInfo>? = null
+    private var infos = ArrayList<MarqueeInfo>()
     var itemClickListener: OnItemClickListener? = null
     private var timer: Timer? = null
     private var druation:Long=3*1000L
@@ -52,9 +52,18 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
     }
 
 
-    fun setResources(infos: List<MarqueeInfo>?) {
-        this.infos = infos
-        startTimer()
+    fun setResources(infos: ArrayList<MarqueeInfo>) {
+        if(infos.isNotEmpty()) {
+            this.infos = infos
+            startTimer()
+        }
+    }
+
+    fun clearResources(){
+        if(infos.isNotEmpty()) {
+            this.infos?.clear()
+            stopTimer()
+        }
     }
 
 
@@ -96,7 +105,9 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
     }
 
     private fun updateText() {
-        setText(infos!![index].title)
+        if(infos?.isNotEmpty()) {
+            setText(infos!![index].title)
+        }
     }
 
     override fun makeView(): View {

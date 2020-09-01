@@ -3,6 +3,7 @@ package com.puxiansheng.www.common
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.widget.ImageView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.puxiansheng.uio.GlideApp
 import com.puxiansheng.www.R
 import java.io.IOException
@@ -15,6 +16,10 @@ import java.net.URL
 fun ImageView.url(url: String) {
     GlideApp.with(this.context).load(url).error(R.mipmap.img_pxs_defult_small).placeholder(R.mipmap.img_pxs_defult_small)
         .fallback(R.mipmap.img_pxs_defult_small).into(this)
+//    GlideApp.with(this.context).load(url).error(R.mipmap.img_pxs_defult_small).placeholder(R.mipmap.img_pxs_defult_small)
+//        .skipMemoryCache(false)
+//        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//        .fallback(R.mipmap.img_pxs_defult_small).into(this)
 }
 
 fun ImageView.urlBg(url: String) {

@@ -82,10 +82,15 @@ class MoreManagerDialog(
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
         Log.e("shopImg", " shopImg = " + shopImg)
-        if (isfavorite == 1) {
-            btFavor.text = "取消收藏"
-        } else {
-            btFavor.text = "收藏"
+        if(type == 2 || type == 999){
+            btFavor.visibility = View.GONE
+        }else {
+            btFavor.visibility = View.VISIBLE
+            if (isfavorite == 1) {
+                btFavor.text = "取消收藏"
+            } else {
+                btFavor.text = "收藏"
+            }
         }
 
         if (shopImg.isNullOrEmpty()) {
@@ -141,6 +146,12 @@ class MoreManagerDialog(
                         shareUrl = "$configInfo$shopId.html"
                     }
                     shopPath = "packageA/pages/webView/index?url=$shopUrl"
+                }
+                999 ->{
+                    outViewModel.getConfigInfo("transfer_share_url")?.let { configInfo ->
+                        shareUrl = "$configInfo$shopId.html"
+                    }
+                    shopPath = "packageA/pages/shopDetail/index?id=$shopId"
                 }
             }
 
@@ -227,7 +238,7 @@ class MoreManagerDialog(
      */
     fun compressScale(image: Bitmap): Bitmap? {
         val baos = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        image.compress(Bitmap.CompressFormat.JPEG, 50, baos)
         // 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
         Log.d("shopImg"," size = "+baos.toByteArray().size / 1024)
         var options = 90

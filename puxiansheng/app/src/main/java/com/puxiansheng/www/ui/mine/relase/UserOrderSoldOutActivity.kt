@@ -15,6 +15,7 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.mine.relase.adapter.UserOrderStateAdapter
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_pulished.button_back
 import kotlinx.android.synthetic.main.activity_user_pulished.*
 import kotlinx.coroutines.launch
@@ -107,5 +108,15 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         }
         refreshLayout.finishRefresh(1000)
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("UserOrderSoldOutActivity")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("UserOrderSoldOutActivity")
+//    }
 
 }

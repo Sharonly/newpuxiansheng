@@ -2,10 +2,12 @@ package com.puxiansheng.www.ui.info
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.view.WindowManager
 import android.webkit.*
 import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.common.AndroidBug5497Workaround
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.synthetic.main.fragment_info_detail.*
 
@@ -18,6 +20,8 @@ class WebViewActivity : MyBaseActivity(){
 
     @SuppressLint("JavascriptInterface")
     override fun business() {
+        AndroidBug5497Workaround.assistActivity(this)
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -47,8 +51,6 @@ class WebViewActivity : MyBaseActivity(){
 //        设置允许JS中的弹窗
 //            userAgentString
 //            setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
-
-
             //声明WebSettings子类
 
             //声明WebSettings子类
@@ -109,7 +111,6 @@ class WebViewActivity : MyBaseActivity(){
     inner class MyJavascriptInterface{
         @JavascriptInterface
         fun JAMS__mark(id:String) {
-//            println("拦截--->:JAMS__mark")
             val intent = Intent(this@WebViewActivity, TransferOutOrderDetailActivity::class.java)
             intent.putExtra("shopID", id)
             startActivity(intent)

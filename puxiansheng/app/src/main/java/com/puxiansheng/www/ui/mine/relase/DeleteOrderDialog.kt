@@ -84,35 +84,42 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
         buttonCancel.setOnClickListener { dismiss() }
         buttonOk.setOnClickListener {
             lifecycleScope.launch {
-                Log.d("---deletehis","type 22= "+type)
+//                Log.d("---deletehis","type 22= "+type)
                 when (type) {
                     Order.Type.TRANSFER_IN_PRIVATE.value() -> {
                         privateInviewModel.deleteTransferInOrderFromRemote(shopId.toString())
                             ?.let { rst ->
-                                if (rst.code == API.CODE_SUCCESS)
-                                  Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT).show()
-                                  dismiss()
-                                  listener?.onDiss()
+                                if (rst.code == API.CODE_SUCCESS) {
+                                    listener?.onDiss()
+                                }else{
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
+                                }
+                                dismiss()
                             }
                     }
                     Order.Type.TRANSFER_OUT_PRIVATE.value() -> {
                         privateOutviewModel.deleteTransferOutOrderFromRemote(shopId.toString())
                             ?.let { rst ->
-                                if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.data, Toast.LENGTH_SHORT).show()
-                                  dismiss()
-                                listener?.onDiss()
+//                                Log.d("---deletehis","msg = "+rst.msg)
+                                if (rst.code == API.CODE_SUCCESS) {
+                                    listener?.onDiss()
+                                }else{
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
+                                }
+                                dismiss()
                             }
                     }
 
                     Order.Type.TRANSFER_IN_FAVORITE.value() -> {
                         favorInViewModel.deleteFavorTransferInOrderFromRemote(shopID = shopId.toString())
                             ?.let { rst ->
-                                if (rst.code == API.CODE_SUCCESS)
-                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
-                                        .show()
+                                if (rst.code == API.CODE_SUCCESS) {
+
+                                    listener?.onDiss()
+                                }else{
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
+                                }
                                 dismiss()
-                                listener?.onDiss()
                             }
                     }
 
@@ -122,9 +129,12 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
                                 if (rst.code == API.CODE_SUCCESS) {
 //                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT)
 //                                        .show()
-                                    dismiss()
+
                                     listener?.onDiss()
+                                }else{
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
                                 }
+                                dismiss()
                             }
                     }
 
@@ -137,6 +147,8 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
 //                                        .show()
                                     dismiss()
                                     listener?.onDiss()
+                                }else{
+                                    Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
                                 }
                             }
                     }
@@ -148,6 +160,8 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
 //                                    .show()
                                 dismiss()
                                 listener?.onDiss()
+                            }else{
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -160,6 +174,8 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
 //                                    .show()
                                 dismiss()
                                 listener?.onDiss()
+                            }else{
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
                             }
 
                         }
@@ -172,6 +188,8 @@ class DeleteOrderDialog(private var dialogtitle: String, private var type: Int, 
 //                                    .show()
                                 dismiss()
                                 listener?.onDiss()
+                            }else{
+                                Toast.makeText(requireContext(), rst.msg, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

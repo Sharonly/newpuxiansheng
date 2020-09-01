@@ -11,6 +11,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.RecommendOrderAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_suggest_callback.*
 import kotlinx.android.synthetic.main.activity_user_suggest.*
 import kotlinx.android.synthetic.main.activity_user_suggest.button_back
@@ -52,5 +53,13 @@ class UserCallBackActivity : MyBaseActivity() {
 
     }
 
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("UserCallBackActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("UserCallBackActivity")
+//    }
 }

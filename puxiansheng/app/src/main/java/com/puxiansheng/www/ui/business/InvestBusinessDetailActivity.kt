@@ -13,6 +13,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.*
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.button_back
@@ -106,6 +107,16 @@ class InvestBusinessDetailActivity : MyBaseActivity() {
         }
 
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("InvestBusinessDetailActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("InvestBusinessDetailActivity")
+//    }
 
 }
 

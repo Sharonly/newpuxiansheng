@@ -5,6 +5,7 @@ import android.webkit.*
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.login.LoginActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_service_home.*
 import kotlinx.android.synthetic.main.fragment_service_home.button_back
 import kotlinx.android.synthetic.main.fragment_service_home.info_detail
@@ -98,6 +99,16 @@ class ServiceActivity : MyBaseActivity() {
 
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("ServiceActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("ServiceActivity")
+//    }
 
 
 }

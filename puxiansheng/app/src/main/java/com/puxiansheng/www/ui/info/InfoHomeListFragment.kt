@@ -3,21 +3,27 @@ package com.puxiansheng.www.ui.info
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
+import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.umeng.analytics.MobclickAgent
+import kotlinx.android.synthetic.main.fragment_info_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -59,44 +65,90 @@ class InfoHomeListFragment : AppFragment() {
             }
             false
         })
+//        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
 
-
-        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
-            lifecycleScope.launch {
-                infoListViewModel.getInfoCategoriesFromRemote()?.let {
-                    pager.adapter = InfoPagerAdapter(
-                        fragmentManager = childFragmentManager,
-                        fragments = it.map { category ->
-                            NewInfoListFragment.newInstance(category = category.menuID.toInt())
-                        },
-                        titles = it.map { text ->
-                            text.text
-                        })
-                    pager.offscreenPageLimit = 5
-                    tabs.setupWithViewPager(pager)
-                    tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                        override fun onTabReselected(tab: TabLayout.Tab?) {
-                        }
-
-                        override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        }
-
-                        override fun onTabSelected(tab: TabLayout.Tab?) {
-                            mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
-
-                        }
-
-                    })
-
-                }
-            }
-        })
+//        })
     }.root
+
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            if (NetUtil.isNetworkConnected(requireContext())) {
+                lifecycleScope.launch {
+                    Log.e("NewInfoListFragment"," onHiddenChanged ")
+                    infoListViewModel.getInfoCategoriesFromRemote()?.let {
+                        info_home_pager.adapter = InfoPagerAdapter(
+                            fragmentManager = childFragmentManager,
+                            fragments = it.map { category ->
+                                NewInfoListFragment.newInstance(category = category.menuID.toInt())
+                            },
+                            titles = it.map { text ->
+                                text.text
+                            })
+                        info_home_pager.offscreenPageLimit = 5
+                        tabs.setupWithViewPager(info_home_pager)
+                        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                            override fun onTabReselected(tab: TabLayout.Tab?) {
+                            }
+
+                            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                            }
+
+                            override fun onTabSelected(tab: TabLayout.Tab?) {
+                                mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
+
+                            }
+                        })
+                    }
+                }
+            } else {
+                Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
 
     fun hideKeyboard(view: View) {
         val manager: InputMethodManager = view.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        if (NetUtil.isNetworkConnected(requireContext())) {
+//            lifecycleScope.launch {
+//                Log.e("NewInfoListFragment"," onResume ")
+//                infoListViewModel.getInfoCategoriesFromRemote()?.let {
+//                    info_home_pager.adapter = InfoPagerAdapter(
+//                        fragmentManager = childFragmentManager,
+//                        fragments = it.map { category ->
+//                            NewInfoListFragment.newInstance(category = category.menuID.toInt())
+//                        },
+//                        titles = it.map { text ->
+//                            text.text
+//                        })
+//                    info_home_pager.offscreenPageLimit = 5
+//                    tabs.setupWithViewPager(info_home_pager)
+//                    tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//                        override fun onTabReselected(tab: TabLayout.Tab?) {
+//                        }
+//
+//                        override fun onTabUnselected(tab: TabLayout.Tab?) {
+//                        }
+//
+//                        override fun onTabSelected(tab: TabLayout.Tab?) {
+//                            mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
+//
+//                        }
+//                    })
+//                }
+//            }
+//        } else {
+//            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+//        }
+
     }
 
 

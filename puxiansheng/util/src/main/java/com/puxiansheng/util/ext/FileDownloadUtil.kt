@@ -1,6 +1,5 @@
 package com.puxiansheng.util.ext
 
-import android.app.Application
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,7 +12,8 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 class FileDownloadUtil {
-    //下载
+    //下载路径版本小于10 Environment.getExternalStorageDirectory().getAbsolutePath
+
     companion object {
         fun DownLoadApk(context: Context, dowloadPath: String) {
             val dManager: DownloadManager =
@@ -67,8 +67,8 @@ class FileDownloadUtil {
 
 
         fun openAPK(context: Context, fileSavePath: String) {
-            var file = File(Uri.parse(fileSavePath).getPath());
-            var filePath = file.getAbsolutePath();
+            var file = File(Uri.parse(fileSavePath).path)
+            var filePath = file.absolutePath
             var intent = Intent(Intent.ACTION_VIEW)
             var data: Uri
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
@@ -77,7 +77,7 @@ class FileDownloadUtil {
                     "com.puxiansheng.www.fileProvider",
                     File(filePath)
                 );
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;// 给目标应用一个临时授权
             } else {
                 data = Uri.fromFile(file);
             }

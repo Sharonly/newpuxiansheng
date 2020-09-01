@@ -14,8 +14,10 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentReleaseBinding
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.umeng.analytics.MobclickAgent
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -26,9 +28,11 @@ class ReleaseFragment : AppFragment() {
     private lateinit var appModel: MainViewModel
     var name = ""
     var phone = ""
+    private var mContext: Context? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mContext= context
         releaseViewModel = ViewModelProvider(this)[ReleaseViewModel::class.java]
         appModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
@@ -59,6 +63,11 @@ class ReleaseFragment : AppFragment() {
                     Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
                 intent.putExtra("shopID", "0")
                 startActivity(intent)
+                MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferOutOrderActivity")
+                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+                    API.LOGIN_USER_ID,
+                    0
+                ).toString())
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
 //
@@ -79,6 +88,12 @@ class ReleaseFragment : AppFragment() {
                     Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
                 intent.putExtra("shopID", "0")
                 startActivity(intent)
+                MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferInOrderActivity")
+                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+                    API.LOGIN_USER_ID,
+                    0
+                ).toString())
+
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
 //
@@ -94,4 +109,15 @@ class ReleaseFragment : AppFragment() {
 
 
     }.root
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("ReleaseFragment")
+//    }
+//
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("ReleaseFragment")
+//    }
 }

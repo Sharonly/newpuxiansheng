@@ -18,9 +18,11 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
+import com.puxiansheng.www.common.JumpUtils
 import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMineBinding
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
@@ -30,6 +32,7 @@ import com.puxiansheng.www.ui.mine.relase.*
 import com.puxiansheng.www.ui.mine.setting.SettingActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.fragment_mine.user_icon
 import kotlinx.coroutines.launch
@@ -81,7 +84,7 @@ class MineFragment : AppFragment() {
                 mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
                     banner.urlBg(banners.imageUrl)
                     banner.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners)
+                        JumpUtils.pictureIntent(requireActivity(), banners)
                     }
                 }
 
@@ -92,6 +95,7 @@ class MineFragment : AppFragment() {
                         intent.putExtra("title", "我的客服")
                         intent.putExtra("url", configInfo)
                         startActivity(intent)
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "ServiceActivity")
                     }
                 }
 
@@ -100,6 +104,7 @@ class MineFragment : AppFragment() {
                         val intent = Intent(requireActivity(), WebViewActivity::class.java)
                         intent.putExtra("url", configInfo)
                         startActivity(intent)
+                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "PrivacyActivity")
                     }
                 }
             }
@@ -146,6 +151,7 @@ class MineFragment : AppFragment() {
                     intent.putExtra("title", "我的客服")
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
+                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "ServiceActivity")
                 }
             }
 
@@ -154,13 +160,11 @@ class MineFragment : AppFragment() {
                     val intent = Intent(requireActivity(), WebViewActivity::class.java)
                     intent.putExtra("url", configInfo)
                     startActivity(intent)
+                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "PrivacyActivity")
                 }
             }
-
-
         }
-
-
+//        MobclickAgent.onPageStart("MineFragment")
     }
 
 
@@ -180,8 +184,8 @@ class MineFragment : AppFragment() {
 //            userPhone.text = ""
 //        }
 
-
         userIcon.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "userIconClick")
             if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                 val intent = Intent(requireActivity(), UserSettingActivity::class.java)
                 startActivity(intent)
@@ -200,6 +204,7 @@ class MineFragment : AppFragment() {
 
 
         iconSetting.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "setIconClick")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -213,6 +218,7 @@ class MineFragment : AppFragment() {
             }
         }
         btMyRelease.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MyReleaseAllActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -222,6 +228,7 @@ class MineFragment : AppFragment() {
             }
         }
         btMyFarvior.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MyfarvorActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -231,6 +238,7 @@ class MineFragment : AppFragment() {
             }
         }
         btMyHistory.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MyHistoryActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -241,6 +249,7 @@ class MineFragment : AppFragment() {
         }
 
         layoutPublic.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "UserOrderPublicActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -250,6 +259,7 @@ class MineFragment : AppFragment() {
             }
         }
         layoutProcessing.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "UserOrderProcessingActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -260,6 +270,7 @@ class MineFragment : AppFragment() {
         }
 
         layoutSoldOut.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "UserOrderSoldOutActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -272,6 +283,7 @@ class MineFragment : AppFragment() {
 
         //TODO 2020/6/8
         btRequest.setOnClickListener {
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "UserSuggestActivity")
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
@@ -334,4 +346,9 @@ class MineFragment : AppFragment() {
     }.root
 
 
+
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MineFragment")
+//    }
 }

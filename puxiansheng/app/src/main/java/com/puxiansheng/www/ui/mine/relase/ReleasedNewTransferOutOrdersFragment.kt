@@ -20,6 +20,7 @@ import com.puxiansheng.www.databinding.FragmentMineReleasedOutnerFragmentBinding
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListener {
@@ -41,12 +42,16 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
     ): View? = FragmentMineReleasedOutnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
+        refreshlayout.setOnRefreshLoadMoreListener(this@ReleasedNewTransferOutOrdersFragment)
+
         mAdapter = ReleaseOutAdapter(requireContext(),arrayListOf(),deleteListener = object :ReleaseOutAdapter.onDeleteListener{
             override fun delete(it:OrderDetailObject) {
                 var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_OUT_PRIVATE.value(), it?.shopID)
                 deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)
                 deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                     override fun onDiss() {
+                        isRefresh = true
+                        currentPage = 1
                         lifecycleScope.launch {
                             viewModel.getRemoteMineTransferOutOrders(currentPage).let { list ->
                                 mAdapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
@@ -65,9 +70,9 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = mAdapter
 
-        refreshlayout.setOnRefreshLoadMoreListener(this@ReleasedNewTransferOutOrdersFragment)
-
         if (NetUtil.isNetworkConnected(requireContext())) {
+            isRefresh = true
+           currentPage = 1
             lifecycleScope.launch {
                 viewModel.getRemoteMineTransferOutOrders(currentPage)?.let { data ->
                     mAdapter?.addList(data as ArrayList<OrderDetailObject> , isRefresh)
@@ -83,17 +88,31 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
         currentPage += 1
         isRefresh=false
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferOutOrders(currentPage)
+            viewModel.getRemoteMineTransferOutOrders(currentPage)?.let { data ->
+                mAdapter?.addList(data as ArrayList<OrderDetailObject> , isRefresh)
+            }
         }
-        refreshLayout.finishLoadMore(2000)
+        refreshLayout.finishLoadMore()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         currentPage = 1
         isRefresh=true
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferOutOrders(currentPage)
+            viewModel.getRemoteMineTransferOutOrders(currentPage)?.let { data ->
+                mAdapter?.addList(data as ArrayList<OrderDetailObject> , isRefresh)
+            }
         }
-        refreshLayout.finishRefresh(2000)
+        refreshLayout.finishRefresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("ReleasedNewTransferOutOrdersFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("ReleasedNewTransferOutOrdersFragment")
     }
 }

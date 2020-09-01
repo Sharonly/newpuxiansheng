@@ -17,6 +17,4 @@ data class HttpRespInfoList(
 data class InfoListObject(
     @SerializedName("article_list")
     val infoList: List<InfoItem>? = null
-
-
 )

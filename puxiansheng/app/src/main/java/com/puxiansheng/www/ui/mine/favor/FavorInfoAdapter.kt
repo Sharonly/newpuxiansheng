@@ -83,6 +83,9 @@ class FavorInfoAdapter(
             binding.itemLayout.setOnClickListener {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", infoItem?.jump_param)
+                intent.putExtra("shop_Id", infoItem?.infoID)
+                intent.putExtra("title", infoItem?.title)
+                intent.putExtra("img", infoItem?.image)
                 context.startActivity(intent)
 //                onItemSelect?.let { select -> select(infoItem) }
             }
@@ -107,6 +110,9 @@ class FavorInfoAdapter(
             binding.root.setOnClickListener {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url", infoItem?.jump_param)
+                intent.putExtra("shop_Id", infoItem?.infoID)
+                intent.putExtra("title", infoItem?.title)
+                intent.putExtra("img", infoItem?.image)
                 context.startActivity(intent)
             }
         }

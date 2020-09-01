@@ -19,9 +19,11 @@ import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.order.dialog.*
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_new_order_list.*
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,12 +36,17 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
     private lateinit var viewModel: NewTransferInOrdersViewModel
     var adapter: ListOrdersAdapter? = null
     private var isRefresh = true
-
+    private var mContext: Context? = null
     override fun getLayoutId(): Int {
         return R.layout.activity_new_order_list
     }
 
     override fun business() {
+        mContext = this
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+            API.LOGIN_USER_ID,
+            0
+        ).toString())
         viewModel = ViewModelProvider(this)[NewTransferInOrdersViewModel::class.java]
         if(NetUtil.isNetworkConnected(this)) {
             viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
@@ -48,10 +55,16 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
     }
 
 
-    override fun onResume() {
-        super.onResume()
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("NewTransferInOrdersActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("NewTransferInOrdersActivity")
+//    }
 
-    }
 
 
     private fun initView() {
@@ -86,8 +99,8 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                 order_list.removeAllViews()
                 isRefresh = true
                 lifecycleScope.launch {
-                    viewModel.getTransferInOrdersFromRemote().let {
-                        adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                    viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                     }
                 }
                 return@OnEditorActionListener true
@@ -110,12 +123,14 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferInOrdersFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
             ).show(supportFragmentManager, SelectIndustryDialog::class.java.name)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, "行业")
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_STRING, selected_industry.text.toString())
         }
 
         selected_area.setOnClickListener {
@@ -129,12 +144,14 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferInOrdersFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
             ).show(supportFragmentManager, SelectAreaDialog::class.java.name)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, "地区")
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_STRING, selected_area.text.toString())
         }
 
         selected_size.setOnClickListener {
@@ -148,19 +165,21 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferInOrdersFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
             ).show(supportFragmentManager, SelectSizeRangeDialog::class.java.name)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, "面积")
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_STRING, selected_size.text.toString())
         }
 
         selected_rent.setOnClickListener {
             SelectRentRangeDialog(
                 onSelectRent = {
                     it?.let {
-                        selected_rent.text = (it?.text ?: "租金").apply {
+                        selected_rent.text = (it?.text?: "租金").apply {
                             if (this.isEmpty()) else {
                                 viewModel.rentIDs = it?.menuID.toString()
                             }
@@ -169,12 +188,14 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferInOrdersFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
             ).show(supportFragmentManager, SelectRentRangeDialog::class.java.name)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, "租金")
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_STRING, selected_rent.text.toString())
         }
 
 
@@ -188,12 +209,14 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferInOrdersFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
             ).show(supportFragmentManager, SelectSortTypeDialog::class.java.name)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, viewModel.sortType)
+            MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_SORT,  viewModel.sortBy)
         }
 
 
@@ -218,16 +241,16 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                 isRefresh = true
                 viewModel.currentPage = 1
                 lifecycleScope.launch {
-                    viewModel.getTransferInOrdersFromRemote().let {
-                        adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                    viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                     }
                 }
             } else {
                 isRefresh = true
                 viewModel.currentPage = 1
                 lifecycleScope.launch {
-                    viewModel.getTransferInOrdersFromRemote().let {
-                        adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                    viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                     }
                 }
             }
@@ -247,8 +270,8 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         isRefresh = false
         viewModel.currentPage += 1
         lifecycleScope.launch {
-            viewModel.getTransferInOrdersFromRemote().let {
-                adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+            viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
         refreshLayout.finishLoadMore()
@@ -259,8 +282,8 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         viewModel.currentPage = 1
         if (NetUtil.isNetworkConnected(this)) {
             lifecycleScope.launch {
-                viewModel.getTransferInOrdersFromRemote().let {
-                    adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
         }else{

@@ -18,6 +18,7 @@ import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMessageHomeBinding
 import com.puxiansheng.www.ui.info.InfoPagerAdapter
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_message_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -38,7 +39,11 @@ class MessageHomeListFragment : AppFragment() {
     @ObsoleteCoroutinesApi
     @ExperimentalCoroutinesApi
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
         appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
@@ -107,7 +112,7 @@ class MessageHomeListFragment : AppFragment() {
 
 //    }
 
-//
+    //
 //    private fun initTabView(tabs:TabLayout) {
 //        for (i in 0 until tabs.tabCount) {
 //            val tab: TabLayout.Tab? = tabs.getTabAt(i)
@@ -164,6 +169,15 @@ class MessageHomeListFragment : AppFragment() {
 //            tabUnSelect.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
 //            tabUnSelect.text = tab.text
 //        }
+//    }
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("MessageHomeListFragment")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MessageHomeListFragment")
 //    }
 
 }

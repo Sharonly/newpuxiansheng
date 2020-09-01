@@ -63,6 +63,9 @@ class FavorInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>
             holder.root.setOnClickListener {
                 val intent = Intent(mContext, InfoDetailActivity::class.java)
                 intent.putExtra("url", info?.jump_param)
+                intent.putExtra("shop_Id", info?.infoID)
+                intent.putExtra("title", info?.title)
+                intent.putExtra("img", info?.image)
                 mContext.startActivity(intent)
             }
 

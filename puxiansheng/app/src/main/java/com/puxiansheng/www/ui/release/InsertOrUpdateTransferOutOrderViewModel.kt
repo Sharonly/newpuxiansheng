@@ -54,7 +54,7 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
 
     var industries = MutableLiveData<MutableSet<MenuItem>>()
     var facilities = MutableLiveData<MutableSet<MenuItem>>()
-    val saveArea = MutableLiveData<LocationNode>()
+    val saveArea = MutableLiveData<MenuItem>()
     val isCanEmpty = MutableLiveData<String>()
 
     var selectedImages = MutableLiveData<MutableSet<String>>().apply {

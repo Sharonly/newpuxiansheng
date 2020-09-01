@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.umeng.analytics.MobclickAgent
 
 import kotlinx.android.synthetic.main.activity_reset_password.*
 import kotlinx.coroutines.launch
@@ -113,5 +114,14 @@ class ResetPasswordActivity : MyBaseActivity() {
 
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("ResetPasswordActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("ResetPasswordActivity")
+//    }
 
 }

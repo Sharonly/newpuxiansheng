@@ -6,4 +6,5 @@
     <external-path name="external" path="." />
     <external-files-path name="name" path="." />
     <external-cache-path name="name" path="." />
+    <external-path name="camera_photos" path="."/>
 </paths>

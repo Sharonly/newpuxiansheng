@@ -21,8 +21,10 @@ import com.puxiansheng.logic.bean.BusinessBean
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.UMengKeys
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.fragment_invest_business.*
 import kotlinx.android.synthetic.main.fragment_invest_business.button_back
@@ -37,12 +39,16 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
     private lateinit var viewModel: InvestBusnessViewModel
     var adapter: BusinessListAdapter? = null
     private var isRefresh = true
+    private var mContext: Context? = null
+    private val mPageName = "BusinessListActivity"
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_invest_business
     }
 
     override fun business() {
+        mContext = this@BusinessListActivity
+//        MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, mPageName)
         viewModel = ViewModelProvider(this)[InvestBusnessViewModel::class.java]
         button_back.setOnClickListener {
             onBackPressed()
@@ -143,6 +149,14 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         }
         refreshLayout.finishRefresh(800)
     }
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("BusinessListActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("BusinessListActivity")
+//    }
 
 }

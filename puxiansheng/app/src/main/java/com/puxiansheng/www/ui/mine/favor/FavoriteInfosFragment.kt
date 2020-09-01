@@ -21,6 +21,7 @@ import com.puxiansheng.www.databinding.FragmentFavorListOrdersBinding
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
@@ -64,8 +65,9 @@ class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
                     deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                         override fun onDiss() {
                             isRefresh = true
+                            currentPage= 1
                             lifecycleScope.launch {
-                                viewModel.getTransferInfos(currentPage).let {
+                                viewModel.getTransferInfos(currentPage)?.let {
                                     adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
                                 }
                             }
@@ -76,11 +78,9 @@ class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
 
 
         list.adapter = adapter
-
-
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getTransferInfos(currentPage).let { list ->
+                viewModel.getTransferInfos(currentPage)?.let { list ->
                     adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
                 }
             }
@@ -94,7 +94,9 @@ class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage += 1
         isRefresh = false
         lifecycleScope.launch {
-            viewModel.getTransferInfos(currentPage)
+            viewModel.getTransferInfos(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
+            }
         }
         refreshLayout.finishLoadMore(2000)
     }
@@ -103,8 +105,20 @@ class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage = 1
         isRefresh = true
         lifecycleScope.launch {
-            viewModel.getTransferInfos(currentPage)
+            viewModel.getTransferInfos(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<InfoItem>, isRefresh)
+            }
         }
         refreshLayout.finishRefresh(2000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("FavoriteInfosFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("FavoriteInfosFragment")
     }
 }

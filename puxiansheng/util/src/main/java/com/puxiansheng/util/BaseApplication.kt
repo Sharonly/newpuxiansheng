@@ -5,7 +5,7 @@ import android.content.Context
 import com.squareup.leakcanary.LeakCanary
 
 
-open class BaseApplication:Application() {
+open class BaseApplication:WebApplication() {
 
     companion object {
 

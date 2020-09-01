@@ -20,6 +20,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentMineReleasedInnerFragmentBinding
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListener {
@@ -48,6 +49,8 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
                 deleteDialog.listener = object : DeleteOrderDialog.OnDissListener {
                     override fun onDiss() {
                         lifecycleScope.launch {
+                            isRefresh = true
+                            currentPage = 1
                             viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
                                 Log.d("---info-- ", " list = " + list)
                                 adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
@@ -84,7 +87,9 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
         currentPage += 1
         isRefresh=false
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferInOrders(currentPage)
+            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishLoadMore(2000)
     }
@@ -93,8 +98,20 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
         currentPage = 1
         isRefresh=true
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferInOrders(currentPage)
+            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishRefresh(2000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("ReleasedNewTransferInOrdersFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("ReleasedNewTransferInOrdersFragment")
     }
 }

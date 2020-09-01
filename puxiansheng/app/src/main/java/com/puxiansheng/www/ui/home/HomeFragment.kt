@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.widget.NestedScrollView
@@ -20,18 +21,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
+import com.puxiansheng.logic.bean.MarqueeInfo
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
+import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.*
 import com.puxiansheng.www.databinding.FragmentHomeBinding
+import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.search.SearchActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import com.youth.banner.listener.OnBannerClickListener
 import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -54,6 +60,8 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     private var currentTab = 0
     private var leftCurrentPage = 1
     private var rightCurrentPage = 1
+    private var mContext: Context? = null
+    private var maqueeList = ArrayList<MarqueeInfo>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,6 +69,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         appModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         inViewModel = ViewModelProvider(this)[HomeTransferInOrdersViewModel::class.java]
         outViewModel = ViewModelProvider(this)[HomeTransferOutOrdersViewModel::class.java]
+        mContext = context
     }
 
 
@@ -70,7 +79,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentHomeBinding.inflate(inflater).apply {
-
+        MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "HomeFragment")
+        MobclickAgent.onEvent(
+            mContext,
+            UMengKeys.LOGIN_USER_ID,
+            get(API.LOGIN_USER_ID, 0).toString()
+        )
         //跑马灯绑定lifecycle
         lifecycle.addObserver(pxsHeadline)
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
@@ -110,11 +124,13 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         buttonSelectLocation.setOnClickListener {
             val intent = Intent(requireActivity(), LocationActivity::class.java)
             startActivity(intent)
+            MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "LocationActivity")
         }
 
         btSearch.setOnClickListener {
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
+            MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "SearchActivity")
         }
 
         resources.displayMetrics.widthPixels.times(0.65).let {
@@ -157,7 +173,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             LinearLayoutManager(requireContext())
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         menus.layoutManager = linearLayoutManager
-        menus.adapter = HomeMenuAdapter(requireActivity(),mutableListOf())
+        menus.adapter = HomeMenuAdapter(requireActivity(), mutableListOf())
 
 
         //动态添加tabitem
@@ -213,85 +229,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             homeViewModel.currentCity = it.nodeID.toString()
             SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
             isLoading = true
-
-            lifecycleScope.launch {
-                homeViewModel.requestMenuImage()?.let {
-                    Log.d("homeMenu","requestMenuImage it = "+it.size)
-                    (menus.adapter as HomeMenuAdapter).setMenuData(it)
-                }
-
-                //                delay(300)
-                homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
-                    topBannerView.setBannerImages(banners)
-                    topBannerView.itemClickListener =
-                        OnBannerListener { position ->
-                            Log.d("banner"," itemClickListener = "+position)
-                            var banner = banners[position]
-                            appModel.pictureIntent(requireActivity(),banner)
-                        }
-                }
-                homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                    imgThree.url(banners[0].imageUrl)
-                    imgFour.url(banners[1].imageUrl)
-                    imgTwo.url(banners[2].imageUrl)
-                    imgOne.url(banners[3].imageUrl)
-                    imgThree.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[0]
-                        )
-                    }
-                    imgFour.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[1]
-                        )
-                    }
-                    imgTwo.setOnClickListener {
-                        appModel.pictureIntent(
-                            requireActivity(),
-                            banners[2]
-                        )
-                    }
-                    imgOne.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners[3])
-                    }
-                }
-
-                homeViewModel.requestMarqueeMessage("1")?.let { infos ->
-                    pxsHeadline.setResources(infos)
-                    // pxsHeadline.setTextStillTime(3000)
-                    pxsHeadline.itemClickListener = object : TextSwitchView.OnItemClickListener {
-                        override fun onItemClick(position: Int) {
-
-                            //TODO shopId字符串会好些
-                            val intent =
-                                Intent(activity, TransferOutOrderDetailActivity::class.java)
-                            intent.putExtra("shopID", infos[position].id?.toString())
-                            startActivity(intent)
-                        }
-                    }
-                }
-                pxsHeadline.isSelected = true
-                isRerfrshLeft = true
-                isRerfrshRight = true
-                leftCurrentPage = 1
-                rightCurrentPage = 1
-
-                outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
-                    homeViewModel.currentCity,
-                    leftCurrentPage
-                ).let {
-                    leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
-                }
-
-                inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
-                    homeViewModel.currentCity,
-                    rightCurrentPage
-                ).let {
-                    rightAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshRight)
-                }
-            }
+            initView()
         })
     }.root
 
@@ -300,80 +238,36 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             if (NetUtil.isNetworkConnected(requireContext())) {
-                var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
-                button_select_location.text = SharedPreferencesUtil.get(API.USER_CITY_NAME,"中国").toString()
-
-                isRerfrshLeft = true
-                isRerfrshRight = true
-                leftCurrentPage = 1
-                rightCurrentPage = 1
-
-                lifecycleScope.launch {
-//                    homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
-//                        top_banner_view.setBannerImages(banners)
-//                    }
-                    homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                        img_three.url(banners[0].imageUrl)
-                        img_four.url(banners[1].imageUrl)
-                        img_two.url(banners[2].imageUrl)
-                        img_one.url(banners[3].imageUrl)
-
-
-                        img_three.setOnClickListener {
-                            appModel.pictureIntent(requireActivity(), banners[0])
-                        }
-                        img_four.setOnClickListener {
-                            appModel.pictureIntent(requireActivity(), banners[1])
-                        }
-                        img_two.setOnClickListener {
-                            appModel.pictureIntent(requireActivity(), banners[2])
-                        }
-                        img_one.setOnClickListener {
-                            appModel.pictureIntent(requireActivity(), banners[3])
-                        }
-                    }
-
-                    isRerfrshLeft = true
-                    isRerfrshRight = true
-                    leftCurrentPage = 1
-                    rightCurrentPage = 1
-
-                    outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
-                        cityId.toString(),
-                        leftCurrentPage
-                    )
-                        .let {
-                            if(!it.isNullOrEmpty()) {
-                                leftAdapter?.addList(
-                                    it as ArrayList<OrderDetailObject>,
-                                    isRerfrshLeft
-                                )
-                            }
-                        }
-
-                    inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
-                        cityId.toString(),
-                        rightCurrentPage
-                    )
-                        .let {
-                            if (!it.isNullOrEmpty()) {
-                                rightAdapter?.addList(
-                                    it as ArrayList<OrderDetailObject>,
-                                    isRerfrshRight
-                                )
-                            }
-                        }
-                }
-                pxs_headline.startTimer()
-                top_banner_view.startBanner()
+                button_select_location.text = get(API.USER_CITY_NAME, "中国").toString()
+                initView()
             } else {
                 Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
             }
-
         } else {
-            pxs_headline.stopTimer()
+            if(maqueeList?.size >0) {
+                pxs_headline.stopTimer()
+            }
             top_banner_view.stopBanner()
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            button_select_location.text = get(API.USER_CITY_NAME, "中国").toString()
+            initView()
+        } else {
+            Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(maqueeList?.size >0) {
+            pxs_headline.stopTimer()
+        }
+        top_banner_view.stopBanner()
     }
 
 
@@ -391,7 +285,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                             leftCurrentPage
                         )
                             .let {
-                                if(it?.isNotEmpty()!!){
+                                if (it?.isNotEmpty()!!) {
                                     leftAdapter?.addList(
                                         it as ArrayList<OrderDetailObject>,
                                         isRerfrshLeft
@@ -431,72 +325,111 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         if (NetUtil.isNetworkConnected(requireContext())) {
-            var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
-            isRerfrshLeft = true
-            isRerfrshRight = true
-            leftCurrentPage = 1
-            rightCurrentPage = 1
-
-            lifecycleScope.launch {
-                homeViewModel.requestMenuImage()?.let {
-                    (menus.adapter as HomeMenuAdapter).setMenuData(it)
-                }
-
-                homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
-                    top_banner_view.setBannerImages(banners)
-                }
-
-                homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                    img_three.url(banners[0].imageUrl)
-                    img_four.url(banners[1].imageUrl)
-                    img_two.url(banners[2].imageUrl)
-                    img_one.url(banners[3].imageUrl)
-
-
-                    img_three.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners[0])
-                    }
-                    img_four.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners[1])
-                    }
-                    img_two.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners[2])
-                    }
-                    img_one.setOnClickListener {
-                        appModel.pictureIntent(requireActivity(), banners[3])
-                    }
-
-                }
-
-                outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
-                    cityId.toString(),
-                    leftCurrentPage
-                )
-                    .let {
-                        if(!it.isNullOrEmpty()) {
-                            leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
-                        }
-                    }
-
-                inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
-                    cityId.toString(),
-                    rightCurrentPage
-                )
-                    .let {
-                        if(!it.isNullOrEmpty()) {
-                            rightAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
-                                isRerfrshRight
-                            )
-                        }
-                    }
-            }
+            initView()
         } else {
             Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
         }
         refreshLayout.finishRefresh(1000)
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("HomeFragment")
+//    }
+//
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("HomeFragment")
+//    }
 
+
+    private fun initView() {
+        var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+        isRerfrshLeft = true
+        isRerfrshRight = true
+        leftCurrentPage = 1
+        rightCurrentPage = 1
+
+        lifecycleScope.launch {
+            homeViewModel.requestMenuImage()?.let {
+                (menus.adapter as HomeMenuAdapter).setMenuData(it)
+            }
+
+            homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
+                top_banner_view.setBannerImages(banners)
+            }
+            top_banner_view.startBanner()
+
+            homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
+                img_three.url(banners[0].imageUrl)
+                img_four.url(banners[1].imageUrl)
+                img_two.url(banners[2].imageUrl)
+                img_one.url(banners[3].imageUrl)
+
+
+                img_three.setOnClickListener {
+                    JumpUtils.pictureIntent(requireActivity(), banners[0])
+                }
+                img_four.setOnClickListener {
+                    JumpUtils.pictureIntent(requireActivity(), banners[1])
+                }
+                img_two.setOnClickListener {
+                    JumpUtils.pictureIntent(requireActivity(), banners[2])
+                }
+                img_one.setOnClickListener {
+                    JumpUtils.pictureIntent(requireActivity(), banners[3])
+                }
+
+
+            }
+
+            pxs_headline.clearResources()
+            homeViewModel.requestMarqueeMessage("1",cityId.toString())?.let { info ->
+                Log.e("pxs_headline"," info = "+info.size)
+                maqueeList = info as ArrayList<MarqueeInfo>
+                if(info.isNotEmpty()) {
+                    pxs_headline.setResources(info)
+                    pxs_headline.itemClickListener = object : TextSwitchView.OnItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            //TODO shopId字符串会好些
+                            val intent =
+                                Intent(activity, TransferOutOrderDetailActivity::class.java)
+                            intent.putExtra("shopID", info[position].id?.toString())
+                            startActivity(intent)
+                        }
+                    }
+                    pxs_headline.isSelected = true
+                }
+                if(maqueeList?.size >0) {
+                    pxs_headline.startTimer()
+                }else{
+                    pxs_headline.setCurrentText("")
+                }
+            }
+
+
+            outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
+                cityId.toString(),
+                leftCurrentPage
+            )?.let {
+                    if (!it.isNullOrEmpty()) {
+                        leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                    }
+                }
+
+            inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
+                cityId.toString(),
+                rightCurrentPage
+            )?.let {
+                    if (!it.isNullOrEmpty()) {
+                        rightAdapter?.addList(
+                            it as ArrayList<OrderDetailObject>,
+                            isRerfrshRight
+                        )
+                    }
+                }
+        }
+    }
 
 }

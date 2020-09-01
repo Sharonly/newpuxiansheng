@@ -131,7 +131,6 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
 //    }
 
 
-
 //    override fun getItemViewType(position: Int): Int {
 //        println("viewtype---》${position}--->${dataList?.size}")
 //        if (type == Order.Type.EMPTY.value() && position == itemCount - 1)

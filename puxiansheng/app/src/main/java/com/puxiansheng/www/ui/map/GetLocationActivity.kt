@@ -16,6 +16,7 @@ import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_map_find_address.*
 import java.net.URLDecoder
 
@@ -154,5 +155,15 @@ class GetLocationActivity : MyBaseActivity() {
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("GetLocationActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("GetLocationActivity")
+//    }
 
 }

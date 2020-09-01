@@ -14,22 +14,22 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.bean.http.HttpRespBindMobilePhone
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.Regular
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
 import com.puxiansheng.www.ui.main.HomeActivity
 import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.button_back
 import kotlinx.android.synthetic.main.layout_login_by_password.*
-import kotlinx.android.synthetic.main.layout_login_by_password.ic_eye
 import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -43,6 +43,7 @@ class LoginActivity : MyBaseActivity() {
     var isSeleted = false
     private lateinit var loginViewModel: LoginViewModel
     var loginType = MODE_LOGIN_WITH_PASSWORD
+    var loginTypeName = ""
     var passIsShow = false
     var isLogin = false
 
@@ -51,6 +52,7 @@ class LoginActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "LoginActivity")
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         initView()
     }
@@ -78,6 +80,8 @@ class LoginActivity : MyBaseActivity() {
             bt_phone_fast_login.visibility = View.INVISIBLE
             bt_login.text = "注册"
             loginType = MODE_REGISTER
+            loginTypeName = "注册"
+            loginViewModel.requestType = "register"
         }
 
         input_user_account.addTextChangedListener { editable ->
@@ -140,6 +144,8 @@ class LoginActivity : MyBaseActivity() {
                 bt_phone_fast_login.visibility = View.VISIBLE
                 bt_phone_fast_login.text = "账号登录"
                 loginType = MODE_LOGIN_WITH_CODE
+                loginTypeName = "账号登录"
+                loginViewModel.requestType = "login"
             } else {
                 tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F);
                 tab_login.setTextColor(resources.getColor(R.color.black))
@@ -151,6 +157,7 @@ class LoginActivity : MyBaseActivity() {
                 bt_login.text = "登录"
                 bt_phone_fast_login.text = "手机号快速登录"
                 loginType = MODE_LOGIN_WITH_PASSWORD
+                loginTypeName = "手机号快速登录"
             }
         }
 
@@ -206,6 +213,8 @@ class LoginActivity : MyBaseActivity() {
             lifecycleScope.launch() {
                 if (!isLogin) {
                     isLogin = true
+                    MobclickAgent.onEvent(context, UMengKeys.LOGIN_TYPE, loginTypeName)
+
                     loginViewModel.loginByType(loginType)?.let {
                         if (it is User) {
                             if (loginType == MODE_REGISTER) {
@@ -217,6 +226,7 @@ class LoginActivity : MyBaseActivity() {
                                 )
                                 initLoginView()
                             } else {
+                                MobclickAgent.onProfileSignIn(it.userID.toString())
                                 SharedPreferencesUtil.put(
                                     API.LOGIN_USER_TOKEN,
                                     it.token
@@ -259,9 +269,11 @@ class LoginActivity : MyBaseActivity() {
                     state = "wechat_sdk_demo_test"
                 }
             )
+            loginTypeName = "微信登录"
         }
 
         requestVerificationCode.setOnClickListener {
+
             if (loginViewModel.userAccount == "") {
                 Toast.makeText(context, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -325,6 +337,7 @@ class LoginActivity : MyBaseActivity() {
                                         } else {
                                             if (result is User) {
                                                 Log.d("---login--", "is User")
+                                                MobclickAgent.onProfileSignIn("WeChat",result.userID.toString())
                                                 SharedPreferencesUtil.put(
                                                     API.LOGIN_USER_ID,
                                                     result.userID
@@ -388,6 +401,7 @@ class LoginActivity : MyBaseActivity() {
         bt_login.text = "登录"
         bt_phone_fast_login.text = "手机号快速登录"
         loginType = MODE_LOGIN_WITH_PASSWORD
+        loginTypeName = "手机号快速登录"
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -397,5 +411,14 @@ class LoginActivity : MyBaseActivity() {
         loginViewModel?.wechatCode?.postValue(intent?.extras?.getString("authCode"))
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("LoginActivity")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("LoginActivity")
+//    }
 
 }

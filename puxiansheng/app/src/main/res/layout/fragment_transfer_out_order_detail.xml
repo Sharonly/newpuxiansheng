@@ -410,45 +410,113 @@
                         app:content_size="14sp"
                         app:expand_prifix_text="..."
                         app:expand_text="展开"
-                        app:max_line="3"
+                        app:max_line="6"
                         app:shrink_text="收起"
+                        app:current_text="暂无信息"
                         app:special_bold="true"
                         app:special_color="@color/tab_orange"
                         app:special_horizon_click_more="60dp"
                         app:special_left_margin="10dp"
                         app:special_size="14sp"
-                        app:special_vertical_click_more="20dp" />
+                        app:special_vertical_click_more="10dp"
+                        android:layout_marginBottom="20dp"/>
+
+<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                        android:id="@+id/web"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="74dp"-->
+<!--                        android:layout_marginLeft="20dp"-->
+<!--                        android:layout_marginRight="20dp">-->
+
+<!--                    <WebView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="74dp"-->
+<!--                        android:id="@+id/expand_description"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/bt_show_more"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="展开"-->
+<!--                            android:paddingLeft="4dp"-->
+<!--                            android:paddingRight="4dp"-->
+<!--                            android:background="#E5ffffff"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textColor="@color/tab_orange"-->
+<!--                            app:layout_constraintBottom_toBottomOf="@+id/expand_description"-->
+<!--                            app:layout_constraintEnd_toEndOf="@+id/expand_description" />-->
+
+<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="20dp"-->
+<!--                        android:text="周边环境"-->
+<!--                        android:textColor="@android:color/black"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="gone"/>-->
+
+<!--                    <com.puxiansheng.www.common.ExpandTextView-->
+<!--                        android:id="@+id/expand_environment"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="20dp"-->
+<!--                        android:layout_marginRight="20dp"-->
+<!--                        app:bottom_margin="5dp"-->
+<!--                        app:content_bold="false"-->
+<!--                        app:content_color="@color/input_text_blank"-->
+<!--                        app:content_size="14sp"-->
+<!--                        app:expand_prifix_text="..."-->
+<!--                        app:expand_text="展开"-->
+<!--                        app:max_line="3"-->
+<!--                        app:shrink_text="收起"-->
+<!--                        app:special_bold="true"-->
+<!--                        app:special_color="@color/tab_orange"-->
+<!--                        app:special_horizon_click_more="60dp"-->
+<!--                        app:special_left_margin="10dp"-->
+<!--                        app:special_size="14sp"-->
+<!--                        app:special_vertical_click_more="20dp"-->
+<!--                        android:visibility="gone"/>-->
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="20dp"
-                        android:text="周边环境"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+<!--                    &lt;!&ndash;                    <View&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        style="@style/DividerNormal"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        android:background="#FBFBFB" />&ndash;&gt;-->
 
-                    <com.puxiansheng.www.common.ExpandTextView
-                        android:id="@+id/expand_environment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        app:bottom_margin="5dp"
-                        app:content_bold="false"
-                        app:content_color="@color/input_text_blank"
-                        app:content_size="14sp"
-                        app:expand_prifix_text="..."
-                        app:expand_text="展开"
-                        app:max_line="3"
-                        app:shrink_text="收起"
-                        app:special_bold="true"
-                        app:special_color="@color/tab_orange"
-                        app:special_horizon_click_more="60dp"
-                        app:special_left_margin="10dp"
-                        app:special_size="14sp"
-                        app:special_vertical_click_more="20dp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="20dp"-->
+<!--                        android:text="转让原因"-->
+<!--                        android:textColor="@android:color/black"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="gone"/>-->
 
+<!--                    <com.puxiansheng.www.common.ExpandTextView-->
+<!--                        android:id="@+id/expand_reason"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="20dp"-->
+<!--                        android:layout_marginRight="20dp"-->
+<!--                        app:bottom_margin="5dp"-->
+<!--                        app:content_bold="false"-->
+<!--                        app:content_color="@color/input_text_blank"-->
+<!--                        app:content_size="14sp"-->
+<!--                        app:expand_prifix_text="..."-->
+<!--                        app:expand_text="展开"-->
+<!--                        app:max_line="3"-->
+<!--                        app:shrink_text="收起"-->
+<!--                        app:special_bold="true"-->
+<!--                        app:special_color="@color/tab_orange"-->
+<!--                        app:special_horizon_click_more="60dp"-->
+<!--                        app:special_left_margin="10dp"-->
+<!--                        app:special_size="14sp"-->
+<!--                        app:special_vertical_click_more="20dp"-->
+<!--                        android:visibility="gone"/>-->
 
                     <!--                    <View-->
                     <!--                        style="@style/DividerNormal"-->
@@ -457,40 +525,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="20dp"
-                        android:text="转让原因"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
-
-                    <com.puxiansheng.www.common.ExpandTextView
-                        android:id="@+id/expand_reason"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        app:bottom_margin="5dp"
-                        app:content_bold="false"
-                        app:content_color="@color/input_text_blank"
-                        app:content_size="14sp"
-                        app:expand_prifix_text="..."
-                        app:expand_text="展开"
-                        app:max_line="3"
-                        app:shrink_text="收起"
-                        app:special_bold="true"
-                        app:special_color="@color/tab_orange"
-                        app:special_horizon_click_more="60dp"
-                        app:special_left_margin="10dp"
-                        app:special_size="14sp"
-                        app:special_vertical_click_more="20dp" />
-
-                    <!--                    <View-->
-                    <!--                        style="@style/DividerNormal"-->
-                    <!--                        android:background="#FBFBFB" />-->
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="20dp"
+                        android:layout_marginBottom="20dp"
                         android:text="猜您喜欢"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />

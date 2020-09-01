@@ -12,10 +12,10 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.puxiansheng.www.R
-import java.util.regex.Pattern
 import kotlin.math.max
 
 class ExpandTextView : View {
+
     companion object {
         @Volatile
         var isPause = false
@@ -43,42 +43,56 @@ class ExpandTextView : View {
 
     //展开状态下 特殊位置的展示,特殊展示不考虑多行文本的情况
     var shrinkText = "收起"
+
     //收缩状态下 特殊位置的展示
     var expandText = "展开"
+
     //如果是收起状态 展开的前缀内容，这个前缀的内容的绘制不在特殊内容绘制当中
     var expandPrifix = "..."
+
+    //常规每行高度
+    var normalHeight = 0
+
     /**
      * 主要内容展示的颜色
      */
     var contentTextColor = Color.BLACK
+
     /**
      * 主要内容的展示颜色
      */
     var contentTextSize = 10f
+
     /**
      * 主要内容是否进行粗体展示
      */
     var contentBold = false
+
     /**
      * 每行文本之间底部的间距
      */
     var bottomMargin = 0f
+
     /**
      * 如果包含特殊展示，在收起的状态下的特殊展示那一行，右边空出来的宽度
      */
     var specialRightMargin = 0f
+
     /**
      * 特殊按钮距离左边的距离，如果太近会靠在一起，不是很美观
      */
     var specialLeftMargin = 0f
+
     /**
      * 特殊展示的文本颜色
      */
     var specialTextColor = Color.BLACK
+
     /**
      * 特殊展示按钮的文本size
      */
     var specialTextSize = 10f
+
     /**
      * 特殊展示是否进行粗体展示
      */
@@ -88,6 +102,7 @@ class ExpandTextView : View {
      * 特殊按钮点击的横向热区扩大范围
      */
     var specialHorizonClickMore = 0f
+
     /**
      * 特殊按钮纵向热区扩大范围
      */
@@ -100,10 +115,11 @@ class ExpandTextView : View {
         set(value) {
             field = getDealStr(value)
             bottom = calHeight(width).toInt()
-            Log.d("TEST","计算的bottom:$bottom")
+            Log.d("ExpandTextView", "计算的bottom:$bottom")
             requestLayout()
             invalidate()
         }
+
     /**
      * 主内容的paint
      */
@@ -117,6 +133,7 @@ class ExpandTextView : View {
         paint.isAntiAlias = true
         paint
     }
+
     /**
      * 特殊内容的paint
      */
@@ -150,11 +167,12 @@ class ExpandTextView : View {
      * 点击事件，区分主内容和展开内容的点击监听
      */
     var clickListener: ClickListener? = null
-
+    var mContext: Context? = null
 
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attr: AttributeSet?) : super(context, attr) {
+        mContext = context
         var typeArray: TypedArray =
             context.obtainStyledAttributes(attr, R.styleable.ExpandTextView) ?: return
         var num = typeArray.indexCount
@@ -162,14 +180,21 @@ class ExpandTextView : View {
             var attr = typeArray.getIndex(i)
             when (attr) {
                 //主内容属性
-                R.styleable.ExpandTextView_content_size -> contentTextSize = typeArray.getDimension(attr, 5f)
-                R.styleable.ExpandTextView_content_color -> contentTextColor = typeArray.getColor(attr, Color.BLACK)
-                R.styleable.ExpandTextView_content_bold -> contentBold = typeArray.getBoolean(attr, false)
+                R.styleable.ExpandTextView_content_size -> contentTextSize =
+                    typeArray.getDimension(attr, 5f)
+                R.styleable.ExpandTextView_content_color -> contentTextColor =
+                    typeArray.getColor(attr, Color.BLACK)
+                R.styleable.ExpandTextView_content_bold -> contentBold =
+                    typeArray.getBoolean(attr, false)
                 //特殊内容属性
-                R.styleable.ExpandTextView_special_size -> specialTextSize = typeArray.getDimension(attr, 5f)
-                R.styleable.ExpandTextView_special_color -> specialTextColor = typeArray.getColor(attr, Color.BLACK)
-                R.styleable.ExpandTextView_special_bold -> specialBold = typeArray.getBoolean(attr, false)
-                R.styleable.ExpandTextView_special_right_margin -> specialRightMargin = typeArray.getDimension(attr, 5f)
+                R.styleable.ExpandTextView_special_size -> specialTextSize =
+                    typeArray.getDimension(attr, 5f)
+                R.styleable.ExpandTextView_special_color -> specialTextColor =
+                    typeArray.getColor(attr, Color.BLACK)
+                R.styleable.ExpandTextView_special_bold -> specialBold =
+                    typeArray.getBoolean(attr, false)
+                R.styleable.ExpandTextView_special_right_margin -> specialRightMargin =
+                    typeArray.getDimension(attr, 5f)
                 R.styleable.ExpandTextView_special_horizon_click_more -> specialHorizonClickMore =
                     typeArray.getDimension(attr, 5f)
                 R.styleable.ExpandTextView_special_vertical_click_more -> specialVerticalClickMore =
@@ -179,7 +204,7 @@ class ExpandTextView : View {
                     currentText = typeArray.getString(attr)?.let { getDealStr(it) } ?: ""
                 }
                 R.styleable.ExpandTextView_shrink_text -> {
-                    shrinkText = typeArray.getString(attr)?.let { getDealStr(it) } ?: ""
+                    shrinkText = typeArray.getString(attr)?.let { getDealStr(it) } ?: "暂无信息"
                 }
                 R.styleable.ExpandTextView_expand_text -> {
                     expandText = typeArray.getString(attr)?.let { getDealStr(it) } ?: ""
@@ -188,8 +213,10 @@ class ExpandTextView : View {
                     expandPrifix = typeArray.getString(attr)?.let { getDealStr(it) } ?: ""
                 }
 
-                R.styleable.ExpandTextView_max_line -> maxLine = typeArray.getInteger(attr, Int.MAX_VALUE)
-                R.styleable.ExpandTextView_bottom_margin -> bottomMargin = typeArray.getDimension(attr, 0f)
+                R.styleable.ExpandTextView_max_line -> maxLine =
+                    typeArray.getInteger(attr, Int.MAX_VALUE)
+                R.styleable.ExpandTextView_bottom_margin -> bottomMargin =
+                    typeArray.getDimension(attr, 15f)
                 R.styleable.ExpandTextView_special_left_margin -> {
                     specialLeftMargin = typeArray.getDimension(attr, 0f)
                 }
@@ -213,7 +240,7 @@ class ExpandTextView : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.d("TEST","w/h:$w/$h,ow/od:$oldw/$oldh")
+        Log.d("ExpandTextView", "w/h:$w/$h,ow/od:$oldw/$oldh")
     }
 
     /**
@@ -221,63 +248,78 @@ class ExpandTextView : View {
      */
     fun calHeight(width: Int): Float {
         if (TextUtils.isEmpty(currentText)) {
-            Log.d("TEST","当前内容为空")
+            Log.d("ExpandTextView", "当前内容为空")
             return 0f
         }
         if (width <= 0) {
-            Log.d("TEST","当前宽度为0")
+            Log.d("ExpandTextView", "当前宽度为0")
             return 0f
         }
         var staticLayout = getStaticLayout(currentText, contentPaint, width)
         var lineCount = staticLayout.lineCount
+        Log.d("ExpandTextView", "获取总行数 = lineCount = "+lineCount)
         var height = 0f
         if (lineCount <= maxLine) {
             height = staticLayout.height + lineCount * bottomMargin
+//            height = getTextHeight() + lineCount * bottomMargin
         } else {
             if (isExpand) {
                 //计算展开状态下的高度
                 for (i in 0 until lineCount) {
                     //获取当前行内容
-                    var currentLinStr = currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
+                    var currentLinStr = currentText.substring(
+                        staticLayout.getLineStart(i),
+                        staticLayout.getLineEnd(i)
+                    )
                     var currentLinStaticLayout = getStaticLayout(currentLinStr, contentPaint, width)
-
                     if (i == lineCount - 1) {
                         //特殊展示的内容数据
                         var shrinkStaticLayout = getStaticLayout(shrinkText, specialPaint, width)
+//                        Log.d("ExpandTextView", "shrinkStaticLayout = "+shrinkStaticLayout.height)
                         var shrinkWidth = shrinkStaticLayout.getLineWidth(0)
                         //主内容最后一行的宽度
                         var currentLinStrWidth = currentLinStaticLayout.getLineWidth(0)
                         //leftmargin对于收起是生效的，但是rightmargin是不生效的
                         if ((currentLinStrWidth + specialLeftMargin + shrinkWidth) > width) {
                             //需要另起一行
-                            height = height + currentLinStaticLayout.height + bottomMargin
-                            height = height + shrinkStaticLayout.height + bottomMargin
+                       height += currentLinStaticLayout.height + bottomMargin
+       //                                height += getTextHeight() + bottomMargin
+                            height += shrinkStaticLayout.height + bottomMargin
                         } else {
                             //取最高的那个
-                            var max = max(currentLinStaticLayout.height, shrinkStaticLayout.height)
-                            height = height + max + bottomMargin
+                         var max = max(currentLinStaticLayout.height, shrinkStaticLayout.height)
+//                            var max = max(getTextHeight(), shrinkStaticLayout.height)
+                            Log.d("ExpandTextView", "max = "+max)
+//                            var max = getTextHeight()
+                            height += max + bottomMargin
+//                            height += bottomMargin
                         }
                     } else {
                         //普通行
-                        height = height + currentLinStaticLayout.height + bottomMargin
+                   height += currentLinStaticLayout.height + bottomMargin
+                        //8.23                          height += getTextHeight() + bottomMargin
                     }
                 }
             } else {
                 //计算收起状态下的高度,只需要取最大行数内容就可以了
                 for (i in 0 until lineCount) {
                     //获取当前行内容
-                    var currentLinStr = currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
+                    var currentLinStr = currentText.substring(
+                        staticLayout.getLineStart(i),
+                        staticLayout.getLineEnd(i)
+                    )
                     var currentLinStaticLayout = getStaticLayout(currentLinStr, contentPaint, width)
-
                     if (i == maxLine - 1) {
                         var shrinkStaticLayout = getStaticLayout(shrinkText, specialPaint, width)
                         //计算最大行那一行的内容
-                        var max = max(currentLinStaticLayout.height, shrinkStaticLayout.height)
-                        height = height + max + bottomMargin
-                        return height
+                         var max = max(currentLinStaticLayout.height, shrinkStaticLayout.height)
+//                        var max = max(getTextHeight(), shrinkStaticLayout.height)
+                        height += max + bottomMargin
+                        return height+getTextHeight()+ bottomMargin
                     } else {
                         //普通行
-                        height = height + currentLinStaticLayout.height + bottomMargin
+                         height += currentLinStaticLayout.height + bottomMargin
+//                        height += getTextHeight() + bottomMargin
                     }
                 }
             }
@@ -293,86 +335,137 @@ class ExpandTextView : View {
         drawText(canvas)
     }
 
+    private fun getTextHeight(): Int {
+        var str = expandText
+        contentPaint.getTextBounds(str, 0, str.length, rect)
+        return rect.height()
+    }
+
+
     /**
      * 最终绘制文本操作的入口
      */
     fun drawText(canvas: Canvas) {
         if (TextUtils.isEmpty(currentText)) {
             canvas.drawText("", 0f, 0f, contentPaint)
-            Log.d("TEST","当前需要绘制的文本内容为空")
+            Log.d("ExpandTextView", "当前需要绘制的文本内容为空")
             return
         }
+//        Log.d("TEST","文本内容 = "+currentText)
         var staticLayout = getStaticLayout(currentText, contentPaint, width)
         var lineCount = staticLayout.lineCount
+        Log.d("ExpandTextView", "文本行数 lineCount = " + lineCount)
         if (lineCount <= maxLine) {
             //没有特殊内容的展示
             var height = 0f
-
             for (i in 0 until lineCount) {
-                var currentLineStr = currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
+                var currentLineStr =
+                    currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
                 var currentLineStaticLayout = getStaticLayout(currentLineStr, contentPaint, width)
-                height += currentLineStaticLayout.height
+                height += getTextHeight()
                 canvas.drawText(currentLineStr, 0f, height, contentPaint)
-                height+=bottomMargin
+                height += bottomMargin
             }
         } else {
             //包含特殊内容的展示
             var height = 0f
+            Log.d("ExpandTextView", "文本 isExpand =" + isExpand)
             if (isExpand) {
                 //当前状态为展开状态，绘制展开状态内容
                 var shrinkStaticLayout = getStaticLayout(shrinkText, specialPaint, width)
                 var shrinkStaticLayoutWidth = shrinkStaticLayout.getLineWidth(0)
                 var shrinkStaticLayoutHeight = shrinkStaticLayout.height
+            //           var shrinkStaticLayoutHeight = getTextHeight()
                 for (i in 0 until lineCount) {
                     //获取当前行内容
-                    var currentLineStr = currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
-                    var currentLineStaticLayout = getStaticLayout(currentLineStr, contentPaint, width)
+                    var currentLineStr = currentText.substring(
+                        staticLayout.getLineStart(i),
+                        staticLayout.getLineEnd(i)
+                    )
+                    var currentLineStaticLayout =
+                        getStaticLayout(currentLineStr, contentPaint, width)
                     if (i == lineCount - 1) {
                         //最后一行特殊处理
                         var currentLineWidth = currentLineStaticLayout.getLineWidth(0)
-                        if ((currentLineWidth + specialLeftMargin + shrinkStaticLayoutWidth) > width) {
-                            //展开内容需要换行处理
-                            //绘制主内容
-                            height = height + currentLineStaticLayout.height
-                            canvas.drawText(currentLineStr, 0f, height, contentPaint)
-                            height += bottomMargin
-                            //绘制特殊内容
-                            specialRect.set(
-                                0f,
-                                height - specialVerticalClickMore,
-                                shrinkStaticLayoutWidth + specialHorizonClickMore,
-                                height + shrinkStaticLayoutHeight + specialVerticalClickMore
-                            )
-                            height += shrinkStaticLayoutHeight
-                            canvas.drawText(shrinkText, 0f, height, specialPaint)
-                            Log.d("TEST","当前最后一行最底部距离:${height +bottomMargin}")
-                        } else {
-                            //都绘制在同一行
-                            //绘制主内容
-                            var currentWidth = 0f
-                            canvas.drawText(
-                                currentLineStr,
-                                currentWidth,
-                                height + currentLineStaticLayout.height,
-                                contentPaint
-                            )
-                            currentWidth += currentLineWidth
-                            //绘制特殊内容
-                            currentWidth += specialLeftMargin
-                            canvas.drawText(shrinkText, currentWidth, height + shrinkStaticLayoutHeight, specialPaint)
-                            Log.d("TEST","当前最后一行最底部距离:${height + shrinkStaticLayoutHeight+bottomMargin}")
-                            specialRect.set(
-                                currentWidth - specialHorizonClickMore,
-                                height - specialVerticalClickMore,
-                                currentWidth + shrinkStaticLayoutWidth + specialVerticalClickMore,
-                                height + shrinkStaticLayoutHeight + specialVerticalClickMore
-                            )
-                        }
+                        Log.d(
+                            "ExpandTextView",
+                            "文本 最后一行特殊处理 $currentLineStr "
+                        )
+                        val any =
+                            if ((currentLineWidth + specialLeftMargin + shrinkStaticLayoutWidth) > width) {
+                                //展开内容需要换行处理
+                                //绘制主内容
+                               height += currentLineStaticLayout.height
+//                           height += getTextHeight()
+                                canvas.drawText(currentLineStr, 0f, height, contentPaint)
+                                height += bottomMargin
+                                //绘制特殊内容
+                                specialRect.set(
+                                    0f,
+                                    height - specialVerticalClickMore,
+                                    shrinkStaticLayoutWidth + specialHorizonClickMore,
+                                    height + shrinkStaticLayoutHeight + specialVerticalClickMore
+                                )
+                                Log.d(
+                                    "ExpandTextView",
+                                    "文本 11 要换行 height = $height bottomMargin = ${bottomMargin}"
+                                )
+                                height += shrinkStaticLayoutHeight
+                                canvas.drawText(shrinkText, 0f, height, specialPaint)
+//                                Log.d("ExpandTextView", "文本当前最后一行最底部距离:${height + bottomMargin}")
+//                                Log.d("ExpandTextView",
+//                                    " 文本  specialRect.height() = ${ specialRect.height() }")
+                            } else {
+                                //都绘制在同一行
+                                //绘制主内容
+                                Log.d(
+                                    "ExpandTextView",
+                                    "文本 最后一行特殊处理  不换行$currentLineStr   currentLineStaticLayout = "+currentLineStaticLayout.height
+                                )
+                                var currentWidth = 0f
+                                canvas.drawText(
+                                    currentLineStr,
+                                    currentWidth,
+                                    height + currentLineStaticLayout.height,
+                                    contentPaint
+                                )
+
+                                currentWidth += currentLineWidth
+                                //绘制特殊内容
+                                currentWidth += specialLeftMargin
+                                canvas.drawText(
+                                    shrinkText,
+                                    currentWidth,
+                                    height + shrinkStaticLayoutHeight,
+                                    specialPaint
+                                )
+//                                Log.d("ExpandTextView",
+//                                    " 文本 22height = $height currentLineStaticLayout.height = ${currentLineStaticLayout.height }"
+//                                )
+                                specialRect.set(
+                                    currentWidth - specialHorizonClickMore,
+                                    height - specialVerticalClickMore,
+                                    currentWidth + shrinkStaticLayoutWidth + specialVerticalClickMore,
+                                    height + shrinkStaticLayoutHeight + specialVerticalClickMore
+                                )
+//                                Log.d("ExpandTextView",
+//                                    " 文本  specialRect.height() = ${ specialRect.height() }")
+
+                            }
                         return
                     } else {
-                        height = height + currentLineStaticLayout.height
+                        if (normalHeight == 0) {
+                            normalHeight = getTextHeight()
+                        }
+                        if (currentLineStr.length == 1) {//长度为一说明是需要换行
+                            height += getTextHeight()
+                        } else {
+                            height += normalHeight + bottomMargin
+                        }
                         canvas.drawText(currentLineStr, 0f, height, contentPaint)
+                        Log.d("ExpandTextView", "文本" + i + "  currentLineStr 扩展常规行 = " + currentLineStr)
                         height += bottomMargin
+//                        Log.d("ExpandTextView","文本"+ i +" 行  currentLineStr 22 = "+currentLineStr+ " height = "+height)
                     }
                 }
             } else {
@@ -380,63 +473,123 @@ class ExpandTextView : View {
                 //收起状态多了前缀，前缀需要特殊处理
                 var expandStaticLayout = getStaticLayout(expandText, specialPaint, width)
                 var expandStaticLayoutHeight = expandStaticLayout.height
+  //              var expandStaticLayoutHeight =getTextHeight()
                 var expandStaticLayoutWidth = expandStaticLayout.getLineWidth(0)
                 var height = 0f
                 for (i in 0 until lineCount) {
-                    //获取当前行内容
-                    var currentLineStr = currentText.substring(staticLayout.getLineStart(i), staticLayout.getLineEnd(i))
-                    var currentLineStaticLayout = getStaticLayout(currentLineStr, contentPaint, width)
-                    if (i == maxLine - 1) {
-                        //在最大一行特殊处理
-                        //需要计算前缀的内容信息
-                        var expandPrifixStaticLayout = getStaticLayout(expandPrifix, contentPaint, width)
-                        var expandPrifixStaticLayoutWidth = expandPrifixStaticLayout.getLineWidth(0)
+                    if (i < maxLine) {
+                        //获取当前行内容
+                        var currentLineStr = currentText.substring(
+                            staticLayout.getLineStart(i),
+                            staticLayout.getLineEnd(i)
+                        )
+                        Log.d(
+                            "ExpandTextView",
+                            "文本" + i + "  currentLineStr 收起 = " + currentLineStr + " height = " + height
+                        )
+                        var currentLineStaticLayout =
+                            getStaticLayout(currentLineStr, contentPaint, width)
+                        if (i == maxLine - 1) {
+                            //在最大一行特殊处理
+                            //需要计算前缀的内容信息
+                            Log.d("ExpandTextView", "文本" + i + " 行 ")
+                            var expandPrifixStaticLayout =
+                                getStaticLayout(expandPrifix, contentPaint, width)
+                            var expandPrifixStaticLayoutWidth =
+                                expandPrifixStaticLayout.getLineWidth(0)
+                            //主内容可以进行绘制的宽度内容
+                            var leftWidth =
+                                width - expandStaticLayoutWidth - specialRightMargin - specialLeftMargin - expandPrifixStaticLayoutWidth
+                            //当前正在绘制的宽内容
+                            var currentWidth = 0f
+                            //临时的一个高度，表达当前主内容的y值
+//                            var currentLineTmpHeight = height +currentLineStaticLayout.height
+                            var currentLineTmpHeight = height +getTextHeight()+bottomMargin
+                            Log.d(
+                                "ExpandTextView",
+                                "文本expandText" + i + " currentLineStr " + currentLineStr + "   lenth = " + currentLineStr.length
+                            )
+                            var currentStringStaticLayout =
+                                getStaticLayout(currentLineStr, contentPaint, width)
+                            var lastStrWidth = currentStringStaticLayout.getLineWidth(0)
+                            for (i in currentLineStr) {
+                                var currentString = i.toString()
+                                var currentStringStaticLayout =
+                                    getStaticLayout(currentString, contentPaint, width)
+                                var currentStringStaticLayoutWidth =
+                                    currentStringStaticLayout.getLineWidth(0)
+                                if ((currentWidth + currentStringStaticLayoutWidth) > leftWidth) {
+                                    //这个文字不被继续绘制了，开始绘制特殊内容
+                                    //绘制前缀信息
+//                                    canvas.drawText(
+//                                        expandPrifix,
+//                                        currentWidth,
+//                                        currentLineTmpHeight,//
+//                                        contentPaint
+//                                    )
 
-                        //主内容可以进行绘制的宽度内容
-                        var leftWidth =
-                            width - expandStaticLayoutWidth - specialRightMargin - specialLeftMargin - expandPrifixStaticLayoutWidth
-                        //当前正在绘制的宽内容
-                        var currentWidth = 0f
-                        //临时的一个高度，表达当前主内容的y值
-                        var currentLineTmpHeight = height + currentLineStaticLayout.height
-                        for (i in currentLineStr) {
-                            var currentString = i.toString()
-                            var currentStringStaticLayout = getStaticLayout(currentString, contentPaint, width)
-                            var currentStringStaticLayoutWidth = currentStringStaticLayout.getLineWidth(0)
-                            if ((currentWidth + currentStringStaticLayoutWidth) > leftWidth) {
-                                //这个文字不被继续绘制了，开始绘制特殊内容
-                                //绘制前缀信息
-                                canvas.drawText(expandPrifix, currentWidth, currentLineTmpHeight, contentPaint)
-                                currentWidth += expandPrifixStaticLayoutWidth
-                                //绘制特殊内容区域信息
-                                currentWidth += specialLeftMargin
-                                canvas.drawText(
-                                    expandText,
-                                    currentWidth,
-                                    height + expandStaticLayoutHeight,
-                                    specialPaint
-                                )
-                                //设置其响应的区域范围
-                                specialRect.set(
-                                    currentWidth - specialHorizonClickMore,
-                                    height - specialVerticalClickMore,
-                                    currentWidth + expandStaticLayoutWidth + specialHorizonClickMore,
-                                    height + expandStaticLayoutHeight + specialVerticalClickMore
-                                )
-                                return
-                            } else {
-                                //这个文字可以进行绘制操作
-                                canvas.drawText(currentString, currentWidth, currentLineTmpHeight, contentPaint)
-                                currentWidth += currentStringStaticLayoutWidth
+                                    canvas.drawText(
+                                        expandPrifix,
+                                        currentWidth,
+                                        height + expandStaticLayoutHeight,//
+                                        contentPaint
+                                    )
+                                    currentWidth += expandPrifixStaticLayoutWidth
+                                    //绘制特殊内容区域信息
+                                    currentWidth += specialLeftMargin
+                                    canvas.drawText(
+                                        expandText,
+                                        currentWidth,
+                                        height + expandStaticLayoutHeight,
+                                        specialPaint
+                                    )
+                                    Log.d(
+                                        "ExpandTextView",
+                                        "文本expandText" + i + " currentWidth " + currentWidth
+                                    )
+                                    //设置其响应的区域范围
+                                    specialRect.set(
+                                        currentWidth - specialHorizonClickMore,
+                                        height - specialVerticalClickMore,
+                                        currentWidth + expandStaticLayoutWidth + specialHorizonClickMore,
+                                        height + expandStaticLayoutHeight + specialVerticalClickMore
+                                    )
+                                    return
+                                } else {
+                                    //这个文字可以进行绘制操作
+                                    canvas.drawText(
+                                        currentString,
+                                        currentWidth,
+                                        currentLineTmpHeight,
+                                        contentPaint
+                                    )
+//                                    Log.d(
+//                                        "ExpandTextView",
+//                                        "文本expandText" + i + " currentString = " + currentString.length + " currentWidth = " + currentWidth
+//                                    )
+                                    currentWidth += currentStringStaticLayoutWidth
+                                    if (i == currentLineStr.last()) {
+                                        canvas.drawText(
+                                            expandText,
+                                            currentWidth + lastStrWidth,
+                                            currentLineTmpHeight,
+                                            specialPaint
+                                        )
+                                        specialRect.set(
+                                            currentWidth - specialHorizonClickMore,
+                                            currentLineTmpHeight - specialVerticalClickMore,
+                                            currentWidth + expandStaticLayoutWidth + specialHorizonClickMore+lastStrWidth,
+                                            currentLineTmpHeight + specialVerticalClickMore
+                                        )
+                                    }
+                                }
                             }
+                        } else {
+                            height += getTextHeight() + bottomMargin
+                            canvas.drawText(currentLineStr, 0f, height, contentPaint)
+                            height += bottomMargin
                         }
-
-                    } else {
-                        height += currentLineStaticLayout.height
-                        canvas.drawText(currentLineStr, 0f, height, contentPaint)
-                        height += bottomMargin
                     }
-
                 }
             }
         }
@@ -449,17 +602,28 @@ class ExpandTextView : View {
         if (TextUtils.isEmpty(text)) {
             return ""
         }
-        var dest = ""
-        val p = Pattern.compile("\\s*|\t|\r|\n")
-        val m = p.matcher(text)
-        dest = m.replaceAll("")
-        return dest
+//        var dest = ""
+//        val p = Pattern.compile("\\s*|\t|\r|\n")
+//        val m = p.matcher(text)
+//        dest = m.replaceAll("")
+//        return dest
+        return text
     }
 
     private fun getStaticLayout(text: String, paint: TextPaint, width: Int): StaticLayout {
 //        var staticLayout = StaticLayout(text, paint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false)
         var staticLayout =
-            StaticLayout(text, 0, text.length, paint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false)
+            StaticLayout(
+                text,
+                0,
+                text.length,
+                paint,
+                width,
+                Layout.Alignment.ALIGN_NORMAL,
+                1f,
+                0f,
+                false
+            )
         return staticLayout
     }
 
@@ -480,6 +644,10 @@ class ExpandTextView : View {
                 }
             }
             MotionEvent.ACTION_UP -> {
+                Log.d(
+                    "ExpandTextView",
+                    "文本 downInSpecial ---- " + downInSpecial
+                )
                 if (downInSpecial) {
                     if (specialRect.contains(x, y)) {
                         //点击的特殊按钮
@@ -499,6 +667,7 @@ class ExpandTextView : View {
 
     interface ClickListener {
         fun onContentTextClick()
+
         /**
          * 特殊按钮被点击是调用，
          * @param currentExpand 在点击的时候，当前的状态是否是展开状态 true->是展开的状态，false->是收起的状态

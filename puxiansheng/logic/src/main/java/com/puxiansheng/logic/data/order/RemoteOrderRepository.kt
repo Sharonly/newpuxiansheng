@@ -625,7 +625,7 @@ class RemoteOrderRepository {
 
     fun deleteTransferOutOrderFromRemote(
         shopID: String
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_TRANSFER_OUT_ORDER,
         fieldMap = mutableMapOf(
             "id" to shopID
@@ -643,7 +643,7 @@ class RemoteOrderRepository {
 
     fun deleteTransferInOrderFromRemote(
         shopID: String
-    ): APIRst<APIResp<String>> = buildRequest(
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
         url = API.DELETE_TRANSFER_IN_ORDER,
         fieldMap = mutableMapOf(
             "id" to shopID

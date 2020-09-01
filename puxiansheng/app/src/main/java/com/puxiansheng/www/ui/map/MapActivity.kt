@@ -21,6 +21,7 @@ import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_map_location.*
 import java.net.URLDecoder
 
@@ -207,13 +208,14 @@ class MapActivity : MyBaseActivity() {
     override fun onResume() {
         map_view.onResume()
         super.onResume()
+        MobclickAgent.onPageStart("MapActivity")
 
     }
 
     override fun onPause() {
         map_view.onPause()
         super.onPause()
-
+        MobclickAgent.onPageEnd("MapActivity")
     }
 
     override fun onStop() {

@@ -25,11 +25,19 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/input_text_blank"
-                android:layout_marginTop="15.5dp"/>
+                android:gravity="center"
+                android:layout_marginTop="5.5dp"/>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -40,7 +48,8 @@
                 android:id="@+id/bt_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14.5dp"
+                android:layout_marginTop="5.5dp"
+                android:textColor="@color/color_upgrade_now"
                 android:text="确定"/>
 
         </LinearLayout>
@@ -63,11 +72,12 @@
             <TextView
                 android:id="@+id/save_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/input_text_blank"
-                android:layout_marginTop="15.5dp"/>
+                android:layout_marginTop="5.5dp"/>
 
             <TextView
                 android:id="@+id/sub_title"
@@ -84,7 +94,7 @@
                 android:id="@+id/bt_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14.5dp"
+                android:layout_marginTop="5.5dp"
                 android:text="返回"/>
 
         </LinearLayout>

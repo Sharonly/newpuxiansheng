@@ -21,6 +21,7 @@ import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_message_detail.*
 import kotlinx.coroutines.launch
 
@@ -133,6 +134,9 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         InfoDetailActivity::class.java
                                     )
                                     intent.putExtra("url", menuItem.jump_param)
+                                    intent.putExtra("shop_Id", menuItem?.menuID)
+                                    intent.putExtra("title", menuItem?.text)
+                                    intent.putExtra("img", " ")
                                     startActivity(intent)
                                 }
                                 6 ->{
@@ -166,5 +170,15 @@ class MessageDetailActivity() : MyBaseActivity() {
             }
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("MessageDetailActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MessageDetailActivity")
+//    }
 
 }

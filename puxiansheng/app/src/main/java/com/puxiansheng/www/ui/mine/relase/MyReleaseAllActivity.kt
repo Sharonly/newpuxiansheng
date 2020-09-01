@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.google.android.material.tabs.TabLayoutMediator
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_all_release.*
 
 class MyReleaseAllActivity :MyBaseActivity(){
@@ -38,4 +39,14 @@ class MyReleaseAllActivity :MyBaseActivity(){
            onBackPressed()
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("MyReleaseAllActivity")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MyReleaseAllActivity")
+//    }
 }

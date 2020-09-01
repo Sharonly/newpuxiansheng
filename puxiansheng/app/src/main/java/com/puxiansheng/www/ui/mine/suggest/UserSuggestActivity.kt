@@ -17,6 +17,7 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_user_suggest.*
 import kotlinx.android.synthetic.main.activity_user_suggest.type_spinner
@@ -108,7 +109,15 @@ class UserSuggestActivity : MyBaseActivity() {
         })
 
     }
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("UserSuggestActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("UserSuggestActivity")
+//    }
 
 }
 

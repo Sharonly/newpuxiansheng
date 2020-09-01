@@ -1,10 +1,12 @@
 package com.puxiansheng.www.ui.mine.setting
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,6 +17,8 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,33 +28,39 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.uio.GlideApp
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.ui.main.LocationActivity
-import com.puxiansheng.www.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_mine.user_icon
 import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class UserSettingActivity : MyBaseActivity() {
-    private lateinit var appModel: MainViewModel
     private lateinit var settingViewModel: SettingViewModel
-    private var iconImageUri: Uri? = null
+    private val requestCodePermissions = 1001
+    private val requiredPermissions = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_my_setting
     }
 
     override fun business() {
-        appModel = ViewModelProvider(this)[MainViewModel::class.java]
+        initPermission()
         settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
+//        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
         initView()
     }
 
@@ -174,33 +184,35 @@ class UserSettingActivity : MyBaseActivity() {
 
 
 
-        appModel.currentCity.observe(this@UserSettingActivity, Observer {
-            user_location.text = it.text
-        })
+//        appModel.currentCity.observe(this@UserSettingActivity, Observer {
+//            user_location.text = it.text
+//        })
 
 
-        LiveDataBus.get().with("Test",Uri::class.java)?.observe(this, Observer {
-              println("回调1uri--——》${it}")
+        LiveDataBus.get().with("changeIcon",Uri::class.java)?.observe(this, Observer {
+              println("回调---imageIcon--—》${it}")
             cropImageUri=it
+            crop(cropImageUri)
         })
     }
 
-    private var  cropImageUri:Uri?=null
+    private var  cropImageUri: Uri? =null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("---imageIcon", "  requestCode  = " + requestCode+"  resultCode = "+resultCode)
         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-            crop(cropImageUri)
-//            Glide.with(this)
-//                .load(cropImageUri)
-//                .skipMemoryCache(true)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .error(R.mipmap.ic_default_icon)
-//                .into(user_icon)
+//            crop(cropImageUri)
+            Glide.with(this)
+                .load(cropImageUri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .error(R.mipmap.ic_default_icon)
+                .into(user_icon)
 //            lifecycleScope.launch {
 //                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
-//                cropImageUri?.let { realImageUri = getFileUri(this@UserSettingActivity, it) }
-//                getPath(this@UserSettingActivity, realImageUri!!)?.let { it1 ->
+//                cropImageUri?.let { cropImageUri = getFileUri(this@UserSettingActivity, it) }
+//                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
 //                    settingViewModel.submitUserIcon(it1).let {
 //                        if (it?.code == API.CODE_SUCCESS) {
 //                            settingViewModel.iconImg = it?.data?.imgIcon
@@ -226,21 +238,21 @@ class UserSettingActivity : MyBaseActivity() {
                 }
             }
         }else if (requestCode==103){
-                 Glide.with(this)
-                .load(cropImageUri)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.mipmap.ic_default_icon)
-                .into(user_icon)
+//                 Glide.with(this)
+//                .load(cropImageUri)
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .error(R.mipmap.ic_default_icon)
+//                .into(user_icon)
                         lifecycleScope.launch {
-                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)
-                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
-                    settingViewModel.submitUserIcon(it1).let {
-                        if (it?.code == API.CODE_SUCCESS) {
-                            settingViewModel.iconImg = it?.data?.imgIcon
-                        }
-                    }
-                }
+                Log.d("---imageIcon  ", "  cropImageUri 22 = " + cropImageUri)
+//                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
+//                    settingViewModel.submitUserIcon(it1).let {
+//                        if (it?.code == API.CODE_SUCCESS) {
+//                            settingViewModel.iconImg = it?.data?.imgIcon
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -496,5 +508,39 @@ private fun getFileFromContentUri(
 }
 
 //http://pxs3-img-test.oss-cn-shenzhen.aliyuncs.com/temp/admin_temp/fd50243d1cb4c75ac80b67428761920f28840234.jpg
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("UserSettingActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("UserSettingActivity")
+//    }
+
+
+    private fun initPermission() {
+        val permissions = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        val toApplyList: ArrayList<String> = ArrayList()
+        for (perm in permissions) {
+            if (PackageManager.PERMISSION_GRANTED !== ContextCompat.checkSelfPermission(
+                    Objects.requireNonNull(this), perm)
+            ) { toApplyList.add(perm) }
+        }
+        val tmpList = arrayOfNulls<String>(toApplyList.size)
+        if (toApplyList.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                toApplyList.toArray(tmpList),
+                101
+            )
+        }
+    }
+
 
 }

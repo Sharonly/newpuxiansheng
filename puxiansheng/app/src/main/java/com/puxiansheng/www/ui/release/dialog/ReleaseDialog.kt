@@ -14,7 +14,7 @@ import com.puxiansheng.www.databinding.DialogReleaseSubmitTipsBinding
 import com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 
-class ReleaseDialog(private var type: Int) : DialogFragment() {
+class ReleaseDialog(private var type: Int,private var tip:String) : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
@@ -40,15 +40,15 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 layoutSubmit.visibility = View.GONE
                 layoutSave.visibility = View.VISIBLE
                 saveIcon.setImageResource(R.mipmap.ic_save_success)
-                saveTitle.text = "保存成功"
-                subTitle.text = "请尽快上传图片，通过审核"
+                saveTitle.text = tip
+//                subTitle.text = "请尽快上传图片，通过审核"
                 btOk.setTextColor(resources.getColor(R.color.release_sava_text_color))
             }
             1 -> {//发布成功
                 layoutSubmit.visibility = View.VISIBLE
                 layoutSave.visibility = View.GONE
                 dialogIcon.setImageResource(R.mipmap.ic_release_success)
-                title.text = "恭喜您！发布成功"
+                title.text = tip
                 btReturn.setTextColor(resources.getColor(R.color.release_success_text_color))
                 btReturn.text = "确定"
             }
@@ -56,7 +56,9 @@ class ReleaseDialog(private var type: Int) : DialogFragment() {
                 layoutSubmit.visibility = View.VISIBLE
                 layoutSave.visibility = View.GONE
                 dialogIcon.setImageResource(R.mipmap.ic_release_fail)
-                title.text = "哎呀！发布失败"
+                title.text = tip
+//                desc.visibility = View.VISIBLE
+//                desc.text =""
                 btReturn.setTextColor(resources.getColor(R.color.release_fail_text_color))
                 btReturn.text = "返回"
             }

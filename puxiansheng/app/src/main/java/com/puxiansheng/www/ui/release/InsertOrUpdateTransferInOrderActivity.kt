@@ -17,6 +17,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_area
@@ -173,15 +174,26 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
         }
 
         button_select_area.setOnClickListener {
-            SelectAreaDialog(onSelectArea = {
-                it?.let { locationNode ->
-                    button_select_area.text = locationNode.text
-                    insertOrUpdateTransferInOrderViewModel.area = locationNode.nodeID.toString()
-                }
+//            SelectAreaDialog(onSelectArea = {
+//                it?.let { locationNode ->
+//                    button_select_area.text = locationNode.text
+//                    insertOrUpdateTransferInOrderViewModel.area = locationNode.nodeID.toString()
+//                }
+//            }).show(
+//                supportFragmentManager,
+//                SelectAreaDialog::class.java.name
+//            )
+            SelectNewAreaDialog(onSelectArea = {topMenuItem, secondMenuItem ->
+                button_select_area.text = topMenuItem?.btText
+                insertOrUpdateTransferInOrderViewModel.area  =
+                    "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
+                button_select_area.text =
+                    "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
             }).show(
                 supportFragmentManager,
-                SelectAreaDialog::class.java.name
+                SelectNewAreaDialog::class.java.name
             )
+
         }
 
         //获取设施
@@ -224,17 +236,17 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
         insertOrUpdateTransferInOrderViewModel.toastMsg.observe(this, Observer {
 //            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             if(it.contains("保存成功")){
-                ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(0,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }else if(it.contains("发布成功")){
-                ReleaseDialog(1).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(1,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }else{
-                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(2,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
         insertOrUpdateTransferInOrderViewModel.submitResult.observe(this, Observer {
             if (it != API.CODE_SUCCESS) {
-                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
+//                ReleaseDialog(2,"").show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
@@ -359,4 +371,16 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
 //            }
 //        })
     }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("InsertOrUpdateTransferInOrderActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("InsertOrUpdateTransferInOrderActivity")
+//    }
+
 }

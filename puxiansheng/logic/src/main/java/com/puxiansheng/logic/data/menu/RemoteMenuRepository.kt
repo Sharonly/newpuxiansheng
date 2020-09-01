@@ -1,6 +1,7 @@
 package com.puxiansheng.logic.data.menu
 
 import com.puxiansheng.logic.api.API.GET_REMOTE_INDUSTRY_DATA
+import com.puxiansheng.logic.api.API.GET_REMOTE_NEW_AREA_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_PROPERTY_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_RENT_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_RENT_UNIT_DATA
@@ -10,6 +11,7 @@ import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.METHOD
 import com.puxiansheng.logic.api.API.call
+import com.puxiansheng.logic.bean.http.HttpRespAreaObject
 import com.puxiansheng.logic.bean.http.HttpRespMenuDate
 import com.puxiansheng.util.http.buildRequest
 
@@ -18,6 +20,33 @@ class RemoteMenuRepository {
         buildRequest(
             url = GET_REMOTE_INDUSTRY_DATA, fieldMap = mutableMapOf(
                 "tree" to "0"
+            ).also {
+                it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            call(it)
+        }
+
+
+    fun requestRemoteNewAreaSelectiveData(signatureToken: String): APIRst<APIResp<HttpRespAreaObject>> =
+        buildRequest(
+            url = GET_REMOTE_NEW_AREA_DATA, fieldMap = mutableMapOf(
+                "tree" to "0",
+                "id" to "0"
+            ).also {
+                it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            call(it)
+        }
+
+    fun requestRemoteNewAreaById(signatureToken: String,id:Int): APIRst<APIResp<HttpRespAreaObject>> =
+        buildRequest(
+            url = GET_REMOTE_NEW_AREA_DATA, fieldMap = mutableMapOf(
+                "tree" to "0",
+                "id" to id.toString()
             ).also {
                 it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
             },

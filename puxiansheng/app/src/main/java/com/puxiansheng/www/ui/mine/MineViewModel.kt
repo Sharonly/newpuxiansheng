@@ -24,7 +24,7 @@ class MineViewModel (application: Application) : AndroidViewModel(application){
     }
 
     suspend fun requestBannerImage(where: String) =
-        withContext(Dispatchers.IO) {
+        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             imageRepository.requestRemoteImage(where).let {
                 return@let if (it.succeeded) (it as APIRst.Success).data.data?.bannerImg else null
             }

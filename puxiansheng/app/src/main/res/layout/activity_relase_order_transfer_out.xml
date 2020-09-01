@@ -700,17 +700,20 @@
                 <EditText
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:minHeight="62dp"
                     android:gravity="start"
+                    android:singleLine="false"
                     android:hint="请输入"
                     android:textSize="14sp"
                     android:padding="4dp"
                     android:background="@drawable/bg_input_release"
                     android:layout_below="@+id/txt_description"
                     android:layout_marginTop="10dp"
-                    android:inputType="text"/>
+                   />
+
 
                 <TextView
                     android:id="@+id/txt_enverment"
@@ -722,7 +725,8 @@
                     android:text="周边环境"
                     android:textColor="@color/input_text_blank"
                     android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/input_enverment"
@@ -737,7 +741,8 @@
                     android:background="@drawable/bg_input_release"
                     android:layout_below="@+id/txt_enverment"
                     android:layout_marginTop="10dp"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/txt_reason"
@@ -749,7 +754,8 @@
                     android:text="转让原因"
                     android:textColor="@color/input_text_blank"
                     android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/input_reason"
@@ -764,7 +770,8 @@
                     android:background="@drawable/bg_input_release"
                     android:layout_below="@+id/txt_reason"
                     android:layout_marginTop="10dp"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/submit"
@@ -773,14 +780,13 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="50dp"
                     android:layout_margin="20dp"
-                    android:layout_below="@+id/input_reason"
+                    android:layout_below="@+id/input_description"
                     android:gravity="center"
                     android:text="提交"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"
-                    app:backgroundTint="@color/appMain"
-                     />
+                    app:backgroundTint="@color/appMain" />
 
 
             </RelativeLayout>

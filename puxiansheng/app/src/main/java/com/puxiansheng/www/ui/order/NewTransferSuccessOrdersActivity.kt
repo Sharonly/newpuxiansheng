@@ -18,9 +18,11 @@ import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.order.dialog.*
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_new_order_list.*
 import kotlinx.android.synthetic.main.activity_new_order_list.button_back
 import kotlinx.android.synthetic.main.activity_new_order_list.button_search
@@ -42,12 +44,18 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
     private lateinit var viewModel: NewTransferOutOrdersViewModel
     var adapter: ListOrdersAdapter? = null
     private var isRefresh = true
+    private var mContext: Context? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_new_order_list
     }
 
     override fun business() {
+        mContext = this
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+            API.LOGIN_USER_ID,
+            0
+        ).toString())
         viewModel = ViewModelProvider(this)[NewTransferOutOrdersViewModel::class.java]
         if(NetUtil.isNetworkConnected(this)) {
             viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
@@ -55,11 +63,15 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("NewTransferSuccessOrdersActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("NewTransferSuccessOrdersActivity")
+//    }
 
 
     private fun initView() {
@@ -96,8 +108,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                 order_list.removeAllViews()
                 isRefresh = true
                 lifecycleScope.launch {
-                    viewModel.getTransferSuccessFromRemote().let {
-                        adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                    viewModel.getTransferSuccessFromRemote()?.let {list ->
+                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                     }
                 }
                 return@OnEditorActionListener true
@@ -120,8 +132,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferSuccessFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferSuccessFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
@@ -139,8 +151,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferSuccessFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferSuccessFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
@@ -158,8 +170,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferSuccessFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferSuccessFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
@@ -179,8 +191,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferSuccessFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferSuccessFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
@@ -198,8 +210,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
                     isRefresh = true
                     viewModel.currentPage = 1
                     lifecycleScope.launch {
-                        viewModel.getTransferSuccessFromRemote().let {
-                            adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                        viewModel.getTransferSuccessFromRemote()?.let {list ->
+                                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
                 }
@@ -224,8 +236,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
         if (NetUtil.isNetworkConnected(this)) {
             not_network.visibility = View.GONE
             lifecycleScope.launch {
-                viewModel.getTransferSuccessFromRemote().let {
-                    adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+                viewModel.getTransferSuccessFromRemote()?.let {list ->
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
         } else {
@@ -246,9 +258,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
         viewModel.currentPage += 1
         Log.d(" onLoadMore-----  ", "  viewModel.currentPage----- " + viewModel.currentPage)
         lifecycleScope.launch {
-            viewModel.getTransferSuccessFromRemote().let {
-                Log.d(" onLoadMore-----  ", " list ----- " + it)
-                adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+            viewModel.getTransferSuccessFromRemote()?.let {list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
         refreshLayout.finishLoadMore()
@@ -259,8 +270,8 @@ class NewTransferSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreList
         viewModel.currentPage = 1
         if (NetUtil.isNetworkConnected(this)) {
         lifecycleScope.launch {
-            viewModel.getTransferSuccessFromRemote().let {
-                adapter?.addList(it as ArrayList<OrderDetailObject>, isRefresh)
+            viewModel.getTransferSuccessFromRemote()?.let {list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
         } else {

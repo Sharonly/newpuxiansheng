@@ -4,6 +4,7 @@ import android.net.http.SslError
 import android.webkit.*
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_about_us.*
 
 class AboutUsActivity : MyBaseActivity(){
@@ -49,5 +50,15 @@ class AboutUsActivity : MyBaseActivity(){
             setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW)
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("AboutUsActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("AboutUsActivity")
+//    }
 
 }

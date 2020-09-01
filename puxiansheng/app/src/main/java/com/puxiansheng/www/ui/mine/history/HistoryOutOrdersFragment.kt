@@ -22,6 +22,7 @@ import com.puxiansheng.www.databinding.FragmentFavorListOrdersBinding
 import com.puxiansheng.www.ui.order.ListOrdersAdapter
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.launch
 
 class HistoryOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
@@ -62,14 +63,14 @@ class HistoryOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
 
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getHistoryOutOrders(currentPage).let { list ->
+                viewModel.getHistoryOutOrders(currentPage)?.let { list ->
                     adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
             hisViewModel.refreshType.observe(requireActivity(), Observer {
                 if (it == Order.Type.TRANSFER_OUT_HISTORY.value()) {
                     lifecycleScope.launch {
-                        viewModel.getHistoryOutOrders(currentPage).let { list ->
+                        viewModel.getHistoryOutOrders(currentPage)?.let { list ->
                             adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                         }
                     }
@@ -88,7 +89,9 @@ class HistoryOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage += 1
         isRefresh = false
         lifecycleScope.launch {
-            viewModel.getHistoryOutOrders(currentPage)
+            viewModel.getHistoryOutOrders(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishLoadMore(2000)
     }
@@ -97,8 +100,21 @@ class HistoryOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         currentPage = 1
         isRefresh = true
         lifecycleScope.launch {
-            viewModel.getHistoryOutOrders(currentPage)
+            viewModel.getHistoryOutOrders(currentPage)?.let { list ->
+                adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            }
         }
         refreshLayout.finishRefresh(2000)
     }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart("HistoryOutOrdersFragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd("HistoryOutOrdersFragment")
+    }
+
 }

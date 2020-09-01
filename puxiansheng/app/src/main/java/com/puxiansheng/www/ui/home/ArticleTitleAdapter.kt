@@ -50,6 +50,9 @@ class ArticleTitleAdapter(
             binding.root.setOnClickListener {
                 val intent = Intent(context, InfoDetailActivity::class.java)
                 intent.putExtra("url",menuItem.jump_param)
+                intent.putExtra("shop_Id", menuItem?.shopID)
+                intent.putExtra("title", menuItem?.title)
+                intent.putExtra("img", "")
                 context.startActivity(intent)
             }
         }

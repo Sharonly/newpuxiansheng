@@ -42,7 +42,6 @@ public class  BitMapUtil {
                 }
             }
         }).start();
-
         return bitmap;
     }
 
@@ -58,7 +57,6 @@ public class  BitMapUtil {
             while(ratio>inSampleSize){
                 inSampleSize*=2;
             }
-
         }
         return inSampleSize;
     }

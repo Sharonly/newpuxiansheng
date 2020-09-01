@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.www.common.ImageSwitcher
+import com.puxiansheng.www.common.JumpUtils
 import com.puxiansheng.www.databinding.DialogAdvertBinding
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
@@ -64,7 +65,7 @@ class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
         }
         imgSwitcher.onImageClick { image: BannerImage ->
             Log.d("---jump--"," image= "+image.jump_param+"  ="+image.jump_type+"   ="+image.jump_view)
-            appModel.pictureIntent(context,image) }
+            JumpUtils.pictureIntent(context,image) }
         btClose.setOnClickListener {
             dismiss()
             listener?.onDiss()

@@ -36,8 +36,8 @@ android {
         applicationId "com.puxiansheng.www"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 135
-        versionName "3.3.2"
+        versionCode 136
+        versionName "3.3.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
         vectorDrawables.useSupportLibrary = true
@@ -67,7 +67,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+//            shrinkResources true
             signingConfig = signingConfigs.pxs
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -86,6 +87,13 @@ android {
     }
 }
 
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -102,12 +110,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 
     implementation 'com.squareup.okhttp3:okhttp:4.3.0'
-
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation "android.arch.paging:runtime:1.0.1"
     implementation "androidx.work:work-runtime:2.3.1"
-
     implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
 
     testImplementation 'junit:junit:4.12'
@@ -116,8 +122,6 @@ dependencies {
 
     //wx社会化功能
     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.4.3'
-
-
     implementation 'me.jessyan:autosize:0.9.5'
     implementation project(path: ':util')
     implementation project(path: ':logic')
@@ -131,11 +135,29 @@ dependencies {
 
     //腾讯地图
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.3.3.2'
-    'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4'
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.6'
 
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.android.support:palette-v7:28.0.0'
     testImplementation 'com.github.bumptech.glide:compiler:4.10.0'
     compile 'gdut.bsx:share2:0.9.3'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+
+//    implementation files('libs/umeng-common-9.1.3.jar')
+//    implementation files('libs/umeng-asms-armeabi-v1.1.3.aar')
+//    implementation files('libs/umeng-crash-armeabi-v0.0.4.aar')
+
+
+// 友盟统计SDK
+    implementation  'com.umeng.umsdk:common:9.1.0' // (必选)
+    implementation  'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+    implementation  'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
+    implementation  'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+    implementation  'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
+    implementation  'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
+
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+
 }

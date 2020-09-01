@@ -68,6 +68,7 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
         }
 
         requestVerificationCode.setOnClickListener {
+            loginViewModel.requestType = "reset_pwd"
             if (loginViewModel.userAccount == "") {
                 Toast.makeText(context, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -85,32 +86,30 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
         }
 
         bt_go_to.setOnClickListener {
-            if(bt_go_to.text=="下一步"){
+            if(bt_go_to.text.contains("下一步")){
                 loginViewModel.userAccount.let {
                     if (!Regular.isPhoneNumber(it)) {
-                        input_user_account.error = resources.getString(R.string.login_error_account)
+                        input_account.error = resources.getString(R.string.login_error_account)
                         return@setOnClickListener
                     }
                 }
 
                 loginViewModel.verificationCode.let {
                     if (it.length != 6 && txt_message_token.visibility == View.VISIBLE) {
-                        txt_message_token.error = resources.getString(R.string.login_error_code)
+                        input_vertoken.error = resources.getString(R.string.login_error_code)
                         return@setOnClickListener
                     }
                 }
-
                 input_account.visibility = View.GONE
                 layout_vertoken.visibility = View.GONE
                 txt_new_password.visibility = View.VISIBLE
                 layout_password_again.visibility = View.VISIBLE
                 icon_eye.visibility = View.VISIBLE
                             bt_go_to.text = "确认"
-
             }else if(bt_go_to.text=="确认"){
                 loginViewModel.newPassword.let {
                     if (!Regular.isPassword(it)) {
-                        input_user_password.error = resources.getString(R.string.login_error_password)
+                        txt_new_password.error = resources.getString(R.string.login_error_password)
                         return@setOnClickListener
                     }
                 }

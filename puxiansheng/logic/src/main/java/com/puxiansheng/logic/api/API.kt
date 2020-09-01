@@ -43,7 +43,7 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "332"
+    const val API_VERSION = "333"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
@@ -59,12 +59,12 @@ object API {
     const val USER_CITY_ID = "city_id"
     const val USER_CITY_NAME = "city_name"
 
-//    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
-//    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
+    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
+    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
 
 
-    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
-    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
+//    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
+//    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
 
     //login
     const val DO_LOGIN = API_ADDRESS + "api/login.html"
@@ -178,10 +178,13 @@ object API {
 
     //menu item apis
     const val GET_REMOTE_INDUSTRY_DATA = API_ADDRESS + "api/shop/get_industry.html"
+
     const val GET_REMOTE_SIZE_DATA = API_ADDRESS + "api/shop/get_acreage.html"
     const val GET_REMOTE_RENT_UNIT_DATA = API_ADDRESS + "api/shop/get_ret_unit.html"
     const val GET_REMOTE_RENT_DATA = API_ADDRESS + "api/shop/get_rent.html"
     const val GET_REMOTE_PROPERTY_DATA = API_ADDRESS + "api/shop/get_property.html"
+    //新地址
+    const val GET_REMOTE_NEW_AREA_DATA = API_ADDRESS +"api/new_area/list.html"
 
     //some simple data apis
     const val GET_HOME_PAGE_STATISTICS_DATA = API_ADDRESS + "api/shop/statistics.html"

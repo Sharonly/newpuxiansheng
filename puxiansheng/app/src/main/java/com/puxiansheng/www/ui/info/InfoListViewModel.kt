@@ -58,14 +58,18 @@ class InfoListViewModel(application: Application) : AndroidViewModel(application
 
     suspend fun getInfoListByCategory(
         category: Int
-    ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+    ) = withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         infoRepository.getInfoByCategoryFromRemote(
             category = category,
             page = currentPage,
             city = cityId,
             title = title
         ).let {
-            if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList else null
+//            if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList else null
+            if (it.succeeded) (it as APIRst.Success).data.data?.infoListObject?.infoList?.let {list ->
+                println(list)
+                list
+            } else null
         }
     }
 

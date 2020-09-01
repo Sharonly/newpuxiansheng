@@ -77,9 +77,19 @@ class ChangeIconDialog() : DialogFragment() {
 
         binding.btTakePicture.setOnClickListener {
             dismiss()
-
+            if (ContextCompat.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1
+                )
+            }
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE) // 启动系统相机
-            val file = File("$sdPath/Head.jpg")
+            val file = File("$sdPath/pxs_icon.jpg")
             val cropImageUri = FileProvider.getUriForFile(
                 requireActivity(),
                 "${requireContext().packageName}.fileProvider",
@@ -87,12 +97,14 @@ class ChangeIconDialog() : DialogFragment() {
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri) // 为像片指定存储路径
             requireActivity().startActivityForResult(intent, 101)
-            LiveDataBus.get().with("Test", Uri::class.java)?.value = cropImageUri
+            LiveDataBus.get().with("changeIcon", Uri::class.java)?.value = cropImageUri
         }
 
         binding.btCancel.setOnClickListener { dismiss() }
 
     }.root
+
+
 
 
 }

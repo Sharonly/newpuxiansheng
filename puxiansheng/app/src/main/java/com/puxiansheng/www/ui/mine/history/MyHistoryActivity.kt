@@ -10,6 +10,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
 import com.puxiansheng.www.ui.mine.relase.DeleteOrderDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_history.*
 import kotlinx.android.synthetic.main.fragment_info_list.*
 import java.util.*
@@ -98,5 +99,14 @@ class MyHistoryActivity : MyBaseActivity(){
     }
 
 
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("MyHistoryActivity")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("MyHistoryActivity")
+//    }
 
 }

@@ -9,13 +9,3 @@ data class HttpRespMarqueeInfos(
 )
 
 
-data class MarqueeHeadLine(
-    @SerializedName("data")
-    val infos: List<MarqueeInfo>? = null,
-
-    @SerializedName("this_page")
-    val currentPage: Int = 0,
-
-    @SerializedName("total_page")
-    val totalPages: Int = 0
-)

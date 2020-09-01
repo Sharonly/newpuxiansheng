@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
@@ -42,6 +43,7 @@ import com.puxiansheng.www.common.url
 import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.bt_select_rent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_select_area
@@ -52,9 +54,12 @@ import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.imageSe
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_description
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_enverment
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_fee
+import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_name
+import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_phone
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_reason
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_title
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.submit
+import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
@@ -63,7 +68,8 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.CAMERA
     )
     private lateinit var insertOrUpdateTransferOutOrderViewModel: InsertOrUpdateTransferOutOrderViewModel
     private lateinit var appViewModel: MainViewModel
@@ -75,10 +81,14 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        ActivityCompat.requestPermissions(
+            this,
+            requiredPermissions,
+            requestCodePermissions
+        )
         insertOrUpdateTransferOutOrderViewModel =
             ViewModelProvider(this)[InsertOrUpdateTransferOutOrderViewModel::class.java]
         appViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
         initView()
     }
 
@@ -89,7 +99,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferOutOrderViewModel.contactName =
-      SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferOutOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
@@ -240,7 +250,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             insertOrUpdateTransferOutOrderViewModel.fee = it.toString()
         }
 
-        edit_user_address.addTextChangedListener{
+        edit_user_address.addTextChangedListener {
             insertOrUpdateTransferOutOrderViewModel.address = it.toString()
         }
 
@@ -271,14 +281,24 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
         button_select_area.setOnClickListener {
-            SelectAreaDialog(onSelectArea = {
-                it?.let { locationNode ->
-                    insertOrUpdateTransferOutOrderViewModel.saveArea.postValue(locationNode)
-                    button_select_area.text = locationNode.text
-                }
+//            SelectAreaDialog(onSelectArea = {
+//                it?.let { locationNode ->
+//                    insertOrUpdateTransferOutOrderViewModel.saveArea.postValue(locationNode)
+//                    button_select_area.text = locationNode.text
+//                }
+//            }).show(
+//                supportFragmentManager,
+//                SelectAreaDialog::class.java.name
+//            )
+            SelectNewAreaDialog(onSelectArea = { topMenuItem, secondMenuItem ->
+                button_select_area.text = topMenuItem?.btText
+                insertOrUpdateTransferOutOrderViewModel.area =
+                    "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
+                button_select_area.text =
+                    "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
             }).show(
                 supportFragmentManager,
-                SelectAreaDialog::class.java.name
+                SelectNewAreaDialog::class.java.name
             )
         }
 
@@ -346,7 +366,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
         }
         button_input_floor.addTextChangedListener {
-            if (it.toString().toInt() != 0) {
+            if (it.toString().isNotEmpty()) {
                 insertOrUpdateTransferOutOrderViewModel.floor = it.toString().toInt()
             }
         }
@@ -359,7 +379,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         insertOrUpdateTransferOutOrderViewModel.selectedImages.observe(
             this,
             Observer {
-                Log.d("---imageicon"," selectedImages Observer= "+it.size)
+                Log.d("---imageicon", " selectedImages Observer= " + it.size)
                 (imageSelector.adapter as ImageSelectorAdapter).update(it.toMutableList())
             })
 
@@ -406,8 +426,8 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
 
         insertOrUpdateTransferOutOrderViewModel.saveArea.observe(this, Observer {
-            button_select_area.text = it.text
-            insertOrUpdateTransferOutOrderViewModel.area = it.nodeID.toString()
+            button_select_area.text = it.btText
+            insertOrUpdateTransferOutOrderViewModel.area = it.menuID.toString()
         })
 
 
@@ -428,18 +448,18 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             Log.d("---submit", "toastMsg = " + it)
 //            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             if (it.contains("保存成功")) {
-                ReleaseDialog(0).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(0, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             } else if (it.contains("发布成功")) {
-                ReleaseDialog(1).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(1, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             } else {
-                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
+                ReleaseDialog(2, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
         insertOrUpdateTransferOutOrderViewModel.submitResult.observe(this, Observer {
             Log.d("---submit", "submitResult = " + it)
             if (it != API.CODE_SUCCESS) {
-                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
+//                ReleaseDialog(2).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
@@ -518,13 +538,13 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                             }
 
                             order.lng?.let {
-//                                if (it != 0.0)
+                                if (it.isNotEmpty())
                                     insertOrUpdateTransferOutOrderViewModel.lng = it.toDouble()
 //                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
 
                             order.lat?.let {
-//                                if (it != 0.0)
+                                if (it.isNotEmpty())
                                     insertOrUpdateTransferOutOrderViewModel.lat = it.toDouble()
 //                                else getLngAndLat(this@InsertOrUpdateTransferOutOrderActivity)
                             }
@@ -922,8 +942,16 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
         override fun onProviderDisabled(provider: String?) {
         }
-    };
+    }
 
-
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("InsertOrUpdateTransferOutOrderActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("InsertOrUpdateTransferOutOrderActivity")
+//    }
 }
 

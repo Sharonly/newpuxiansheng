@@ -2,9 +2,7 @@ package com.puxiansheng.www.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import android.webkit.WebSettings
-import android.webkit.WebView
 import android.widget.Toast
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -20,10 +18,10 @@ class StartActivity : MyBaseActivity() {
     }
 
     override fun business() {
-        webview.loadUrl("file:///android_asset/privacy.html")
-        webview.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-        webview.settings.loadWithOverviewMode = true;
-        webview.settings.setSupportZoom(true)
+        web_view.loadUrl("file:///android_asset/privacy.html")
+        web_view.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+        web_view.settings.loadWithOverviewMode = true;
+        web_view.settings.setSupportZoom(true)
 
 
         ic_selected.setOnClickListener {

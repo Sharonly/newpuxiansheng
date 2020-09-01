@@ -10,10 +10,11 @@ import com.puxiansheng.util.http.METHOD
 import com.puxiansheng.util.http.buildRequest
 
 class RemoteInfoMarqueeRepository {
-    fun requestRemoteMarqueeInfos(page: String): APIRst<APIResp<HttpRespMarqueeInfos>> =
+    fun requestRemoteMarqueeInfos(page: String,city:String): APIRst<APIResp<HttpRespMarqueeInfos>> =
         buildRequest(
             url = API.GET_HEADLINE, fieldMap = mutableMapOf(
-                "page" to page
+                "page" to page,
+                "city" to city
             ).also {
                 it["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
             },

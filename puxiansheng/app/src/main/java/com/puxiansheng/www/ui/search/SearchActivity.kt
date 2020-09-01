@@ -22,8 +22,14 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.ui.business.*
-import com.puxiansheng.www.ui.order.*
+import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.business.BusinessListActivity
+import com.puxiansheng.www.ui.business.InvestBusnessViewModel
+import com.puxiansheng.www.ui.order.NewTransferInOrdersActivity
+import com.puxiansheng.www.ui.order.NewTransferOutOrdersActivity
+import com.puxiansheng.www.ui.order.TransferInOrdersViewModel
+import com.puxiansheng.www.ui.order.TransferOutOrdersViewModel
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.launch
 
@@ -35,12 +41,19 @@ class SearchActivity : MyBaseActivity() {
     private lateinit var orderInViewModel: TransferInOrdersViewModel
     private lateinit var businessViewModel: InvestBusnessViewModel
     var typeList = listOf("转铺", "找店", "加盟")
-
+    private var mContext: Context? = null
+    private val mPageName = "SearchActivity"
     override fun getLayoutId(): Int {
         return R.layout.activity_search
     }
 
     override fun business() {
+//        mContext = this@SearchActivity
+//        MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, mPageName)
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+            API.LOGIN_USER_ID,
+            0
+        ).toString())
         searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         orderOutViewModel = ViewModelProvider(this)[TransferOutOrdersViewModel::class.java]
         orderInViewModel = ViewModelProvider(this)[TransferInOrdersViewModel::class.java]
@@ -66,6 +79,7 @@ class SearchActivity : MyBaseActivity() {
                         //TODO 2020.6.8
                         setOnClickListener {
                             search_content.setText(text)
+                            MobclickAgent.onEvent(mContext, UMengKeys.SEARCH_STRING, text.toString())
                             hideKeyboard(search_content)
 //                            layout_recommend.visibility = View.GONE
 //                            search_refresh.visibility = View.VISIBLE
@@ -93,7 +107,7 @@ class SearchActivity : MyBaseActivity() {
                                 }
 
                                 4 -> {
-                                    val intent = Intent(this@SearchActivity, InvestBusinessActivity::class.java)
+                                    val intent = Intent(this@SearchActivity, BusinessListActivity::class.java)
                                     intent.putExtra("title", searchViewModel.searchTitle)
                                     startActivity(intent)
                                 }
@@ -144,6 +158,7 @@ class SearchActivity : MyBaseActivity() {
 
         search_content.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                MobclickAgent.onEvent(mContext, UMengKeys.SEARCH_STRING, search_content.text.toString())
                 hideKeyboard(search_content)
 //                layout_recommend.visibility = View.GONE
 //                search_refresh.visibility = View.VISIBLE
@@ -162,7 +177,7 @@ class SearchActivity : MyBaseActivity() {
                     }
 
                     4 -> {
-                        val intent = Intent(this, InvestBusinessActivity::class.java)
+                        val intent = Intent(this, BusinessListActivity::class.java)
                         intent.putExtra("title", searchViewModel.searchTitle)
                         startActivity(intent)
                     }
@@ -396,4 +411,15 @@ class SearchActivity : MyBaseActivity() {
             view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//        MobclickAgent.onPageStart("SearchActivity") //统计页面，"MainScreen"为页面名称，可自定义
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        MobclickAgent.onPageEnd("SearchActivity")
+//    }
 }

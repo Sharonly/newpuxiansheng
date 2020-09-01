@@ -450,9 +450,10 @@
                 <EditText
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:minHeight="62dp"
                     android:background="@drawable/bg_input_release"
                     android:hint="请输入"
                     android:textSize="14sp"
@@ -460,7 +461,7 @@
                     android:padding="4dp"
                     android:layout_below="@+id/txt_description"
                     android:layout_marginTop="10dp"
-                    android:inputType="text"/>
+                    />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/submit"
                     style="@style/Widget.MaterialComponents.Button"

@@ -143,7 +143,7 @@ class SelectRentUnitDialog(
                 binding.menuText.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        R.color.appMainDark
+                        R.color.appMain
                     )
                 )
                 binding.root.setBackgroundColor(Color.parseColor("#FAFAFA"))
