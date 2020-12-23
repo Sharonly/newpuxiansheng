@@ -32,7 +32,7 @@ class ReleaseFacilityAdapter (
         notifyDataSetChanged()
     }
 
-    inner class MenuItemHolder(
+     class MenuItemHolder(
         override val containerView: View
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         val binding: DialogSelectiveFalitiesItemBinding =

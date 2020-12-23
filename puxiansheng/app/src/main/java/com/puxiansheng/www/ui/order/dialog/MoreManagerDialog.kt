@@ -43,7 +43,7 @@ class MoreManagerDialog(
     private val shopId: String,
     private val shopTitle: String,
     private val shopImg: String,
-    private val shopUrl: String ? = null,
+    private val shopUrl: String? = null,
     private val type: Int,
     private val isfavorite: Int
 ) : DialogFragment() {
@@ -82,9 +82,9 @@ class MoreManagerDialog(
         binding = this
         binding.lifecycleOwner = viewLifecycleOwner
         Log.e("shopImg", " shopImg = " + shopImg)
-        if(type == 2 || type == 999){
+        if (type == 999) {
             btFavor.visibility = View.GONE
-        }else {
+        } else {
             btFavor.visibility = View.VISIBLE
             if (isfavorite == 1) {
                 btFavor.text = "取消收藏"
@@ -99,7 +99,7 @@ class MoreManagerDialog(
             shopBmp = bitMapUtil.returnBitMap(shopImg)
             Log.d("shopImg", " shopBmp = " + shopBmp + "  --- " + bitMapUtil.returnBitMap(shopImg))
             val baos = ByteArrayOutputStream()
-            shopBmp?.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+            shopBmp?.compress(Bitmap.CompressFormat.JPEG, 70, baos)
             Log.d("shopImg", " shopBmp.size = " + baos.toByteArray().size)
         }
 
@@ -114,10 +114,10 @@ class MoreManagerDialog(
                             btFavor.text = "收藏"
                         } else {
                             btFavor.text = "取消收藏"
-                            dismiss()
                         }
                         Toast.makeText(requireContext(), result.msg, Toast.LENGTH_SHORT)
                             .show()
+                        dismiss()
                     }
                 }
             } else {
@@ -142,12 +142,16 @@ class MoreManagerDialog(
                     shopPath = "packageA/pages/findDetail/index?id=$shopId"
                 }
                 2 -> {
-                    outViewModel.getConfigInfo("article_share_url")?.let { configInfo ->
-                        shareUrl = "$configInfo$shopId.html"
-                    }
+                    shareUrl = shopUrl.toString()
+                    Log.d("one share--","shareUrl == "+shareUrl)
+//                    outViewModel.getConfigInfo("article_share_url")?.let { configInfo ->
+//                        shareUrl = "$configInfo$shopId.html"
+////                        shareUrl = shopUrl.toString()
+//                    }
                     shopPath = "packageA/pages/webView/index?url=$shopUrl"
+
                 }
-                999 ->{
+                999 -> {
                     outViewModel.getConfigInfo("transfer_share_url")?.let { configInfo ->
                         shareUrl = "$configInfo$shopId.html"
                     }
@@ -161,11 +165,11 @@ class MoreManagerDialog(
                 shopBmp = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
             } else {
                 shopBmp = bitMapUtil.returnBitMap(shopImg)
-                if(shopBmp!= null) {
+                if (shopBmp != null) {
                     shopBmp.let {
                         shopBmp = compressScale(it!!)
                     }
-                }else{
+                } else {
                     shopBmp = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
                 }
             }
@@ -189,6 +193,7 @@ class MoreManagerDialog(
         wxApi?.registerApp(API.WEIXIN_APP_ID)
         val webpage = WXWebpageObject()
         webpage.webpageUrl = url
+        Log.d("one share--","url 111== "+url)
         val msg = WXMediaMessage(webpage)
         msg.title = shopTitle
 //        msg.description = "网页描述"
@@ -238,9 +243,9 @@ class MoreManagerDialog(
      */
     fun compressScale(image: Bitmap): Bitmap? {
         val baos = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+        image.compress(Bitmap.CompressFormat.JPEG, 60, baos)
         // 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
-        Log.d("shopImg"," size = "+baos.toByteArray().size / 1024)
+        Log.d("shopImg", " size = " + baos.toByteArray().size / 1024)
         var options = 90
         while (baos.toByteArray().size / 1024 > 110) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset() // 重置baos即清空baos
@@ -249,8 +254,10 @@ class MoreManagerDialog(
                 options,
                 baos
             ) // 这里压缩options%，把压缩后的数据存放到baos中
-            options -= 20 // 每次都减少10
-            Log.d("shopImg"," size 33 = "+baos.toByteArray().size / 1024)
+            if (options > 20) {
+                options -= 20 // 每次都减少10
+            }
+            Log.d("shopImg", " size 33 = " + baos.toByteArray().size / 1024)
         }
 
         var isBm: ByteArrayInputStream? = ByteArrayInputStream(baos.toByteArray())
@@ -277,7 +284,7 @@ class MoreManagerDialog(
         isBm = ByteArrayInputStream(baos.toByteArray())
         bitmap = BitmapFactory.decodeStream(isBm, null, newOpts)
 //        return compressImage(bitmap) // 压缩好比例大小后再进行质量压缩
-        if(bitmap.toString().isNullOrEmpty()){
+        if (bitmap.toString().isNullOrEmpty()) {
             bitmap = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
         }
         return bitmap;

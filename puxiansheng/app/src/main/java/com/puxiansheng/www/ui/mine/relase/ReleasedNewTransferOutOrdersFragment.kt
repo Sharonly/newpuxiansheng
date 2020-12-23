@@ -44,7 +44,7 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
 
         refreshlayout.setOnRefreshLoadMoreListener(this@ReleasedNewTransferOutOrdersFragment)
 
-        mAdapter = ReleaseOutAdapter(requireContext(),arrayListOf(),deleteListener = object :ReleaseOutAdapter.onDeleteListener{
+        mAdapter = ReleaseOutAdapter(requireActivity(),arrayListOf(),deleteListener = object :ReleaseOutAdapter.onDeleteListener{
             override fun delete(it:OrderDetailObject) {
                 var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_OUT_PRIVATE.value(), it?.shopID)
                 deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)

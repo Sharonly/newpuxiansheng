@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.home
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.google.gson.Gson
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.Shop
 import com.puxiansheng.logic.data.common.CommonDataRepository
@@ -11,6 +12,7 @@ import com.puxiansheng.logic.data.order.OrderDatabase
 import com.puxiansheng.logic.data.order.OrderRepository
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.zhihu.matisse.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +34,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+    suspend fun requestNewMenuImage() =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
+            imageRepository.requestNewMenuImages().let {
+                return@let if (it.succeeded) (it as APIRst.Success).data.data?.banners else null
+            }
+        }
+
+
+    suspend fun requestHomeVideo() =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
+            imageRepository.requestHomeVideo().let {
+                return@let if (it.succeeded) (it as APIRst.Success).data.data?.videos else null
+            }
+        }
+
     suspend fun requestBannerImage(where: String) =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
             imageRepository.requestRemoteImages(where).let {
@@ -39,12 +56,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+
+
+
+
     suspend fun requestMarqueeMessage(page: String,city:String) =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
             marqueeInfoRepository.requestRemoteInfoMarquee(page,city).let {
                 return@let if (it.succeeded) (it as APIRst.Success).data.data?.data?.infos else null
             }
         }
+
+
+
+
 
 
     private fun deleteOrdersByType(

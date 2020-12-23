@@ -31,6 +31,7 @@ import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
+import kotlinx.android.synthetic.main.activity_new_order_list.*
 import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -81,71 +82,87 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
         refreshlayout.setOnRefreshLoadMoreListener(this@NewInfoListFragment)
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        adapter = NewInfoListAdapter(requireContext(), arrayListOf())
+        adapter = NewInfoListAdapter(requireActivity(), arrayListOf())
         list.adapter = adapter
-        LiveDataBus.get().with("infoTitle", String::class.java)
-                ?.observe(requireActivity(), Observer {text->
-                    viewModel.title = text.toString()
-                    viewModel.currentPage = 1
-                    isRefresh = true
-                    lifecycleScope.launch {
-                        viewModel.getInfoListByCategory(category)?.let {
-                            if (!it.isNullOrEmpty()) {
-                                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
-                            }
-                        }
-                    }
-                })
-    }.root
 
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-                if (NetUtil.isNetworkConnected(requireContext())) {
-                    viewModel.currentPage = 1
-                    isRefresh = true
-                    lifecycleScope.launch {
-                        viewModel.getInfoListByCategory(category)?.let {
-//                            if (!it.isNullOrEmpty()) {
-                                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
-//                            }
-                        }
-                    }
-                } else {
-                    Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
-                }
-            }
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
         if (NetUtil.isNetworkConnected(requireContext())) {
+            //        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 viewModel.currentPage = 1
                 isRefresh = true
                 viewModel.getInfoListByCategory(category)?.let {
-//                    if (!it.isNullOrEmpty()) {
-                        adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
-//                    }
+                    adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
                 }
             }
+            //      })
         } else {
             Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
         }
-    }
+
+
+        LiveDataBus.get().with("infoTitle", String::class.java)
+            ?.observe(requireActivity(), Observer { text ->
+                viewModel.title = text.toString()
+                list.removeAllViews()
+                viewModel.currentPage = 1
+                isRefresh = true
+                lifecycleScope.launch {
+                    viewModel.getInfoListByCategory(category)?.let {
+                        adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                    }
+                }
+            })
+
+    }.root
+
+
+//    override fun onHiddenChanged(hidden: Boolean) {
+//        super.onHiddenChanged(hidden)
+//        if (!hidden) {
+//                if (NetUtil.isNetworkConnected(requireContext())) {
+//                    viewModel.currentPage = 1
+//                    isRefresh = true
+//                    lifecycleScope.launch {
+//                        viewModel.getInfoListByCategory(category)?.let {
+////                            if (!it.isNullOrEmpty()) {
+//                                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+////                            }
+//                        }
+//                    }
+//                } else {
+//                    Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+//                }
+//            }
+//
+//    }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//        if (NetUtil.isNetworkConnected(requireContext())) {
+//            lifecycleScope.launch {
+//                viewModel.currentPage = 1
+//                isRefresh = true
+//                viewModel.getInfoListByCategory(category)?.let {
+////                    if (!it.isNullOrEmpty()) {
+//                        adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+////                    }
+//                }
+//            }
+//        } else {
+//            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+//        }
+//    }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         viewModel.currentPage += 1
         isRefresh = false
         if (NetUtil.isNetworkConnected(requireContext())) {
-        lifecycleScope.launch {
-            viewModel.getInfoListByCategory(category)?.let {
-                adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+            lifecycleScope.launch {
+                viewModel.getInfoListByCategory(category)?.let {
+                    adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+                }
             }
-        }
         } else {
             Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
         }
@@ -153,20 +170,18 @@ class NewInfoListFragment : Fragment(), OnRefreshLoadMoreListener {
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        viewModel.title =""
+        viewModel.title = ""
         viewModel.currentPage = 1
         isRefresh = true
         if (NetUtil.isNetworkConnected(requireContext())) {
-        lifecycleScope.launch {
-            viewModel.getInfoListByCategory(category)?.let {
-                if (!it.isNullOrEmpty()) {
-                    adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
+            lifecycleScope.launch {
+                viewModel.getInfoListByCategory(category)?.let {
+                        adapter?.addList(it as ArrayList<InfoItem>, isRefresh)
                 }
             }
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
         }
-    } else {
-        Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
-    }
         refreshLayout.finishRefresh()
     }
 

@@ -87,7 +87,7 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
         business_list.layoutManager = LinearLayoutManager(this@BusinessListActivity)
         adapter = BusinessListAdapter(
-            this@BusinessListActivity,
+            this,
             arrayListOf(),
             object : BusinessListAdapter.CallListener {
                 override fun call(info: BusinessBean) {

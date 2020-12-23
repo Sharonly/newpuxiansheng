@@ -25,6 +25,9 @@ class MenuRepository(menuDao: MenuDao) {
     fun requestRemoteIndustrySelectiveData(signatureToken: String) =
         remoteMenuRepository.requestRemoteIndustrySelectiveData(signatureToken = signatureToken)
 
+    fun requestRemoteIndustrySelectiveDataByPid(signatureToken: String,id:Int) =
+        remoteMenuRepository.requestRemoteIndustrySelectiveById(signatureToken = signatureToken,id = id)
+
     fun requestRemoteSizeSelectiveData(signatureToken: String) =
         remoteMenuRepository.requestRemoteSizeSelectiveData(signatureToken = signatureToken)
 

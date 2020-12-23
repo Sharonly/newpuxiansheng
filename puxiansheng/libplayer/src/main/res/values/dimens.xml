@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="mini_ziti">24px</dimen>
+    <dimen name="mini_ziti26">26px</dimen>
+    <dimen name="mini_ziti_20">20px</dimen>
+    <dimen name="zhong_ziti">28px</dimen>
+    <dimen name="mini_ziti_30">30px</dimen>
+    <dimen name="da_ziti">32px</dimen>
+    <dimen name="chaoda_ziti">36px</dimen>
+    <dimen name="sp_15">15sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_11">11sp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+
+    <dimen name="control_bar_height">46dp</dimen>
+    <dimen name="danmaku_input_options_height">48dp</dimen>
+    <dimen name="danmaku_input_options_color_radio_btn_width">32.0dip</dimen>
+    <dimen name="danmaku_input_options_color_radio_btn_height">25.0dip</dimen>
+    <dimen name="danmaku_input_options_color_radio_btn_margin">5.0dip</dimen>
+    <dimen name="danmaku_input_options_color_radio_btn_size">42.0dip</dimen>
+
+    <dimen name="settings_btn_width">44dp</dimen>
+    <dimen name="aspect_btn_height">20dp</dimen>
+    <dimen name="aspect_btn_size">30dp</dimen>
+</resources>

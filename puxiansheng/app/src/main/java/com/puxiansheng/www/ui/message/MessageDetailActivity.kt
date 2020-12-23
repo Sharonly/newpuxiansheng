@@ -14,7 +14,9 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
@@ -77,7 +79,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         }
 
                                         "activity_list" -> {//文章列表
-                                            val intent = Intent(this@MessageDetailActivity, HomeActivity::class.java)
+                                            val intent = Intent(this@MessageDetailActivity, MainActivity::class.java)
                                             intent.putExtra("name", "5")
                                             startActivity(intent)
                                         }
@@ -85,7 +87,7 @@ class MessageDetailActivity() : MyBaseActivity() {
 
                                         }
                                         "shop_success" -> {//成功案例
-                                            val intent = Intent(this@MessageDetailActivity, NewTransferSuccessOrdersActivity::class.java)
+                                            val intent = Intent(this@MessageDetailActivity, NewSuccessOrdersActivity::class.java)
                                             startActivity(intent)
                                         }
                                         "join_list" ->{
@@ -131,7 +133,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                 }
                                 5 -> {//文章详情
                                     val intent = Intent(this@MessageDetailActivity,
-                                        InfoDetailActivity::class.java
+                                        NewInfoDetailActivity::class.java
                                     )
                                     intent.putExtra("url", menuItem.jump_param)
                                     intent.putExtra("shop_Id", menuItem?.menuID)
@@ -156,7 +158,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                 }
                                 8 ->{
                                     val intent = Intent(this@MessageDetailActivity,
-                                        NewTransferSuccessOrdersActivity::class.java
+                                        NewSuccessOrdersActivity::class.java
                                     )
                                     intent.putExtra("shopID", menuItem.jump_param)
                                     startActivity(intent)

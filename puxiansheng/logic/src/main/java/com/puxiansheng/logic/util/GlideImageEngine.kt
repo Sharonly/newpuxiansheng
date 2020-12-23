@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
+import com.puxiansheng.logic.util.GlideApp
 import com.bumptech.glide.Priority
-import com.puxiansheng.uio.GlideApp
 import com.zhihu.matisse.engine.ImageEngine
 
 class GlideImageEngine : ImageEngine {

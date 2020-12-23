@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/root"
+        android:layout_width="150dp"
+        android:layout_height="161dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:cardCornerRadius="6dp"
+        android:clickable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="150dp"
+            android:layout_height="161dp"
+            android:background="@drawable/bg_dialog">
+
+            <ImageView
+                android:id="@+id/shop_img"
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@mipmap/play"
+                app:layout_constraintBottom_toBottomOf="@+id/shop_img"
+                app:layout_constraintLeft_toLeftOf="@+id/shop_img"
+                app:layout_constraintRight_toRightOf="@+id/shop_img"
+                app:layout_constraintTop_toTopOf="@+id/shop_img" />
+
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_img"
+                android:paddingLeft="10dp"
+                android:paddingTop="9.5dp"
+                android:paddingRight="5dp"
+                android:maxLines="2"
+                android:textColor="#4D4D4D"
+                android:textSize="11sp"
+                app:layout_constraintTop_toBottomOf="@+id/shop_img" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

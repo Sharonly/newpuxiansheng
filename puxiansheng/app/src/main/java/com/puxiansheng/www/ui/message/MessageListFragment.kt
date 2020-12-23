@@ -70,12 +70,12 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
         refreshlayout.setOnRefreshLoadMoreListener(this@MessageListFragment)
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        adapter = NewMessageListAdapter(requireContext(), arrayListOf())
+        adapter = NewMessageListAdapter(requireActivity(), arrayListOf())
         list.adapter = adapter
 
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getMessageListByCategory(category).let {
+                viewModel.getMessageListByCategory(category)?.let {
                     if (!it.isNullOrEmpty()) {
                         adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
                     }
@@ -104,7 +104,7 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
                 viewModel.title = ""
                 viewModel.currentPage = 1
                 isRefresh = true
-                viewModel.getMessageListByCategory(category).let {
+                viewModel.getMessageListByCategory(category)?.let {
                     if (!it.isNullOrEmpty()) {
                         adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
                     }
@@ -120,7 +120,7 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
         viewModel.currentPage += 1
         isRefresh = false
         lifecycleScope.launch {
-            viewModel.getMessageListByCategory(category).let {
+            viewModel.getMessageListByCategory(category)?.let {
                 adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
             }
         }
@@ -133,7 +133,7 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
         isRefresh = true
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getMessageListByCategory(category).let {
+                viewModel.getMessageListByCategory(category)?.let {
                     adapter?.addList(it as ArrayList<MessageItem>, isRefresh)
                 }
             }

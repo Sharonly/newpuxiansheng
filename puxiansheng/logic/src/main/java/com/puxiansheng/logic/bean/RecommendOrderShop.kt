@@ -6,7 +6,11 @@ import com.google.gson.annotations.SerializedName
 data class HttpRecommendOrder(
     @SerializedName("result")
     val data: List<RecommendOrderShop>? = null
+
 )
+
+
+
 
 data class RecommendOrderShop(
     @SerializedName("id")

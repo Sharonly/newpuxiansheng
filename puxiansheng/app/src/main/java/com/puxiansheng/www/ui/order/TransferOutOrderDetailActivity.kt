@@ -20,6 +20,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.common.ImageSwitcher
+import com.puxiansheng.www.tools.Utils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
 import com.puxiansheng.www.ui.map.MapActivity
@@ -37,7 +38,6 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class TransferOutOrderDetailActivity : MyBaseActivity() {
-
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -45,11 +45,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
     )
 
     private lateinit var viewModel: TransferOutOrderDetailViewModel
-    private var tencentMap: TencentMap? = null
-    private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
-    private var images: List<BannerImage> = listOf()
     var type = 0
-    var showMore = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_transfer_out_order_detail
@@ -57,11 +53,13 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
     override fun business() {
         viewModel = ViewModelProvider(this)[TransferOutOrderDetailViewModel::class.java]
-        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
         initView()
     }
 
     private fun initView() {
+        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
+        var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+        var images: List<BannerImage> = listOf()
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -96,11 +94,13 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 //        tencentMap?.setMyLocationEnabled(true)
 
         image_switcher.onImageClick {
-            Log.d("---imgswitch", "onclick")
-            ShopImageDialog(this@TransferOutOrderDetailActivity, images).show(
-                supportFragmentManager,
-                AdvertmentDialog::class.java.name
-            )
+            if (Utils.isFastClick()) {
+                ShopImageDialog.getInstance().setData(context = this, banersList = images)
+                ShopImageDialog.getInstance().show(
+                    supportFragmentManager,
+                    ShopImageDialog::class.java.name
+                )
+            }
         }
 
         lifecycleScope.launch {

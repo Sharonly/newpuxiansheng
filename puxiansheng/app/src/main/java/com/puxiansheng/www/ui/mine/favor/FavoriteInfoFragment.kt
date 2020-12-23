@@ -51,7 +51,7 @@ class FavoriteInfoFragment : Fragment() {
 
         list.layoutManager = LinearLayoutManager(requireContext())
 
-        infoAdapter = FavorInfoAdapter(requireContext(),
+        infoAdapter = FavorInfoAdapter(requireActivity(),
             type = InfoItem.Type.ARTICLE_HISTORY.value(),
 //            onItemSelect = { info ->
 //                val intent = Intent(requireActivity(), InfoDetailActivity::class.java)

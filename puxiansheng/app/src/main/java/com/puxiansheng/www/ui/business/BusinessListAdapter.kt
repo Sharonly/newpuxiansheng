@@ -100,7 +100,7 @@ class BusinessListAdapter(
     }
 
 
-    inner class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
+     class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
         val root: View = containerView.findViewById(R.id.root)
         val icon: ImageView = containerView.findViewById(R.id.shop_icon)
         val title: TextView = containerView.findViewById(R.id.title)

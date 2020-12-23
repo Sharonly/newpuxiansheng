@@ -35,7 +35,7 @@ class QuestionAdapter(
         notifyDataSetChanged()
     }
 
-    inner class OrderItemViewHolder(
+     class OrderItemViewHolder(
         override val containerView: View
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         val binding: RecyclerviewSugetionCallbackItemBinding=

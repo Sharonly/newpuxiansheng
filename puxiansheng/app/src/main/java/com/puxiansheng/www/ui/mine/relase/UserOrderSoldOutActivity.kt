@@ -49,7 +49,7 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
         refreshlayout.setOnRefreshLoadMoreListener(this@UserOrderSoldOutActivity)
         adapter =
-                UserOrderStateAdapter(this@UserOrderSoldOutActivity, arrayListOf(), deleteListener = object : UserOrderStateAdapter.DeleteListener {
+                UserOrderStateAdapter(this, arrayListOf(), deleteListener = object : UserOrderStateAdapter.DeleteListener {
                     override fun delete(order: OrderDetailObject) {
                         var orderType = Order.Type.TRANSFER_OUT_PRIVATE.value()
                         if (order?.data_type == "transfer_shop") {

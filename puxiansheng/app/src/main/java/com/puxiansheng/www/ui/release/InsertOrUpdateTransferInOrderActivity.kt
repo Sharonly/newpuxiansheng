@@ -6,28 +6,19 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.chip.Chip
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.MenuItem
+import com.puxiansheng.logic.bean.http.AreaObject
 import com.puxiansheng.util.ext.SharedPreferencesUtil
-
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
+import com.puxiansheng.www.ui.release.adapter.AreaAdapter
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
-import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_area
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_industry
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.button_select_size
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_description
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_name
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_phone
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.input_title
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.submit
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -37,6 +28,8 @@ import kotlinx.coroutines.launch
 class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
     private lateinit var insertOrUpdateTransferInOrderViewModel: InsertOrUpdateTransferInOrderViewModel
     private var facilist = mutableSetOf<MenuItem>()
+    private var areaAdapter: AreaAdapter? = null
+    private var areaLists: ArrayList<AreaObject> = arrayListOf()
 
     override fun getLayoutId(): Int {
         return R.layout.activity_release_order_transfer_in
@@ -58,7 +51,13 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
-Log.d(" insertOr"," SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE = "+SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString())
+        Log.d(
+            " insertOr",
+            " SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE = " + SharedPreferencesUtil.get(
+                API.LOGIN_ACTUL_PHONE,
+                ""
+            ).toString()
+        )
         input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
 
@@ -110,7 +109,13 @@ Log.d(" insertOr"," SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE = "+SharedPr
             }
 
 
-Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ insertOrUpdateTransferInOrderViewModel.contactName+ "  "+ SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString())
+            Log.d(
+                "---submit--",
+                " insertOrUpdateTransferInOrderViewModel.contactName = " + insertOrUpdateTransferInOrderViewModel.contactName + "  " + SharedPreferencesUtil.get(
+                    API.LOGIN_ACTUL_PHONE,
+                    ""
+                ).toString()
+            )
             insertOrUpdateTransferInOrderViewModel.contactName.let {
                 if (it.isEmpty()) {
                     Toast.makeText(this, "请输入联系人！", Toast.LENGTH_SHORT).show()
@@ -172,6 +177,16 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
                 SelectIndustryDialog::class.java.name
             )
         }
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        area_list.layoutManager = linearLayoutManager
+        areaAdapter = AreaAdapter(arrayListOf())
+        area_list.adapter = areaAdapter
+        areaAdapter?.listener = object : AreaAdapter.OnDeleteListener {
+            override fun onDelete(menuItem: AreaObject) {
+                areaLists.remove(menuItem)
+            }
+        }
 
         button_select_area.setOnClickListener {
 //            SelectAreaDialog(onSelectArea = {
@@ -183,17 +198,23 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
 //                supportFragmentManager,
 //                SelectAreaDialog::class.java.name
 //            )
-            SelectNewAreaDialog(onSelectArea = {topMenuItem, secondMenuItem ->
+            if (areaLists.size < 5) {
+                SelectNewAreaDialog(onSelectArea = { topMenuItem, secondMenuItem ->
                 button_select_area.text = topMenuItem?.btText
-                insertOrUpdateTransferInOrderViewModel.area  =
-                    "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
+                    insertOrUpdateTransferInOrderViewModel.area =
+                        "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
                 button_select_area.text =
                     "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
-            }).show(
-                supportFragmentManager,
-                SelectNewAreaDialog::class.java.name
-            )
-
+                    var areaObject = AreaObject(topMenuItem, secondMenuItem)
+                    areaLists.add(areaObject)
+                    areaAdapter?.add(areaObject)
+                }).show(
+                    supportFragmentManager,
+                    SelectNewAreaDialog::class.java.name
+                )
+            } else {
+                Toast.makeText(this, "最多可选择5个区域", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //获取设施
@@ -235,12 +256,12 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
 
         insertOrUpdateTransferInOrderViewModel.toastMsg.observe(this, Observer {
 //            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            if(it.contains("保存成功")){
-                ReleaseDialog(0,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
-            }else if(it.contains("发布成功")){
-                ReleaseDialog(1,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
-            }else{
-                ReleaseDialog(2,it).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            if (it.contains("保存成功")) {
+                ReleaseDialog(0, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            } else if (it.contains("发布成功")) {
+                ReleaseDialog(1, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
+            } else {
+                ReleaseDialog(2, it).show(supportFragmentManager, ReleaseDialog::class.java.name)
             }
         })
 
@@ -326,7 +347,9 @@ Log.d("---submit--"," insertOrUpdateTransferInOrderViewModel.contactName = "+ in
                                         insertOrUpdateTransferInOrderViewModel.facility =
                                             sb.substring(0, sb.lastIndex)
                                     }
-                                    (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(it.toMutableSet())
+                                    (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(
+                                        it.toMutableSet()
+                                    )
                                 }
 
                                 order.description?.let { description ->

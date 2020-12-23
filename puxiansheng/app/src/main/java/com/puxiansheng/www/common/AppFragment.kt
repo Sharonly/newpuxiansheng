@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.puxiansheng.www.app.App
+import com.squareup.leakcanary.RefWatcher
 
 
 abstract class AppFragment : Fragment() {

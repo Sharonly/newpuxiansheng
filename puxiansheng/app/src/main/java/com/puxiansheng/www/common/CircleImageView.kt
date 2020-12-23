@@ -32,11 +32,9 @@ class CircleImageView : AppCompatImageView {
     private var mReady = false
     private var mSetupPending = false
 
-    constructor(context: Context?) : super(context) {
-        init()
-    }
+    constructor(context: Context) : super(context, null)
 
-    @JvmOverloads
+    constructor(context: Context, attr: AttributeSet?) : super(context, attr)
     constructor(
         context: Context,
         attrs: AttributeSet?,

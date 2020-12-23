@@ -174,7 +174,7 @@ class UserOrderStateAdapter(
     }
 
 
-    inner class UserOrderViewHolder(containerView: View) :
+     class UserOrderViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val shopIsVip: ImageView = containerView.findViewById(R.id.is_vip)

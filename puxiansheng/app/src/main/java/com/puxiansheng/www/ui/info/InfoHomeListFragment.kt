@@ -17,12 +17,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.logic.bean.InfoItem
+import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.databinding.FragmentInfoHomeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.umeng.analytics.MobclickAgent
+import kotlinx.android.synthetic.main.activity_new_order_list.*
 import kotlinx.android.synthetic.main.fragment_info_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -32,7 +34,7 @@ class InfoHomeListFragment : AppFragment() {
 
     private lateinit var infoListViewModel: InfoListViewModel
     private lateinit var appModel: MainViewModel
-    var mCategory:Int = 1
+    var mCategory: Int = 1
 
 
     override fun onAttach(context: Context) {
@@ -52,7 +54,7 @@ class InfoHomeListFragment : AppFragment() {
         lifecycleOwner = viewLifecycleOwner
 
         //TODO
-        buttonBack.visibility=View.INVISIBLE
+        buttonBack.visibility = View.INVISIBLE
 
         btSearch.addTextChangedListener {
             infoListViewModel.title = it.toString()
@@ -65,48 +67,13 @@ class InfoHomeListFragment : AppFragment() {
             }
             false
         })
-//        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
-
-//        })
-    }.root
-
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            if (NetUtil.isNetworkConnected(requireContext())) {
-                lifecycleScope.launch {
-                    Log.e("NewInfoListFragment"," onHiddenChanged ")
-                    infoListViewModel.getInfoCategoriesFromRemote()?.let {
-                        info_home_pager.adapter = InfoPagerAdapter(
-                            fragmentManager = childFragmentManager,
-                            fragments = it.map { category ->
-                                NewInfoListFragment.newInstance(category = category.menuID.toInt())
-                            },
-                            titles = it.map { text ->
-                                text.text
-                            })
-                        info_home_pager.offscreenPageLimit = 5
-                        tabs.setupWithViewPager(info_home_pager)
-                        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                            override fun onTabReselected(tab: TabLayout.Tab?) {
-                            }
-
-                            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                            }
-
-                            override fun onTabSelected(tab: TabLayout.Tab?) {
-                                mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
-
-                            }
-                        })
-                    }
-                }
-            } else {
-                Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
-            }
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            initData()
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
         }
-    }
+
+    }.root
 
 
     fun hideKeyboard(view: View) {
@@ -115,43 +82,47 @@ class InfoHomeListFragment : AppFragment() {
         manager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    override fun onResume() {
-        super.onResume()
-//        if (NetUtil.isNetworkConnected(requireContext())) {
-//            lifecycleScope.launch {
-//                Log.e("NewInfoListFragment"," onResume ")
-//                infoListViewModel.getInfoCategoriesFromRemote()?.let {
-//                    info_home_pager.adapter = InfoPagerAdapter(
-//                        fragmentManager = childFragmentManager,
-//                        fragments = it.map { category ->
-//                            NewInfoListFragment.newInstance(category = category.menuID.toInt())
-//                        },
-//                        titles = it.map { text ->
-//                            text.text
-//                        })
-//                    info_home_pager.offscreenPageLimit = 5
-//                    tabs.setupWithViewPager(info_home_pager)
-//                    tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//                        override fun onTabReselected(tab: TabLayout.Tab?) {
-//                        }
-//
-//                        override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                        }
-//
-//                        override fun onTabSelected(tab: TabLayout.Tab?) {
-//                            mCategory = tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
-//
-//                        }
-//                    })
-//                }
-//            }
-//        } else {
-//            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
-//        }
-
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            if (NetUtil.isNetworkConnected(requireContext())) {
+                initData()
+            } else {
+                Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+            }
+        }
     }
 
 
+    private fun initData() {
+        lifecycleScope.launch {
+            infoListViewModel.getInfoCategoriesFromRemote()?.let {
+                info_home_pager.adapter = InfoPagerAdapter(
+                    fragmentManager = childFragmentManager,
+                    fragments = it.map { category ->
+                        NewInfoListFragment.newInstance(category = category.menuID.toInt())
+                    },
+                    titles = it.map { text ->
+                        text.text
+                    })
+                info_home_pager.offscreenPageLimit = 5
+                tabs.setupWithViewPager(info_home_pager)
+                tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                    override fun onTabReselected(tab: TabLayout.Tab?) {
+                    }
+
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    }
+
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
+                        mCategory =
+                            tab?.position?.let { it1 -> it[it1].menuID.toInt() }!!
+                    }
+                })
+            }
+        }
+
+    }
 
 
 }

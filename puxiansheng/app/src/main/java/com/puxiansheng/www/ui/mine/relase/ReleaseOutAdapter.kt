@@ -83,7 +83,7 @@ class ReleaseOutAdapter(var mContext: Context, var dataList: ArrayList<OrderDeta
     }
 
 
-    inner class TestViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
+     class TestViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
         val root:View = containerView.findViewById(R.id.layout)
         val shopIcon: ImageView = containerView.findViewById(R.id.shop_icon)
         val shopTitle:TextView = containerView.findViewById(R.id.title)

@@ -92,6 +92,13 @@ class NewTransferOutOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener
 
         button_search.addTextChangedListener {
             viewModel.title = it.toString()
+            order_list.removeAllViews()
+            isRefresh = true
+            lifecycleScope.launch {
+                viewModel.getTransferOutOrdersFromRemote()?.let {list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
+            }
         }
         button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
@@ -229,7 +236,7 @@ class NewTransferOutOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener
         }
 
         order_list.layoutManager = LinearLayoutManager(this@NewTransferOutOrdersActivity)
-        adapter = ListOrdersAdapter(this@NewTransferOutOrdersActivity, arrayListOf())
+        adapter = ListOrdersAdapter(this, arrayListOf())
         order_list.adapter = adapter
 
 

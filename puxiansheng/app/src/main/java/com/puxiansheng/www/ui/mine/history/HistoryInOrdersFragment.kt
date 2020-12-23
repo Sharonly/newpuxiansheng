@@ -55,7 +55,7 @@ class HistoryInOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
 
         list.layoutManager = LinearLayoutManager(requireContext())
         adapter = ListOrdersAdapter(
-            requireContext(),
+            requireActivity(),
             arrayListOf()
         )
 

@@ -10,8 +10,10 @@ import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
@@ -48,7 +50,7 @@ fun pictureIntent(context: Context, image: BannerImage) {
 
 
                 "activity_list" -> {//文章列表
-                    val intent = Intent(context, HomeActivity::class.java)
+                    val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("name", "5")
                     context.startActivity(intent)
                 }
@@ -81,7 +83,7 @@ fun pictureIntent(context: Context, image: BannerImage) {
                 }
 
                 "shop_success" -> {//成功案例
-                    val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+                    val intent = Intent(context, NewSuccessOrdersActivity::class.java)
                     context.startActivity(intent)
                     MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferSuccessOrdersActivity")
                 }
@@ -113,7 +115,7 @@ fun pictureIntent(context: Context, image: BannerImage) {
         }
 
         5 -> {//文章详情
-            val intent = Intent(context, InfoDetailActivity::class.java)
+            val intent = Intent(context, NewInfoDetailActivity::class.java)
             intent.putExtra("url", image.jump_param)
             intent.putExtra("shop_Id", image?.id)
             intent.putExtra("title", image?.title)

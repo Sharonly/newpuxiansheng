@@ -24,22 +24,62 @@ import com.puxiansheng.util.ext.FileDownloadUtil
 import com.puxiansheng.www.databinding.DialogUpgradeBinding
 import com.puxiansheng.www.ui.main.MainViewModel
 
-class UpgradeDialog(var context: Activity,
-                    private val onClick: () -> Unit,
-                    private val versionName: String, private val fileDownUrl: String, private val upgadeTips: String
-                    , private var upgradeType: Int, private var isForceUpgrade: Boolean
-) : DialogFragment() {
+class UpgradeDialog() : DialogFragment() {
+    var mContext: Activity? = null
+
+    private var mVersionName: String = ""
+    private var mFileDownUrl: String = ""
+    private var mUpgradeTips: String = ""
+    private var upgradeType: Int = 0
+    private var isForceUpgrade: Boolean = false
+
     private lateinit var appModel: MainViewModel
     val requiredPermissions = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
+    companion object {
+        private var instance: UpgradeDialog? = null
+
+        fun getInstance(): UpgradeDialog {
+            if (instance == null) {
+                synchronized(UpgradeDialog::class.java) {
+                    if (instance == null) {
+                        instance =
+                            UpgradeDialog()
+                    }
+                }
+            }
+            return instance!!
+        }
+    }
+
+
+    fun setData(
+        context: Activity,
+        versionName: String,
+        fileDownUrl: String,
+        upgadeTips: String,
+        type: Int,
+        isUpgrade: Boolean
+    ) {
+        mContext = context
+        mVersionName = versionName
+        mFileDownUrl= fileDownUrl
+        mUpgradeTips = upgadeTips
+        upgradeType= type
+        isForceUpgrade = isUpgrade
+    }
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         isCancelable = false
-        downLoadUrl = fileDownUrl
+        downLoadUrl = mFileDownUrl
     }
 
     var downLoadUrl: String = ""
@@ -63,8 +103,8 @@ class UpgradeDialog(var context: Activity,
         savedInstanceState: Bundle?
     ): View? = DialogUpgradeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
-        upgradeVersion.text =versionName
-        upgradeDesc.text = upgadeTips
+        upgradeVersion.text = mVersionName
+        upgradeDesc.text = mUpgradeTips
         upgradeDesc.movementMethod = ScrollingMovementMethod.getInstance()
         when (upgradeType) {//，没包
             0 -> {
@@ -91,12 +131,12 @@ class UpgradeDialog(var context: Activity,
         }
 
         buttonSure.setOnClickListener {
-            Log.d("---upgrade","upgradeType = "+upgradeType)
+            Log.d("---upgrade", "upgradeType = " + upgradeType)
             when (upgradeType) {
                 0 -> dismiss()
                 1 -> {
-                    if (fileDownUrl.isNotEmpty()) {
-                        FileDownloadUtil.DownLoadApk(context,fileDownUrl)
+                    if (mFileDownUrl.isNotEmpty()) {
+                        mContext?.let { it1 -> FileDownloadUtil.DownLoadApk(it1, mFileDownUrl) }
                     }
                     dismiss()
                 }
@@ -104,18 +144,16 @@ class UpgradeDialog(var context: Activity,
 
         }
         buttonOk.setOnClickListener {
-            if (fileDownUrl.isNotEmpty()) {
-                FileDownloadUtil.DownLoadApk(context,fileDownUrl)
+            if (mFileDownUrl.isNotEmpty()) {
+                context?.let { it1 -> FileDownloadUtil.DownLoadApk(it1, mFileDownUrl) }
             }
             dismiss()
         }
 
         buttonCancel.setOnClickListener {
-            onClick()
             dismiss()
         }
     }.root
-
 
 
 }

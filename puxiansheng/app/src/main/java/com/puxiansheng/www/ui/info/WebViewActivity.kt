@@ -2,9 +2,13 @@ package com.puxiansheng.www.ui.info
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.view.WindowManager
-import android.webkit.*
+import android.view.ViewGroup
+import android.view.ViewParent
+import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+import android.webkit.WebView
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.AndroidBug5497Workaround
@@ -35,12 +39,9 @@ class WebViewActivity : MyBaseActivity(){
 
         info_detail.addJavascriptInterface(MyJavascriptInterface(), "android")
         info_detail.apply {
-
             //webChromeClient = WebChromeClient()
             webChromeClient = MyWebView()
-
             loadUrl(intent.getStringExtra("url").toString())
-
 
         }.settings.apply {
 //            javaScriptEnabled = true
@@ -75,8 +76,6 @@ class WebViewActivity : MyBaseActivity(){
             webSettings.useWideViewPort = true //WebView双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小
 
             webSettings.pluginState = WebSettings.PluginState.ON //没加的话，视频会加载失败
-
-            //其他细节操作
             //其他细节操作
             webSettings.allowUniversalAccessFromFileURLs =
                 true // 是否允许通过file url加载的Javascript读取全部资源(包括文件,http,https)，默认值 false
@@ -116,6 +115,19 @@ class WebViewActivity : MyBaseActivity(){
             startActivity(intent)
         }
 
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (info_detail != null) {
+            val parent: ViewParent = info_detail.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(info_detail)
+            }
+            info_detail.removeAllViews()
+            info_detail.destroy()
+        }
     }
 
 }

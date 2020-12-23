@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -16,10 +17,11 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
+import com.puxiansheng.www.app.MyActivityManage
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.tools.UMengKeys
-import com.puxiansheng.www.ui.home.HomeFragment
+import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
 import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
@@ -33,7 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeActivity: MyBaseActivity() {
+class HomeActivity : MyBaseActivity() {
     var context: Context = this@HomeActivity
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
@@ -44,69 +46,10 @@ class HomeActivity: MyBaseActivity() {
         Manifest.permission.ACCESS_FINE_LOCATION
     )
     private var appModel: MainViewModel? = null
-    private var isUpDialogShow: Boolean = false
-    var isAdvertDialogShow: Boolean = false
     private var currentTokenCode: Int = 0
 
-//    private var homeFragment: HomeFragment? = null
-//    private var infoHomeFragment: InfoHomeListFragment? = null
-//    private var releaseFragment: ReleaseFragment? = null
-//    private var messageHomeFragment: MessageHomeListFragment? = null
-//    private var mineFragment: MineFragment? = null
-
-
-    private val homeFragment: Fragment = HomeFragment()
-    private val infoHomeFragment: Fragment = InfoHomeListFragment()
-    private val releaseFragment: Fragment = ReleaseFragment()
-    private val mineFragment: Fragment = MineFragment()
-    private val messageHomeFragment: Fragment = MessageHomeListFragment()
-    private val fragments = listOf(homeFragment,infoHomeFragment,releaseFragment,messageHomeFragment,mineFragment)
-    private val HOME_FRAGMENT_KEY = "homeFragment"
-    private val INFO_FRAGMENT_KEY = "infoHomeFragment"
-    private val RELEASE_FRAGMENT_KEY = "releaseFragment"
-    private val MESSAGE_FRAGMENT_KEY = "messageHomeFragment"
-    private val MINE_FRAGMENT_KEY = "mineFragment"
-    private var fragmentList = arrayListOf<Fragment>()
-
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//        setIntent(intent)
-//        val stringExtra = intent?.getStringExtra("name")
-//    }
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        checkNet()
-//        if (savedInstanceState != null) {
-//            /*获取保存的fragment  没有的话返回null*/
-//            homeFragment = supportFragmentManager.getFragment(savedInstanceState, HOME_FRAGMENT_KEY) as HomeFragment?
-//            infoHomeFragment = supportFragmentManager.getFragment(savedInstanceState, INFO_FRAGMENT_KEY) as InfoHomeListFragment?
-//            releaseFragment = supportFragmentManager.getFragment(savedInstanceState, RELEASE_FRAGMENT_KEY) as ReleaseFragment?
-//            messageHomeFragment = supportFragmentManager.getFragment(savedInstanceState, MESSAGE_FRAGMENT_KEY) as MessageHomeListFragment?
-//            mineFragment = supportFragmentManager.getFragment(savedInstanceState, MINE_FRAGMENT_KEY) as MineFragment?
-//
-//            homeFragment?.let { addToList(it) }
-//            infoHomeFragment?.let { addToList(it) }
-//            releaseFragment?.let { addToList(it) }
-//            messageHomeFragment?.let { addToList(it) }
-//            mineFragment?.let { addToList(it) }
-//
-//        } else {
-//            initFragment()
-//        }
-//
-//    }
-
-    private fun addToList(fragment :Fragment ) {
-        if (fragment != null) {
-            fragmentList.add(fragment)
-        }
-    }
-
-
-
     override fun getLayoutId(): Int {
-       return R.layout.activity_new_home
+        return R.layout.activity_new_home
     }
 
     override fun onBackPressed() {
@@ -114,35 +57,42 @@ class HomeActivity: MyBaseActivity() {
         finish()
     }
 
-    override  fun business() {
+    override fun business() {
         getSharedPreferences("pxs_privacy", Context.MODE_PRIVATE).let {
             it.getInt("show_privacy", 0).let { isShow ->
                 if (isShow == 0) {
-                    val intent = Intent(context, StartActivity::class.java)
+                    val intent = Intent(this, StartActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                     finish()
                 }
             }
         }
 
-        appModel = ViewModelProvider(this)[MainViewModel::class.java]
-        LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
-            appModel?.currentCity?.postValue(it)
-            API.setCityId(it.nodeID.toString())
-        })
-        initFragment()
-
         ActivityCompat.requestPermissions(
             this,
             requiredPermissions,
             requestCodePermissions
         )
-        var isLogin = false
+        appModel = ViewModelProvider(this)[MainViewModel::class.java]
+        initFragment()
+        initData()
 
+    }
+
+    private fun initData() {
+        var isLogin = false
+        var isUpDialogShow = false
+        var isAdvertDialogShow = false
         appModel?.saveLoginUser()?.let {
             appModel?.currentUser?.postValue(it)
             API.setAuthToken(it.token)
         }
+
+        LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
+            appModel?.currentCity?.postValue(it)
+            API.setCityId(it.nodeID.toString())
+        })
 
         LiveDataBus.get().with("user", User::class.java)
             ?.observe(this, Observer { user ->
@@ -155,7 +105,6 @@ class HomeActivity: MyBaseActivity() {
             it?.let {
                 appModel?.getSelectiveMenuDataFromRemote()
                 appModel?.getSystemConfigFromRemote()
-
                 if (appModel?.currentCity?.value == null)
                     appModel?.getCurrentLocation()
 
@@ -169,20 +118,23 @@ class HomeActivity: MyBaseActivity() {
         })
 
 
-        appModel?.currentAdvert?.observe(this,Observer {
+        appModel?.currentAdvert?.observe(this, Observer {
             it?.let {
-                if(it == 1){
+                if (it == 1) {
                     lifecycleScope.launch {
-                        appModel?.requestAdvertImages("api_index_pop_up_ads")?.let {
-                            if (it.code == API.CODE_SUCCESS) {
-                                if (!isAdvertDialogShow && it?.data?.banners?.isNotEmpty()!!) {
-                                    var dialog =  AdvertmentDialog(context = this@HomeActivity, baners = it?.data?.banners!!)
+                        appModel?.requestAdvertImages("api_index_pop_up_ads")?.let { data ->
+                            if (data.code == API.CODE_SUCCESS) {
+                                if (!isAdvertDialogShow && data?.data?.banners?.isNotEmpty()!!) {
+                                    var dialog = AdvertmentDialog(
+                                        context = this@HomeActivity,
+                                        baners = data?.data?.banners!!
+                                    )
                                     dialog.show(
                                         supportFragmentManager,
                                         AdvertmentDialog::class.java.name
                                     )
                                     isAdvertDialogShow = true
-                                    dialog.listener = object : AdvertmentDialog.OnDissListener{
+                                    dialog.listener = object : AdvertmentDialog.OnDissListener {
                                         override fun onDiss() {
                                             isAdvertDialogShow = false
                                         }
@@ -201,14 +153,25 @@ class HomeActivity: MyBaseActivity() {
                 when (currentTokenCode) {
                     API.CODE_SUCCESS -> {
                         if (!isUpDialogShow && it.newVersion == 1) {
-                            UpgradeDialog(
-                                this@HomeActivity,
-                                onClick = {},
-                                versionName = it.showVersion,
+//                           UpgradeDialog(
+//                               this@HomeActivity,
+//                               onClick = {},
+//                               versionName = it.showVersion,
+//                               fileDownUrl = it.downloadUrl,
+//                               upgadeTips = it.tipsMsg,
+//                               upgradeType = it.newPackage, isForceUpgrade = false
+//                           ).show(
+//                               supportFragmentManager,
+//                               UpgradeDialog::class.java.name
+//                           )
+
+                            UpgradeDialog.getInstance().setData(
+                                this, versionName = it.showVersion,
                                 fileDownUrl = it.downloadUrl,
                                 upgadeTips = it.tipsMsg,
-                                upgradeType = it.newPackage, isForceUpgrade = false
-                            ).show(
+                                type = it.newPackage, isUpgrade = true
+                            )
+                            UpgradeDialog.getInstance().show(
                                 supportFragmentManager,
                                 UpgradeDialog::class.java.name
                             )
@@ -218,16 +181,26 @@ class HomeActivity: MyBaseActivity() {
 
                     API.CODE_BANNED_VERSION -> {
                         if (!isUpDialogShow && it.newVersion == 1) {
-                            UpgradeDialog(
-                                this@HomeActivity,
-                                onClick = {
-                                    finish()
-                                },
-                                versionName = it.showVersion,
+//                           UpgradeDialog(
+//                               this@HomeActivity,
+//                               onClick = {
+//                                   finish()
+//                               },
+//                               versionName = it.showVersion,
+//                               fileDownUrl = it.downloadUrl,
+//                               upgadeTips = it.tipsMsg,
+//                               upgradeType = it.newPackage, isForceUpgrade = true
+//                           ).show(
+//                               supportFragmentManager,
+//                               UpgradeDialog::class.java.name
+//                           )
+                            UpgradeDialog.getInstance().setData(
+                                this, versionName = it.showVersion,
                                 fileDownUrl = it.downloadUrl,
                                 upgadeTips = it.tipsMsg,
-                                upgradeType = it.newPackage, isForceUpgrade = true
-                            ).show(
+                                type = it.newPackage, isUpgrade = true
+                            )
+                            UpgradeDialog.getInstance().show(
                                 supportFragmentManager,
                                 UpgradeDialog::class.java.name
                             )
@@ -245,6 +218,7 @@ class HomeActivity: MyBaseActivity() {
 
         appModel?.requireLocalDevice()?.observe(this@HomeActivity, Observer {
             it?.let {
+                Log.d("GET_TOKEN----", "requireLocalDevice  111---- ")
                 appModel?.refreshSignatureToken(
                     it,
                     SharedPreferencesUtil.get("registration_id", "") as String
@@ -276,8 +250,6 @@ class HomeActivity: MyBaseActivity() {
 
 
     override fun onDestroy() {
-//        appModel = null
-        Log.d("homeactivity","-----onDestroy")
         super.onDestroy()
         finish()
     }
@@ -298,14 +270,26 @@ class HomeActivity: MyBaseActivity() {
 
 
     private fun initFragment() {
+        val homeFragment: Fragment = NewHomeFragment()
+        val infoHomeFragment: Fragment = InfoHomeListFragment()
+        val releaseFragment: Fragment = ReleaseFragment()
+        val mineFragment: Fragment = MineFragment()
+        val messageHomeFragment: Fragment = MessageHomeListFragment()
+        val fragments = listOf(
+            homeFragment,
+            infoHomeFragment,
+            releaseFragment,
+            messageHomeFragment,
+            mineFragment
+        )
         //初始化显示的Fragment(外层的)
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.home_container,fragments[0])
-            .add(R.id.home_container,fragments[1])
-            .add(R.id.home_container,fragments[2])
-            .add(R.id.home_container,fragments[3])
-            .add(R.id.home_container,fragments[4])
+            .add(R.id.home_container, fragments[0])
+            .add(R.id.home_container, fragments[1])
+            .add(R.id.home_container, fragments[2])
+            .add(R.id.home_container, fragments[3])
+            .add(R.id.home_container, fragments[4])
             .show(fragments[0])
             .hide(fragments[1])
             .hide(fragments[2])
@@ -320,29 +304,22 @@ class HomeActivity: MyBaseActivity() {
         appModel?.lastFragment = homeFragment
 
         radio_group_button.setOnCheckedChangeListener { group, checkedId ->
-            Log.d("---homeactivity"," appModel?.lastFragment = "+appModel?.lastFragment)
+            Log.d("---homeactivity", " appModel?.lastFragment = " + appModel?.lastFragment)
             if (appModel?.lastFragment == null) {
                 finish()
             }
             when (checkedId) {
                 R.id.navigation_home -> {
-                    if (appModel?.lastFragment !is HomeFragment) {
+                    if (appModel?.lastFragment !is NewHomeFragment) {
                         appModel?.lastFragment?.let {
                             supportFragmentManager.beginTransaction().hide(it)
                                 .show(homeFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = homeFragment
-                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "HomeFragment")
+                        MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "HomeFragment")
                     }
                 }
 
-//                    if (homeFragment == null) {
-//                        homeFragment = HomeFragment()
-//                    }
-//                    addFragment(homeFragment!!)
-//                    showFragment(homeFragment!!)
-//
-//                }
                 R.id.navigation_info -> {
                     if (appModel?.lastFragment !is InfoHomeListFragment) {
                         appModel?.lastFragment?.let {
@@ -350,7 +327,7 @@ class HomeActivity: MyBaseActivity() {
                                 .show(infoHomeFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = infoHomeFragment
-                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "InfoHomeListFragment")
+                        MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "InfoHomeListFragment")
                     }
 
 //                    if (infoHomeFragment == null) {
@@ -368,7 +345,7 @@ class HomeActivity: MyBaseActivity() {
                             ).show(releaseFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = releaseFragment
-                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "ReleaseFragment")
+                        MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "ReleaseFragment")
                     }
 //                    if (releaseFragment == null) {
 //                        releaseFragment = ReleaseFragment()
@@ -386,7 +363,11 @@ class HomeActivity: MyBaseActivity() {
                                 ).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = messageHomeFragment
-                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MessageHomeListFragment")
+                        MobclickAgent.onEvent(
+                            this,
+                            UMengKeys.PAGE_NAME,
+                            "MessageHomeListFragment"
+                        )
                     }
 
 //                    if (messageHomeFragment == null) {
@@ -403,7 +384,7 @@ class HomeActivity: MyBaseActivity() {
                                 .show(mineFragment).commitAllowingStateLoss()
                         }
                         appModel?.lastFragment = mineFragment
-                        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "MineFragment")
+                        MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "MineFragment")
                     }
 
 //                    if (mineFragment == null) {
@@ -420,25 +401,33 @@ class HomeActivity: MyBaseActivity() {
 
 
     /*添加fragment*/
-    private fun addFragment(fragment :Fragment ) {
-        /*判断该fragment是否已经被添加过  如果没有被添加  则添加*/
-        if (!fragment.isAdded) {
-            supportFragmentManager.beginTransaction().add(R.id.home_container, fragment).commitAllowingStateLoss()
-            /*添加到 fragmentList*/
-            fragmentList.add(fragment);
+//    private fun addFragment(fragment :Fragment ) {
+//        /*判断该fragment是否已经被添加过  如果没有被添加  则添加*/
+//        if (!fragment.isAdded) {
+//            supportFragmentManager.beginTransaction().add(R.id.home_container, fragment).commitAllowingStateLoss()
+//            /*添加到 fragmentList*/
+//            fragmentList.add(fragment);
+//        }
+//    }
+//
+//    /*显示fragment*/
+//    private fun showFragment(fragment :Fragment) {
+//        fragmentList.forEach { frag ->
+//            if (frag != fragment) {
+//                /*先隐藏其他fragment*/
+//                supportFragmentManager.beginTransaction().hide(frag).commit();
+//            }
+//        }
+//        supportFragmentManager.beginTransaction().show(fragment).commit();
+//    }
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //销毁前activity数量
+//            println("剩余activity---》${MyActivityManage.activityMap.size}")
+            MyActivityManage.exitApp()
         }
+        return super.onKeyDown(keyCode, event)
     }
-
-    /*显示fragment*/
-    private fun showFragment(fragment :Fragment) {
-        fragmentList.forEach { frag ->
-            if (frag != fragment) {
-                /*先隐藏其他fragment*/
-                supportFragmentManager.beginTransaction().hide(frag).commit();
-            }
-        }
-        supportFragmentManager.beginTransaction().show(fragment).commit();
-    }
-
-
 }

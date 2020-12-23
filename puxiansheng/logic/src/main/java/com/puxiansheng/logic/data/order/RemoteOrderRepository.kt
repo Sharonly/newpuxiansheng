@@ -3,6 +3,8 @@ package com.puxiansheng.logic.data.order
 import android.util.Log
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.HttpRecommendOrder
+import com.puxiansheng.logic.bean.http.HttpSuccessVideo
+import com.puxiansheng.logic.bean.http.RecommendSuccessVideoList
 import com.puxiansheng.logic.bean.http.*
 import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
@@ -10,7 +12,6 @@ import com.puxiansheng.util.http.METHOD
 import com.puxiansheng.util.http.buildRequest
 
 class RemoteOrderRepository {
-
     /**
      * submit a new simple transfer-in order to remote server.
      * @param phone
@@ -249,6 +250,41 @@ class RemoteOrderRepository {
         API.call(it)
     }
 
+   fun getTransferSuccessVideoFromRemote(
+       title: String,
+       industry: String,
+       size: String,
+       area: String,
+       sortBy: String,
+       sortType: String,
+       rent: String,
+       page: Int,
+       city: String?
+   ): APIRst<APIResp<HttpSuccessVideo>> = buildRequest(
+       url = API.GET_REMOTE_TRANSFER_SUCCESS_VIDEO,
+       fieldMap = mutableMapOf(
+           "title" to title,
+           "industry_path" to industry,
+           "acreage" to size,
+           "area" to area,
+           "sort_field" to sortBy,
+           "sort" to sortType.toString(),
+           "page" to page.toString(),
+           "rent" to rent
+       ).also { map ->
+           map["sign"] = API.sign(
+               signatureToken = API.currentSignatureToken,
+               fieldMap = map,
+               method = "GET"
+           )
+       },
+       method = METHOD.GET
+   ).let {
+       Log.d("---video","getTransferSuccessVideoFromRemote it = "+it)
+       API.call(it)
+   }
+
+
     /**
      * request a list of transfer-out orders from remote server base on page key.
      * */
@@ -297,6 +333,7 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
+
         API.call(it)
     }
 
@@ -426,6 +463,50 @@ class RemoteOrderRepository {
         Log.d("---recommend--", " it = " + it)
         API.call(it)
     }
+
+
+
+    fun getSuccessVideoDetailFromRemote(
+        shopID: String
+    ): APIRst<APIResp<HttpSuccessVideoInfo>> = buildRequest(
+        url = API.GET_REMOTE_SUCCESS_VIDEO_DETAILS,
+        fieldMap = mutableMapOf(
+            "id" to shopID
+        ).also { map ->
+
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+    fun getSuccessVideoRecommendFromRemote(
+        city: String? = null,
+        shopID: String
+    ): APIRst<APIResp<RecommendSuccessVideoList>> = buildRequest(
+        url = API.GET_SUCCESS_VIDEO_RECOMMEND_SHOP,
+        fieldMap = mutableMapOf(
+            "id" to shopID
+        ).also { map ->
+            city?.let {
+                map["city_id"] = city
+            }
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
 
 
     fun getEditTransferInOrderDetailFromRemote(
@@ -865,6 +946,36 @@ class RemoteOrderRepository {
     fun getSoldOutFromRemote(
     ): APIRst<APIResp<HttpRespReleaseOrders>> = buildRequest(
         url = API.GET_USER_SOLD_OUT,
+        fieldMap = mutableMapOf<String, String>().also {
+            it["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = it,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        Log.d("---public--", "getSoldOutFromRemote it = " + it)
+        API.call(it)
+    }
+
+    fun getFastTransferNum(): APIRst<APIResp<HttpCardFastObject>> = buildRequest(
+    url = API.GET_FAST_TRANSFER_NUM,
+    fieldMap = mutableMapOf<String, String>().also {
+        it["sign"] = API.sign(
+            signatureToken = API.currentSignatureToken,
+            fieldMap = it,
+            method = "GET"
+        )
+    },
+    method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
+
+    fun getFastMineTransferFromRemote(): APIRst<APIResp<HttpRespReleaseOrders>> = buildRequest(
+        url = API.GET_FAST_MINE_TRANSFER_NUM,
         fieldMap = mutableMapOf<String, String>().also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,

@@ -35,7 +35,7 @@ class PasswordChangeDialog(): DialogFragment(){
     ): View? = DialogPasswordChangedBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
         buttonOk.setOnClickListener {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            val intent = Intent(requireActivity().application, LoginActivity::class.java)
             startActivity(intent)
         }
 

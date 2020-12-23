@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -17,21 +18,21 @@ import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.ui.login.LoginActivity
-import com.puxiansheng.www.ui.main.AppViewModel
-import com.umeng.analytics.MobclickAgent
+import com.puxiansheng.www.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 
 abstract class MyBaseActivity : AppCompatActivity() {
 
-
-    private var appModel: AppViewModel? = null
+    private var TAG :String = ""
+    private var appModel: MainViewModel? = null
     private var context:Context ?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context= this
+        TAG = this.javaClass.name
         setLandscape(this, false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //修改为深色，因为我们把状态栏的背景色修改为主题色白色，默认的文字及图标颜色为白色，导致看不到了。
@@ -39,7 +40,7 @@ abstract class MyBaseActivity : AppCompatActivity() {
         }
 //        MyScreenUtils.setStatusBar(this,true,true, R.color.colorFFF)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        appModel = ViewModelProvider(this)[AppViewModel::class.java]
+        appModel = ViewModelProvider(this)[MainViewModel::class.java]
         checkNet()
         API.getToken.observe(this, Observer {
             if (it == API.CODE_ERROR_AUTH_TOKEN ||
@@ -55,6 +56,7 @@ abstract class MyBaseActivity : AppCompatActivity() {
                 appModel?.requireLocalDevice()?.observe(this, Observer {
                     it?.let {
                         lifecycleScope.launch {
+                            Log.d("GET_TOKEN----","requireLocalDevice= ----222 ")
                             appModel?.getSignatureVersion(
                                 it,
                                 SharedPreferencesUtil.get("registration_id", "") as String
@@ -64,7 +66,10 @@ abstract class MyBaseActivity : AppCompatActivity() {
                 })
             }
         })
+        Log.e("activity","onCreate = "+TAG)
     }
+
+
 
 
     abstract fun getLayoutId(): Int
@@ -73,19 +78,21 @@ abstract class MyBaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        Log.e("activity","onResume = "+TAG)
 //        MobclickAgent.onResume(this)
-        appModel?.requireLocalDevice()?.observe(this, Observer {
-            it?.let {
-                lifecycleScope.launch {
-                    appModel?.getSignatureVersion(
-                        it,
-                        SharedPreferencesUtil.get("registration_id", "") as String
-                    )
-                }
-            } ?: appModel?.requireDevice()
-        })
-
+//        appModel?.requireLocalDevice()?.observe(this, Observer {
+//            it?.let {
+//                lifecycleScope.launch {
+//                    Log.d("GET_TOKEN----","requireLocalDevice -- -- onResume----222 ")
+//                    appModel?.getSignatureVersion(
+//                        it,
+//                        SharedPreferencesUtil.get("registration_id", "") as String
+//                    )
+//                }
+//            } ?: appModel?.requireDevice()
+//        })
     }
+
 
     /**
      * 设置横屏
@@ -123,12 +130,16 @@ abstract class MyBaseActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        Log.e("activity","onPause = "+TAG)
 //        MobclickAgent.onPause(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.e("activity","onDestroy = "+TAG)
         context?.let { App.getRefWatcher(it) }
     }
+
+
 
 }

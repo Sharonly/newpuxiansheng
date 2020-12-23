@@ -1,11 +1,13 @@
 package com.puxiansheng.www.ui.mine.setting
 
 import android.net.http.SslError
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.*
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_about_us.*
+import kotlinx.android.synthetic.main.activity_about_us.button_back
 
 class AboutUsActivity : MyBaseActivity(){
 
@@ -61,4 +63,16 @@ class AboutUsActivity : MyBaseActivity(){
 //        MobclickAgent.onPageEnd("AboutUsActivity")
 //    }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (us_detail != null) {
+            val parent: ViewParent = us_detail.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(us_detail)
+            }
+            us_detail.removeAllViews()
+            us_detail.destroy()
+        }
+    }
 }

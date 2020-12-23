@@ -28,12 +28,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
+import com.puxiansheng.logic.util.GlideApp
 import com.puxiansheng.logic.util.LiveDataBus
-import com.puxiansheng.uio.GlideApp
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.urlIcon
+import com.puxiansheng.www.ui.main.CityListActivity
 import com.puxiansheng.www.ui.main.LocationActivity
 import kotlinx.android.synthetic.main.fragment_mine.user_icon
 import kotlinx.android.synthetic.main.fragment_my_setting.*
@@ -141,7 +142,8 @@ class UserSettingActivity : MyBaseActivity() {
 
 
         user_location.setOnClickListener {
-            val intent = Intent(this, LocationActivity::class.java)
+            val intent = Intent(this, CityListActivity::class.java)
+            intent.putExtra("locationCity",user_location.text)
             startActivity(intent)
         }
 
@@ -205,9 +207,9 @@ class UserSettingActivity : MyBaseActivity() {
 //            crop(cropImageUri)
             Glide.with(this)
                 .load(cropImageUri)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.mipmap.ic_default_icon)
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .error(R.mipmap.ic_default_icon)
                 .into(user_icon)
 //            lifecycleScope.launch {
 //                Log.d("---imageIcon  ", "  cropImageUri  = " + cropImageUri)

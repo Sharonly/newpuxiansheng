@@ -28,7 +28,7 @@ class RemoteLocationRepository {
 
     fun getRemoteSupportedCities(): APIRst<APIResp<HttpRespLocationNodes>> =
         buildRequest(
-            url = API.GET_SUPPORTED_CITIES,
+            url = API.GET_NEW_SUPPORTED_CITIES,
             fieldMap = mutableMapOf<String, String>().also {
                 it["sign"] = API.sign(
                     signatureToken = API.currentSignatureToken,

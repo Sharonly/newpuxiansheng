@@ -19,6 +19,19 @@ class SimpleOrderViewModel(application: Application) : AndroidViewModel(applicat
     var phone = ""
     var city = ""
 
+    suspend fun requestMyFastTransferCount() =
+        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            orderRepository.getFastMineTransferFromRemote()
+                .let { return@let if (it.succeeded) (it as APIRst.Success).data.data?.data else null }
+        }
+
+
+    suspend fun requestFastNum() =
+        withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            orderRepository.getFastTransferCount()
+                .let { return@let if (it.succeeded) (it as APIRst.Success).data.data?.result else null }
+        }
+
     suspend fun submitSimpleTransferInOrder(
 
     ) = withContext(

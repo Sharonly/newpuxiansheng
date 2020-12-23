@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/root"
+        android:layout_width="166.5dp"
+        android:layout_height="182dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="6dp"
+        android:clickable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="166.5dp"
+            android:layout_height="182dp"
+            android:background="@drawable/bg_dialog">
+
+            <ImageView
+                android:id="@+id/shop_img"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/play"
+                app:layout_constraintBottom_toBottomOf="@+id/shop_img"
+                app:layout_constraintLeft_toLeftOf="@+id/shop_img"
+                app:layout_constraintRight_toRightOf="@+id/shop_img"
+                app:layout_constraintTop_toTopOf="@+id/shop_img" />
+
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_img"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="14dp"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/shop_img" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

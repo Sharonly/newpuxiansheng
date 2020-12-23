@@ -29,6 +29,7 @@ import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.home.HomeFragment
+import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
@@ -66,7 +67,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     )
 
     var countDown: MutableLiveData<Int> = MutableLiveData()
-    var lastFragment: Fragment = HomeFragment()
+    var lastFragment: Fragment = NewHomeFragment()
     val toastMsg = MutableLiveData<String>()
     val currentUser = MutableLiveData<User>()
     val currentCity = MutableLiveData<LocationNode>()
@@ -103,6 +104,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun getSignatureTokenFromRemote(device: Device,registrationId:String) =
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("GET_TOKEN----","getSignatureTokenFromRemote ---- 111")
             systemRepository.requireSignatureToken(device,registrationId = registrationId).let { apiResult ->
                 if (apiResult.succeeded) {
                     apiResult as APIRst.Success
@@ -126,6 +128,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
    suspend fun getSignatureVersion(device: Device,registrationId:String) = withContext(viewModelScope.coroutineContext+Dispatchers.IO)
        {
+           Log.d("GET_TOKEN----","getSignatureVersion= ----222 ")
             systemRepository.requireSignatureToken(device,registrationId = registrationId).let { apiResult ->
                 if (apiResult.succeeded) {
                     apiResult as APIRst.Success
@@ -189,10 +192,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getSelectiveMenuDataFromRemote() {
-        getIndustrySelectiveMenuDataFromRemote()
-        getSizeSelectiveMenuDataFromRemote()
-        getRentUnitSelectiveMenuDataFromRemote()
-        getRentSelectiveMenuDataFromRemote()
+//        getIndustrySelectiveMenuDataFromRemote()
+//        getSizeSelectiveMenuDataFromRemote()
+//        getRentUnitSelectiveMenuDataFromRemote()
+//        getRentSelectiveMenuDataFromRemote()
         getPropertySelectiveMenuDataFromRemote()
     }
 

@@ -101,7 +101,7 @@ class FavorListOrderAdapter(var context: Context, var dataList: ArrayList<OrderD
 
 
 
-    inner class FavorTransferOutViewHolder(containerView: View) :
+     class FavorTransferOutViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val shopIcon = containerView.findViewById<ImageView>(R.id.shop_icon)
@@ -118,7 +118,7 @@ class FavorListOrderAdapter(var context: Context, var dataList: ArrayList<OrderD
 
 
 
-    inner class FavorTransferInViewHolder(val containerView: View) :
+     class FavorTransferInViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val shopTitle = containerView.findViewById<TextView>(R.id.title)

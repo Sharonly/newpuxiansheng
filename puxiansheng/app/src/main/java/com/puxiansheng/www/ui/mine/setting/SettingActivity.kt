@@ -76,17 +76,24 @@ class SettingActivity : MyBaseActivity() {
                         Log.d("version","--- newVersion = "+it.newVersion)
                         if (it.newVersion == 1) {
                             if(!isUpDialogShow) {
-                                UpgradeDialog(
-                                    this,
-                                    onClick = {},
-                                    versionName = it.showVersion,
+//                                UpgradeDialog(
+//                                    this,
+//                                    onClick = {},
+//                                    versionName = it.showVersion,
+//                                    fileDownUrl = it.downloadUrl,
+//                                    upgadeTips = it.tipsMsg,
+//                                    upgradeType = it.newPackage, isForceUpgrade = false
+//                                ).show(
+//                                    supportFragmentManager,
+//                                    UpgradeDialog::class.java.name
+//                                )
+
+                                UpgradeDialog.getInstance().setData(this,  versionName = it.showVersion,
                                     fileDownUrl = it.downloadUrl,
                                     upgadeTips = it.tipsMsg,
-                                    upgradeType = it.newPackage, isForceUpgrade = false
-                                ).show(
-                                    supportFragmentManager,
-                                    UpgradeDialog::class.java.name
-                                )
+                                    type = it.newPackage, isUpgrade = true)
+                                UpgradeDialog.getInstance().show( supportFragmentManager,
+                                    UpgradeDialog::class.java.name)
                                 isUpDialogShow = true
                             }
                         }else{
@@ -96,19 +103,27 @@ class SettingActivity : MyBaseActivity() {
 
                     API.CODE_BANNED_VERSION -> {
                         if (!isUpDialogShow && it.newVersion == 1) {
-                            UpgradeDialog(
-                                this,
-                                onClick = {
-                                    finish()
-                                },
-                                versionName = it.showVersion,
+//                            UpgradeDialog(
+//                                this,
+//                                onClick = {
+//                                    finish()
+//                                },
+//                                versionName = it.showVersion,
+//                                fileDownUrl = it.downloadUrl,
+//                                upgadeTips = it.tipsMsg,
+//                                upgradeType = it.newPackage, isForceUpgrade = true
+//                            ).show(
+//                                supportFragmentManager,
+//                                UpgradeDialog::class.java.name
+//                            )
+
+                            UpgradeDialog.getInstance().setData(this,  versionName = it.showVersion,
                                 fileDownUrl = it.downloadUrl,
                                 upgadeTips = it.tipsMsg,
-                                upgradeType = it.newPackage, isForceUpgrade = true
-                            ).show(
-                                supportFragmentManager,
-                                UpgradeDialog::class.java.name
-                            )
+                                type = it.newPackage, isUpgrade = true)
+
+                            UpgradeDialog.getInstance().show( supportFragmentManager,
+                                UpgradeDialog::class.java.name)
                             isUpDialogShow = true
                         }
                     }

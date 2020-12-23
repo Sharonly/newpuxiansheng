@@ -33,7 +33,7 @@ private val facilities: List<MenuItem>
         holder.bind(facilities[position])
     }
 
-    inner class FacilityItemViewHolder(
+     class FacilityItemViewHolder(
         override val containerView: View
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         val binding: DialogSelectiveMenuItemBinding =

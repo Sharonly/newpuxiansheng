@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.puxiansheng.www.ui.home.HomeFragment"
+        android:name="com.puxiansheng.www.ui.home.NewHomeFragment"
         android:label="@string/nav_home"
         tools:layout="@layout/fragment_home">
 

@@ -291,7 +291,7 @@ class ExpandTextView : View {
 //                            var max = max(getTextHeight(), shrinkStaticLayout.height)
                             Log.d("ExpandTextView", "max = "+max)
 //                            var max = getTextHeight()
-                            height += max + bottomMargin
+                            height += max + bottomMargin+270
 //                            height += bottomMargin
                         }
                     } else {

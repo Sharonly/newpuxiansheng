@@ -22,6 +22,8 @@ class InfoRepository(infoDao: InfoDao) {
         title = title
     )
 
+
+
     fun getInfoByCategoryFromRoom(
         category: Int
     ) = localInfoRepository.getInfoByCategoryFromRoom(category = category)
@@ -50,4 +52,7 @@ class InfoRepository(infoDao: InfoDao) {
 
     fun deleteAllInfoFromRoom(
     ) = localInfoRepository.deleteAllFavorInfo()
+
+
+    fun getInfoDetail(id:String,city_id:String) = remoteInfoRepository.getInfoDetailFromRemote(id = id,city_id = city_id)
 }

@@ -71,7 +71,7 @@ class NewMessageListAdapter(var mContext: Context, var lists: ArrayList<MessageI
 
 
 
-    inner class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
+     class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
         val data:TextView = containerView.findViewById(R.id.message_time)
         val root:View = containerView.findViewById(R.id.layout_message)
         val redPoint :ImageView = containerView.findViewById(R.id.red_point)

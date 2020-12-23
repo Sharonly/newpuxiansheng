@@ -42,7 +42,7 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
     ): View? = FragmentMineReleasedInnerFragmentBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        adapter = ReleaseInAdapter(requireContext(), arrayListOf(),deleteListener = object :ReleaseInAdapter.onDeleteListener{
+        adapter = ReleaseInAdapter(requireActivity(), arrayListOf(),deleteListener = object :ReleaseInAdapter.onDeleteListener{
             override fun delete(it:OrderDetailObject) {
                 var deleteDialog = DeleteOrderDialog("确定要删除该条发布吗？",Order.Type.TRANSFER_IN_PRIVATE.value(), it?.shopID)
                 deleteDialog.show(childFragmentManager, DeleteOrderDialog::class.java.name)

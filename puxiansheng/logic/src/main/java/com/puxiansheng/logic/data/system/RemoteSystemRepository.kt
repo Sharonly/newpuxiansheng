@@ -66,11 +66,10 @@ class RemoteSystemRepository {
                     map["registration_id"] = it
                 }
             }
-            Log.d("---device--", " device = " + device+" registrationId = "+registrationId)
             map["sign"] = signNew(signatureToken = null, fieldMap = map, method = "POST")
         }
     ).let {
-        Log.d("homeactivity"," get tpken = "+it)
+        Log.d("GET_TOKEN----"," get_token = "+it)
         call(it)
     }
 

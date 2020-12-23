@@ -15,11 +15,40 @@ import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.common.ShopImageSwitcher
 import com.puxiansheng.www.databinding.DialogShopImagesBinding
+import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
 import kotlinx.coroutines.channels.ticker
 
-class ShopImageDialog(
-    var context: Activity, var baners: List<BannerImage>
-) : DialogFragment() {
+class ShopImageDialog() : DialogFragment() {
+    var mContext: Activity? = null
+    var baners: List<BannerImage> = arrayListOf()
+
+    companion object {
+        private var instance: ShopImageDialog? = null
+
+        fun getInstance(): ShopImageDialog {
+            if (instance == null) {
+                synchronized(ShopImageDialog::class.java) {
+                    if (instance == null) {
+                        instance =
+                            ShopImageDialog()
+                    }
+                }
+            }
+            return instance!!
+        }
+    }
+
+
+
+    fun setData(
+        context: Activity,
+        banersList: List<BannerImage>
+    ) {
+        mContext = context
+        baners = banersList
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

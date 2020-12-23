@@ -82,7 +82,7 @@ class SelectSizeRangeDialog(
                 (menuListTop.adapter as MenuItemListAdapter).notifyDataSetChanged()
             })
 
-        selectSizeRangeViewModel.loadTopLevelMenuData(MenuItem.TYPE.SIZE.value())
+        selectSizeRangeViewModel.getSizeRangeDataFromRemote()
     }.root
 
     inner class MenuItemListAdapter(

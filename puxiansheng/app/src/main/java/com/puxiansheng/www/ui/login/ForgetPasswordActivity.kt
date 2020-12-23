@@ -22,14 +22,12 @@ import kotlinx.android.synthetic.main.activity_forget_password.icon_eye
 import kotlinx.android.synthetic.main.activity_forget_password.input_password_again
 import kotlinx.android.synthetic.main.activity_forget_password.layout_password_again
 import kotlinx.android.synthetic.main.activity_forget_password.requestVerificationCode
-import kotlinx.android.synthetic.main.layout_login_by_password.*
-import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_password) {
     var context: Context = this@ForgetPasswordActivity
-    private lateinit var loginViewModel: LoginViewModel
+    private var loginViewModel: LoginViewModel?= null
     var passIsShow = false
 
 
@@ -47,37 +45,37 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
 
         input_account.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.userAccount = it
+                loginViewModel?.userAccount = it
             }
         }
         input_vertoken.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.verificationCode = it
+                loginViewModel?.verificationCode = it
             }
         }
 
         txt_new_password.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.newPassword = it
+                loginViewModel?.newPassword = it
             }
         }
         input_password_again.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.newPasswordAgain = it
+                loginViewModel?.newPasswordAgain = it
             }
         }
 
         requestVerificationCode.setOnClickListener {
-            loginViewModel.requestType = "reset_pwd"
-            if (loginViewModel.userAccount == "") {
+            loginViewModel?.requestType = "reset_pwd"
+            if (loginViewModel?.userAccount == "") {
                 Toast.makeText(context, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             lifecycleScope.launch {
-                loginViewModel.requestVerificationCode()?.let {
+                loginViewModel?.requestVerificationCode()?.let {
                     if (it == API.CODE_SUCCESS) {
-                        loginViewModel.startCountDown()
+                        loginViewModel?.startCountDown()
                         requestVerificationCode.isEnabled = false
                         input_vertoken.requestFocus()
                     }
@@ -87,15 +85,15 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
 
         bt_go_to.setOnClickListener {
             if(bt_go_to.text.contains("下一步")){
-                loginViewModel.userAccount.let {
+                loginViewModel?.userAccount.let {
                     if (!Regular.isPhoneNumber(it)) {
                         input_account.error = resources.getString(R.string.login_error_account)
                         return@setOnClickListener
                     }
                 }
 
-                loginViewModel.verificationCode.let {
-                    if (it.length != 6 && txt_message_token.visibility == View.VISIBLE) {
+                loginViewModel?.verificationCode.let {
+                    if (it?.length != 6 && input_vertoken.visibility == View.VISIBLE) {
                         input_vertoken.error = resources.getString(R.string.login_error_code)
                         return@setOnClickListener
                     }
@@ -107,26 +105,26 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
                 icon_eye.visibility = View.VISIBLE
                             bt_go_to.text = "确认"
             }else if(bt_go_to.text=="确认"){
-                loginViewModel.newPassword.let {
+                loginViewModel?.newPassword.let {
                     if (!Regular.isPassword(it)) {
                         txt_new_password.error = resources.getString(R.string.login_error_password)
                         return@setOnClickListener
                     }
                 }
 
-                loginViewModel.newPasswordAgain.let {
+                loginViewModel?.newPasswordAgain.let {
                     if (!Regular.isPassword(it)) {
                         input_password_again.error = resources.getString(R.string.login_error_password)
                         return@setOnClickListener
                     }
                 }
 
-                if(loginViewModel.newPasswordAgain!=loginViewModel.newPassword){
+                if(loginViewModel?.newPasswordAgain!=loginViewModel?.newPassword){
                     Toast.makeText(context, "两次密码不一致", Toast.LENGTH_SHORT).show()
                 }
 
                 lifecycleScope.launch(Dispatchers.IO) {
-                    loginViewModel.loginByType(MODE_FORGET_PASSWORD)?.let {
+                    loginViewModel?.loginByType(MODE_FORGET_PASSWORD)?.let {
                         if (it is User) {
                             PasswordChangeDialog().show(
                                 supportFragmentManager,
@@ -152,11 +150,11 @@ class ForgetPasswordActivity : AppCompatActivity(R.layout.activity_forget_passwo
         }
 
 
-        loginViewModel.toastMsg.observe(this@ForgetPasswordActivity, Observer {
+        loginViewModel?.toastMsg?.observe(this@ForgetPasswordActivity, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
 
-        loginViewModel.countDown.observe(this@ForgetPasswordActivity, Observer {
+        loginViewModel?.countDown?.observe(this@ForgetPasswordActivity, Observer {
             if (it == 0) {
                 requestVerificationCode.text = "获取验证码"
                 requestVerificationCode.isEnabled = true

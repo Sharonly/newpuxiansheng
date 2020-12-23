@@ -52,7 +52,7 @@ class HistoryInfosFragment : Fragment(), OnRefreshLoadMoreListener {
 
         list.layoutManager = LinearLayoutManager(requireContext())
         adapter = NewInfoListAdapter(
-            requireContext(),
+            requireActivity(),
             arrayListOf()
         )
 

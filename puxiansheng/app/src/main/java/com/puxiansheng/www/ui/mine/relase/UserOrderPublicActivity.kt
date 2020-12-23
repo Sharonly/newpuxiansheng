@@ -50,7 +50,7 @@ class UserOrderPublicActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
         adapter =
             UserOrderStateAdapter(
-                this@UserOrderPublicActivity,
+                this,
                 arrayListOf(),
                 deleteListener = object : UserOrderStateAdapter.DeleteListener {
                     override fun delete(order: OrderDetailObject) {

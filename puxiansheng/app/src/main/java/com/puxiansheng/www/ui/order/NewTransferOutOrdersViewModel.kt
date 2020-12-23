@@ -1,17 +1,17 @@
 package com.puxiansheng.www.ui.order
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.puxiansheng.logic.bean.Order
-import com.puxiansheng.logic.bean.Shop
+import com.google.gson.Gson
 import com.puxiansheng.logic.data.order.OrderDatabase
 import com.puxiansheng.logic.data.order.OrderRepository
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.zhihu.matisse.BuildConfig
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewTransferOutOrdersViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,7 +27,6 @@ class NewTransferOutOrdersViewModel(application: Application) : AndroidViewModel
     var sortBy = ""
     var sortType = ""
     var title = ""
-
 
     suspend fun getTransferOutOrdersFromRemote()  = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
         orderRepository.getTransferOutOrdersFromRemote(
@@ -70,6 +69,31 @@ class NewTransferOutOrdersViewModel(application: Application) : AndroidViewModel
                 (apiRst as APIRst.Success).data.data?.data?.orders
             }else null
         }
-
     }
+
+
+    suspend fun getTransferSuccessVideoFromRemote() = withContext(viewModelScope.coroutineContext + Dispatchers.IO)   {
+            orderRepository.getTransferSuccessVideoFromRemote(
+                title = title,
+                page = currentPage,
+                industry = industryIDs,
+                size = sizeRangeID,
+                area = areaIDs,
+                sortBy = sortBy,
+                sortType = sortType,
+                rent = rentIDs,
+                city = currentCity
+            ).let { apiRst ->
+                if (BuildConfig.DEBUG) println("---videoY----------.${apiRst}--->${Gson().toJson(apiRst)}")
+                if (apiRst.succeeded){
+                    if (BuildConfig.DEBUG) println("---videoZ----------AAAAAAAAAAAAAAAA1_>${(apiRst as APIRst.Success).data.data?.data?.videoList}")
+                    if (apiRst.succeeded) {
+                             (apiRst as APIRst.Success).data.data?.data?.videoList
+                     }else null
+                }else null
+            }
+    }
+
+
+
 }

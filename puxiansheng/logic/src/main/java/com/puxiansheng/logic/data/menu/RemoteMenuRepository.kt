@@ -19,7 +19,21 @@ class RemoteMenuRepository {
     fun requestRemoteIndustrySelectiveData(signatureToken: String): APIRst<APIResp<HttpRespMenuDate>> =
         buildRequest(
             url = GET_REMOTE_INDUSTRY_DATA, fieldMap = mutableMapOf(
-                "tree" to "0"
+                "tree" to "0",
+                "id" to "0"
+            ).also {
+                it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            call(it)
+        }
+
+    fun requestRemoteIndustrySelectiveById(signatureToken: String,id:Int): APIRst<APIResp<HttpRespMenuDate>> =
+        buildRequest(
+            url = GET_REMOTE_INDUSTRY_DATA, fieldMap = mutableMapOf(
+                "tree" to "0",
+                "id" to id.toString()
             ).also {
                 it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
             },

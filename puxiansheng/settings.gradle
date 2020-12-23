@@ -1,5 +1,6 @@
-include ':share2'
+include ':libplayer'
 include ':logic'
 include ':util'
 include ':app'
+
 rootProject.name = "PuXianSheng"

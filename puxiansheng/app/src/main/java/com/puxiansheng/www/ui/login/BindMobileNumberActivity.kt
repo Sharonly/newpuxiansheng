@@ -13,6 +13,7 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bind_phone.*
 import kotlinx.android.synthetic.main.activity_bind_phone.input_account
 import kotlinx.android.synthetic.main.activity_bind_phone.input_vertoken
@@ -107,7 +108,7 @@ private fun initView(){
 //                        val intent =
 //                            Intent(this@BindMobileNumberActivity, MainActivity::class.java)
                         val intent =
-                            Intent(this@BindMobileNumberActivity, HomeActivity::class.java)
+                            Intent(this@BindMobileNumberActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

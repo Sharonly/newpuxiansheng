@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.MenuItem
-import com.puxiansheng.uio.order.dialog.SelectRentUnitViewModel
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
@@ -88,7 +87,7 @@ class SelectRentUnitDialog(
                 (menuListTop.adapter as MenuItemListAdapter).notifyDataSetChanged()
             })
 
-        selectRentUnitViewModel.loadTopLevelMenuData(MenuItem.TYPE.RENT_UNIT.value())
+        selectRentUnitViewModel.getRentUnitDataFromRemote()
     }.root
 
     inner class MenuItemListAdapter(

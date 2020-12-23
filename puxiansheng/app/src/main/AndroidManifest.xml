@@ -53,12 +53,13 @@
         android:largeHeap="true"
         tools:targetApi="m">
                 <activity
-                    android:name=".ui.main.HomeActivity"
+                    android:name=".ui.main.MainActivity"
                     android:label="@string/app_name"
-                    android:configChanges="keyboard|keyboardHidden|orientation">
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:screenOrientation="portrait"
+                    android:theme="@style/AppTheme">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
-
                         <category android:name="android.intent.category.LAUNCHER" />
                     </intent-filter>
                 </activity>
@@ -66,10 +67,14 @@
 <!--        <activity android:name=".ui.main.MainActivity"/>-->
 <!--        <activity android:name=".ui.main.HomeActivity"/>-->
         <activity android:name=".ui.main.StartActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".ui.main.PermissionActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.LocationActivity"/>
+        <activity android:name=".ui.main.CityListActivity"/>
         <activity android:name=".ui.login.LoginActivity"
             android:launchMode="singleInstance">
         </activity>
@@ -80,6 +85,7 @@
         <activity android:name=".ui.info.WebViewActivity"
             />
         <activity android:name=".ui.info.InfoDetailActivity"/>
+        <activity android:name=".ui.info.NewInfoDetailActivity"/>
 
         <activity android:name=".ui.message.MessageDetailActivity"/>
 
@@ -94,7 +100,15 @@
 
         <activity android:name=".ui.order.NewTransferOutOrdersActivity" />
         <activity android:name=".ui.order.NewTransferInOrdersActivity" />
-        <activity android:name=".ui.order.NewTransferSuccessOrdersActivity" />
+        <activity android:name=".ui.order.SucceseVideoDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+
+        <activity android:name=".ui.order.NewSuccessOrdersActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity android:name=".ui.order.TransferOutOrderDetailActivity" />
         <activity android:name=".ui.order.TransferInOrderDetailActivity" />

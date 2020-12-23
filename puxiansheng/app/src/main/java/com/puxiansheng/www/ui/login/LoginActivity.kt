@@ -24,7 +24,7 @@ import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_REGISTER
-import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.umeng.analytics.MobclickAgent
@@ -39,9 +39,9 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class LoginActivity : MyBaseActivity() {
-    var context: Context = this@LoginActivity
+   // var context: Context ?= null
     var isSeleted = false
-    private lateinit var loginViewModel: LoginViewModel
+    private  var loginViewModel: LoginViewModel? = null
     var loginType = MODE_LOGIN_WITH_PASSWORD
     var loginTypeName = ""
     var passIsShow = false
@@ -52,7 +52,8 @@ class LoginActivity : MyBaseActivity() {
     }
 
     override fun business() {
-        MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "LoginActivity")
+       // context = this
+        MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "LoginActivity")
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         initView()
     }
@@ -81,30 +82,30 @@ class LoginActivity : MyBaseActivity() {
             bt_login.text = "注册"
             loginType = MODE_REGISTER
             loginTypeName = "注册"
-            loginViewModel.requestType = "register"
+            loginViewModel?.requestType = "register"
         }
 
         input_user_account.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.userAccount = it
+                loginViewModel?.userAccount = it
             }
         }
 
         input_user_password.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.userPassword = it
+                loginViewModel?.userPassword = it
             }
         }
 
         input_user_phonenum.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.userAccount = it
+                loginViewModel?.userAccount = it
             }
         }
 
         txt_message_token.addTextChangedListener { editable ->
             editable?.toString()?.let {
-                loginViewModel.verificationCode = it
+                loginViewModel?.verificationCode = it
             }
         }
 
@@ -114,7 +115,7 @@ class LoginActivity : MyBaseActivity() {
         }
 
         lifecycleScope.launch {
-            loginViewModel.getConfigInfo("protocol_url")?.let { configInfo ->
+            loginViewModel?.getConfigInfo("protocol_url")?.let { configInfo ->
                 txt_pxs_agreement.setOnClickListener {
                     val intent = Intent(this@LoginActivity, ServiceActivity::class.java)
                     intent.putExtra("title", "用户协议")
@@ -145,7 +146,7 @@ class LoginActivity : MyBaseActivity() {
                 bt_phone_fast_login.text = "账号登录"
                 loginType = MODE_LOGIN_WITH_CODE
                 loginTypeName = "账号登录"
-                loginViewModel.requestType = "login"
+                loginViewModel?.requestType = "login"
             } else {
                 tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F);
                 tab_login.setTextColor(resources.getColor(R.color.black))
@@ -177,7 +178,7 @@ class LoginActivity : MyBaseActivity() {
         }
 
         bt_login.setOnClickListener {
-            loginViewModel.userAccount.let {
+            loginViewModel?.userAccount.let {
                 if (!Regular.isPhoneNumber(it)) {
                     input_user_account.error = resources.getString(R.string.login_error_account)
                     return@setOnClickListener
@@ -185,7 +186,7 @@ class LoginActivity : MyBaseActivity() {
             }
 
             if (loginType == MODE_LOGIN_WITH_PASSWORD) {
-                loginViewModel.userPassword.let {
+                loginViewModel?.userPassword.let {
                     if (!Regular.isPassword(it) && input_user_password.visibility == View.VISIBLE) {
                         input_user_password.error =
                             resources.getString(R.string.login_error_password)
@@ -195,8 +196,8 @@ class LoginActivity : MyBaseActivity() {
             }
 
             if (loginType == MODE_REGISTER || loginType == MODE_LOGIN_WITH_CODE) {
-                loginViewModel.verificationCode.let {
-                    if (it.length != 6 && txt_message_token.visibility == View.VISIBLE) {
+                loginViewModel?.verificationCode.let {
+                    if (it?.length != 6 && txt_message_token.visibility == View.VISIBLE) {
                         txt_message_token.error = resources.getString(R.string.login_error_code)
                         return@setOnClickListener
                     }
@@ -205,7 +206,7 @@ class LoginActivity : MyBaseActivity() {
 
             if (loginType == MODE_REGISTER) {
                 if (!isSeleted) {
-                    Toast.makeText(context, "请先勾选用户协议", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "请先勾选用户协议", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
             }
@@ -213,13 +214,13 @@ class LoginActivity : MyBaseActivity() {
             lifecycleScope.launch() {
                 if (!isLogin) {
                     isLogin = true
-                    MobclickAgent.onEvent(context, UMengKeys.LOGIN_TYPE, loginTypeName)
+                    MobclickAgent.onEvent(this@LoginActivity, UMengKeys.LOGIN_TYPE, loginTypeName)
 
-                    loginViewModel.loginByType(loginType)?.let {
+                    loginViewModel?.loginByType(loginType)?.let {
                         if (it is User) {
                             if (loginType == MODE_REGISTER) {
-                                loginViewModel.userAccount = input_user_phonenum.text.toString()
-                                loginViewModel.loginMode.postValue(MODE_LOGIN_WITH_PASSWORD)
+                                loginViewModel?.userAccount = input_user_phonenum.text.toString()
+                                loginViewModel?.loginMode?.postValue(MODE_LOGIN_WITH_PASSWORD)
                                 LoginSuccessDialog(it.tipsMsg).show(
                                     supportFragmentManager,
                                     LoginSuccessDialog::class.java.name
@@ -250,7 +251,7 @@ class LoginActivity : MyBaseActivity() {
                                 SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
                                 API.setAuthToken(it.token)
                                 LiveDataBus.get().with("user")?.value = it
-                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
@@ -274,32 +275,32 @@ class LoginActivity : MyBaseActivity() {
 
         requestVerificationCode.setOnClickListener {
 
-            if (loginViewModel.userAccount == "") {
-                Toast.makeText(context, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
+            if (loginViewModel?.userAccount == "") {
+                Toast.makeText(this, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            loginViewModel.userAccount.let {
+            loginViewModel?.userAccount.let {
                 if (!Regular.isPhoneNumber(it)) {
                     input_user_phonenum.error = resources.getString(R.string.login_error_account)
                     return@setOnClickListener
                 }
             }
             lifecycleScope.launch {
-                loginViewModel.requestVerificationCode()?.let {
+                loginViewModel?.requestVerificationCode()?.let {
                     if (it == API.CODE_SUCCESS) {
-                        loginViewModel.startCountDown()
+                        loginViewModel?.startCountDown()
                         requestVerificationCode.isEnabled = false
                     }
                 }
             }
         }
 
-        loginViewModel.toastMsg.observe(this@LoginActivity, Observer {
+        loginViewModel?.toastMsg?.observe(this@LoginActivity, Observer {
             Log.d("login"," toastMsg = "+it)
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             isLogin = false
         })
-        loginViewModel.countDown.observe(this@LoginActivity, Observer {
+        loginViewModel?.countDown?.observe(this@LoginActivity, Observer {
             if (it == 0) {
                 requestVerificationCode.text = "获取验证码"
                 requestVerificationCode.isEnabled = true
@@ -310,30 +311,30 @@ class LoginActivity : MyBaseActivity() {
         })
 
 
-        loginViewModel.wechatCode.observe(this@LoginActivity, Observer { weChatCode ->
+        loginViewModel?.wechatCode?.observe(this@LoginActivity, Observer { weChatCode ->
             weChatCode?.let { code ->
                 Log.d("intent", " MODE_LOGIN_WITH_WECHAT = " + code)
                 if (code.isNotEmpty()) {
-                    loginViewModel.wechatLoginCode = code
-                    if (loginViewModel.wechatLoginCode.isNotEmpty()) {
+                    loginViewModel?.wechatLoginCode = code
+                    if (loginViewModel?.wechatLoginCode?.isNotEmpty()!!) {
                         lifecycleScope.launch() {
                             Log.d("intent", " loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT) ")
                             if (!isLogin) {
                                 isLogin = true
-                                loginViewModel.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
+                                loginViewModel?.loginByType(LoginViewModel.MODE_LOGIN_WITH_WECHAT)
                                     ?.let { result ->
-                                        loginViewModel.wechatLoginCode = ""
+                                        loginViewModel?.wechatLoginCode = ""
                                         if (result is HttpRespBindMobilePhone && result.code == API.CODE_BAND_MOBILE_NUMBER) {
                                             val intent =
                                                 Intent(
-                                                    context,
+                                                    this@LoginActivity,
                                                     BindMobileNumberActivity::class.java
                                                 )
                                             intent.putExtra(
                                                 "id",
                                                 result.dataObject?.result.toString() ?: "-99"
                                             )
-                                            context.startActivity(intent)
+                                            this@LoginActivity.startActivity(intent)
                                         } else {
                                             if (result is User) {
                                                 Log.d("---login--", "is User")
@@ -372,7 +373,7 @@ class LoginActivity : MyBaseActivity() {
                                                 val intent =
                                                     Intent(
                                                         this@LoginActivity,
-                                                        HomeActivity::class.java
+                                                        MainActivity::class.java
                                                     )
                                                 startActivity(intent)
                                                 finish()

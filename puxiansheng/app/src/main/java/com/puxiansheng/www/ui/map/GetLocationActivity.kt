@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.util.Log
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -18,6 +20,8 @@ import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_map_find_address.*
+import kotlinx.android.synthetic.main.fragment_map_find_address.button_back
+import kotlinx.android.synthetic.main.fragment_service_home.*
 import java.net.URLDecoder
 
 
@@ -156,14 +160,15 @@ class GetLocationActivity : MyBaseActivity() {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        MobclickAgent.onPageStart("GetLocationActivity") //统计页面，"MainScreen"为页面名称，可自定义
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        MobclickAgent.onPageEnd("GetLocationActivity")
-//    }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        if (map_webview != null) {
+            val parent: ViewParent = map_webview.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(map_webview)
+            }
+            map_webview.removeAllViews()
+            map_webview.destroy()
+        }
+    }
 }

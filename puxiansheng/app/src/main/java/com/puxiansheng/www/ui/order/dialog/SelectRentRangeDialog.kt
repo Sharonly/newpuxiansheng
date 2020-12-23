@@ -88,7 +88,7 @@ class SelectRentRangeDialog(
                 (menuListTop.adapter as MenuItemListAdapter).notifyDataSetChanged()
             })
 
-        selectRentRangeViewModel.loadTopLevelMenuData(MenuItem.TYPE.RENT.value())
+        selectRentRangeViewModel.getRentRangeDataFromRemote()
     }.root
 
     inner class MenuItemListAdapter(

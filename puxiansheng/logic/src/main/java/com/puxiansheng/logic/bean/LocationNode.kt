@@ -12,11 +12,18 @@ data class LocationNode(
     @SerializedName("parent_id")
     val parentID: Int = 0,
 
+
+    @SerializedName("pid")
+    val pId: Int = 0,
+
     @SerializedName("name")
     val text: String = "",
 
     @SerializedName("short_name")
     val textForShort: String = "",
+
+    @SerializedName("path_id")
+    val path_id: String = "",
 
     @SerializedName("pinyin")
     val spell: String = ""

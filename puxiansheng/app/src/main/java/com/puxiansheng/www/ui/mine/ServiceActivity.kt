@@ -1,11 +1,14 @@
 package com.puxiansheng.www.ui.mine
 
 import android.content.Intent
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.*
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.umeng.analytics.MobclickAgent
+import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_service_home.*
 import kotlinx.android.synthetic.main.fragment_service_home.button_back
 import kotlinx.android.synthetic.main.fragment_service_home.info_detail
@@ -53,19 +56,15 @@ class ServiceActivity : MyBaseActivity() {
 //            setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
 
 
-            //声明WebSettings子类
 
             //声明WebSettings子类
-            val webSettings: WebSettings = info_detail.getSettings()
-            //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
+            val webSettings: WebSettings = info_detail.settings
             //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
             webSettings.javaScriptEnabled = true
             // 解决图片不显示
-            // 解决图片不显示
             webSettings.blockNetworkImage = false
-            webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            //设置自适应屏幕，两者合用,缩放操作
-            //设置自适应屏幕，两者合用,缩放操作
+            webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW     //设置自适应屏幕，两者合用,缩放操作
+
             webSettings.loadWithOverviewMode = true // 缩放至屏幕的大小
 
             webSettings.setSupportZoom(true) //支持缩放，默认为true。是下面那个的前提。
@@ -78,7 +77,6 @@ class ServiceActivity : MyBaseActivity() {
 
             webSettings.pluginState = WebSettings.PluginState.ON //没加的话，视频会加载失败
 
-            //其他细节操作
             //其他细节操作
             webSettings.allowUniversalAccessFromFileURLs =
                 true // 是否允许通过file url加载的Javascript读取全部资源(包括文件,http,https)，默认值 false
@@ -110,5 +108,15 @@ class ServiceActivity : MyBaseActivity() {
 //        MobclickAgent.onPageEnd("ServiceActivity")
 //    }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        if (info_detail != null) {
+            val parent: ViewParent = info_detail.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(info_detail)
+            }
+            info_detail.removeAllViews()
+            info_detail.destroy()
+        }
+    }
 }

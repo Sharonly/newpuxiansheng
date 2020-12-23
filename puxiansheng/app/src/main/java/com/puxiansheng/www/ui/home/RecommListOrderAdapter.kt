@@ -14,6 +14,7 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
+import com.puxiansheng.www.tools.Utils
 import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.extensions.LayoutContainer
@@ -95,9 +96,11 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
             holder.shopArea.text = shopInfo.area_point_str
             holder.shopData.text = shopInfo.day_time
             holder.root.setOnClickListener {
-                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-                intent.putExtra("shopID", shopInfo?.jump_param)
-                context.startActivity(intent)
+                if (Utils.isFastClick()) {
+                    val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                    intent.putExtra("shopID", shopInfo?.jump_param)
+                    context.startActivity(intent)
+                }
             }
         } else if (holder is RecommendInfoViewHolder) {
             var shopInfo = dataList[position]
@@ -115,39 +118,18 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
             holder.shopArea.text = shopInfo.formattedFinalLocationNode
             holder.shopData.text = shopInfo.day_time
             holder.root.setOnClickListener {
-                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-                intent.putExtra("shopID", shopInfo?.jump_param)
-                context.startActivity(intent)
+                if (Utils.isFastClick()) {
+                    val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                    intent.putExtra("shopID", shopInfo?.jump_param)
+                    context.startActivity(intent)
+                }
             }
         }
     }
 
-//    override fun onBindViewHolder(holder: RecommListOrderAdapter.OrderViewHolder, position: Int) {
-//        if (type != Order.Type.EMPTY.value() && !dataList.isNullOrEmpty()) {
-//             //  holder.bind(getItem(position))
-//
-//        }
-//
-//    }
 
 
-//    override fun getItemViewType(position: Int): Int {
-//        println("viewtype---》${position}--->${dataList?.size}")
-//        if (type == Order.Type.EMPTY.value() && position == itemCount - 1)
-//            return R.layout.fragment_order_list_empty
-//        if(!dataList.isNullOrEmpty()) {
-//            return when (dataList?.get(position)?.shop?.data_type) {
-//                "transfer_list" -> R.layout.fragment_recommend_order_list_transfer_out_item
-//                "find_list" -> R.layout.fragment_recommend_order_list_transfer_in_item
-//                "list_data" -> R.layout.fragment_home_recommend_info_item
-//                else -> R.layout.fragment_order_list_empty
-//            }
-//        }
-//        return R.layout.fragment_order_list_empty
-//    }
-
-
-    inner class RecommendTransferOutViewHolder(containerView: View) :
+    class RecommendTransferOutViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val shopIcon = containerView.findViewById<ImageView>(R.id.shop_icon)
@@ -160,78 +142,19 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
 
     }
 
-    //左边viewholder
-//    inner class RecommendTransferOutViewHolder(override val containerView: View) :
-//        OrderViewHolder(containerView) {
-//        private val binding = FragmentRecommendOrderListTransferOutItemBinding.bind(containerView)
-//
-//        @SuppressLint("SetTextI18n")
-//        override fun bind(item: Order?) {
-//            item?.shop?.image.let { it ->
-//                it?.let { it1 -> binding.shopIcon.url(it1) }
-//            }
-//
-//            item?.shop?.title.let { title ->
-//                binding.title.text = title
-//            }
-//
-//            item?.shop?.formattedFinalIndustry.let { it ->
-//                binding.industry.text = it
-//            }
-//
-//            item?.shop?.formattedSize.let { it ->
-//                binding.size.text = it
-//            }
-//
-//            item?.shop?.formattedRent.let { it ->
-//                binding.rent.text = it
-//            }
-//
-//            item?.shop?.formattedArea.let { it ->
-//                binding.area.text = it
-//            }
-//
-//
-//            item?.shop?.formattedDate.let { it ->
-//                binding.date.text = it
-//            }
-//
-//
-////            binding.root.setOnClickListener {
-////                onItemSelect?.let { select -> select(item) }
-////            }
-//        }
-//    }
 
 
     //左边消息viewholder
-    inner class RecommendInfoViewHolder(val containerView: View) :
+     class RecommendInfoViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val infoList = containerView.findViewById<RecyclerView>(R.id.infolist)
 
     }
 
 
-    //左边消息viewholder
-//    inner class RecommendInfoViewHolder(override val containerView: View) :
-//        OrderViewHolder(containerView) {
-//        private val binding = FragmentHomeRecommendInfoItemBinding.bind(containerView)
-//
-//        @SuppressLint("SetTextI18n")
-//        override fun bind(item: Order?) {
-//            infolist.layoutManager = GridLayoutManager(context, 2)
-//            item?.shop?.articles.let { list ->
-//                infolist.adapter = list?.let {
-//                    ArticleTitleAdapter(it, context)
-//                }
-//            }
-//
-//        }
-//    }
-
 
     //右边viewholder
-    inner class RecommendTransferInViewHolder(val containerView: View) :
+     class RecommendTransferInViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.layout_item)
         val shopTitle = containerView.findViewById<TextView>(R.id.shop_title)
@@ -242,40 +165,6 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
         val shopData = containerView.findViewById<TextView>(R.id.date)
     }
 
-//    inner class RecommendTransferInViewHolder(override val containerView: View) :
-//        OrderViewHolder(containerView) {
-//        private val binding = FragmentRecommendOrderListTransferInItemBinding.bind(containerView)
-//
-//        @SuppressLint("SetTextI18n")
-//        override fun bind(item: Order?) {
-//            item?.shop?.title.let { title ->
-//                binding.title.text = title
-//            }
-//            item?.shop?.formattedArea.let { it ->
-//                binding.area.text = it
-//            }
-//
-//            item?.shop?.formattedRent.let { it ->
-//                binding.rent.text = it
-//            }
-//
-//            item?.shop?.formattedSize.let { it ->
-//                binding.size.text = it
-//            }
-//
-//            item?.shop?.formattedFinalIndustry.let { it ->
-//                binding.industry.text = it
-//            }
-//
-//            item?.shop?.formattedDate.let { it ->
-//                binding.date.text = it
-//            }
-//
-////            binding.root.setOnClickListener {
-////                onItemSelect?.let { select -> select(item) }
-////            }
-//        }
-//    }
 
 
 

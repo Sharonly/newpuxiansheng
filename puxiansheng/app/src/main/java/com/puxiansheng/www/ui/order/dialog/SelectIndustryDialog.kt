@@ -76,7 +76,7 @@ class SelectIndustryDialog(
         menuListSecond.adapter = MenuItemListAdapter(mutableListOf(), 1)
 
         selectMenuViewModel.selectedTopLevelIndustryItem.observe(viewLifecycleOwner, Observer {
-            selectMenuViewModel.loadSecondLevelMenuData(it.menuID.toInt())
+            selectMenuViewModel.getIndustrySecondMenuDataFromRemote(it.menuID.toInt())
         })
 
         selectMenuViewModel.selectiveTopLevelIndustryData.observe(
@@ -110,7 +110,7 @@ class SelectIndustryDialog(
                 (menuListSecond.adapter as MenuItemListAdapter).notifyDataSetChanged()
             })
 
-        selectMenuViewModel.loadTopLevelMenuData(MenuItem.TYPE.INDUSTRY.value())
+        selectMenuViewModel.getIndustryMenuDataFromRemote()
     }.root
 
     inner class MenuItemListAdapter(

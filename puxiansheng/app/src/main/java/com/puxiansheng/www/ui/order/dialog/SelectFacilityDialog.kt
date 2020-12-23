@@ -85,7 +85,7 @@ class SelectFacilityDialog(
                 (menuListTop.adapter as MenuItemListAdapter).notifyDataSetChanged()
             })
 
-        selectMenuViewModel.getFacilityMenuData(MenuItem.TYPE.PROPERTY.value())
+        selectMenuViewModel.getPropertySelectiveMenuDataFromRemote()
     }.root
 
     inner class MenuItemListAdapter(

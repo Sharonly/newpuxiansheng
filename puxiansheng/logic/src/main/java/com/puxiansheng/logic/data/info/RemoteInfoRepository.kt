@@ -126,4 +126,22 @@ class RemoteInfoRepository {
         API.call(it)
     }
 
+
+    fun getInfoDetailFromRemote(id:String,city_id:String):APIRst<APIResp<HttpInfoDetail>> = buildRequest(
+        url = API.GET_INFO_DETAIL,
+        fieldMap = mutableMapOf(
+            "id" to id,
+            "city_id" to city_id
+        ).also { map ->
+            map["sign"] = API.sign(
+                signatureToken = API.currentSignatureToken,
+                fieldMap = map,
+                method = "GET"
+            )
+        },
+        method = METHOD.GET
+    ).let {
+        API.call(it)
+    }
+
 }

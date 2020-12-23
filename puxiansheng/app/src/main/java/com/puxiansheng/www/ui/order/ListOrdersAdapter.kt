@@ -168,7 +168,7 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
 
 
 
-    inner class TransferOutViewHolder(containerView: View) :
+     class TransferOutViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val normalLayout = containerView.findViewById<View>(R.id.layout_normal)
@@ -189,7 +189,7 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
 
 
     //右边viewholder
-    inner class TransferInViewHolder(val containerView: View) :
+     class TransferInViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
         val root = containerView.findViewById<View>(R.id.item_layout)
         val shopTitle = containerView.findViewById<TextView>(R.id.title)

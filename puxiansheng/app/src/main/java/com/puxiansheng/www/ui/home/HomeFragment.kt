@@ -30,7 +30,9 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.*
 import com.puxiansheng.www.databinding.FragmentHomeBinding
 import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.tools.Utils
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.main.CityListActivity
 import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
@@ -62,6 +64,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     private var rightCurrentPage = 1
     private var mContext: Context? = null
     private var maqueeList = ArrayList<MarqueeInfo>()
+    private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -122,52 +125,26 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         }
 
         buttonSelectLocation.setOnClickListener {
-            val intent = Intent(requireActivity(), LocationActivity::class.java)
-            startActivity(intent)
-            MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "LocationActivity")
+            if (Utils.isFastClick() && !isLoading) {
+                val intent = Intent(requireActivity(), CityListActivity::class.java)
+                intent.putExtra("locationCity", buttonSelectLocation.text)
+                startActivity(intent)
+                MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "LocationActivity")
+            }
         }
 
         btSearch.setOnClickListener {
-            val intent = Intent(requireActivity(), SearchActivity::class.java)
-            startActivity(intent)
-            MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "SearchActivity")
+            if (Utils.isFastClick()) {
+                val intent = Intent(requireActivity(), SearchActivity::class.java)
+                startActivity(intent)
+                MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "SearchActivity")
+            }
         }
 
         resources.displayMetrics.widthPixels.times(0.65).let {
             topBannerView.layoutParams.height = it.toInt()
-//            topBannerView.onImageClick { image: BannerImage ->
-//                appModel.pictureIntent(requireActivity(), image)
-//            }
         }
 
-//        simpleTransferOut.setOnClickListener {
-////            val intent = Intent(requireActivity(), TransferOutOrderActivity::class.java)
-//            val intent = Intent(requireActivity(), NewTransferOutOrdersActivity::class.java)
-//            intent.putExtra("title", "*")
-//            startActivity(intent)
-//        }
-//
-//        simpleTransferIn.setOnClickListener {
-//            val intent = Intent(requireActivity(), NewTransferInOrdersActivity::class.java)
-//            intent.putExtra("title", "*")
-//            startActivity(intent)
-//        }
-//
-//        investmentBusiness.setOnClickListener {
-//            val intent = Intent(requireActivity(), BusinessListActivity::class.java)
-//            intent.putExtra("title", "*")
-//            startActivity(intent)
-//        }
-//
-//        fastTransferOut.setOnClickListener {
-//            val intent = Intent(requireActivity(), FastTransferOutActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        fastTransferIn.setOnClickListener {
-//            val intent = Intent(requireActivity(), FastTransferInActivity::class.java)
-//            startActivity(intent)
-//        }
 
         val linearLayoutManager =
             LinearLayoutManager(requireContext())
@@ -223,7 +200,6 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             }
         }
 
-
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
             buttonSelectLocation.text = it.text
             homeViewModel.currentCity = it.nodeID.toString()
@@ -244,7 +220,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
             }
         } else {
-            if(maqueeList?.size >0) {
+            if (maqueeList?.size > 0) {
                 pxs_headline.stopTimer()
             }
             top_banner_view.stopBanner()
@@ -264,7 +240,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
     override fun onPause() {
         super.onPause()
-        if(maqueeList?.size >0) {
+        if (maqueeList?.size > 0) {
             pxs_headline.stopTimer()
         }
         top_banner_view.stopBanner()
@@ -273,7 +249,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         if (NetUtil.isNetworkConnected(requireContext())) {
-            var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+            cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
             when (currentTab) {
                 0 -> {
                     //左边
@@ -283,15 +259,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                         outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
                             cityId.toString(),
                             leftCurrentPage
-                        )
-                            .let {
-                                if (it?.isNotEmpty()!!) {
-                                    leftAdapter?.addList(
-                                        it as ArrayList<OrderDetailObject>,
-                                        isRerfrshLeft
-                                    )
-                                }
-                            }
+                        )?.let {
+                            leftAdapter?.addList(
+                                it as ArrayList<OrderDetailObject>,
+                                isRerfrshLeft
+                            )
+                        }
                     }
 
                 }
@@ -303,15 +276,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                         inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
                             cityId.toString(),
                             rightCurrentPage
-                        )
-                            .let {
-                                if (!it.isNullOrEmpty()) {
-                                    rightAdapter?.addList(
-                                        it as ArrayList<OrderDetailObject>,
-                                        isRerfrshRight
-                                    )
-                                }
-                            }
+                        )?.let {
+                            rightAdapter?.addList(
+                                it as ArrayList<OrderDetailObject>,
+                                isRerfrshRight
+                            )
+                        }
                     }
 
                 }
@@ -345,7 +315,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
 
     private fun initView() {
-        var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+        Log.d("跑马灯", " = initView = ")
         isRerfrshLeft = true
         isRerfrshRight = true
         leftCurrentPage = 1
@@ -369,66 +339,75 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
 
                 img_three.setOnClickListener {
-                    JumpUtils.pictureIntent(requireActivity(), banners[0])
+                    if (Utils.isFastClick()) {
+                        JumpUtils.pictureIntent(requireActivity(), banners[0])
+                    }
                 }
                 img_four.setOnClickListener {
-                    JumpUtils.pictureIntent(requireActivity(), banners[1])
+                    if (Utils.isFastClick()) {
+                        JumpUtils.pictureIntent(requireActivity(), banners[1])
+                    }
                 }
                 img_two.setOnClickListener {
-                    JumpUtils.pictureIntent(requireActivity(), banners[2])
+                    if (Utils.isFastClick()) {
+                        JumpUtils.pictureIntent(requireActivity(), banners[2])
+                    }
                 }
                 img_one.setOnClickListener {
-                    JumpUtils.pictureIntent(requireActivity(), banners[3])
+                    if (Utils.isFastClick()) {
+                        JumpUtils.pictureIntent(requireActivity(), banners[3])
+                    }
                 }
-
-
             }
 
             pxs_headline.clearResources()
-            homeViewModel.requestMarqueeMessage("1",cityId.toString())?.let { info ->
-                Log.e("pxs_headline"," info = "+info.size)
+            cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+            homeViewModel.requestMarqueeMessage("1", cityId.toString())?.let { info ->
+                Log.d("跑马灯", "requestMarqueeMessage info = " + info.size)
                 maqueeList = info as ArrayList<MarqueeInfo>
-                if(info.isNotEmpty()) {
-                    pxs_headline.setResources(info)
-                    pxs_headline.itemClickListener = object : TextSwitchView.OnItemClickListener {
-                        override fun onItemClick(position: Int) {
-                            //TODO shopId字符串会好些
-                            val intent =
-                                Intent(activity, TransferOutOrderDetailActivity::class.java)
-                            intent.putExtra("shopID", info[position].id?.toString())
-                            startActivity(intent)
-                        }
+                if (maqueeList?.size > 0) {
+                    if (info.isNotEmpty()) {
+                        pxs_headline.setResources(info)
+                        pxs_headline.itemClickListener =
+                            object : TextSwitchView.OnItemClickListener {
+                                override fun onItemClick(position: Int) {
+                                    if (Utils.isFastClick()) {
+                                        //TODO shopId字符串会好些
+                                        val intent =
+                                            Intent(
+                                                activity,
+                                                TransferOutOrderDetailActivity::class.java
+                                            )
+                                        intent.putExtra("shopID", info[position].id?.toString())
+                                        startActivity(intent)
+                                    }
+                                }
+                            }
+                        pxs_headline.isSelected = true
                     }
-                    pxs_headline.isSelected = true
-                }
-                if(maqueeList?.size >0) {
-                    pxs_headline.startTimer()
-                }else{
+                } else {
                     pxs_headline.setCurrentText("")
                 }
             }
-
 
             outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
                 cityId.toString(),
                 leftCurrentPage
             )?.let {
-                    if (!it.isNullOrEmpty()) {
-                        leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
-                    }
-                }
+                leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                isLoading = false
+            }
 
             inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
                 cityId.toString(),
                 rightCurrentPage
             )?.let {
-                    if (!it.isNullOrEmpty()) {
-                        rightAdapter?.addList(
-                            it as ArrayList<OrderDetailObject>,
-                            isRerfrshRight
-                        )
-                    }
-                }
+                rightAdapter?.addList(
+                    it as ArrayList<OrderDetailObject>,
+                    isRerfrshRight
+                )
+
+            }
         }
     }
 

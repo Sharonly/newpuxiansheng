@@ -17,6 +17,7 @@ import com.puxiansheng.www.databinding.FragmentFavorInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentOrderListEmptyBinding
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 
 class FavorInfoAdapter(
@@ -81,7 +82,7 @@ class FavorInfoAdapter(
             binding.pageViews.text = infoItem?.pageViews.toString()
             binding.icon.url(infoItem?.image ?: "")
             binding.itemLayout.setOnClickListener {
-                val intent = Intent(context, InfoDetailActivity::class.java)
+                val intent = Intent(context, NewInfoDetailActivity::class.java)
                 intent.putExtra("url", infoItem?.jump_param)
                 intent.putExtra("shop_Id", infoItem?.infoID)
                 intent.putExtra("title", infoItem?.title)
@@ -108,7 +109,7 @@ class FavorInfoAdapter(
             binding.pageViews.text = infoItem?.pageViews.toString()
             binding.icon.url(infoItem?.image ?: "")
             binding.root.setOnClickListener {
-                val intent = Intent(context, InfoDetailActivity::class.java)
+                val intent = Intent(context, NewInfoDetailActivity::class.java)
                 intent.putExtra("url", infoItem?.jump_param)
                 intent.putExtra("shop_Id", infoItem?.infoID)
                 intent.putExtra("title", infoItem?.title)

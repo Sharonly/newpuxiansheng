@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.puxiansheng.logic.bean.Device
 
-@Database(entities = [Device::class], version = 2, exportSchema = false)
+@Database(entities = [Device::class], version = 3, exportSchema = false)
 abstract class DeviceDatabase : RoomDatabase() {
 
     abstract fun deviceDao(): DeviceDao
@@ -33,8 +33,13 @@ abstract class DeviceDatabase : RoomDatabase() {
                 .addMigrations(object : Migration(1, 2) {
                     override fun migrate(database: SupportSQLiteDatabase) {
                     }
-                })//版本升级为2，解决错误的升级数据库。导致灰度期间出现了不少crash
+                },MIGRATION_2_3)//版本升级为2，解决错误的升级数据库。导致灰度期间出现了不少crash
                 .build()
+        }
+
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
         }
 
     }

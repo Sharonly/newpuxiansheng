@@ -24,8 +24,6 @@ class HttpInterceptor(
             .addHeader("Authorization", authToken)
             .addHeader("SignToken", signatureToken)
             .addHeader("cityId", cityId)
-
-
     }.let {
         val resp = chain.proceed(it.build())
         val originalBody = resp.body?.string()
@@ -40,7 +38,6 @@ class HttpInterceptor(
 //                API.logoutSignal.postValue(JSONObject(body).optInt("code", fromJson.code))
 //                return@let
 //            }
-
 
             API.logoutSignal.postValue(JSONObject(body).optInt("code", -99))
 //            Log.d("----77"," JSONObject(body).optInt = "+JSONObject(body).optInt("code", -99))

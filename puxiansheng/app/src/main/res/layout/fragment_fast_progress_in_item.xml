@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_out"
+        android:layout_width="315dp"
+        android:layout_height="160dp"
+        android:background="@drawable/bg_dialog">
+
+    <View
+        android:id="@+id/layout_icon"
+        android:layout_width="0.5dp"
+        android:layout_height="58dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="22dp"
+        android:background="@color/white">
+
+    </View>
+
+        <TextView
+            android:id="@+id/shop_title"
+            android:layout_width="216dp"
+            android:layout_height="wrap_content"
+            android:textColor="#1B1B1B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/layout_icon"
+            android:layout_alignTop="@+id/layout_icon"/>
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/layout_icon"
+            android:textColor="#9B9B9B"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/layout_icon"/>
+
+        <TextView
+            android:id="@+id/rent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/area"
+            android:textColor="#F78934"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_alignBottom="@+id/layout_icon"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_toRightOf="@+id/layout_icon"
+            android:textColor="#4796FF"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/layout_icon"/>
+
+
+        <TextView
+            android:id="@+id/index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/layout_icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="1/3"
+            android:textSize="13sp"/>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E5E5E5"
+            android:layout_below="@+id/layout_icon"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+
+
+        <TextView
+            android:id="@+id/bt_more"
+            android:layout_width="90dp"
+            android:layout_height="28dp"
+            android:layout_below="@+id/line"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/bg_bt_card_orange"
+            android:gravity="center"
+            android:text="查看更多"
+            android:textColor="#F78934"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+</layout>

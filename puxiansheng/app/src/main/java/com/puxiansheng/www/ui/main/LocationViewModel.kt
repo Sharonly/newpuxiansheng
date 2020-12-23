@@ -18,7 +18,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
 
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO){
         locationRepository.getRemoteSupportedCities().let {
-            if(it.succeeded) (it as APIRst.Success).data.data?.nodes else null
+            if(it.succeeded) (it as APIRst.Success).data.data else null
         }
     }
 

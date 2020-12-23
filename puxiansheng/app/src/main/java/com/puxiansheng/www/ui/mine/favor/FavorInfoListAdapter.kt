@@ -12,6 +12,7 @@ import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 
 class FavorInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>,var deleteListener: DeleteListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -61,7 +62,7 @@ class FavorInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>
             holder.icon.url(info?.image)
 
             holder.root.setOnClickListener {
-                val intent = Intent(mContext, InfoDetailActivity::class.java)
+                val intent = Intent(mContext, NewInfoDetailActivity::class.java)
                 intent.putExtra("url", info?.jump_param)
                 intent.putExtra("shop_Id", info?.infoID)
                 intent.putExtra("title", info?.title)
@@ -76,7 +77,7 @@ class FavorInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>
     }
 
 
-    inner class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
+     class InfoViewHolder(var containerView: View) : RecyclerView.ViewHolder(containerView) {
         val root:View = containerView.findViewById(R.id.item_layout)
         val icon:ImageView = containerView.findViewById(R.id.icon)
         val title:TextView = containerView.findViewById(R.id.title)

@@ -3,13 +3,13 @@ package com.puxiansheng.logic.api
 import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.puxiansheng.logic.BuildConfig
 import com.puxiansheng.util.ext.md5
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.concurrent.TimeUnit
 import kotlin.text.StringBuilder
 import com.puxiansheng.util.http.*
+import com.zhihu.matisse.BuildConfig
 import okhttp3.Dispatcher
 
 object API {
@@ -43,7 +43,7 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "333"
+    const val API_VERSION = "337"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
@@ -61,7 +61,6 @@ object API {
 
     private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
     private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
-
 
 //    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
 //    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
@@ -88,6 +87,10 @@ object API {
 
     const val GET_HOME_MENU = API_ADDRESS+"api/home_menu.html"
 
+    const val GET_NEW_HOME_MENU = API_ADDRESS+"api/get/nav_list.html"
+
+    const val GET_NEW_HOME_VIDEO = API_ADDRESS+"api/get/recommend_success_video.html"
+
     const val GET_JOIN_LIST = API_ADDRESS + "api/join/get_list.html"
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
     const val SUBMIT_JOIN_INFO = API_ADDRESS + "api/join/submit.html"
@@ -109,10 +112,12 @@ object API {
 
     //get user like
     const val GET_USER_LIKE_SHOP = API_ADDRESS + "api/transfer/get_user_like.html"
+    const val GET_SUCCESS_VIDEO_RECOMMEND_SHOP = API_ADDRESS + "api/transfer/success_video_recommend.html"
 
     //info apis
     const val GET_INFO_CATEGORY = API_ADDRESS + "api/article/get_cate_new.html"
     const val GET_INFO_LIST = API_ADDRESS + "api/article/get_list.html"
+    const val GET_INFO_DETAIL = API_ADDRESS + "api/article/new_details.html"
 
     //message
     const val GET_MESSAGE_CATEGORY = API_ADDRESS + "api/notice/get_cate_list.html"
@@ -124,6 +129,7 @@ object API {
     const val GET_AREA_BY_CITY_ID = API_ADDRESS + "api/area/list.html"
     const val GET_SUPPORTED_CITIES = API_ADDRESS + "api/area/get_open.html"
     const val GET_CURRENT_LOCATION = API_ADDRESS + "api/area/position.html"
+    const val GET_NEW_SUPPORTED_CITIES = API_ADDRESS + "api/area/new_get_open.html"
 
     //order apis
     const val DO_UPLOAD_IMAGE = STORAGE_ADDRESS + "api/upload/transfer_img.html"
@@ -134,6 +140,8 @@ object API {
     const val GET_REMOTE_TRANSFER_OUT_ORDERS = API_ADDRESS + "api/transfer/get_list.html"
     const val GET_REMOTE_TRANSFER_IN_ORDERS = API_ADDRESS + "api/find/get_list.html"
     const val GET_REMOTE_TRANSFER_SUCCESS_ORDERS = API_ADDRESS + "api/transfer/get_success.html"
+    const val GET_REMOTE_TRANSFER_SUCCESS_VIDEO = API_ADDRESS + "api/transfer/success_video.html"//成功案例视频列表
+    const val GET_REMOTE_SUCCESS_VIDEO_DETAILS = API_ADDRESS + "api/transfer/success_video_details.html"
     const val GET_REMOTE_TRANSFER_OUT_ORDER = API_ADDRESS + "api/transfer_shop/info.html"
     const val GET_REMOTE_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/info.html"
     const val GET_MINE_TRANSFER_OUT_ORDERS = API_ADDRESS + "api/user/get_transfer_issue.html"
@@ -146,6 +154,8 @@ object API {
     const val DELETE_HISTORY_ORDER = API_ADDRESS + "api/new/clear_view_log.html"
 
 
+
+
     const val GET_EDIT_TRANSFER_OUT_ORDER =
         API_ADDRESS + "api/transfer_shop/edit_echo.html"//获取去编辑的转店
     const val GET_EDIT_TRANSFER_IN_ORDER = API_ADDRESS + "api/find_shop/edit_echo.html"//获取编辑的找店
@@ -154,10 +164,15 @@ object API {
         API_ADDRESS + "api/transfer/shop_submit_echo.html"
 
 
+    //首页
     const val GET_RECOMMEND_TRANSFER_OUT_ORDER =
         API_ADDRESS + "api/transfer/get_new_recommend.html"//首页推荐转店
     const val GET_RECOMMEND_TRANSFER_IN_ORDER =
         API_ADDRESS + "api/find/get_new_recommend.html"//首页推荐找店
+
+    const val GET_FAST_TRANSFER_NUM = API_ADDRESS+"api/fast/transfer_find_shop_count.html"
+
+    const val GET_FAST_MINE_TRANSFER_NUM = API_ADDRESS + "api/user/get_my_issue.html"
 
 
     const val SUBMIT_SUGGESTION = API_ADDRESS + "api/feedback_submit.html"

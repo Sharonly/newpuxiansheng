@@ -6,15 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import android.net.http.SslError
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.url
-import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
-import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.fragment_info_detail.*
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.*
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.button_back
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.button_more
@@ -106,6 +104,18 @@ class InvestBusinessDetailActivity : MyBaseActivity() {
                 }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (info_detail != null) {
+            val parent: ViewParent = info_detail.parent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(info_detail)
+            }
+            info_detail.removeAllViews()
+            info_detail.destroy()
+        }
     }
 
 //    override fun onResume() {

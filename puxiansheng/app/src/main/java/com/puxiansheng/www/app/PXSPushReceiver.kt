@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.puxiansheng.www.app.PXSPushReceiver.Test.DataBean
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.info.InfoDetailActivity
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
@@ -64,40 +65,48 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 "user_center" -> {
                 }
                 "shop_success" -> {
-                    val intent2 = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+                    val intent2 = Intent(context, NewSuccessOrdersActivity::class.java)
+                    intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
 
                 "join_list" -> {
                     val intent2 = Intent(context, BusinessListActivity::class.java)
+                    intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
                 "quick_transfer" -> {
                     val intent2 = Intent(context, FastTransferOutActivity::class.java)
+                    intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
                 "quick_find" -> {
                     val intent2 = Intent(context, FastTransferInActivity::class.java)
+                    intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
                 "about_us" -> {
                     val intent2 = Intent(context, AboutUsActivity::class.java)
+                    intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
 
                 "transfer_shop" -> {
                     val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
                     intent.putExtra("title", "*")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
 
                 "find_shop" -> {
                     val intent = Intent(context, NewTransferInOrdersActivity::class.java)
                     intent.putExtra("title", "*")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
                 "notice_list" -> {
-                    val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+                    val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
             }
@@ -105,6 +114,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
             2 -> {//打开链接
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(data.jump_param)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
             3 -> {//找店详情
@@ -121,7 +131,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 context.startActivity(intent)
             }
             5 -> {//文章详情
-                val intent = Intent(context, InfoDetailActivity::class.java)
+                val intent = Intent(context, NewInfoDetailActivity::class.java)
                 intent.putExtra("url", data.jump_param)
                 intent.putExtra("shop_Id", "")
                 intent.putExtra("title","")
@@ -143,7 +153,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 context.startActivity(intent)
             }
             8 -> {//案例详情
-                val intent = Intent(context, NewTransferSuccessOrdersActivity::class.java)
+                val intent = Intent(context, NewSuccessOrdersActivity::class.java)
                 intent.putExtra("url", data.jump_param)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)

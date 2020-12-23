@@ -533,7 +533,8 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                     if (locationNodes.isNotEmpty()) {
                                         insertOrUpdateTransferOutOrderViewModel.area =
                                             locationNodes[locationNodes.size - 1].nodeID.toString()
-                                    } else insertOrUpdateTransferOutOrderViewModel.area = ""
+                                    }
+//                                    else insertOrUpdateTransferOutOrderViewModel.area = ""
                                 }
                             }
 
@@ -677,7 +678,8 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
                                     if (locationNodes.isNotEmpty()) {
                                         insertOrUpdateTransferOutOrderViewModel.area =
                                             locationNodes[locationNodes.size - 1].nodeID.toString()
-                                    } else insertOrUpdateTransferOutOrderViewModel.area = ""
+                                    }
+//                                    else insertOrUpdateTransferOutOrderViewModel.area = ""
                                 }
                             }
 

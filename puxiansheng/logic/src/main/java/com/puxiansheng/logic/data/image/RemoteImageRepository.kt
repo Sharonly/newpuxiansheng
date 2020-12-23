@@ -5,6 +5,7 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.HttpRespBanner
 import com.puxiansheng.logic.bean.http.HttpRespBannerImages
 import com.puxiansheng.logic.bean.http.HttpRespEmpty
+import com.puxiansheng.logic.bean.http.RecommendSuccessVideoList
 import com.puxiansheng.util.http.APIResp
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.METHOD
@@ -22,6 +23,30 @@ class RemoteImageRepository {
             Log.d("homeMenu","it = "+it)
             API.call(it)
         }
+
+
+    fun requestNewMenuImages(): APIRst<APIResp<HttpRespBannerImages>> =
+        buildRequest(
+            url = API.GET_NEW_HOME_MENU, fieldMap = mutableMapOf<String,String>().also {
+                it["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            Log.d("NEWhomeMenu","it = "+it)
+            API.call(it)
+        }
+
+    fun requestHomeVideo(): APIRst<APIResp<RecommendSuccessVideoList>> =
+        buildRequest(
+            url = API.GET_NEW_HOME_VIDEO, fieldMap = mutableMapOf<String,String>().also {
+                it["sign"] = API.sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            Log.d("HOME_video","it = "+it)
+            API.call(it)
+        }
+
 
 
     fun requestRemoteImages(position: String): APIRst<APIResp<HttpRespBannerImages>> =

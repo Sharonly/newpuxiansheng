@@ -16,7 +16,6 @@ data class InfoItem(
     @ColumnInfo(name = "_info_id")
     val infoID: Int = 0,
 
-
     @SerializedName("title")
     @ColumnInfo(name = "_title")
     val title: String = "0",
@@ -60,7 +59,6 @@ data class InfoItem(
 //@SerializedName("new_view_count")
 //@ColumnInfo(name = "_page_views")
 //val pageViews: Int = 0
-
 
 ) {
     companion object {

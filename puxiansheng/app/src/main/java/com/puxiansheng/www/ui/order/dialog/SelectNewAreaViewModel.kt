@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 class SelectNewAreaViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val menuRepository = MenuRepository(MenuDatabase.getInstance(context).menuDao())
-    private val locationRepository = LocationRepository()
 
     val selectedTopLevelAreaItem = MutableLiveData<MenuItem>()
     val selectedTopLevelAreaItemPosition = MutableLiveData<Int>()
@@ -61,16 +60,4 @@ class SelectNewAreaViewModel(application: Application) : AndroidViewModel(applic
     }
 
 
-
-//    fun loadTopLevelMenuData(type: Int) = viewModelScope.launch(Dispatchers.IO) {
-//        requestMenuByTypeAndParentID(type = type, parentID = 0).let {
-//            selectiveTopLevelIndustryData.postValue(it)
-//        }
-//    }
-//
-//    fun loadSecondLevelMenuData(parentID: Int) = viewModelScope.launch(Dispatchers.IO) {
-//        requestMenuByParentID(parentID).let {
-//            selectiveSecondLevelIndustryData.postValue(it)
-//        }
-//    }
 }

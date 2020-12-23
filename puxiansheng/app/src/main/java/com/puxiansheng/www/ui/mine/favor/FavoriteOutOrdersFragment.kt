@@ -50,7 +50,7 @@ class FavoriteOutOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
 
         list.layoutManager = LinearLayoutManager(requireContext())
         adapter = FavorListOrderAdapter(
-            requireContext(),
+            requireActivity(),
             arrayListOf(),
             deleteListener = object : FavorListOrderAdapter.onDeleteListener {
                 override fun delete(order: OrderDetailObject) {

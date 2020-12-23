@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import android.widget.TextView
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.puxiansheng.uio.GlideApp
+import com.puxiansheng.logic.util.GlideApp
 
 fun TextView.drawableTop(url: String) {
     GlideApp.with(this).load(url)

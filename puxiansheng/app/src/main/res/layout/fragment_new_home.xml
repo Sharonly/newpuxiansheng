@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:translationZ="1dp">
+
+            <com.puxiansheng.www.common.StateBarView
+                android:id="@+id/appStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
+
+            <RelativeLayout
+                android:id="@+id/top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical">
+
+
+                <TextView
+                    android:id="@+id/button_select_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ic_map"
+                    android:clickable="true"
+                    android:drawableRight="@mipmap/ic_arrow_down_black"
+                    android:drawablePadding="5dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:text="中国"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bt_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/bt_kf"
+                    android:layout_toRightOf="@+id/button_select_location"
+                    android:background="@drawable/bg_search_home"
+                    android:clickable="true"
+                    android:drawableLeft="@mipmap/search_iicon"
+                    android:drawablePadding="4dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_tips"
+                    android:paddingLeft="10dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/bt_kf"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/ic_kf" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.puxiansheng.www.common.ImageSwitcher
+                        android:id="@+id/top_banner_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginRight="15dp" />
+
+                    <RadioGroup
+                        android:id="@+id/banner_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menus"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:nestedScrollingEnabled="false" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/card">
+
+                        <ImageView
+                            android:id="@+id/ic_ptt"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@mipmap/ic_zix" />
+
+                        <TextView
+                            android:id="@+id/pxs_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="13dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_toRightOf="@+id/ic_ptt"
+                            android:drawableStart="@mipmap/ic_jiangbei"
+                            android:drawablePadding="3dp"
+                            android:marqueeRepeatLimit="1"
+                            android:textColor="#212121"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/ic_laba"
+                            android:layout_width="14dp"
+                            android:layout_height="12dp"
+                            android:layout_below="@+id/pxs_title"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toRightOf="@+id/ic_ptt"
+                            android:src="@mipmap/ic_laba" />
+
+
+                        <com.puxiansheng.www.common.TextSwitchView
+                            android:id="@+id/pxs_headline"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/pxs_title"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginTop="7dp"
+                            android:layout_toRightOf="@+id/ic_laba"
+                            android:focusable="true"
+                            android:marqueeRepeatLimit="1"
+                            android:singleLine="true"
+                            android:textColor="#252525"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/ptt_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/pxs_headline"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@+id/pxs_headline"
+                            android:drawableRight="@mipmap/ic_more_blue"
+                            android:drawablePadding="4dp"
+                            android:text="更多"
+                            android:textColor="#4796FF"
+                            android:textSize="11sp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_transfer_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="206dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/bg_card_transfer"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/transfer_tabs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:paddingLeft="15dp"
+                            app:tabIndicator="@drawable/tablayout_indicator_thin_grey"
+                            app:tabIndicatorFullWidth="true" />
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/card_pager"
+                            android:layout_width="315dp"
+                            android:layout_height="162dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp" />
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="235dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="28dp"
+                            android:text="客户见证"
+                            android:textColor="#212121"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/kh_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="33dp"
+                            android:layout_marginRight="15dp"
+                            android:drawableRight="@mipmap/ic_more_blue"
+                            android:drawablePadding="4dp"
+                            android:text="查看更多"
+                            android:textColor="#4796FF"
+                            android:textSize="11sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/success_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/kh_more"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="15dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </RelativeLayout>
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        app:tabIndicator="@mipmap/tab_select"
+                        app:tabIndicatorColor="@color/tab_orange"
+                        app:tabIndicatorHeight="10dp"
+                        app:tabMode="fixed" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/out_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/in_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <!--        <include-->
+        <!--            layout="@layout/layout_home_top"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content" />-->
+
+    </LinearLayout>
+
+
+</layout>

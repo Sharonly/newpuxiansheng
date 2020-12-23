@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.puxiansheng.www.databinding.FragmentMainBinding
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.home.HomeViewModel
+import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
 import com.puxiansheng.www.ui.message.MessageHomeListFragment
 import com.puxiansheng.www.ui.mine.MineFragment
@@ -46,7 +47,7 @@ class MainFragment : NavHostFragment() {
         false
     )
 
-    private val homeFragment: Fragment = HomeFragment()
+    private val homeFragment: Fragment = NewHomeFragment()
     private val infoHomeFragment: Fragment = InfoHomeListFragment()
     private val releaseFragment: Fragment = ReleaseFragment()
     private val mineFragment: Fragment = MineFragment()
@@ -64,7 +65,7 @@ class MainFragment : NavHostFragment() {
             binding.bottomNavBar.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.navigation_home -> {
-                        if (appModel.lastFragment !is HomeFragment) {
+                        if (appModel.lastFragment !is NewHomeFragment) {
                             childFragmentManager.beginTransaction().hide(appModel.lastFragment)
                                 .show(
                                     homeFragment
@@ -154,7 +155,7 @@ class MainFragment : NavHostFragment() {
                 .add(
                     R.id.tabNavHost,
                     homeFragment,
-                    HomeFragment::class.java.name
+                    NewHomeFragment::class.java.name
                 )
                 .commit()
             appModel.lastFragment = homeFragment

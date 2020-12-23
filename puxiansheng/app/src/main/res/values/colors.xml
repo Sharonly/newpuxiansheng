@@ -24,6 +24,8 @@
     <color name="release_fail_text_color">#FB6066</color>
     <color name="view_top_color">#ff5722</color>
     <color name="bg_bt_confirm_gray">#FFCCCCCC</color>
-
+    <color name="bg_mine_gray">#F4F5F7</color>
+    <color name="bg_tab_success">#D86E1D</color>
+    <color name="txt_white_success">#99ffffff</color>
 
 </resources>

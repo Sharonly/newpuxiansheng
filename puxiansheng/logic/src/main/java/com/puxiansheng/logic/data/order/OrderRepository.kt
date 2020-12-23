@@ -124,6 +124,29 @@ class OrderRepository(orderDao: OrderDao) {
         rent = rent
     )
 
+
+    fun getTransferSuccessVideoFromRemote(
+        title: String = "",
+        industry: String = "",
+        size: String = "",
+        area: String = "",
+        sortBy: String = "",
+        sortType: String = "",
+        rent: String = "",
+        page: Int,
+        city: String?
+    ) = remoteOrderRepository.getTransferSuccessVideoFromRemote(
+        title = title,
+        industry = industry,
+        size = size,
+        area = area,
+        sortBy = sortBy,
+        sortType = sortType,
+        page = page,
+        city = city,
+        rent = rent
+    )
+
     fun getTransferOutOrdersFromRemote(
         title: String = "",
         industry: String = "",
@@ -212,9 +235,16 @@ class OrderRepository(orderDao: OrderDao) {
     ) = remoteOrderRepository.getTransferOutOrderDetailFromRemote(
         shopID = shopID
     )
+    fun getSuccessVideoDetailFromRemote(
+        shopID: String
+    ) = remoteOrderRepository.getSuccessVideoDetailFromRemote(
+        shopID = shopID
+    )
 
 
     fun getUserLikeShopFromRemote(cityId:String,shopID: String)=remoteOrderRepository.getUserLikeShopFromRemote(city=cityId,shopID = shopID)
+
+    fun getRecommendShopVideoFromRemote(cityId:String,shopID: String)=remoteOrderRepository.getSuccessVideoRecommendFromRemote(city=cityId,shopID = shopID)
 
     fun getEditTransferOutOrderDetailFromRemote(
         shopID: String
@@ -328,4 +358,11 @@ class OrderRepository(orderDao: OrderDao) {
     fun getTransferInOrdersBrowsingHistoryFromRemote(
         page: Int
     ) = remoteOrderRepository.getTransferInOrdersBrowsingHistoryFromRemote(page = page)
+
+
+    fun getFastTransferCount()=remoteOrderRepository.getFastTransferNum()
+
+    fun getFastMineTransferFromRemote(
+    ) = remoteOrderRepository.getFastMineTransferFromRemote()
+
 }

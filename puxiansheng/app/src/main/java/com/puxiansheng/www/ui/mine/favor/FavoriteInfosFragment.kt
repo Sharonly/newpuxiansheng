@@ -51,7 +51,7 @@ class FavoriteInfosFragment : Fragment(), OnRefreshLoadMoreListener {
 
         list.layoutManager = LinearLayoutManager(requireContext())
         adapter = FavorInfoListAdapter(
-            requireContext(),
+            requireActivity(),
             arrayListOf(),
             deleteListener = object : FavorInfoListAdapter.DeleteListener {
                 override fun delete(item: InfoItem) {

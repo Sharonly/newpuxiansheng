@@ -1,5 +1,6 @@
 package com.puxiansheng.www.app
 
+import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import cn.jpush.android.api.JPushInterface
@@ -12,7 +13,9 @@ import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 
 
-class App : BaseApplication() {
+class App : BaseApplication(){
+
+
     private var refWatcher: RefWatcher? = null
     private var instance: App? = null
 
@@ -39,6 +42,7 @@ class App : BaseApplication() {
     override fun onCreate() {
         super.onCreate()
     instance = this
+        registerActivityLifecycleCallbacks(MyActivityLifeCallback())
     UMConfigure.setLogEnabled(true)
         UMConfigure.init(this, "5f277355b4b08b653e907878", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)

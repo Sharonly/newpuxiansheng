@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.SortableItem
-import com.puxiansheng.uio.order.dialog.SelectSortTypeViewModel
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
@@ -108,7 +107,7 @@ class SelectSortTypeDialog(
             notifyDataSetChanged()
         }
 
-        inner class MenuItemHolder(
+         inner class MenuItemHolder(
             override val containerView: View,
             private val level: Int
         ) : RecyclerView.ViewHolder(containerView), LayoutContainer {

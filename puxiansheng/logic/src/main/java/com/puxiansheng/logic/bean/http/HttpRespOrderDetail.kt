@@ -6,8 +6,6 @@ import com.puxiansheng.logic.bean.*
 data class HttpRespOrderDetail(
     @SerializedName("result")
     val obj: OrderDetailObject? = null
-
-
 )
 
 data class OrderDetailObject(
@@ -16,6 +14,9 @@ data class OrderDetailObject(
 
     @SerializedName("title")
     var title: String = "",
+
+    @SerializedName("type")
+    var type: String = "",
 
     @SerializedName("update_time")
     var updateTime: Long = 0,

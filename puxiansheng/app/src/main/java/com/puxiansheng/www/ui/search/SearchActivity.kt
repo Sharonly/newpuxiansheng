@@ -81,18 +81,7 @@ class SearchActivity : MyBaseActivity() {
                             search_content.setText(text)
                             MobclickAgent.onEvent(mContext, UMengKeys.SEARCH_STRING, text.toString())
                             hideKeyboard(search_content)
-//                            layout_recommend.visibility = View.GONE
-//                            search_refresh.visibility = View.VISIBLE
                             list.removeAllViews()
-//                                1 -> orderOutViewModel.refresh(
-//                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-//                                )
-//                                2-> orderInViewModel.refresh(
-//                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-//                                )
-//                                3 -> businessViewModel.refresh()
-//                            }
-//                            getDateList()
                             when (searchViewModel.type) {
                                 1 -> {
                                     val intent = Intent(this@SearchActivity, NewTransferOutOrdersActivity::class.java)
@@ -258,11 +247,35 @@ class SearchActivity : MyBaseActivity() {
                         it.forEach { menuItem ->
                             history_list.addView(Chip(history_list.context).apply {
                                 text = menuItem.keyword
+                                setOnClickListener {
+                                    search_content.setText(text)
+                                    MobclickAgent.onEvent(mContext, UMengKeys.SEARCH_STRING, text.toString())
+                                    hideKeyboard(search_content)
+                                    list.removeAllViews()
+                                    when (searchViewModel.type) {
+                                        1 -> {
+                                            val intent = Intent(this@SearchActivity, NewTransferOutOrdersActivity::class.java)
+                                            intent.putExtra("title", searchViewModel.searchTitle)
+                                            startActivity(intent)
+                                        }
+
+                                        2 -> {
+                                            val intent = Intent(this@SearchActivity, NewTransferInOrdersActivity::class.java)
+                                            intent.putExtra("title", searchViewModel.searchTitle)
+                                            startActivity(intent)
+                                        }
+
+                                        4 -> {
+                                            val intent = Intent(this@SearchActivity, BusinessListActivity::class.java)
+                                            intent.putExtra("title", searchViewModel.searchTitle)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                }
                             })
                         }
                     }
                 }
-
 
             }
 
@@ -273,138 +286,7 @@ class SearchActivity : MyBaseActivity() {
     }
 
 
-//    fun getDateList() {
-//        if (searchViewModel.type == 0) {
-//            list.adapter = OrdersAdapter(
-//                type = Order.Type.TRANSFER_OUT.value(),
-//                onItemSelect = {
-//                    val intent =
-//                        Intent(this@SearchActivity, TransferOutOrderDetailActivity::class.java)
-//                    intent.putExtra("shopID", it?.shop?.jump_param)
-//                    startActivity(intent)
-//
-//                }
-//            ).apply {
-//                LivePagedListBuilder<Int, Order>(
-//                    orderOutViewModel.getTransferOutOrdersFromLocal(),
-//                    PagedList.Config.Builder()
-//                        .setEnablePlaceholders(true)
-//                        .setPageSize(10)
-//                        .setInitialLoadSizeHint(20)
-//                        .build()
-//                ).let { pageBuilder ->
-//                    pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
-//                        override fun onItemAtEndLoaded(itemAtEnd: Order) {
-//                            super.onItemAtEndLoaded(itemAtEnd)
-//                            orderOutViewModel.loadMore()
-//                        }
-//                    })
-//                    addLoadStateListener { loadType, _, _ ->
-//                        if (loadType == PagedList.LoadType.END) {
-//                            if (getDataCount() == 0) {
-//                                type = Order.Type.EMPTY.value()
-//                                notifyDataSetChanged()
-//                                orderOutViewModel.refresh(
-//                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-//                                )
-//                            }
-//                        }
-//                        if (loadType == PagedList.LoadType.REFRESH) {
-//                            if (type != Order.Type.TRANSFER_OUT.value()) {
-//                                type = Order.Type.TRANSFER_OUT.value()
-//                                notifyDataSetChanged()
-//                            }
-//                        }
-//                    }
-//
-//                    pageBuilder.build().observe(this@SearchActivity, Observer {
-//                        submitList(it)
-//                        notifyDataSetChanged()
-//                    })
-//                }
-//            }
-//        } else if (searchViewModel.type == 1) {
-//            list.adapter = OrdersAdapter(
-//                type = Order.Type.TRANSFER_IN.value(),
-//                onItemSelect = {
-//                    val intent = Intent(this, TransferInOrderDetailActivity::class.java)
-//                    intent.putExtra("shopID", it?.shop?.jump_param)
-//                    startActivity(intent)
-//                }
-//            ).apply {
-//                LivePagedListBuilder<Int, Order>(
-//                    orderInViewModel.getTransferInOrdersFromLocal(),
-//                    PagedList.Config.Builder()
-//                        .setEnablePlaceholders(true)
-//                        .setPageSize(10)
-//                        .setInitialLoadSizeHint(20)
-//                        .build()
-//                ).let { pageBuilder ->
-//                    pageBuilder.setBoundaryCallback(object : PagedList.BoundaryCallback<Order>() {
-//                        override fun onItemAtEndLoaded(itemAtEnd: Order) {
-//                            super.onItemAtEndLoaded(itemAtEnd)
-//                            orderInViewModel.loadMore()
-//                        }
-//                    })
-//                    addLoadStateListener { loadType, _, _ ->
-//                        if (loadType == PagedList.LoadType.END) {
-//                            if (getDataCount() == 0) {
-//                                type = Order.Type.EMPTY.value()
-//                                notifyDataSetChanged()
-//                                orderInViewModel.refresh(
-//                                    SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-//                                )
-//                            }
-//                        }
-//                        if (loadType == PagedList.LoadType.REFRESH) {
-//                            if (type != Order.Type.TRANSFER_IN.value()) {
-//                                type = Order.Type.TRANSFER_IN.value()
-//                                notifyDataSetChanged()
-//                            }
-//                        }
-//                    }
-//
-//                    pageBuilder.build().observe(this@SearchActivity, Observer {
-//                        submitList(it)
-//                        notifyDataSetChanged()
-//                    })
-//                }
-//            }
-//        } else if (searchViewModel.type == 2) {
-//            BusinessAdapter(onItemSelect = { info ->
-//                val intent = Intent(
-//                    this@SearchActivity,
-//                    InvestBusinessDetailActivity::class.java
-//                )
-//                intent.putExtra("id", info?.id)
-//                startActivity(intent)
-//            },
-//                onItemCall = {
-//                    ConsultDialog(it?.id.toString()).show(
-//                        supportFragmentManager,
-//                        ConsultDialog::class.java.name
-//                    )
-//                }).let { adapter ->
-//                list.adapter = adapter
-//                lifecycleScope.launch {
-//                    LivePagedListBuilder<Int, BusinessBean>(
-//                        businessViewModel.getBusinesssFromLocal(),
-//                        5
-//                    ).apply {
-//                        setBoundaryCallback(object : PagedList.BoundaryCallback<BusinessBean>() {
-//                            override fun onItemAtEndLoaded(itemAtEnd: BusinessBean) {
-//                                super.onItemAtEndLoaded(itemAtEnd)
-//                                businessViewModel.loadMore(
-//                                )
-//                            }
-//                        })
-//                    }.build().observe(this@SearchActivity, Observer {
-//                        adapter.submitList(it)
-//                    })
-//                }
-//            }
-//        }
-//    }
+
 
     fun hideKeyboard(view: View) {
         val manager: InputMethodManager =

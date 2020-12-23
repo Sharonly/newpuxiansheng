@@ -25,6 +25,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_new_order_list.*
+import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -68,6 +69,7 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
 
 
     private fun initView() {
+        button_search.hint = "找店搜索"
         viewModel.industryIDs = ""
         viewModel.areaIDs = ""
         viewModel.sizeRangeID = ""
@@ -92,6 +94,13 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
 
         button_search.addTextChangedListener {
             viewModel.title = it.toString()
+            order_list.removeAllViews()
+            isRefresh = true
+            lifecycleScope.launch {
+                viewModel.getTransferInOrdersFromRemote()?.let {list ->
+                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                }
+            }
         }
         button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
@@ -150,6 +159,8 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                     }
                 }
             ).show(supportFragmentManager, SelectAreaDialog::class.java.name)
+
+
             MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_TYPE, "地区")
             MobclickAgent.onEvent(mContext, UMengKeys.SELECTION_STRING, selected_area.text.toString())
         }
@@ -178,12 +189,10 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         selected_rent.setOnClickListener {
             SelectRentRangeDialog(
                 onSelectRent = {
-                    it?.let {
                         selected_rent.text = (it?.text?: "租金").apply {
                             if (this.isEmpty()) else {
                                 viewModel.rentIDs = it?.menuID.toString()
                             }
-                        }
                     }
                     isRefresh = true
                     viewModel.currentPage = 1
@@ -229,7 +238,7 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         }
 
         order_list.layoutManager = LinearLayoutManager(this@NewTransferInOrdersActivity)
-        adapter = ListOrdersAdapter(this@NewTransferInOrdersActivity, arrayListOf())
+        adapter = ListOrdersAdapter(this, arrayListOf())
         order_list.adapter = adapter
 
         if (NetUtil.isNetworkConnected(this)) {

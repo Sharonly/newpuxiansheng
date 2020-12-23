@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.util.Log
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -23,6 +25,11 @@ import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_map_location.*
+import kotlinx.android.synthetic.main.activity_map_location.button_back
+import kotlinx.android.synthetic.main.activity_map_location.map_webview
+import kotlinx.android.synthetic.main.activity_map_location.toptitle
+import kotlinx.android.synthetic.main.fragment_map_find_address.*
+import kotlinx.android.synthetic.main.fragment_service_home.*
 import java.net.URLDecoder
 
 

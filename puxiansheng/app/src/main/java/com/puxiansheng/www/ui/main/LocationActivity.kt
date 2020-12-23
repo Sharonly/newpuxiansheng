@@ -57,7 +57,7 @@ class LocationActivity : MyBaseActivity() {
 
         lifecycleScope.launch {
             locationViewModel.getRemoteSupportedCities()?.let {
-                city_list.adapter = LocationNodesAdapter(it)
+//                city_list.adapter = LocationNodesAdapter(it)
             }
         }
     }

@@ -15,12 +15,13 @@ import com.puxiansheng.www.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListener ,LifecycleEventObserver{
+class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory, View.OnClickListener,
+    LifecycleEventObserver {
     private var index = -1
     private var infos = ArrayList<MarqueeInfo>()
     var itemClickListener: OnItemClickListener? = null
     private var timer: Timer? = null
-    private var druation:Long=3*1000L
+    private var druation: Long = 3 * 1000L
 
     constructor(context: Context) : super(context, null) {
         init()
@@ -48,65 +49,77 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
     }
 
     override fun onClick(v: View) {
-        if (itemClickListener != null && infos?.size!! > 0 && index != -1) itemClickListener!!.onItemClick(index)
+        if (itemClickListener != null && infos.size > 0 && index != -1 && index < infos.size) itemClickListener!!.onItemClick(
+            index
+        )
     }
 
 
     fun setResources(infos: ArrayList<MarqueeInfo>) {
-        if(infos.isNotEmpty()) {
+        index = -1
+        if (infos.isNotEmpty()) {
             this.infos = infos
             startTimer()
         }
     }
 
-    fun clearResources(){
-        if(infos.isNotEmpty()) {
-            this.infos?.clear()
+    fun clearResources() {
+        if (infos.isNotEmpty()) {
+            this.infos.clear()
             stopTimer()
         }
     }
 
 
-    fun startTimer(){
-       if (timer == null) {
+    fun startTimer() {
+        if (timer == null) {
             timer = Timer()
         }
-        timer?.schedule(MyTask(),0,druation)
-       // timer!!.scheduleAtFixedRate(MyTask(), 1, duration) //每3秒更新
+        timer?.schedule(MyTask(), 0, druation)
+        // timer!!.scheduleAtFixedRate(MyTask(), 1, duration) //每3秒更新
     }
 
-    fun stopTimer(){
+    fun stopTimer() {
         timer?.cancel()
-        timer=null
+        timer = null
     }
 
 
     private inner class MyTask : TimerTask() {
         override fun run() {
-            postDelayed(object :Runnable{
-                override fun run() {
-                  infos?.let {
-                      index = next() //取得下标值
-//                      println("跑马灯run-->${index}")
-                      updateText() //更新TextSwitcherd显示内容;
-                  }
+            postDelayed({
+                if (infos.isNotEmpty()) {
+                    infos.let {
+                        index = next() //取得下标值
+                        if (!infos.isNullOrEmpty()) {
+                            updateText() //更新TextSwitcherd显示内容;
+                        }else{
+                            setText("")
+                        }
+                    }
+                }else{
+                    setText("")
                 }
-            },0)
+            }, 0)
         }
     }
 
     private operator fun next(): Int {
-
         var flag = index + 1
-        if (flag > infos!!.size - 1) {
-            flag -= infos!!.size
+        if (infos.isNotEmpty()) {
+            if (flag > infos.size - 1) {
+                flag -= infos.size
+            }
         }
         return flag
     }
 
     private fun updateText() {
-        if(infos?.isNotEmpty()) {
-            setText(infos!![index].title)
+        if (infos.isNotEmpty() && index < infos.size && index != -1) {
+            var info = infos[index]
+            if (info != null && info.title.isNotEmpty()) {
+                setText(info.title)
+            }
         }
     }
 
@@ -132,20 +145,20 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory,View.OnClickListen
          *
          * @param position 当前点击ID
          */
-        fun onItemClick(position :Int)
+        fun onItemClick(position: Int)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-         when(event){
-             Lifecycle.Event.ON_PAUSE->{
-//                 println("跑马灯-->onpause")
-                 stopTimer()
-             }
+        when (event) {
+            Lifecycle.Event.ON_PAUSE -> {
+                 println("跑马灯-->onpause")
+                stopTimer()
+            }
 
-             Lifecycle.Event.ON_RESUME->{
-//                 println("跑马灯-->onResume")
-                 startTimer()
-             }
-         }
+            Lifecycle.Event.ON_RESUME -> {
+                 println("跑马灯-->onResume")
+                startTimer()
+            }
+        }
     }
 }
