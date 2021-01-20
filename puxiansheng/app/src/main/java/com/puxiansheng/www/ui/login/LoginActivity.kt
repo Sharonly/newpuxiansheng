@@ -16,6 +16,7 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.bean.http.HttpRespBindMobilePhone
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.Regular
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -48,6 +49,7 @@ class LoginActivity : MyBaseActivity() {
     var isLogin = false
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_login
     }
 
@@ -139,6 +141,8 @@ class LoginActivity : MyBaseActivity() {
             if (bt_phone_fast_login.text == "手机号快速登录") {
                 layout_login_by_password.visibility = View.GONE
                 layout_register.visibility = View.VISIBLE
+                input_user_phonenum.setText("")
+                txt_message_token.setText("")
                 ic_selected.visibility = View.INVISIBLE
                 txt_reader.visibility = View.INVISIBLE
                 txt_pxs_agreement.visibility = View.INVISIBLE
@@ -180,12 +184,18 @@ class LoginActivity : MyBaseActivity() {
         bt_login.setOnClickListener {
             loginViewModel?.userAccount.let {
                 if (!Regular.isPhoneNumber(it)) {
-                    input_user_account.error = resources.getString(R.string.login_error_account)
+                    if(loginType == MODE_LOGIN_WITH_PASSWORD) {
+                        input_user_account.error = resources.getString(R.string.login_error_account)
+                    }else if(loginType == MODE_REGISTER || loginType == MODE_LOGIN_WITH_CODE){
+                        input_user_phonenum.error = resources.getString(R.string.login_error_account)
+                    }
                     return@setOnClickListener
                 }
             }
 
             if (loginType == MODE_LOGIN_WITH_PASSWORD) {
+                loginViewModel?.userAccount = input_user_account.text.toString()
+                loginViewModel?.userPassword = input_user_password.text.toString()
                 loginViewModel?.userPassword.let {
                     if (!Regular.isPassword(it) && input_user_password.visibility == View.VISIBLE) {
                         input_user_password.error =
@@ -196,6 +206,8 @@ class LoginActivity : MyBaseActivity() {
             }
 
             if (loginType == MODE_REGISTER || loginType == MODE_LOGIN_WITH_CODE) {
+                loginViewModel?.userAccount = input_user_phonenum.text.toString()
+                loginViewModel?.verificationCode = txt_message_token.text.toString()
                 loginViewModel?.verificationCode.let {
                     if (it?.length != 6 && txt_message_token.visibility == View.VISIBLE) {
                         txt_message_token.error = resources.getString(R.string.login_error_code)
@@ -217,14 +229,13 @@ class LoginActivity : MyBaseActivity() {
                     MobclickAgent.onEvent(this@LoginActivity, UMengKeys.LOGIN_TYPE, loginTypeName)
 
                     loginViewModel?.loginByType(loginType)?.let {
+                        println("登录返回-->${it}")
                         if (it is User) {
                             if (loginType == MODE_REGISTER) {
-                                loginViewModel?.userAccount = input_user_phonenum.text.toString()
                                 loginViewModel?.loginMode?.postValue(MODE_LOGIN_WITH_PASSWORD)
-                                LoginSuccessDialog(it.tipsMsg).show(
-                                    supportFragmentManager,
-                                    LoginSuccessDialog::class.java.name
-                                )
+                                LoginSuccessDialog(it.tipsMsg).show(supportFragmentManager, LoginSuccessDialog::class.java.name)
+                                input_user_phonenum.setText("")
+                                txt_message_token.setText("")
                                 initLoginView()
                             } else {
                                 MobclickAgent.onProfileSignIn(it.userID.toString())
@@ -274,7 +285,7 @@ class LoginActivity : MyBaseActivity() {
         }
 
         requestVerificationCode.setOnClickListener {
-
+            loginViewModel?.userAccount = input_user_phonenum.text.toString()
             if (loginViewModel?.userAccount == "") {
                 Toast.makeText(this, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -282,6 +293,7 @@ class LoginActivity : MyBaseActivity() {
             loginViewModel?.userAccount.let {
                 if (!Regular.isPhoneNumber(it)) {
                     input_user_phonenum.error = resources.getString(R.string.login_error_account)
+//                    input_user_account.error = resources.getString(R.string.login_error_account)
                     return@setOnClickListener
                 }
             }
@@ -395,6 +407,7 @@ class LoginActivity : MyBaseActivity() {
         tab_register.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F)
         tab_register.setTextColor(resources.getColor(R.color.gray))
         input_user_account.setText("")
+        input_user_phonenum.setText("")
         input_user_password.setText("")
         layout_login_by_password.visibility = View.VISIBLE
         layout_register.visibility = View.GONE

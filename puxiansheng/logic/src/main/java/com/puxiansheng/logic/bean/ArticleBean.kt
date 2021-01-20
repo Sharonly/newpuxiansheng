@@ -15,7 +15,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "table_recommend_article")
 data class ArticleBean (  @ColumnInfo(name = "_article_id")
                           @SerializedName("id")
-                          var shopID: Long = 0,
+                          var shopID: Int = 0,
 
                           @SerializedName("title")
                           @ColumnInfo(name = "_article_title")

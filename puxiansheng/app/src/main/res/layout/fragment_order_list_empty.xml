@@ -11,8 +11,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/bg_empty"
+            android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="空空如也"
+            android:text="暂无内容~"
             android:textColor="#989796"
             android:textSize="14sp" />
     </LinearLayout>

@@ -54,7 +54,7 @@ class InfoHomeListFragment : AppFragment() {
         lifecycleOwner = viewLifecycleOwner
 
         //TODO
-        buttonBack.visibility = View.INVISIBLE
+//        buttonBack.visibility = View.INVISIBLE
 
         btSearch.addTextChangedListener {
             infoListViewModel.title = it.toString()
@@ -91,6 +91,15 @@ class InfoHomeListFragment : AppFragment() {
                 Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+            if (NetUtil.isNetworkConnected(requireContext())) {
+                initData()
+            } else {
+                Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+            }
     }
 
 

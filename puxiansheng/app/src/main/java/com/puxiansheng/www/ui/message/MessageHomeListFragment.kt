@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
+import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentMessageHomeBinding
@@ -46,25 +48,53 @@ class MessageHomeListFragment : AppFragment() {
     ): View? = rootView ?: FragmentMessageHomeBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        appModel.currentSignatureToken.observe(viewLifecycleOwner, Observer {
-            lifecycleScope.launch {
-                //isLoaded = true
-                messageListViewModel.getMessageCategoriesFromRemote()?.let {
-                    message_pager.adapter = InfoPagerAdapter(
-                        fragmentManager = childFragmentManager,
-                        fragments = it.map { category ->
-                            MessageListFragment.newInstance(category = category.menuID.toInt())
-                        },
-                        titles = it.map { text ->
-                            text.text
-                        })
-                    message_pager.offscreenPageLimit = 3
-                    tabs.setupWithViewPager(message_pager)
-                }
-            }
-        })
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            initData()
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
 
     }.root
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            if (NetUtil.isNetworkConnected(requireContext())) {
+                initData()
+            } else {
+                Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (NetUtil.isNetworkConnected(requireContext())) {
+            initData()
+        } else {
+            Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
+        }
+    }
+
+
+
+    private fun initData(){
+        lifecycleScope.launch {
+            //isLoaded = true
+            messageListViewModel.getMessageCategoriesFromRemote()?.let {
+                message_pager.adapter = InfoPagerAdapter(
+                    fragmentManager = childFragmentManager,
+                    fragments = it.map { category ->
+                        MessageListFragment.newInstance(category = category.menuID.toInt())
+                    },
+                    titles = it.map { text ->
+                        text.text
+                    })
+                message_pager.offscreenPageLimit = 3
+                tabs.setupWithViewPager(message_pager)
+            }
+        }
+    }
 
 //
 //    override fun onHiddenChanged(hidden: Boolean) {

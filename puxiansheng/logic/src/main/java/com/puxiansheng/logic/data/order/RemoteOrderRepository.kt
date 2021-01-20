@@ -19,12 +19,14 @@ class RemoteOrderRepository {
      * */
     fun submitSimpleTransferInOrder(
         phone: String,
-        area: String
+        area: String,
+        code:String
     ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
         url = API.SUBMIT_SIMPLE_TRANSFER_IN_ORDER,
         fieldMap = mutableMapOf(
             "phone" to phone,
-            "area" to area
+            "area" to area,
+            "code" to code
         ).also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -43,12 +45,14 @@ class RemoteOrderRepository {
      * */
     fun submitSimpleTransferOutOrder(
         phone: String,
-        area: String
+        area: String,
+        code:String
     ): APIRst<APIResp<HttpRespSubmitOrder>> = buildRequest(
         url = API.SUBMIT_SIMPLE_TRANSFER_OUT_ORDER,
         fieldMap = mutableMapOf(
             "phone" to phone,
-            "area" to area
+            "area" to area,
+            "code" to code
         ).also {
             it["sign"] = API.sign(
                 signatureToken = API.currentSignatureToken,
@@ -172,7 +176,7 @@ class RemoteOrderRepository {
             "id" to type,
             "title" to title,
             "category_path_id" to industry,
-            "city_path_id" to area,
+            "area_multiple" to area,
             "rent_id" to rent,
             "acreage_id" to size,
             "contact_name" to contactName,
@@ -631,7 +635,6 @@ class RemoteOrderRepository {
         },
         method = METHOD.GET
     ).let {
-        Log.d("---Recommended---", "Out it = " + it)
         API.call(it)
     }
 
@@ -687,7 +690,6 @@ class RemoteOrderRepository {
     ): APIRst<APIResp<HttpRespOrders>> = buildRequest(
         url = API.GET_RECOMMEND_TRANSFER_IN_ORDER,
         fieldMap = mutableMapOf(
-            "recommend" to "1",
             "page" to page.toString()
         ).also { map ->
             city?.let {

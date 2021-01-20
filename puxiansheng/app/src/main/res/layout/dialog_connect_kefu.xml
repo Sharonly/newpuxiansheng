@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:theme="@style/Theme.MaterialComponents.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_connect_dialog"
+                android:orientation="vertical"
+                android:theme="@style/Material">
+                <TextView
+                    android:id="@+id/bt_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:text="在线客服"
+                    android:textColor="@color/input_text_blank"
+                    android:gravity="center"
+                    android:textSize="14sp" />
+
+                <View
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+
+                <TextView
+                    android:id="@+id/bt_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:textColor="@color/input_text_blank"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:text="客服电话" />
+
+                <View
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+
+
+                <TextView
+                    android:id="@+id/bt_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:textColor="@color/input_text_blank"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:text="取消"
+                    />
+
+            </LinearLayout>
+    </LinearLayout>
+</layout>

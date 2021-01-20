@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="150dp"
-            android:layout_height="161dp"
+            android:layout_height="159dp"
             android:background="@drawable/bg_dialog">
 
             <ImageView
@@ -44,6 +44,7 @@
                 android:maxLines="2"
                 android:textColor="#4D4D4D"
                 android:textSize="11sp"
+                android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@+id/shop_img" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

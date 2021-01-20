@@ -67,6 +67,10 @@ class SelectIndustryDialog(
             dismiss()
         }
 
+        btReset.setOnClickListener {
+
+        }
+
         title.text = "行业"
 
         menuListTop.layoutManager = LinearLayoutManager(requireContext())

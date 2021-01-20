@@ -25,18 +25,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.GlideApp
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.urlIcon
+import com.puxiansheng.www.common.urlCircleImg
 import com.puxiansheng.www.ui.main.CityListActivity
-import com.puxiansheng.www.ui.main.LocationActivity
-import kotlinx.android.synthetic.main.fragment_mine.user_icon
 import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
 import java.io.File
@@ -55,6 +55,7 @@ class UserSettingActivity : MyBaseActivity() {
     )
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this, true, R.color.color81, true)
         return R.layout.fragment_my_setting
     }
 
@@ -67,7 +68,8 @@ class UserSettingActivity : MyBaseActivity() {
 
 
     fun initView() {
-        LiveDataBus.get().with("currentCity", LocationNode::class.java)?.observe(this, Observer {
+        LiveDataBus.get().with("saveCity", LocationNode::class.java)?.observe(this, Observer {
+            Log.d("currentCity", "saveCity = " + it.text)
             user_location.text = it.text
             settingViewModel.cityId = it.nodeID
         })
@@ -76,7 +78,7 @@ class UserSettingActivity : MyBaseActivity() {
         lifecycleScope.launch {
             settingViewModel.getUserInformationFromRemote()?.let {
                 if (it is User) {
-                    user_icon.urlIcon(it.icon)
+                    user_icon.urlCircleImg(it.icon)
                     input_nick_name.setText(it.nickName)
                     input_actual_name.setText(it.actualName)
                     input_user_phone.setText(it.userPhoneNumber)
@@ -143,11 +145,40 @@ class UserSettingActivity : MyBaseActivity() {
 
         user_location.setOnClickListener {
             val intent = Intent(this, CityListActivity::class.java)
-            intent.putExtra("locationCity",user_location.text)
+            intent.putExtra("locationCity", user_location.text)
+            intent.putExtra("inType", 2)
             startActivity(intent)
         }
 
         bt_save.setOnClickListener {
+            settingViewModel.nickName.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入昵称！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            settingViewModel.actualName.let {
+                if (it.isEmpty()) {
+                    Toast.makeText(this, "请输入名字！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            settingViewModel.contactPhone.let {
+                if (it?.isEmpty() == true) {
+                    Toast.makeText(this, "请输入联系电话！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            settingViewModel.cityId.let {
+                if (it == 0) {
+                    Toast.makeText(this, "请输入位置！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
             lifecycleScope.launch {
                 settingViewModel.submitUserInfo()?.let {
                     if (it.code == API.CODE_SUCCESS) {
@@ -173,10 +204,9 @@ class UserSettingActivity : MyBaseActivity() {
                                 it1
                             )
                         }
-                        settingViewModel.cityId?.let { it1 ->
-                            SharedPreferencesUtil.put(API.USER_CITY_ID, it1)
-                        }
-                        SharedPreferencesUtil.put(API.USER_CITY_NAME, user_location.text)
+//                        settingViewModel.cityId?.let { it1 ->
+//                            SharedPreferencesUtil.put(API.USER_CITY_ID, it1)
+//                        }
                         onBackPressed()
                     }
                     Toast.makeText(this@UserSettingActivity, it.msg, Toast.LENGTH_SHORT)
@@ -185,28 +215,30 @@ class UserSettingActivity : MyBaseActivity() {
         }
 
 
-
 //        appModel.currentCity.observe(this@UserSettingActivity, Observer {
 //            user_location.text = it.text
 //        })
 
 
-        LiveDataBus.get().with("changeIcon",Uri::class.java)?.observe(this, Observer {
-              println("回调---imageIcon--—》${it}")
-            cropImageUri=it
+        LiveDataBus.get().with("changeIcon", Uri::class.java)?.observe(this, Observer {
+            println("回调---imageIcon--—》${it}")
+            cropImageUri = it
             crop(cropImageUri)
         })
     }
 
-    private var  cropImageUri: Uri? =null
+    private var cropImageUri: Uri? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("---imageIcon", "  requestCode  = " + requestCode+"  resultCode = "+resultCode)
+        Log.d("---imageIcon", "  requestCode  = " + requestCode + "  resultCode = " + resultCode)
         if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
 //            crop(cropImageUri)
             Glide.with(this)
-                .load(cropImageUri)
+                .load(cropImageUri).apply(
+                    RequestOptions()
+                        .circleCrop()
+                )
 //                .skipMemoryCache(true)
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)
 //                .error(R.mipmap.ic_default_icon)
@@ -226,7 +258,10 @@ class UserSettingActivity : MyBaseActivity() {
         } else if (requestCode == 102 && resultCode == Activity.RESULT_OK) {
             //TODO 相册图片
             if (data?.data != null) {
-                GlideApp.with(this).load(data.data).into(user_icon)
+                GlideApp.with(this).load(data.data).apply(
+                    RequestOptions()
+                        .circleCrop()
+                ).into(user_icon)
                 lifecycleScope.launch {
                     data?.data?.path?.let {
                         getPath(this@UserSettingActivity, data.data!!)?.let { it1 ->
@@ -239,14 +274,14 @@ class UserSettingActivity : MyBaseActivity() {
                     }
                 }
             }
-        }else if (requestCode==103){
+        } else if (requestCode == 103) {
 //                 Glide.with(this)
 //                .load(cropImageUri)
 //                .skipMemoryCache(true)
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)
 //                .error(R.mipmap.ic_default_icon)
 //                .into(user_icon)
-                        lifecycleScope.launch {
+            lifecycleScope.launch {
                 Log.d("---imageIcon  ", "  cropImageUri 22 = " + cropImageUri)
 //                getPath(this@UserSettingActivity, cropImageUri!!)?.let { it1 ->
 //                    settingViewModel.submitUserIcon(it1).let {
@@ -258,7 +293,6 @@ class UserSettingActivity : MyBaseActivity() {
             }
         }
     }
-
 
 
 //    fun  getImagePath(context: Context,uri :Uri):String {
@@ -274,7 +308,7 @@ class UserSettingActivity : MyBaseActivity() {
 //    }
 
 
-     fun cutImage(uri: Uri) {
+    fun cutImage(uri: Uri) {
         if (uri == null) {
             Log.i("alanjet", "The uri is not exist.")
         }
@@ -325,8 +359,8 @@ class UserSettingActivity : MyBaseActivity() {
         startActivityForResult(intent, 103)
     }
 
-   fun getFileUri(context: Context, uri: Uri): Uri? {
-      var  realFilePath = getPath(context, uri)
+    fun getFileUri(context: Context, uri: Uri): Uri? {
+        var realFilePath = getPath(context, uri)
         if (TextUtils.isEmpty(realFilePath)) {
             return null
         }
@@ -334,60 +368,59 @@ class UserSettingActivity : MyBaseActivity() {
     }
 
 
-
-//通用的从uri中获取路径的方法, 兼容以上说到的2个shceme
-fun getPath(context: Context, uri: Uri): String? {
-    val isKitKat =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-    // DocumentProvider
-    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-        // ExternalStorageProvider
-        if (isExternalStorageDocument(uri)) {
-            val docId: String = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).toTypedArray()
-            val type = split[0]
-            if ("primary".equals(type, ignoreCase = true)) {
-                return Environment.getExternalStorageDirectory()
-                    .toString() + "/" + split[1]
+    //通用的从uri中获取路径的方法, 兼容以上说到的2个shceme
+    fun getPath(context: Context, uri: Uri): String? {
+        val isKitKat =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                val docId: String = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).toTypedArray()
+                val type = split[0]
+                if ("primary".equals(type, ignoreCase = true)) {
+                    return Environment.getExternalStorageDirectory()
+                        .toString() + "/" + split[1]
+                }
+            } else if (isDownloadsDocument(uri)) {
+                val id: String = DocumentsContract.getDocumentId(uri)
+                val contentUri: Uri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"),
+                    java.lang.Long.valueOf(id)
+                )
+                return getDataColumn(context, contentUri, null, null)
+            } else if (isMediaDocument(uri)) {
+                val docId: String = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).toTypedArray()
+                val type = split[0]
+                var contentUri: Uri? = null
+                if ("image" == type) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(
+                    split[1]
+                )
+                return getDataColumn(context, contentUri, selection, selectionArgs)
             }
-        } else if (isDownloadsDocument(uri)) {
-            val id: String = DocumentsContract.getDocumentId(uri)
-            val contentUri: Uri = ContentUris.withAppendedId(
-                Uri.parse("content://downloads/public_downloads"),
-                java.lang.Long.valueOf(id)
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+            // Return the remote address
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                context,
+                uri,
+                null,
+                null
             )
-            return getDataColumn(context, contentUri, null, null)
-        } else if (isMediaDocument(uri)) {
-            val docId: String = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).toTypedArray()
-            val type = split[0]
-            var contentUri: Uri? = null
-            if ("image" == type) {
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            } else if ("video" == type) {
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            } else if ("audio" == type) {
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            }
-            val selection = "_id=?"
-            val selectionArgs = arrayOf(
-                split[1]
-            )
-            return getDataColumn(context, contentUri, selection, selectionArgs)
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
         }
-    } else if ("content".equals(uri.scheme, ignoreCase = true)) {
-        // Return the remote address
-        return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
-            context,
-            uri,
-            null,
-            null
-        )
-    } else if ("file".equals(uri.scheme, ignoreCase = true)) {
-        return uri.path
+        return ""
     }
-    return ""
-}
 
 //fun getId(context: Context, uri: Uri): Long {
 //    val isKitKat =
@@ -417,97 +450,95 @@ fun getPath(context: Context, uri: Uri): String? {
 //    return 0
 //}
 
-fun getDataColumn(
-    context: Context, uri: Uri?, selection: String?,
-    selectionArgs: Array<String>?
-): String? {
-    var cursor: Cursor? = null
-    val column = "_data"
-    val projection = arrayOf(
-        column
-    )
-    try {
-        cursor = context.contentResolver.query(
-            uri!!, projection, selection, selectionArgs,
-            null
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(
+            column
         )
-        if (cursor != null && cursor.moveToFirst()) {
-            val index = cursor.getColumnIndexOrThrow(column)
-            return cursor.getString(index)
+        try {
+            cursor = context.contentResolver.query(
+                uri!!, projection, selection, selectionArgs,
+                null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
         }
-    } finally {
-        cursor?.close()
+        return ""
     }
-    return ""
-}
 
 
-
-
-fun getIdColumn(
-    context: Context,
-    uri: Uri?,
-    selection: String?,
-    selectionArgs: Array<String>?
-): Long {
-    var cursor: Cursor? = null
-    val column = "_id"
-    val projection = arrayOf(column)
-    try {
-        cursor =
-            context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
-        if (cursor != null && cursor.moveToFirst()) {
-            val index = cursor.getColumnIndexOrThrow(column)
-            return cursor.getLong(index)
+    fun getIdColumn(
+        context: Context,
+        uri: Uri?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Long {
+        var cursor: Cursor? = null
+        val column = "_id"
+        val projection = arrayOf(column)
+        try {
+            cursor =
+                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getLong(index)
+            }
+        } finally {
+            cursor?.close()
         }
-    } finally {
-        cursor?.close()
+        return 0
     }
-    return 0
-}
 
-fun isExternalStorageDocument(uri: Uri): Boolean {
-    return "com.android.externalstorage.documents" == uri.authority
-}
-
-fun isDownloadsDocument(uri: Uri): Boolean {
-    return "com.android.providers.downloads.documents" == uri.authority
-}
-
-fun isMediaDocument(uri: Uri): Boolean {
-    return "com.android.providers.media.documents" == uri.authority
-}
-
-fun isGooglePhotosUri(uri: Uri): Boolean {
-    return "com.google.android.apps.photos.content" == uri.authority
-}
-
-private fun getFileFromContentUri(
-    contentUri: Uri,
-    context: Context
-): File? {
-    if (contentUri == null) {
-        return null
+    fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
     }
-    var file: File? = null
-    val filePath: String
-    val filePathColumn =
-        arrayOf(MediaStore.MediaColumns.DATA)
-    val contentResolver: ContentResolver = context.contentResolver
-    val cursor: Cursor? = contentResolver.query(
-        contentUri, filePathColumn, null,
-        null, null
-    )
-    if (cursor != null) {
-        cursor.moveToFirst()
-        filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]))
-        cursor.close()
-        if (!TextUtils.isEmpty(filePath)) {
-            file = File(filePath)
+
+    fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
+    fun isGooglePhotosUri(uri: Uri): Boolean {
+        return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    private fun getFileFromContentUri(
+        contentUri: Uri,
+        context: Context
+    ): File? {
+        if (contentUri == null) {
+            return null
         }
+        var file: File? = null
+        val filePath: String
+        val filePathColumn =
+            arrayOf(MediaStore.MediaColumns.DATA)
+        val contentResolver: ContentResolver = context.contentResolver
+        val cursor: Cursor? = contentResolver.query(
+            contentUri, filePathColumn, null,
+            null, null
+        )
+        if (cursor != null) {
+            cursor.moveToFirst()
+            filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]))
+            cursor.close()
+            if (!TextUtils.isEmpty(filePath)) {
+                file = File(filePath)
+            }
+        }
+        return file
     }
-    return file
-}
 
 //http://pxs3-img-test.oss-cn-shenzhen.aliyuncs.com/temp/admin_temp/fd50243d1cb4c75ac80b67428761920f28840234.jpg
 
@@ -531,8 +562,11 @@ private fun getFileFromContentUri(
         val toApplyList: ArrayList<String> = ArrayList()
         for (perm in permissions) {
             if (PackageManager.PERMISSION_GRANTED !== ContextCompat.checkSelfPermission(
-                    Objects.requireNonNull(this), perm)
-            ) { toApplyList.add(perm) }
+                    Objects.requireNonNull(this), perm
+                )
+            ) {
+                toApplyList.add(perm)
+            }
         }
         val tmpList = arrayOfNulls<String>(toApplyList.size)
         if (toApplyList.isNotEmpty()) {

@@ -14,53 +14,34 @@
             android:id="@+id/appStatusBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/appMain" />
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="99dp"
-            android:background="@mipmap/bg_transter">
+            android:layout_height="46dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp">
 
-            <!--        <LinearLayout-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:orientation="horizontal"-->
-            <!--            android:background="@color/appMain">-->
 
-            <ImageView
-                android:id="@+id/button_back"
-                android:layout_width="32dp"
-                android:layout_height="26.1dp"
-                android:paddingLeft="12dp"
-                android:paddingTop="8dp"
-                android:paddingRight="12dp"
-                android:layout_marginTop="15dp"
-                android:src="@mipmap/ic_back_white" />
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_back_black"/>
 
-<!--            <com.google.android.material.tabs.TabLayout-->
-<!--                android:id="@+id/tabs"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="34dp"-->
-<!--                app:tabIndicatorColor="@color/white"-->
-<!--                app:tabIndicatorFullWidth="true"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                app:tabTextAppearance = "@style/tabMessageTextStyle"-->
-<!--                android:background="@drawable/bg_success_order_top_white"-->
-<!--                android:layout_marginLeft="55dp"-->
-<!--                android:layout_marginRight="55dp"-->
-<!--                android:layout_toRightOf="@+id/button_back"-->
-<!--                app:tabMode="fixed"-->
-<!--                app:tabGravity="center"-->
-<!--               />-->
-<!--            -->
+
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="34dp"
-                android:layout_marginLeft="55dp"
-                android:layout_marginRight="55dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/bg_success_order_top_white"
-                android:layout_toRightOf="@+id/button_back"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_success_order_top_grey"
                 android:orientation="horizontal">
 
                 <TextView
@@ -68,11 +49,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textColor="@color/tab_orange"
+                    android:textColor="@color/white"
                     android:background="@drawable/bg_success_tab_bt"
                     android:text="成功案例"
                     android:gravity="center"
-                    android:layout_margin="2dp"/>
+                    android:layout_margin="2dp"
+               />
 
                 <TextView
                     android:id="@+id/tab_video"
@@ -88,144 +70,123 @@
 
             </LinearLayout>
 
-<!--            <EditText-->
-<!--                android:id="@+id/button_search"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_marginRight="12dp"-->
-<!--                android:layout_toRightOf="@+id/button_back"-->
-<!--                android:background="@drawable/bg_search_home"-->
-<!--                android:clickable="true"-->
-<!--                android:drawableLeft="@mipmap/search_iicon"-->
-<!--                android:drawablePadding="4dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:focusable="true"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:imeOptions="actionSearch"-->
-<!--                android:singleLine="true"-->
-<!--                android:maxLines="1"-->
-<!--                android:hint="@string/search_transfer_out"-->
-<!--                android:textColor="@color/input_text_blank"-->
-<!--                android:textSize="16sp" />-->
+        </RelativeLayout>
 
 
-            <!--        </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_below="@+id/button_back"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/button_back"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="3"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/selected_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="地区"
-                        android:textColor="@android:color/white" />
-                    <ImageView
-                        android:id="@+id/area_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:src="@mipmap/ic_down"/>
-
-                </LinearLayout>
-
-<!--                <TextView-->
-<!--                    android:id="@+id/selected_area"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_weight="3"-->
-<!--                    android:drawableRight="@mipmap/ic_down"-->
-<!--                    android:paddingRight="20dp"-->
-<!--                    android:paddingLeft="20dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="地区"-->
-<!--                    android:textColor="@android:color/white" />-->
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="3"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/selected_industry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="行业"
-                        android:textColor="@android:color/white" />
-                    <ImageView
-                        android:id="@+id/industry_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:src="@mipmap/ic_down"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="3"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/selected_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="面积"
-                        android:textColor="@android:color/white" />
-                    <ImageView
-                        android:id="@+id/size_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:src="@mipmap/ic_down"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="3"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/selected_rent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="租金"
-                        android:textColor="@android:color/white" />
-                    <ImageView
-                        android:id="@+id/rent_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:src="@mipmap/ic_down"/>
-
-                </LinearLayout>
-
-
-
-                <ImageView
-                    android:id="@+id/button_sort"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:layout_weight="3"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/selected_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="15dp"
-                    android:src="@mipmap/icon_shaixuan" />
+                    android:text="地区"
+                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/area_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/ic_arrow_down_black"/>
+
             </LinearLayout>
-        </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:layout_weight="3"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/selected_industry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="行业"
+                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/industry_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/ic_arrow_down_black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:layout_weight="3"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/selected_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="面积"
+                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/size_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/ic_arrow_down_black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:layout_weight="3"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/selected_rent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="租金"
+                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/rent_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/ic_arrow_down_black"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                android:layout_weight="3"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/button_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="排序"
+                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/sort_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/ic_arrow_down_black"/>
+
+            </LinearLayout>
+    </LinearLayout>
 
         <View
             style="@style/DividerThin"
@@ -296,6 +257,5 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
-
-    </LinearLayout>
+</LinearLayout>
 </layout>

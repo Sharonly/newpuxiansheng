@@ -51,7 +51,7 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
                         lifecycleScope.launch {
                             isRefresh = true
                             currentPage = 1
-                            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+                            viewModel.getRemoteMineTransferInOrders(currentPage)?.let { list ->
                                 Log.d("---info-- ", " list = " + list)
                                 adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                             }
@@ -73,8 +73,8 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
 
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
-                viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
-                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                viewModel.getRemoteMineTransferInOrders(currentPage)?.let { list ->
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
         } else {
@@ -87,7 +87,7 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
         currentPage += 1
         isRefresh=false
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+            viewModel.getRemoteMineTransferInOrders(currentPage)?.let { list ->
                 adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }
@@ -98,7 +98,7 @@ class ReleasedNewTransferInOrdersFragment : Fragment() ,OnRefreshLoadMoreListene
         currentPage = 1
         isRefresh=true
         lifecycleScope.launch {
-            viewModel.getRemoteMineTransferInOrders(currentPage).let { list ->
+            viewModel.getRemoteMineTransferInOrders(currentPage)?.let { list ->
                 adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }

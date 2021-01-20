@@ -40,7 +40,17 @@ fun ImageView.urlCircleImg(url:Int){
     val options: RequestOptions = RequestOptions() //圆形
         .circleCrop() //占位图
     Glide.with(this)
-        .load(url)
+        .load(url).error(R.mipmap.ic_default_icon).placeholder(R.mipmap.ic_default_icon)
+        .apply(options)
+        .into(this)
+}
+
+
+fun ImageView.urlCircleImg(url:String){
+    val options: RequestOptions = RequestOptions() //圆形
+        .circleCrop() //占位图
+    Glide.with(this)
+        .load(url).error(R.mipmap.ic_default_icon).placeholder(R.mipmap.ic_default_icon)
         .apply(options)
         .into(this)
 }

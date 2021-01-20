@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -29,25 +29,32 @@ import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.AppFragment
+import com.puxiansheng.www.common.ImageSwitcher
+import com.puxiansheng.www.common.JumpUtils
 import com.puxiansheng.www.common.TextSwitchView
 import com.puxiansheng.www.databinding.FragmentNewHomeBinding
+import com.puxiansheng.www.tools.AndroidBug5497Workaround
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.tools.Utils
+import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.main.CityListActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
-import com.puxiansheng.www.ui.mine.history.HistoryInOrdersFragment
-import com.puxiansheng.www.ui.mine.history.HistoryInfosFragment
-import com.puxiansheng.www.ui.mine.history.HistoryOutOrdersFragment
+import com.puxiansheng.www.ui.order.NewSuccessOrdersActivity
 import com.puxiansheng.www.ui.order.SuccessVideoAdapter
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
+import com.puxiansheng.www.ui.order.dialog.ShopImageDialog
 import com.puxiansheng.www.ui.search.SearchActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_my_history.*
 import kotlinx.android.synthetic.main.activity_success_order_list.*
+import kotlinx.android.synthetic.main.activity_transfer_out_order_detail.*
+import kotlinx.android.synthetic.main.fragment_invest_business.*
 import kotlinx.android.synthetic.main.fragment_new_home.*
+import kotlinx.android.synthetic.main.fragment_new_home.banner_index
+import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.launch
 
@@ -65,14 +72,16 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     private var currentTab = 0
     private var leftCurrentPage = 1
     private var rightCurrentPage = 1
+    private var leftTotalPage = 1
+    private var rightTotalPage = 1
     private var mContext: Context? = null
     private var maqueeList = ArrayList<MarqueeInfo>()
     private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
     private var tabTitles = listOf<String>("快速转店", "快速找店", "我的发布")
     private val cardOutFragment: Fragment = FastOutFragment()
     private val cardInFragment: Fragment = FastInFragment()
-    private val cardReleaseFragment: Fragment =  FastMyReleaseFragment()
-    private var fragments = listOf(cardOutFragment,cardInFragment,cardReleaseFragment)
+    private val cardReleaseFragment: Fragment = FastMyReleaseFragment()
+    private var fragments = listOf(cardOutFragment, cardInFragment, cardReleaseFragment)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -90,6 +99,9 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentNewHomeBinding.inflate(inflater).apply {
+
+//        val a=AndroidBug5497Workaround(activity)
+
         MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "HomeFragment")
         MobclickAgent.onEvent(
             mContext,
@@ -107,13 +119,9 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
         //跑马灯绑定lifecycle
         lifecycle.addObserver(pxsHeadline)
+
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
-            it.setDrawable(
-                resources.getDrawable(
-                    R.drawable.recyclerview_divider_order,
-                    null
-                )
-            )
+            it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             outList.addItemDecoration(it)
         }
 
@@ -123,12 +131,7 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         outList.adapter = leftAdapter
 
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
-            it.setDrawable(
-                resources.getDrawable(
-                    R.drawable.recyclerview_divider_order,
-                    null
-                )
-            )
+            it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             inList.addItemDecoration(it)
         }
 
@@ -145,6 +148,7 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             if (Utils.isFastClick() && !isLoading) {
                 val intent = Intent(requireActivity(), CityListActivity::class.java)
                 intent.putExtra("locationCity", buttonSelectLocation.text)
+                intent.putExtra("inType",1)
                 startActivity(intent)
                 MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "LocationActivity")
             }
@@ -158,28 +162,41 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             }
         }
 
+        btKf.setOnClickListener {
+            FastConnectDialog(
+            ).show(requireActivity().supportFragmentManager, FastConnectDialog::class.java.name)
+        }
+
 //        resources.displayMetrics.widthPixels.times(0.65).let {
 //            topBannerView.layoutParams.height = it.toInt()
 //        }
 
-
+//菜单按钮
         val gridLayoutManager =
             GridLayoutManager(requireContext(), 4)
         menus.layoutManager = gridLayoutManager
         menus.adapter = HomeMenuAdapter(requireActivity(), mutableListOf())
 
+        pttMore.setOnClickListener {
+            if (Utils.isFastClick()) {
+                val intent =
+                    Intent(requireActivity(), NewSuccessOrdersActivity::class.java)
+                intent.putExtra("type", 1)
+                startActivity(intent)
+            }
+        }
+
         cardPager.adapter = MessagePagerAdapter(
-            fragmentManager =requireActivity().supportFragmentManager ,
+            fragmentManager = childFragmentManager,
             fragments = fragments,
             titles = tabTitles
         )
 
-        cardPager.offscreenPageLimit = 3
-        transferTabs.setupWithViewPager(cardPager)
-
 //        transferTabs.addTab(transferTabs.newTab().setText("快速转店"))
 //        transferTabs.addTab(transferTabs.newTab().setText("快速找店"))
 //        transferTabs.addTab(transferTabs.newTab().setText("我的发布"))
+
+        //客户见证
 
         val linearLayoutManager =
             LinearLayoutManager(requireContext())
@@ -187,6 +204,13 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         successList.layoutManager = linearLayoutManager
         videoAdapter = SuccessVideoAdapter(requireContext(), arrayListOf(), 2)
         successList.adapter = videoAdapter
+
+        khMore.setOnClickListener {
+            val intent = Intent(requireActivity(), NewSuccessOrdersActivity::class.java)
+            intent.putExtra("type", 2)
+            requireActivity().startActivity(intent)
+            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferSuccessOrdersActivity")
+        }
 
 
         //动态添加tabitem
@@ -227,6 +251,7 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
 
         appModel.currentCity.observe(viewLifecycleOwner, Observer {
+            Log.d("currentCity ","home cityName =  "+it.text)
             buttonSelectLocation.text = it.text
             homeViewModel.currentCity = it.nodeID.toString()
             SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
@@ -282,36 +307,38 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 0 -> {
                     //左边
                     isRerfrshLeft = false
-                    leftCurrentPage += 1
-                    lifecycleScope.launch {
-                        outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
-                            cityId.toString(),
-                            leftCurrentPage
-                        )?.let {
-                            leftAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
-                                isRerfrshLeft
-                            )
+                    if(leftCurrentPage<leftTotalPage) {
+                        leftCurrentPage += 1
+                        lifecycleScope.launch {
+                            outViewModel.getHomeRecommendedTransferOutOrdersFromRemote(
+                                cityId.toString(),
+                                leftCurrentPage
+                            )?.let {
+                                leftAdapter?.addList(
+                                    it.orders as ArrayList<OrderDetailObject>,
+                                    isRerfrshLeft
+                                )
+                            }
                         }
                     }
-
                 }
 
                 1 -> {
                     isRerfrshRight = false
-                    rightCurrentPage += 1
-                    lifecycleScope.launch {
-                        inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
-                            cityId.toString(),
-                            rightCurrentPage
-                        )?.let {
-                            rightAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
-                                isRerfrshRight
-                            )
+                    if(rightCurrentPage<rightTotalPage) {
+                        rightCurrentPage += 1
+                        lifecycleScope.launch {
+                            inViewModel.getHomeRecommendedTransferInOrdersFromRemote(
+                                cityId.toString(),
+                                rightCurrentPage
+                            )?.let {
+                                rightAdapter?.addList(
+                                    it.orders as ArrayList<OrderDetailObject>,
+                                    isRerfrshRight
+                                )
+                            }
                         }
                     }
-
                 }
             }
         } else {
@@ -348,17 +375,24 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         leftCurrentPage = 1
         rightCurrentPage = 1
 
+        //快速找卡片
+
+        card_pager.offscreenPageLimit = 3
+        transfer_tabs.setupWithViewPager(card_pager)
+
+
         lifecycleScope.launch {
             homeViewModel.requestNewMenuImage()?.let {
                 (menus.adapter as HomeMenuAdapter).setMenuData(it)
             }
 
-            homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
+            homeViewModel.requestBannerImage("app_model_images_banner")?.let { banners ->
                 top_banner_view.setImages(banners)
+
                 banner_index.removeAllViews()
                 for (i in 0 until banners.size) {
                     var tempButton: RadioButton = RadioButton(requireContext())
-                    tempButton.setButtonDrawable(R.drawable.bg_red_circle) // 设置按钮的样式
+                    tempButton.setButtonDrawable(R.drawable.bg_index_bt) // 设置按钮的样式
                     tempButton.setPadding(10, 0, 10, 0) // 设置文字距离按钮四周的距离
                     banner_index.addView(
                         tempButton,
@@ -366,27 +400,38 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                 }
+
+                top_banner_view.onImageClick {
+                    if (Utils.isFastClick()) {
+                       JumpUtils.pictureIntent(requireContext(),it)
+                    }
+                }
+
+                top_banner_view.listener = object : ImageSwitcher.OnPageChange {
+                    override fun onScrolled(index: Int) {
+                        var bt: RadioButton = banner_index.getChildAt(index) as RadioButton
+                        bt.isChecked = true
+                    }
+                }
+
+                var bt: RadioButton = banner_index.getChildAt(0) as RadioButton
+                bt.isChecked = true
             }
 
 
             pxs_headline.clearResources()
             cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
-            homeViewModel.requestMarqueeMessage("1", cityId.toString())?.let { info ->
-                maqueeList = info as ArrayList<MarqueeInfo>
+            homeViewModel.requestMarqueeMessage(cityId.toString())?.let { data ->
+                maqueeList = data.infos as ArrayList<MarqueeInfo>
                 if (maqueeList?.size > 0) {
-                    if (info.isNotEmpty()) {
-                        pxs_headline.setResources(info)
-                        pxs_headline.itemClickListener =
-                            object : TextSwitchView.OnItemClickListener {
+                    if (maqueeList.isNotEmpty()) {
+                        pxs_headline.setResources(maqueeList)
+                        pxs_headline.itemClickListener = object : TextSwitchView.OnItemClickListener {
                                 override fun onItemClick(position: Int) {
                                     if (Utils.isFastClick()) {
                                         //TODO shopId字符串会好些
-                                        val intent =
-                                            Intent(
-                                                activity,
-                                                TransferOutOrderDetailActivity::class.java
-                                            )
-                                        intent.putExtra("shopID", info[position].id?.toString())
+                                        val intent = Intent(activity, TransferOutOrderDetailActivity::class.java)
+                                        intent.putExtra("shopID", maqueeList[position].id?.toString())
                                         startActivity(intent)
                                     }
                                 }
@@ -395,6 +440,22 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                     }
                 } else {
                     pxs_headline.setCurrentText("")
+                }
+                if (data.topInfo != null) {
+                    pxs_title.text = data.topInfo!!.title
+                    pxs_title.setOnClickListener {
+                        if(data.topInfo!!.id != 0) {
+                            if (Utils.isFastClick()) {
+                                val intent =
+                                    Intent(
+                                        activity,
+                                        NewInfoDetailActivity::class.java
+                                    )
+                                intent.putExtra("shop_Id", data.topInfo!!.id)
+                                startActivity(intent)
+                            }
+                        }
+                    }
                 }
             }
 
@@ -406,7 +467,8 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 cityId.toString(),
                 leftCurrentPage
             )?.let {
-                leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                leftAdapter?.addList( it.orders as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                leftTotalPage = it.totalPages
                 isLoading = false
             }
 
@@ -415,10 +477,11 @@ class NewHomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 rightCurrentPage
             )?.let {
                 rightAdapter?.addList(
-                    it as ArrayList<OrderDetailObject>,
+                    it.orders as ArrayList<OrderDetailObject>,
                     isRerfrshRight
                 )
-
+                rightTotalPage = it.totalPages
+                isLoading = false
             }
         }
     }

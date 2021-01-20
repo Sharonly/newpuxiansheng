@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
@@ -24,8 +25,17 @@ import com.puxiansheng.www.ui.order.dialog.*
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_new_order_list.*
-import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
+import kotlinx.android.synthetic.main.activity_order_list.*
+import kotlinx.android.synthetic.main.activity_order_list.button_back
+import kotlinx.android.synthetic.main.activity_order_list.button_sort
+import kotlinx.android.synthetic.main.activity_order_list.not_network
+import kotlinx.android.synthetic.main.activity_order_list.order_list
+import kotlinx.android.synthetic.main.activity_order_list.refreshlayout
+import kotlinx.android.synthetic.main.activity_order_list.selected_area
+import kotlinx.android.synthetic.main.activity_order_list.selected_industry
+import kotlinx.android.synthetic.main.activity_order_list.selected_rent
+import kotlinx.android.synthetic.main.activity_order_list.selected_size
+import kotlinx.android.synthetic.main.activity_success_order_list.*
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -39,10 +49,12 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
     private var isRefresh = true
     private var mContext: Context? = null
     override fun getLayoutId(): Int {
-        return R.layout.activity_new_order_list
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
+        return R.layout.activity_order_list
     }
 
     override fun business() {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         mContext = this
         MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
             API.LOGIN_USER_ID,
@@ -85,6 +97,8 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
 
         selected_rent.text = "租金"
 
+        button_sort.text = "排序"
+
 
         refreshlayout.setOnRefreshLoadMoreListener(this@NewTransferInOrdersActivity)
 
@@ -94,11 +108,13 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
 
         button_search.addTextChangedListener {
             viewModel.title = it.toString()
-            order_list.removeAllViews()
-            isRefresh = true
-            lifecycleScope.launch {
-                viewModel.getTransferInOrdersFromRemote()?.let {list ->
-                    adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+            if(it.toString().isEmpty()) {
+                order_list.removeAllViews()
+                isRefresh = true
+                lifecycleScope.launch {
+                    viewModel.getTransferInOrdersFromRemote()?.let { list ->
+                        adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                    }
                 }
             }
         }
@@ -128,6 +144,7 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
                                         (if (topMenuItem == null) "" else ",") +
                                         "${secondMenuItem?.menuID ?: ""}"
                             }
+//                            if(viewModel.industryIDs=="null")
                         }
                     isRefresh = true
                     viewModel.currentPage = 1
@@ -144,10 +161,15 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
 
         selected_area.setOnClickListener {
             SelectAreaDialog(
-                onSelectArea = {
-                    selected_area.text = (it?.text ?: "地区").apply {
-                        if (this.isEmpty()) else {
-                            viewModel.areaIDs = it?.nodeID.toString()
+                onSelectArea = {it,reset->
+                    if(reset){
+                        selected_area.text ="地区"
+                        viewModel.areaIDs =""
+                    }else {
+                        selected_area.text = (it?.text ?: "地区").apply {
+                            if (this.isEmpty()) else {
+                                viewModel.areaIDs = it?.nodeID.toString()
+                            }
                         }
                     }
                     isRefresh = true
@@ -189,10 +211,18 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         selected_rent.setOnClickListener {
             SelectRentRangeDialog(
                 onSelectRent = {
-                        selected_rent.text = (it?.text?: "租金").apply {
-                            if (this.isEmpty()) else {
+                        it,isReset ->
+                    if(isReset){
+                        selected_rent.text ="租金"
+                        viewModel.rentIDs = ""
+                    }else {
+                        selected_rent.text = (it?.text ?: "租金").apply {
+                            if (this.isEmpty()) {
+                                viewModel.rentIDs = ""
+                            } else {
                                 viewModel.rentIDs = it?.menuID.toString()
                             }
+                        }
                     }
                     isRefresh = true
                     viewModel.currentPage = 1
@@ -211,6 +241,7 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
         button_sort.setOnClickListener {
             SelectSortTypeDialog(
                 onSelectSortType = {
+                    button_sort.text = (it?.text?: "排序")
                     it?.let {
                         viewModel.sortBy = it.sortBy
                         viewModel.sortType = it.sortType

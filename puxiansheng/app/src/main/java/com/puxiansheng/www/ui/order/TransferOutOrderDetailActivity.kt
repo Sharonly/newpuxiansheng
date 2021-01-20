@@ -2,37 +2,39 @@ package com.puxiansheng.www.ui.order
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
-import android.net.http.SslError
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.webkit.*
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
+import com.puxiansheng.util.ext.MyScreenUtil
+import com.puxiansheng.util.ext.PermissionUtils
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.common.BitMapUtil
 import com.puxiansheng.www.common.ExpandTextView
 import com.puxiansheng.www.common.ImageSwitcher
+import com.puxiansheng.www.tools.ShareUtils
 import com.puxiansheng.www.tools.Utils
 import com.puxiansheng.www.ui.login.LoginActivity
-import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
 import com.puxiansheng.www.ui.map.MapActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import com.puxiansheng.www.ui.order.dialog.ShopImageDialog
-import com.tencent.tencentmap.mapsdk.maps.TencentMap
-import kotlinx.android.synthetic.main.fragment_info_detail.*
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.button_back
+import kotlinx.android.synthetic.main.activity_transfer_out_order_detail.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 
 @ExperimentalCoroutinesApi
@@ -46,42 +48,138 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
     private lateinit var viewModel: TransferOutOrderDetailViewModel
     var type = 0
+    var shopId = ""
+    var shopImg = ""
+    var shopTitle = ""
+    var shareUrl = ""
+    var shopBmp: Bitmap? = null
+    var isFavor = false
+    private var bitMapUtil :BitMapUtil? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_transfer_out_order_detail
+        MyScreenUtil.setStateBarStyle(this, true, R.color.color81, true)
+        return R.layout.activity_transfer_out_order_detail
     }
 
     override fun business() {
         viewModel = ViewModelProvider(this)[TransferOutOrderDetailViewModel::class.java]
+        shopId = intent.getStringExtra("shopID")
         initView()
     }
 
     private fun initView() {
-        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
+        PermissionUtils.requestPermission(this@TransferOutOrderDetailActivity, requiredPermissions)
+//        ActivityCompat.requestPermissions(this, requiredPermissions, requestCodePermissions)
         var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
         var images: List<BannerImage> = listOf()
+
+        bitMapUtil = BitMapUtil()
         button_back.setOnClickListener {
             onBackPressed()
         }
 
-        bt_more.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.requestTransferOutOrderDetail(
-                    intent.getStringExtra("shopID")
-                )?.let { order ->
-                    var shopImg = ""
-                    if (order.images.isNullOrEmpty()) {
-                        shopImg = ""
-                    } else {
-                        shopImg = order.images?.get(0).toString()
+
+        scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, y: Int, oldScrollX: Int, oldScrollY: Int ->
+            /**  ScrollView 滚动动态改变标题栏 */
+            if (y <= 0) { //未滑动
+                toolbar.setBackgroundColor(Color.argb(0, 31, 100, 240))
+                button_back.setColorFilter(Color.WHITE)
+                if(isFavor) {
+                    bt_favor.setColorFilter(Color.RED)
+                }else{
+                    bt_favor.setColorFilter(Color.WHITE)
+                }
+                bt_share.setColorFilter(Color.WHITE)
+            } else if (y > 0 && y <=MyScreenUtil.dip2px(this,69f)) { //滑动过程中 并且在mHeight之内
+                val scale = y / (MyScreenUtil.dip2px(this,69f)*1.0f)
+                val alpha = 255 * scale
+                toolbar.setBackgroundColor(Color.argb(alpha.toInt(), 255, 255, 255))
+                button_back.setColorFilter(Color.argb(alpha.toInt(), 0, 0, 0))
+                bt_favor.setColorFilter(Color.argb(alpha.toInt(), 0, 0, 0))
+                bt_share.setColorFilter(Color.argb(alpha.toInt(), 0, 0, 0))
+
+            } else { //超过mHeight
+                toolbar.setBackgroundColor(Color.WHITE)
+                button_back.setColorFilter(Color.BLACK)
+                if(isFavor) {
+                    bt_favor.setColorFilter(Color.RED)
+                }else{
+                    bt_favor.setColorFilter(Color.BLACK)
+                }
+                bt_share.setColorFilter(Color.BLACK)
+            }
+        }
+
+
+//        bt_more.setOnClickListener {
+//            lifecycleScope.launch {
+//                viewModel.requestTransferOutOrderDetail(
+//                    shopId
+//                )?.let { order ->
+//                    if (order.images.isNullOrEmpty()) {
+//                        shopImg = ""
+//                    } else {
+//                        shopImg = order.images?.get(0).toString()
+//                    }
+//                    MoreManagerDialog(
+//                        order.shopID.toString(), order.title, shopImg, ""
+//                        , type,
+//                        order.favorite
+//                    ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
+//                }
+//            }
+//        }
+
+        bt_favor.setOnClickListener {
+            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                lifecycleScope.launch {
+                    viewModel.favorite(
+                        objectID = shopId,
+                        type = type
+                    )?.let { result ->
+                        if (result.data?.result == 0) {
+                            isFavor = false
+                            bt_favor.setImageResource(R.mipmap.ic_favor_white)
+//                            btFavor.text = "收藏"
+                        } else {
+                            isFavor = true
+                            bt_favor.setImageResource(R.mipmap.ic_favor_red)
+//                            btFavor.text = "取消收藏"
+                        }
+                        Toast.makeText(
+                            this@TransferOutOrderDetailActivity,
+                            result.msg,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
                     }
-                    MoreManagerDialog(
-                        order.shopID.toString(), order.title, shopImg, ""
-                        , type,
-                        order.favorite
-                    ).show(supportFragmentManager, MoreManagerDialog::class.java.name)
+                }
+            } else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+
+        bt_share.setOnClickListener {
+            if (shopImg.isNullOrEmpty()) {
+                shopBmp = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
+            } else {
+                shopBmp = bitMapUtil?.returnBitMap(shopImg)
+                val baos = ByteArrayOutputStream()
+                shopBmp?.compress(Bitmap.CompressFormat.JPEG, 30, baos)
+                if (shopBmp != null) {
+                    shopBmp.let {
+                        shopBmp = ShareUtils.compressScale(this, it!!)
+                    }
+                } else {
+                    shopBmp = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
                 }
             }
+            Log.d("shareUrlAAA"," shopTitle = "+shopTitle+"  shopBmp = "+shopBmp+"  shareUrl = "+shareUrl)
+            ShareUtils.share(this, shopTitle, shopBmp, shareUrl)
+
+
         }
 
         //TODO
@@ -105,11 +203,11 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
         lifecycleScope.launch {
 //            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))
-            viewModel.requestTransferOutOrderDetail(intent.getStringExtra("shopID"))?.let { order ->
+
+            viewModel.requestTransferOutOrderDetail(shopId)?.let { order ->
 //                    if(order.shop?.images?.size == 0)
 //                        imageSwitcher.setImages(list)
                 Log.d("shopcheck", " order.checkId = " + order.checkId)
-
                 if (order.images?.size == 0) {
 
                 } else {
@@ -128,17 +226,35 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     }
                 }
 
+                if(order.images != null) {
+                    if(order.images!!.isNotEmpty()) {
+                        shopImg = order.images?.get(0).toString()
+                    }
+                }
                 if (order.checkId == 1 && order.status == 1) {
                     bt_more.visibility = View.VISIBLE
+                    bt_share.visibility = View.VISIBLE
+                    bt_favor.visibility = View.VISIBLE
                 } else {
                     bt_more.visibility = View.INVISIBLE
+                    bt_share.visibility = View.INVISIBLE
+                    bt_favor.visibility = View.INVISIBLE
                 }
                 if (order.isSuccess != 1) {
                     type = 0
+                    bt_favor.visibility = View.VISIBLE
                 } else {
                     type = 999
+                    bt_favor.visibility = View.INVISIBLE
                 }
-
+                if(order.favorite == 1){
+                    isFavor = true
+                    bt_favor.setImageResource(R.mipmap.ic_favor_red)
+                }else{
+                    isFavor = false
+                    bt_favor.setImageResource(R.mipmap.ic_favor_white)
+                }
+                shopTitle = order.title
                 shop_title.text = order.title
                 shop_number.text = "店铺编号：${order.shopID}"
                 page_views.text = "浏览量：${order.formattedPageViews}"
@@ -200,12 +316,12 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
 
                 if (order.isSuccess == 1) {
                     img_success.visibility = View.VISIBLE
-                    recommend_orders.visibility = View.GONE
+//                    recommend_orders.visibility = View.GONE
                     bg_map.visibility = View.GONE
                     bt_connect_kf.visibility = View.INVISIBLE
                 } else {
                     img_success.visibility = View.GONE
-                    recommend_orders.visibility = View.VISIBLE
+//                    recommend_orders.visibility = View.VISIBLE
                     bg_map.visibility = View.VISIBLE
                     bt_connect_kf.visibility = View.VISIBLE
                 }
@@ -307,6 +423,11 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                         startActivity(intent)
                     }
                 }
+
+                viewModel.getConfigInfo("transfer_share_url")?.let { configInfo ->
+                    shareUrl = "$configInfo$shopId.html"
+                }
+
             }
 
 
@@ -322,7 +443,7 @@ class TransferOutOrderDetailActivity : MyBaseActivity() {
                     startActivity(intent)
                 })
                 viewModel.requestUserLikeShopList(
-                    cityId.toString(), intent.getIntExtra("shopID", 0).toString()
+                    cityId.toString(), shopId
                 )?.let {
                     (recommend_orders.adapter as RecommendOrderAdapter).setMenuData(it)
                 }

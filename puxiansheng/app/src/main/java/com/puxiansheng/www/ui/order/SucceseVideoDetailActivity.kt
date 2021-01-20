@@ -39,6 +39,7 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
     private var videoUrl = ""
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_success_video_detail
     }
 

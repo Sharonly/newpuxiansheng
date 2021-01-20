@@ -21,9 +21,11 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="#F78934"
                     android:layout_marginLeft="4.5dp"
-                    android:textSize="7sp"/>
+                    android:textSize="7sp"
+                    android:background="@mipmap/bg_area_num"
+                    android:visibility="invisible"/>
         </LinearLayout>
 </layout>

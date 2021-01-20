@@ -89,16 +89,12 @@ class RemoteUserRepository {
         callForJson(it)
     }
 
-    fun loginByPass(
-        userAccount: String,
-        userPassword: String?
-    ) = buildRequest(
+    fun loginByPass(userAccount: String, userPassword: String?) = buildRequest(
         url = DO_LOGIN_BY_PASS, fieldMap = mutableMapOf(
             "name" to userAccount,
             "password" to (userPassword ?: "")
         ).also {
-            it["sign"] =
-                sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")
+            it["sign"] = sign(signatureToken = API.currentSignatureToken, fieldMap = it, method = "POST")
         }
     ).let {
         callForJson(it)

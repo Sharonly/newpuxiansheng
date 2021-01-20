@@ -60,15 +60,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 
 
-    suspend fun requestMarqueeMessage(page: String,city:String) =
+    suspend fun requestMarqueeMessage(city:String) =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
-            marqueeInfoRepository.requestRemoteInfoMarquee(page,city).let {
-                return@let if (it.succeeded) (it as APIRst.Success).data.data?.data?.infos else null
+            marqueeInfoRepository.requestRemoteInfoMarquee(city).let {
+                return@let if (it.succeeded) (it as APIRst.Success).data.data?.data else null
             }
         }
-
-
-
 
 
 

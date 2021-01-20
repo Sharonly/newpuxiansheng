@@ -53,7 +53,7 @@ class ReleasedNewTransferOutOrdersFragment : Fragment() ,OnRefreshLoadMoreListen
                         isRefresh = true
                         currentPage = 1
                         lifecycleScope.launch {
-                            viewModel.getRemoteMineTransferOutOrders(currentPage).let { list ->
+                            viewModel.getRemoteMineTransferOutOrders(currentPage)?.let { list ->
                                 mAdapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                             }
                         }

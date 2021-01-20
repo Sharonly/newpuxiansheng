@@ -56,7 +56,7 @@ class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewMode
             city = city
         ).let { apiRst ->
             if (apiRst.succeeded) {
-                (apiRst as APIRst.Success).data.data?.data?.orders
+                (apiRst as APIRst.Success).data.data?.data
             }else null
 
 

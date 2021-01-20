@@ -2,11 +2,20 @@ package com.puxiansheng.www.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +25,8 @@ import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.common.urlBg
 import com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity
+import com.puxiansheng.www.ui.order.TransferInOrderDetailActivity
+import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 
 class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<OrderDetailObject>) :
@@ -69,8 +80,6 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TransferOutViewHolder) {
             var shopInfo = dataList[position]
-
-
             shopInfo?.title.let { title ->
                 holder.shopTitle.text = title
             }
@@ -84,7 +93,7 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
             }
 
             shopInfo?.area_point_str?.let { area ->
-                holder.shopArea.text = area + "/+" + shopInfo?.formattedSize + "/"
+                holder.shopArea.text = area
             }
 
             holder.btMore.setOnClickListener {
@@ -92,7 +101,15 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
                 context.startActivity(intent)
             }
             holder.status.text = shopInfo.state?.text
-            holder.index.text = (position + 1).toString() + "/" + dataList?.size
+
+            holder.index.text = (position+1).toString()
+            holder.count.text = "/" + dataList?.size
+
+            holder.root.setOnClickListener {
+                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                intent.putExtra("shopID", shopInfo?.jump_param)
+                context.startActivity(intent)
+            }
 
         } else if (holder is TransferInViewHolder) {
             var shopInfo = dataList[position]
@@ -100,12 +117,20 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
             holder.shopRent.text = shopInfo.view_rent_un_prefix
             holder.status.text = shopInfo.state?.text
             holder.shopArea.text =
-                shopInfo.formattedFinalLocationNode + "/" + shopInfo.view_acreage_un_prefix
+                shopInfo.show_area
             holder.btMore.setOnClickListener {
                 val intent = Intent(context, MyReleaseAllActivity::class.java)
                 context.startActivity(intent)
             }
-            holder.index.text = (position + 1).toString() + "/" + dataList?.size
+
+            holder.index.text = (position+1).toString()
+            holder.count.text = "/" + dataList?.size
+
+            holder.root.setOnClickListener {
+                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                intent.putExtra("shopID", shopInfo?.jump_param)
+                context.startActivity(intent)
+            }
         }
     }
 
@@ -118,12 +143,14 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
 
     class TransferOutViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
+        val root = containerView.findViewById<LinearLayout>(R.id.layout_out)
         val shopIcon = containerView.findViewById<ImageView>(R.id.shop_icon)
         val shopTitle = containerView.findViewById<TextView>(R.id.shop_title)
         val shopRent = containerView.findViewById<TextView>(R.id.rent)
         val shopArea = containerView.findViewById<TextView>(R.id.area)
         val status = containerView.findViewById<TextView>(R.id.status)
         val index = containerView.findViewById<TextView>(R.id.index)
+        val count = containerView.findViewById<TextView>(R.id.count)
         val btMore = containerView.findViewById<TextView>(R.id.bt_more)
     }
 
@@ -131,11 +158,13 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
     //右边viewholder
     class TransferInViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
+        val root = containerView.findViewById<LinearLayout>(R.id.layout_in)
         val shopTitle = containerView.findViewById<TextView>(R.id.shop_title)
         val shopRent = containerView.findViewById<TextView>(R.id.rent)
         val shopArea = containerView.findViewById<TextView>(R.id.area)
         val status = containerView.findViewById<TextView>(R.id.status)
         val index = containerView.findViewById<TextView>(R.id.index)
+        val count = containerView.findViewById<TextView>(R.id.count)
         val btMore = containerView.findViewById<TextView>(R.id.bt_more)
     }
 

@@ -15,7 +15,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
@@ -39,11 +38,12 @@ import kotlinx.coroutines.launch
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.util.ext.MyScreenUtil
+import com.puxiansheng.util.ext.PermissionUtils
 import com.puxiansheng.www.common.url
 import com.puxiansheng.www.ui.map.GetLocationActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
-import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.bt_select_rent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_select_area
@@ -59,7 +59,6 @@ import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_p
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_reason
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_title
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.submit
-import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
@@ -77,15 +76,17 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     private var indulist = mutableSetOf<MenuItem>()
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_relase_order_transfer_out
     }
 
     override fun business() {
-        ActivityCompat.requestPermissions(
-            this,
-            requiredPermissions,
-            requestCodePermissions
-        )
+        PermissionUtils.requestPermission(this@InsertOrUpdateTransferOutOrderActivity, requiredPermissions)
+//        ActivityCompat.requestPermissions(
+//            this,
+//            requiredPermissions,
+//            requestCodePermissions
+//        )
         insertOrUpdateTransferOutOrderViewModel =
             ViewModelProvider(this)[InsertOrUpdateTransferOutOrderViewModel::class.java]
         appViewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -94,7 +95,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
 
 
     private fun initView() {
-        bt_back.setOnClickListener {
+        button_back.setOnClickListener {
             onBackPressed()
         }
 
@@ -293,7 +294,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             SelectNewAreaDialog(onSelectArea = { topMenuItem, secondMenuItem ->
                 button_select_area.text = topMenuItem?.btText
                 insertOrUpdateTransferOutOrderViewModel.area =
-                    "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
+                    "${topMenuItem?.nodeID ?: 0},${secondMenuItem?.nodeID ?: 0}"
                 button_select_area.text =
                     "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
             }).show(

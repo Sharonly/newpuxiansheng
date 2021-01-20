@@ -110,9 +110,7 @@ class UserOrderStateAdapter(
             }
 
 
-            shopInfo?.area_point_str.let { it ->
-                holder.shopArea.text = it
-            }
+
 
             shopInfo?.view_rent_un_prefix.let { it ->
                 holder.shopRent.text = it
@@ -125,8 +123,15 @@ class UserOrderStateAdapter(
             shopInfo?.data_type.let { shop ->
                 if (shop == "transfer_shop") {
                     holder.shopType.setImageResource(R.mipmap.ic_transfer_out)
+                    shopInfo?.area_point_str.let { it ->
+                        holder.shopArea.text = it
+                    }
                 } else if (shop == "find_shop") {
                     holder.shopType.setImageResource(R.mipmap.ic_transfer_in)
+                    shopInfo?.show_area.let { it ->
+                        holder.shopArea.text = it
+                    }
+
                 }
 
                 holder.btEdit.setOnClickListener {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Resources
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -43,7 +44,8 @@ class MyScreenUtil {
             isTextDark: Boolean
         ){
             val window = activity.window
-             if (isTransparent){
+
+            if (isTransparent){
                  window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                  if (isTextDark){
                      window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE);

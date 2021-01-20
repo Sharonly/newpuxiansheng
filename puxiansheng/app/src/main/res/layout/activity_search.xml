@@ -31,12 +31,12 @@
                 android:id="@+id/type_spinner"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
                 android:paddingRight="10dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:overlapAnchor="false"/>
 
 
             <View

@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,12 +39,14 @@ class ArticleTitleAdapter(
             info?.title?.let {
                 holder.title.text = it
                 holder.title.setOnClickListener {
-                    val intent = Intent(context, NewInfoDetailActivity::class.java)
-                    intent.putExtra("url", info.jump_param)
-                    intent.putExtra("shop_Id", info?.shopID)
-                    intent.putExtra("title", info?.title)
-                    intent.putExtra("img", "")
-                    context.startActivity(intent)
+                    if(info?.title.isNotEmpty() && info?.shopID != 0) {
+                        val intent = Intent(context, NewInfoDetailActivity::class.java)
+                        intent.putExtra("url", info.jump_param)
+                        intent.putExtra("shop_Id", info?.shopID)
+                        intent.putExtra("title", info?.title)
+                        intent.putExtra("img", "")
+                        context.startActivity(intent)
+                    }
                 }
             }
         }

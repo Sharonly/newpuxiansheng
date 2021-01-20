@@ -25,6 +25,9 @@ class SelectAreaViewModel(application: Application) : AndroidViewModel(applicati
 
     val selectiveAreaData = MutableLiveData<List<LocationNode>?>()
 
+
+
+
     fun requestRemoteCitiesByParentID(parentID: String) = viewModelScope.launch(Dispatchers.IO) {
         locationRepository.requestRemoteCitiesByParentID(parentID).let { apiRst ->
             if (apiRst.succeeded) {

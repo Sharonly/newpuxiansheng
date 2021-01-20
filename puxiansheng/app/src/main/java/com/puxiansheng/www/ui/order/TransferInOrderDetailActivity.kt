@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -36,6 +37,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
     private lateinit var viewModel: TransferInOrderDetailViewModel
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_transfer_in_order_detail
     }
 
@@ -79,8 +81,11 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
 
                         page_views.text = "浏览量：${order.formattedPageViews}"
 
+//                        format_address.text =
+//                            "地址： ${order.formattedLocationNodes} ${order.address?.addressDetail}"
+
                         format_address.text =
-                            "地址： ${order.formattedLocationNodes} ${order.address?.addressDetail}"
+                            "地址： ${order.newAreaStr}"
 
                         rent.text = order.formattedRent
 

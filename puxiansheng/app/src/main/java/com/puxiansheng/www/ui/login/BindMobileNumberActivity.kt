@@ -12,7 +12,6 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
-import com.puxiansheng.www.ui.main.HomeActivity
 import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bind_phone.*
 import kotlinx.android.synthetic.main.activity_bind_phone.input_account
@@ -40,6 +39,10 @@ class BindMobileNumberActivity : MyBaseActivity() {
 
 
 private fun initView(){
+    button_back.setOnClickListener {
+        onBackPressed()
+    }
+
     input_account.addTextChangedListener { editable ->
         editable?.toString()?.let {
             viewModel.userAccount = it
@@ -116,22 +119,7 @@ private fun initView(){
             }
         }
 
-        requestVerificationCode.setOnClickListener {
-            if (viewModel.userAccount == "") {
-                Toast.makeText(this, "请先填写手机号码！", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
 
-
-            lifecycleScope.launch {
-                viewModel.requestVerificationCode()?.let {
-                    if (it == API.CODE_SUCCESS) {
-                        requestVerificationCode.isEnabled = false
-                        viewModel.startCountDown()
-                    }
-                }
-            }
-        }
 
 
         viewModel.toastMsg.observe(this, Observer {

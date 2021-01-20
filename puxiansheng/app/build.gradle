@@ -30,8 +30,8 @@ android {
         applicationId "com.puxiansheng.www"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 140
-        versionName "3.3.7"
+        versionCode 144
+        versionName "3.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
         vectorDrawables.useSupportLibrary = true
@@ -188,5 +188,8 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     api project(path: ':libplayer')
+
+    //权限
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
 
 }

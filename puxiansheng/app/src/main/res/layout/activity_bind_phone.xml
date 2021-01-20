@@ -57,6 +57,7 @@
             android:paddingLeft="19.5dp"
             android:gravity="center_vertical"
             android:hint="请输入手机号"
+            android:inputType="phone"
             android:textColor="@color/input_text_blank"
             android:textSize="16sp"
             android:background="@drawable/bg_text_input"/>
@@ -79,6 +80,7 @@
                 android:paddingLeft="19.5dp"
                 android:hint="请输入短信验证码"
                 android:background="@null"
+
                 android:textColor="@color/input_text_blank"
                 android:textSize="16sp" />
             <TextView

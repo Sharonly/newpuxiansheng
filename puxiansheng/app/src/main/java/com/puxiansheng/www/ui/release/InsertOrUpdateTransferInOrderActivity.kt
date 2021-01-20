@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.MenuItem
-import com.puxiansheng.logic.bean.http.AreaObject
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.dialog.*
-import com.puxiansheng.www.ui.release.adapter.AreaAdapter
+import com.puxiansheng.www.ui.release.adapter.MultiAreaAdapter
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,10 +28,11 @@ import kotlinx.coroutines.launch
 class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
     private lateinit var insertOrUpdateTransferInOrderViewModel: InsertOrUpdateTransferInOrderViewModel
     private var facilist = mutableSetOf<MenuItem>()
-    private var areaAdapter: AreaAdapter? = null
-    private var areaLists: ArrayList<AreaObject> = arrayListOf()
+    private var areaAdapter: MultiAreaAdapter? = null
+    private var areaLists: ArrayList<LocationNode> = arrayListOf()
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_release_order_transfer_in
     }
 
@@ -51,13 +52,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
             SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
-        Log.d(
-            " insertOr",
-            " SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE = " + SharedPreferencesUtil.get(
-                API.LOGIN_ACTUL_PHONE,
-                ""
-            ).toString()
-        )
+
         input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
 
@@ -99,7 +94,10 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                     return@setOnClickListener
                 }
             }
-
+            Log.d(
+                "---submit--",
+                " insertOrUpdateTransferInOrderViewModel.area = " + insertOrUpdateTransferInOrderViewModel.area
+            )
 
             insertOrUpdateTransferInOrderViewModel.industry.let {
                 if (it.isEmpty()) {
@@ -109,13 +107,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
             }
 
 
-            Log.d(
-                "---submit--",
-                " insertOrUpdateTransferInOrderViewModel.contactName = " + insertOrUpdateTransferInOrderViewModel.contactName + "  " + SharedPreferencesUtil.get(
-                    API.LOGIN_ACTUL_PHONE,
-                    ""
-                ).toString()
-            )
+
             insertOrUpdateTransferInOrderViewModel.contactName.let {
                 if (it.isEmpty()) {
                     Toast.makeText(this, "请输入联系人！", Toast.LENGTH_SHORT).show()
@@ -143,10 +135,10 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
 
         //选择租金范围
         button_select_rent.setOnClickListener {
-            SelectRentRangeDialog(onSelectRent = {
+            SelectRentRangeDialog(onSelectRent = {it,isReset ->
                 it?.let { rent ->
                     button_select_rent.setText(rent.text)
-                    insertOrUpdateTransferInOrderViewModel.rent = rent.menuID.toString();
+                    insertOrUpdateTransferInOrderViewModel.rent = rent.menuID.toString()
                 }
             }).show(
                 supportFragmentManager,
@@ -180,11 +172,24 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         area_list.layoutManager = linearLayoutManager
-        areaAdapter = AreaAdapter(arrayListOf())
+        areaAdapter = MultiAreaAdapter(arrayListOf())
         area_list.adapter = areaAdapter
-        areaAdapter?.listener = object : AreaAdapter.OnDeleteListener {
-            override fun onDelete(menuItem: AreaObject) {
+        areaAdapter?.listener = object : MultiAreaAdapter.OnDeleteListener {
+            override fun onDelete(menuItem: LocationNode) {
                 areaLists.remove(menuItem)
+                if (areaLists.size > 0) {
+                    var sb = StringBuilder()
+                    areaLists.forEach { item ->
+                        if (item.nodeID != 0) {
+                            sb.append(item.nodeID).append(",")
+                        } else {
+                            sb.append(item.pId).append(",")
+                        }
+                    }
+                    insertOrUpdateTransferInOrderViewModel.area = sb.substring(0, sb.lastIndex)
+                }else{
+                    insertOrUpdateTransferInOrderViewModel.area = ""
+                }
             }
         }
 
@@ -198,23 +203,35 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
 //                supportFragmentManager,
 //                SelectAreaDialog::class.java.name
 //            )
-            if (areaLists.size < 5) {
-                SelectNewAreaDialog(onSelectArea = { topMenuItem, secondMenuItem ->
-                button_select_area.text = topMenuItem?.btText
-                    insertOrUpdateTransferInOrderViewModel.area =
-                        "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
-                button_select_area.text =
-                    "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
-                    var areaObject = AreaObject(topMenuItem, secondMenuItem)
-                    areaLists.add(areaObject)
-                    areaAdapter?.add(areaObject)
-                }).show(
-                    supportFragmentManager,
-                    SelectNewAreaDialog::class.java.name
-                )
-            } else {
-                Toast.makeText(this, "最多可选择5个区域", Toast.LENGTH_SHORT).show()
-            }
+//            if (areaLists.size < 10) {
+//                SelectNewAreaDialog(onSelectArea = { topMenuItem, secondMenuItem ->
+//                button_select_area.text = topMenuItem?.btText
+//                    insertOrUpdateTransferInOrderViewModel.area =
+//                        "${topMenuItem?.menuID ?: 0},${secondMenuItem?.menuID ?: 0}"
+//                button_select_area.text =
+//                    "${topMenuItem?.text ?: "所有城市"} - ${secondMenuItem?.text ?: "所有地区"}"
+//                    var areaObject = AreaObject(topMenuItem, secondMenuItem)
+//                    areaLists.add(areaObject)
+//                    areaAdapter?.add(areaObject)
+//                }).show(
+//                    supportFragmentManager,
+//                    SelectNewAreaDialog::class.java.name
+//                )
+
+            MultiAreaDialog(insertOrUpdateTransferInOrderViewModel.area, onSelectArea = {
+                areaAdapter?.addList(it, true)
+                areaLists = it
+                val sb = StringBuilder()
+                it.forEach { menuItem ->
+                    if (menuItem.nodeID != 0) {
+                        sb.append(menuItem.nodeID).append(",")
+                    } else {
+                        sb.append(menuItem.pId).append(",")
+                    }
+                }
+                insertOrUpdateTransferInOrderViewModel.area = sb.substring(0, sb.lastIndex)
+            }).show(supportFragmentManager, MultiAreaDialog::class.java.name)
+
         }
 
         //获取设施
@@ -241,6 +258,22 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         insertOrUpdateTransferInOrderViewModel.selectiveFacilityMenuData.observe(this, Observer {
             it?.takeIf { it.isNotEmpty() }?.let { list ->
                 (list_facilities.adapter as ReleaseFacilityAdapter).setMenuData(list.toMutableSet())
+            }
+        })
+
+
+        insertOrUpdateTransferInOrderViewModel.selectiveAreaMenuData.observe(this, Observer {
+            it?.takeIf { it.isNotEmpty() }?.let { list ->
+                areaAdapter?.addList(list as ArrayList<LocationNode>, true)
+                val sb = StringBuilder()
+                it.forEach { menuItem ->
+                    if (menuItem.nodeID != 0) {
+                        sb.append(menuItem.nodeID).append(",")
+                    } else {
+                        sb.append(menuItem.pId).append(",")
+                    }
+                }
+                insertOrUpdateTransferInOrderViewModel.area = sb.substring(0, sb.lastIndex)
             }
         })
 
@@ -287,10 +320,17 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                                     insertOrUpdateTransferInOrderViewModel.title = title
                                 }
 
-                                order.rent.toString().let { rent ->
-                                    insertOrUpdateTransferInOrderViewModel.rent = rent
+//                                order.rent.toString().let { rent ->
+////                                    insertOrUpdateTransferInOrderViewModel.rent = rent
+//
+//                                }
+
+                                order.rentUnitId.toString().let { rentId ->
+                                    insertOrUpdateTransferInOrderViewModel.rent = rentId
 
                                 }
+
+
 
                                 order.industry?.let { industry ->
                                     insertOrUpdateTransferInOrderViewModel.industry = industry
@@ -323,8 +363,17 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                                 order.formattedRent?.let { finalLocationNode ->
                                     button_select_rent.text = finalLocationNode
                                 }
-                                order.formattedFinalLocationNode?.let { finalLocationNode ->
-                                    button_select_area.text = finalLocationNode
+//                                order.formattedFinalLocationNode?.let { finalLocationNode ->
+//                                    button_select_area.text = finalLocationNode
+//                                }
+                                order.area_multiple?.let { it ->
+                                    insertOrUpdateTransferInOrderViewModel.area = it
+                                    if(it.isNotEmpty()) {
+                                        var areaNumList = it.split(",")
+                                        if(areaNumList.isNotEmpty()) {
+                                            checkMultiArea(areaNumList, it)
+                                        }
+                                    }
                                 }
 
                                 order.floor?.let {
@@ -357,7 +406,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
                                     insertOrUpdateTransferInOrderViewModel.description = description
                                 }
 
-                                order.size.toString().let { size ->
+                                order.rentUnitId.toString().let { size ->
                                     insertOrUpdateTransferInOrderViewModel.size = size
                                 }
 
@@ -405,5 +454,31 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
 //        super.onPause()
 //        MobclickAgent.onPageEnd("InsertOrUpdateTransferInOrderActivity")
 //    }
+
+
+    private fun checkMultiArea(numlist: List<String>, ids: String) {
+        Log.d("---checkMultiArea --", "  ids  = " +ids)
+        lifecycleScope.launch {
+            insertOrUpdateTransferInOrderViewModel.getMultiAreaMenuDataFromRemote(ids = ids)
+                ?.let { list ->
+                    numlist.forEach { num ->
+                        list.forEach { fristCity ->
+                            if (num == (fristCity.nodeID.toString())) {
+                                Log.d("---checkMultiArea --", "  fristCity name = " +fristCity.text+"   nodeId = "+fristCity.nodeID)
+                                areaLists.add(fristCity)
+                            } else {
+                                fristCity.children?.forEach { secondCity ->
+                                    if (num == (secondCity.nodeID.toString())) {
+                                        Log.d("---checkMultiArea --", "secondCity name = " +secondCity.text+"   nodeId = "+secondCity.nodeID+"  pid= "+secondCity.pId)
+                                        areaLists.add(secondCity)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    areaAdapter?.addList(areaLists,true)
+                }
+        }
+    }
 
 }

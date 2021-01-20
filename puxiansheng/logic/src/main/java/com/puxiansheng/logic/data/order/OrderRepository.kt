@@ -8,18 +8,22 @@ class OrderRepository(orderDao: OrderDao) {
 
     fun submitSimpleTransferInOrder(
         phone: String,
-        area: String
+        area: String,
+        code:String
     ) = remoteOrderRepository.submitSimpleTransferInOrder(
         phone = phone,
-        area = area
+        area = area,
+        code = code
     )
 
     fun submitSimpleTransferOutOrder(
         phone: String,
-        area: String
+        area: String,
+        code:String
     ) = remoteOrderRepository.submitSimpleTransferOutOrder(
         phone = phone,
-        area = area
+        area = area,
+        code = code
     )
 
     fun submitTransferOutOrder(

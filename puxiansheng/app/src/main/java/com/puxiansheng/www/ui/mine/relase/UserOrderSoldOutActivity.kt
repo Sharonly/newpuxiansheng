@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.http.OrderDetailObject
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.NetUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
@@ -25,6 +26,7 @@ class UserOrderSoldOutActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
     var adapter: UserOrderStateAdapter? = null
     private var isRefresh = true
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_user_pulished
     }
 

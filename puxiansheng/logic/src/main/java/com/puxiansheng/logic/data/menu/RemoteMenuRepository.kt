@@ -1,5 +1,6 @@
 package com.puxiansheng.logic.data.menu
 
+import com.puxiansheng.logic.api.API.GET_MULTI_CITY_AREA_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_INDUSTRY_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_NEW_AREA_DATA
 import com.puxiansheng.logic.api.API.GET_REMOTE_PROPERTY_DATA
@@ -43,10 +44,24 @@ class RemoteMenuRepository {
         }
 
 
-    fun requestRemoteNewAreaSelectiveData(signatureToken: String): APIRst<APIResp<HttpRespAreaObject>> =
+
+    fun requestRemoteMultiAreaSelectiveData(tree:String,ids:String,signatureToken: String): APIRst<APIResp<HttpRespAreaObject>> =
+        buildRequest(
+            url = GET_MULTI_CITY_AREA_DATA, fieldMap = mutableMapOf(
+                "tree" to tree,
+                "ids" to ids
+            ).also {
+                it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")
+            },
+            method = METHOD.GET
+        ).let {
+            call(it)
+        }
+
+    fun requestRemoteNewAreaSelectiveData(tree:String,signatureToken: String): APIRst<APIResp<HttpRespAreaObject>> =
         buildRequest(
             url = GET_REMOTE_NEW_AREA_DATA, fieldMap = mutableMapOf(
-                "tree" to "0",
+                "tree" to tree,
                 "id" to "0"
             ).also {
                 it["sign"] = sign(signatureToken = signatureToken, fieldMap = it, method = "GET")

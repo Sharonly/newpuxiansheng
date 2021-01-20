@@ -36,9 +36,9 @@ class NewInfoDetailActivity : MyBaseActivity(){
 
     @SuppressLint("JavascriptInterface")
     override fun business() {
-        viewModel= ViewModelProvider(this)[InfoDetailViewModel::class.java]
         infoId =  intent.getIntExtra("shop_Id",0).toString()
-        cityId = intent.getStringExtra("city_Id")?:SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+        cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+        viewModel= ViewModelProvider(this)[InfoDetailViewModel::class.java]
         initView()
         initData()
     }

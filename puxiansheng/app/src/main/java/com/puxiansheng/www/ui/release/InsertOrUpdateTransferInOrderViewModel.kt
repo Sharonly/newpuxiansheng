@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.*
 import com.puxiansheng.logic.data.menu.MenuDatabase
 import com.puxiansheng.logic.data.menu.MenuRepository
@@ -20,6 +21,7 @@ class InsertOrUpdateTransferInOrderViewModel(application: Application) :
     AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
+    private val menuRepository = MenuRepository(MenuDatabase.getInstance(context).menuDao())
 
     //form data
     var type = "" //left it to be 0 only with the new order otherwise the id of the order.
@@ -38,6 +40,7 @@ class InsertOrUpdateTransferInOrderViewModel(application: Application) :
     val toastMsg = MutableLiveData<String>()
     val submitResult = MutableLiveData<Int>()
     var selectiveFacilityMenuData = MutableLiveData<List<MenuItem>?>()
+    var selectiveAreaMenuData = MutableLiveData<List<LocationNode>?>()
     var facilities = MutableLiveData<MutableSet<MenuItem>>()
 
     fun submit() = viewModelScope.launch(Dispatchers.IO) {
@@ -71,54 +74,15 @@ class InsertOrUpdateTransferInOrderViewModel(application: Application) :
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
         orderRepository.getEditTransferInOrderDetailFromRemote(shopID = shopID).let { apiRst ->
             if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.obj else null
-//            if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.obj?.let {
-//                Order(
-//                    favorite = it.favorite,
-//                    shop = Shop(
-//                        shopID = it.shopID,
-//                        title = it.title,
-//                        size = it.size,
-//                        rent = it.rent,
-//                        fee = it.fee,
-//                        address = it.address,
-//                        industry = it.industry,
-//                        runningState = it.runningState,
-//                        includeFacilities = it.includeFacilities,
-//                        images = it.images,
-//                        floor = it.floor,
-//                        labels = it.labelList,
-//                        facilities = it.facilities,
-//                        description = it.description,
-//                        descriptionUrl = it.descriptionUrl,
-//                        environment = it.environment,
-//                        reason = it.reason,
-//                        //formatted data
-//                        formattedDate = it.formattedDate,
-//                        formattedPageViews = it.formattedPageViews,
-//                        formattedRent = it.formattedRent,
-//                        formattedSize = it.formattedSize,
-//                        formattedFee = it.formattedTransferFee,
-//                        formattedFinalLocationNode = it.formattedFinalLocationNode,
-//                        formattedFinalIndustry = it.formattedFinalIndustry,
-//                        formattedLocationNodes = it.formattedLocationNodes,
-//                        formattedFacilities= it.formattedFacilities,
-//                        formattedIndustry = it.formattedIndustry?.let { strList ->
-//                            val sb = StringBuilder()
-//                            strList.forEach { str ->
-//                                sb.append(str)
-//                                sb.append(" ")
-//                            }
-//                            sb.toString()
-//                        } ?: ""
-//                    ), serviceAgent = ServiceAgent(
-//                        name = it.shopOwnerName,
-//                        phone = it.serviceAgentPhone
-//                    ), shopOwner = User(
-//                        actualName = it.shopOwnerName,
-//                        userPhoneNumber = it.shopOwnerPhoneNumbr
-//                    )
-//                )
-//            } else null
+
         }
     }
+
+    suspend fun getMultiAreaMenuDataFromRemote(ids:String) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
+        menuRepository.requestRemoteMultiAreaSelectiveData("1",ids, API.currentSignatureToken).let {
+            if (it.succeeded) (it as APIRst.Success).data.data?.areaObject else null
+
+        }
+    }
+
 }

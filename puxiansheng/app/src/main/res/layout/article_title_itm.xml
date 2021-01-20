@@ -22,12 +22,15 @@
         android:layout_width="160dp"
         android:layout_height="25dp"
         android:background="@drawable/bg_bt_article_grey"
+        android:drawableStart="@mipmap/ic_article"
+        android:drawablePadding="7dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:paddingLeft="7dp"
         android:singleLine="true"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:textSize="11sp"
         android:textColor="#222222" />
 </layout>

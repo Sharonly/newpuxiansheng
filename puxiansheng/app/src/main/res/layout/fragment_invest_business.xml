@@ -2,11 +2,59 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F7F7"
+        android:background="@android:color/white"
         android:orientation="vertical">
+
+        <com.puxiansheng.www.common.StateBarView
+            android:id="@+id/statusbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_back_black"/>
+
+            <EditText
+                android:id="@+id/button_search"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="12dp"
+                android:layout_toRightOf="@+id/button_back"
+                android:background="@drawable/bg_bt_article_grey"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/search_iicon"
+                android:drawablePadding="4dp"
+                android:focusable="true"
+                android:paddingLeft="30dp"
+                android:imeOptions="actionSearch"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:hint="@string/search_invest_business"
+                android:textColor="@color/input_text_blank"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll"
@@ -18,21 +66,23 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="225dp"
-                    android:background="@mipmap/bg_banner_orage"
-                    android:orientation="vertical">
-
                     <com.puxiansheng.www.common.ImageSwitcher
                         android:id="@+id/image_switcher"
                         android:layout_width="match_parent"
                         android:layout_height="145dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="82dp"
                         android:layout_marginRight="16dp"
                         android:background="@drawable/bg_dialog"/>
-                </LinearLayout>
+
+
+                <RadioGroup
+                    android:id="@+id/banner_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal" />
+
 
 <!--                <androidx.recyclerview.widget.RecyclerView-->
 <!--                    android:id="@+id/business_list"-->
@@ -43,7 +93,7 @@
                     android:id="@+id/refreshlayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp">
 
                     <com.scwang.smartrefresh.layout.header.ClassicsHeader
                         android:layout_width="match_parent"
@@ -67,50 +117,6 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFF78934">
 
-            <com.puxiansheng.www.common.StateBarView
-                android:id="@+id/statusbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-            <ImageView
-                android:id="@+id/button_back"
-                android:layout_width="32dp"
-                android:layout_height="26dp"
-                android:paddingLeft="12dp"
-                android:paddingTop="8dp"
-                android:paddingRight="12dp"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/ic_back_white"
-                android:layout_below="@+id/statusbar"/>
-
-            <EditText
-                android:id="@+id/button_search"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginRight="12dp"
-                android:layout_toRightOf="@+id/button_back"
-                android:background="@drawable/bg_search_home"
-                android:layout_marginBottom="15dp"
-                android:layout_below="@+id/statusbar"
-                android:clickable="true"
-                android:drawableLeft="@mipmap/search_iicon"
-                android:drawablePadding="4dp"
-                android:layout_marginTop="8dp"
-                android:focusable="true"
-                android:imeOptions="actionSearch"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:gravity="center_vertical"
-                android:hint="@string/search_invest_business"
-                android:textColor="@color/input_text_blank"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-    </FrameLayout>
+    </LinearLayout>
 </layout>

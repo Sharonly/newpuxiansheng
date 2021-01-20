@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
@@ -21,14 +23,17 @@ import com.puxiansheng.logic.bean.BusinessBean
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.common.ImageSwitcher
 import com.puxiansheng.www.tools.UMengKeys
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.fragment_invest_business.*
+import kotlinx.android.synthetic.main.fragment_invest_business.banner_index
 import kotlinx.android.synthetic.main.fragment_invest_business.button_back
 import kotlinx.android.synthetic.main.fragment_invest_business.button_search
+import kotlinx.android.synthetic.main.fragment_invest_business.refreshlayout
+import kotlinx.android.synthetic.main.fragment_new_home.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -102,6 +107,27 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         lifecycleScope.launch {
             viewModel.requestBannerImage("api_join_images")?.let { banners ->
                 image_switcher.setImages(banners)
+
+                banner_index.removeAllViews()
+                for (i in 0 until banners.size) {
+                    var tempButton: RadioButton = RadioButton(this@BusinessListActivity)
+                    tempButton.setButtonDrawable(R.drawable.bg_index_bt) // 设置按钮的样式
+                    tempButton.setPadding(10, 0, 10, 0) // 设置文字距离按钮四周的距离
+                    banner_index.addView(
+                        tempButton,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                image_switcher.listener = object : ImageSwitcher.OnPageChange {
+                    override fun onScrolled(index: Int) {
+                        var bt: RadioButton = banner_index.getChildAt(index) as RadioButton
+                        bt.isChecked = true
+                    }
+                }
+
+                var bt: RadioButton = banner_index.getChildAt(0) as RadioButton
+                bt.isChecked = true
             }
 
             isRefresh = true

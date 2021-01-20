@@ -92,10 +92,15 @@ class LocationActivity : MyBaseActivity() {
         fun bind(locationNode: LocationNode) {
             binding.cityName.text = locationNode.text
             binding.root.setOnClickListener {
-                LiveDataBus.get().with("currentCity")?.value = locationNode
-                Log.d("---city--"," --- put city = "+locationNode.nodeID.toString()+"  name = "+locationNode.text)
-                SharedPreferencesUtil.put(API.USER_CITY_ID, locationNode.nodeID)
-                SharedPreferencesUtil.put(API.USER_CITY_NAME, locationNode.text)
+                Log.d("currentCity","inType = "+intent.getIntExtra("inType",0))
+                if(intent.getIntExtra("inType",0)==1){
+                    LiveDataBus.get().with("currentCity")?.value = locationNode
+//                    SharedPreferencesUtil.put(API.USER_CITY_ID, locationNode.nodeID)
+//                    SharedPreferencesUtil.put(API.USER_CITY_NAME, locationNode.text)
+                }else{
+                    LiveDataBus.get().with("saveCity")?.value = locationNode
+                }
+                onBackPressed()
                 onBackPressed()
             }
         }

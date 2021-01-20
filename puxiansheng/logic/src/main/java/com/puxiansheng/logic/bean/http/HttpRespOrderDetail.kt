@@ -115,6 +115,25 @@ data class OrderDetailObject(
     @SerializedName("area_obj")
     var address: Address? = null,
 
+    @SerializedName("area_str")
+    var formattedLocationNodes: String = "",
+
+    @SerializedName("new_area_str")
+    var newAreaStr: String = "",
+
+    @SerializedName("area_point_str")
+    var area_point_str: String = "",
+
+    @SerializedName("area_lis")
+    var areaLis: List<String>? = null,
+
+    @SerializedName("area_end")
+    var formattedFinalLocationNode: String = "",
+
+    @SerializedName("show_area")
+    var show_area: String = "",
+
+
     @SerializedName("view_opening")
     var viewOpening: String = "",
 
@@ -140,6 +159,9 @@ data class OrderDetailObject(
 
     @SerializedName("demand_ids")//显示有的设施
     var facilities: List<MenuItem>? = null,
+
+    @SerializedName("area_multiple")//显示所有的地区
+    var area_multiple:String = "",
 
     @SerializedName("content")
     var description: String = "",
@@ -194,17 +216,7 @@ data class OrderDetailObject(
     var view_rent_un_prefix: String = "",
 
 
-    @SerializedName("area_str")
-    var formattedLocationNodes: String = "",
 
-    @SerializedName("area_point_str")
-    var area_point_str: String = "",
-
-    @SerializedName("area_lis")
-    var areaLis: List<String>? = null,
-
-    @SerializedName("area_end")
-    var formattedFinalLocationNode: String = "",
 
     @SerializedName("view_demand_ids")//显示全部设施
     var formattedFacilities: List<MenuItem>? = null,

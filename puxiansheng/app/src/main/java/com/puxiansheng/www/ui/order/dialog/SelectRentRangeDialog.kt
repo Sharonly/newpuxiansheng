@@ -22,11 +22,12 @@ import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
 import kotlinx.android.extensions.LayoutContainer
 
 class SelectRentRangeDialog(
-    private val onSelectRent: (rentMenuItem: MenuItem?) -> Unit
+    private val onSelectRent: (rentMenuItem: MenuItem?,isReset:Boolean) -> Unit
 ) : DialogFragment() {
 
     private lateinit var selectRentRangeViewModel: SelectRentRangeViewModel
     private lateinit var binding: DialogSelectIndustryBinding
+    var isReset = true
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,8 +62,12 @@ class SelectRentRangeDialog(
         binding.lifecycleOwner = viewLifecycleOwner
 
         submit.setOnClickListener {
-            onSelectRent(selectRentRangeViewModel.selectedTopLevelMenuItem.value)
+            onSelectRent(selectRentRangeViewModel.selectedTopLevelMenuItem.value,isReset)
             dismiss()
+        }
+
+        btReset.setOnClickListener {
+            isReset = true
         }
 
         title.text = "租金"
@@ -129,6 +134,7 @@ class SelectRentRangeDialog(
                     selectRentRangeViewModel.selectedTopLevelMenuItemPosition.postValue(
                         adapterPosition
                     )
+                    isReset= false
                 }
 
                 setSelected(false)

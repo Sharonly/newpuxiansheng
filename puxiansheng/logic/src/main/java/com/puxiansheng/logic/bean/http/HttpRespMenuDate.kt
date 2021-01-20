@@ -2,6 +2,7 @@ package com.puxiansheng.logic.bean.http
 
 import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
+import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.MenuItem
 
 data class HttpRespMenuDate(
@@ -12,7 +13,7 @@ data class HttpRespMenuDate(
 
 data class HttpRespAreaObject(
     @SerializedName("result")
-    val areaObject: List<MenuItem>? = null
+    val areaObject: List<LocationNode>? = null
 )
 
 //data class HttpRespNewCity(

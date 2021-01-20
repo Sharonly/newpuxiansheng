@@ -261,7 +261,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                             leftCurrentPage
                         )?.let {
                             leftAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
+                                it.orders as ArrayList<OrderDetailObject>,
                                 isRerfrshLeft
                             )
                         }
@@ -278,7 +278,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                             rightCurrentPage
                         )?.let {
                             rightAdapter?.addList(
-                                it as ArrayList<OrderDetailObject>,
+                                it.orders as ArrayList<OrderDetailObject>,
                                 isRerfrshRight
                             )
                         }
@@ -362,12 +362,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
             pxs_headline.clearResources()
             cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
-            homeViewModel.requestMarqueeMessage("1", cityId.toString())?.let { info ->
-                Log.d("跑马灯", "requestMarqueeMessage info = " + info.size)
-                maqueeList = info as ArrayList<MarqueeInfo>
+            homeViewModel.requestMarqueeMessage(cityId.toString())?.let { data ->
+
+
+                maqueeList = data.infos as ArrayList<MarqueeInfo>
                 if (maqueeList?.size > 0) {
-                    if (info.isNotEmpty()) {
-                        pxs_headline.setResources(info)
+                        pxs_headline.setResources(maqueeList)
                         pxs_headline.itemClickListener =
                             object : TextSwitchView.OnItemClickListener {
                                 override fun onItemClick(position: Int) {
@@ -378,13 +378,12 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                                                 activity,
                                                 TransferOutOrderDetailActivity::class.java
                                             )
-                                        intent.putExtra("shopID", info[position].id?.toString())
+                                        intent.putExtra("shopID", maqueeList[position].id?.toString())
                                         startActivity(intent)
                                     }
                                 }
                             }
                         pxs_headline.isSelected = true
-                    }
                 } else {
                     pxs_headline.setCurrentText("")
                 }
@@ -394,7 +393,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 cityId.toString(),
                 leftCurrentPage
             )?.let {
-                leftAdapter?.addList(it as ArrayList<OrderDetailObject>, isRerfrshLeft)
+                leftAdapter?.addList(it.orders as ArrayList<OrderDetailObject>, isRerfrshLeft)
                 isLoading = false
             }
 
@@ -403,10 +402,9 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
                 rightCurrentPage
             )?.let {
                 rightAdapter?.addList(
-                    it as ArrayList<OrderDetailObject>,
+                    it.orders as ArrayList<OrderDetailObject>,
                     isRerfrshRight
                 )
-
             }
         }
     }

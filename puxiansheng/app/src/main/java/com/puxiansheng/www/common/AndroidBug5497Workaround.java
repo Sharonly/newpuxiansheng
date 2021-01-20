@@ -4,6 +4,7 @@ package com.puxiansheng.www.common;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -25,13 +26,22 @@ public class AndroidBug5497Workaround {
     private boolean isFull = false;
     private int usableHeightSansKeyboard = 0;
     private Activity mActivity;
+    private int contentHeight;
+    private   boolean isfirst = true;
+    private  int statusBarHeight;
 
     private AndroidBug5497Workaround(Activity activity) {
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
         mActivity= activity;
         FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
         mChildOfContent = content.getChildAt(0);
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
+                if (isfirst) {
+                    contentHeight = mChildOfContent.getHeight();//兼容华为等机型
+                    isfirst = false;
+                }
                 possiblyResizeChildOfContent();
             }
         });
@@ -39,6 +49,7 @@ public class AndroidBug5497Workaround {
         if ((activity.getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
             isFull = true;
         }
+        Log.v("dbw", "Navi isFull:" + isFull);
     }
 
     private void possiblyResizeChildOfContent() {
@@ -51,6 +62,13 @@ public class AndroidBug5497Workaround {
             }
             int heightDifference = usableHeightSansKeyboard - usableHeightNow;
             if (heightDifference > (usableHeightSansKeyboard / 4)) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                    //frameLayoutParams.height = usableHeightSansKeyboard - heightDifference;
+                    frameLayoutParams.height = usableHeightSansKeyboard - heightDifference + statusBarHeight;
+                } else {
+                    frameLayoutParams.height = usableHeightSansKeyboard -heightDifference;
+                }
                 // keyboard probably just became visible
                 frameLayoutParams.height = usableHeightSansKeyboard - heightDifference;
             } else {
@@ -65,7 +83,7 @@ public class AndroidBug5497Workaround {
     private int computeUsableHeight() {
         Rect r = new Rect();
         mChildOfContent.getWindowVisibleDisplayFrame(r);
-        return (r.bottom - r.top);
+        return (r.bottom - r.top)+statusBarHeight;
     }
 
     private int getNavigationBarHeight() {

@@ -11,6 +11,7 @@ import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
@@ -30,6 +31,7 @@ class InfoDetailActivity : MyBaseActivity(){
 
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
        return R.layout.fragment_info_detail
     }
 

@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogReleaseSubmitTipsBinding
 import com.puxiansheng.www.ui.mine.relase.MyReleaseAllActivity
-import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 
 class ReleaseDialog(private var type: Int,private var tip:String) : DialogFragment() {
 

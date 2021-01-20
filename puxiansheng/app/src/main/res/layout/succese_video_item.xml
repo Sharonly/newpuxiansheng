@@ -46,6 +46,7 @@
                 android:maxLines="2"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
+                android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@+id/shop_img" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

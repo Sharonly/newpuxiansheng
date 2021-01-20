@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.business.BusinessListActivity
@@ -30,14 +31,23 @@ import kotlinx.coroutines.launch
 class MessageDetailActivity() : MyBaseActivity() {
     private lateinit var viewModel: MessageDetailViewModel
     var noticeId =" "
+    var category = 0
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.fragment_message_detail
     }
 
     @SuppressLint("Range")
     override fun business() {
         noticeId = intent.getStringExtra("noticeId")
+        category = intent.getIntExtra("category",0)
+        when(category){
+            1-> message_title.text = "系统消息"
+            2-> message_title.text = "通知消息"
+            3-> message_title.text = "推荐消息"
+
+        }
         viewModel = ViewModelProvider(this)[MessageDetailViewModel::class.java]
         button_back.setOnClickListener {
             onBackPressed()
@@ -88,6 +98,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         }
                                         "shop_success" -> {//成功案例
                                             val intent = Intent(this@MessageDetailActivity, NewSuccessOrdersActivity::class.java)
+                                            intent.putExtra("type", 1)
                                             startActivity(intent)
                                         }
                                         "join_list" ->{

@@ -6,6 +6,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.logic.bean.Order
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
@@ -28,6 +29,7 @@ class MyHistoryActivity : MyBaseActivity(){
     private var fragments = listOf(historyTransferOutFragment, historyTransferInFragment, historyInfoFragment)
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_my_history
     }
 

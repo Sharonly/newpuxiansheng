@@ -57,7 +57,9 @@
                     android:label="@string/app_name"
                     android:configChanges="keyboardHidden|orientation|screenSize"
                     android:screenOrientation="portrait"
-                    android:theme="@style/AppTheme">
+                    android:launchMode="singleTask"
+                    android:theme="@style/AppTheme"
+                    android:windowSoftInputMode="adjustPan|stateHidden">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
                         <category android:name="android.intent.category.LAUNCHER" />
@@ -94,9 +96,6 @@
 <!--        <activity android:name=".ui.business.InvestBusinessActivity"/>-->
         <activity android:name=".ui.business.BusinessListActivity"/>
         <activity android:name=".ui.business.InvestBusinessDetailActivity"/>
-        <activity android:name=".ui.order.TransferInOrdersActivity" />
-        <activity android:name=".ui.order.TransferOutOrderActivity" />
-        <activity android:name=".ui.order.TransferSuccessOrderActivity"/>
 
         <activity android:name=".ui.order.NewTransferOutOrdersActivity" />
         <activity android:name=".ui.order.NewTransferInOrdersActivity" />

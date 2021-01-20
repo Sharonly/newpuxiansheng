@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.MessageItem
 import com.puxiansheng.www.R
 
-class NewMessageListAdapter(var mContext: Context, var lists: ArrayList<MessageItem>) :
+class NewMessageListAdapter(var mContext: Context, var lists: ArrayList<MessageItem>,var category:Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -58,6 +58,7 @@ class NewMessageListAdapter(var mContext: Context, var lists: ArrayList<MessageI
             holder.root.setOnClickListener {
                 val intent = Intent(mContext, MessageDetailActivity::class.java)
                 intent.putExtra("noticeId", info?.messageID.toString())
+                intent.putExtra("category", category)
                 mContext.startActivity(intent)
             }
             holder.messageInfo.text = info?.content

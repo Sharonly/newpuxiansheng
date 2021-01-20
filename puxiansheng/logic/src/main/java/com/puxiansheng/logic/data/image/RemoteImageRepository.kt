@@ -32,7 +32,6 @@ class RemoteImageRepository {
             },
             method = METHOD.GET
         ).let {
-            Log.d("NEWhomeMenu","it = "+it)
             API.call(it)
         }
 

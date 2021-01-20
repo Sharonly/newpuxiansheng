@@ -20,6 +20,7 @@ import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.BitMapUtil
 import com.puxiansheng.www.databinding.DialogMoreManagerBinding
+import com.puxiansheng.www.tools.ShareUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailViewModel
 import com.tencent.map.tools.Util
@@ -52,7 +53,7 @@ class MoreManagerDialog(
     var shareUrl: String = ""
     var shopPath: String = ""
     private var bitMapUtil = BitMapUtil()
-    var shopBmp: Bitmap? = null
+    private var shopBmp: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,15 +168,15 @@ class MoreManagerDialog(
                 shopBmp = bitMapUtil.returnBitMap(shopImg)
                 if (shopBmp != null) {
                     shopBmp.let {
-                        shopBmp = compressScale(it!!)
+                        shopBmp = ShareUtils.compressScale(requireContext(),it!!)
                     }
                 } else {
                     shopBmp = BitmapFactory.decodeResource(resources, R.mipmap.img_pxs_defult_small)
                 }
             }
 //            ShareObject(shareUrl)
-            shareUrl(shareUrl)
-//            share(shareUrl)
+            Log.d("shareUrlAAA22"," shopTitle = "+shopTitle+"  shopBmp = "+shopBmp+"  shareUrl = "+shareUrl)
+            ShareUtils.share(requireContext(),shopTitle,shopBmp,shareUrl)
             dismiss()
         }
         btCancel.setOnClickListener { dismiss() }
@@ -188,23 +189,7 @@ class MoreManagerDialog(
      *
      * 注意！！！！ 微信平台的debug签名和release签名
      */
-    private fun shareUrl(url: String) {
-        val wxApi = WXAPIFactory.createWXAPI(requireContext(), API.WEIXIN_APP_ID, true)
-        wxApi?.registerApp(API.WEIXIN_APP_ID)
-        val webpage = WXWebpageObject()
-        webpage.webpageUrl = url
-        Log.d("one share--","url 111== "+url)
-        val msg = WXMediaMessage(webpage)
-        msg.title = shopTitle
-//        msg.description = "网页描述"
-        msg.setThumbImage(shopBmp)
-        val req = SendMessageToWX.Req()
-        req.transaction = "puxianshengshare"
-        req.message = msg
-        req.scene = SendMessageToWX.Req.WXSceneSession
-//        req.scene = SendMessageToWX.Req.WXSceneTimeline
-        wxApi.sendReq(req)
-    }
+
 
     private fun ShareObject(url: String) {
         val wxApi = WXAPIFactory.createWXAPI(requireContext(), API.WEIXIN_APP_ID, true)
@@ -241,6 +226,7 @@ class MoreManagerDialog(
      * @param image （根据Bitmap图片压缩）
      * @return
      */
+
     fun compressScale(image: Bitmap): Bitmap? {
         val baos = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 60, baos)

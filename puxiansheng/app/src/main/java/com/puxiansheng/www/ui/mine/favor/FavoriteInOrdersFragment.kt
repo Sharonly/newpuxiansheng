@@ -80,6 +80,7 @@ class FavoriteInOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         if (NetUtil.isNetworkConnected(requireContext())) {
             lifecycleScope.launch {
                 viewModel.getTransferInOrders(currentPage)?.let { list ->
+                    Log.d("getTransferInOrders ","getTransferInOrders = "+list.size)
                     adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
                 }
             }
@@ -106,6 +107,7 @@ class FavoriteInOrdersFragment : Fragment(), OnRefreshLoadMoreListener {
         isRefresh = true
         lifecycleScope.launch {
             viewModel.getTransferInOrders(currentPage)?.let {list->
+                Log.d("getTransferInOrders ","onRefresh  list = "+list.size)
                 adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
             }
         }

@@ -10,19 +10,19 @@
 
         <TextView
             android:id="@+id/menu_text"
-            android:layout_width="199dp"
+            android:layout_width="190dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:paddingLeft="34dp"
+            android:paddingLeft="44dp"
             android:textColor="#1A1A1A"
-            android:textSize="13sp"
-            android:text="@string/about_us"/>
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/status_img"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_gravity="end|center_vertical"
-            android:gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/bg_area_grey_no_select"
+         />
     </LinearLayout>
 </layout>

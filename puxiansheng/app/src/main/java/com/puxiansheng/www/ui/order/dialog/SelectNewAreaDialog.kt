@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
-import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
@@ -29,7 +28,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class SelectNewAreaDialog(
-    private val onSelectArea: (locationNode: MenuItem?, secondLevelItem: MenuItem?) -> Unit
+    private val onSelectArea: (locationNode: LocationNode?, secondLevelItem: LocationNode?) -> Unit
 ) : DialogFragment() {
 
     private lateinit var privacyDialogViewModel: SelectNewAreaViewModel
@@ -74,7 +73,7 @@ class SelectNewAreaDialog(
 
         submit.setOnClickListener {
             if(privacyDialogViewModel.selectedTopLevelAreaItem.value!=null && privacyDialogViewModel.selectedSecondLevelAreaItem.value != null) {
-                if (privacyDialogViewModel.selectedSecondLevelAreaItem.value?.menuID?.toInt() == 0) {
+                if (privacyDialogViewModel.selectedSecondLevelAreaItem.value?.nodeID?.toInt() == 0) {
                     Toast.makeText(mContext, "请选择城市和区域", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
@@ -97,7 +96,7 @@ class SelectNewAreaDialog(
         menuListSecond.adapter = MenuItemListAdapter(mutableListOf(), 1)
 
         privacyDialogViewModel.selectedTopLevelAreaItem.observe(viewLifecycleOwner, Observer {
-            privacyDialogViewModel.getNewAreaSecondMenuDataFromRemote(it.menuID.toInt())
+            privacyDialogViewModel.getNewAreaSecondMenuDataFromRemote(it.nodeID.toInt())
         })
 
 
@@ -150,7 +149,7 @@ class SelectNewAreaDialog(
     }
 
     inner class MenuItemListAdapter(
-        var list: MutableList<MenuItem>,
+        var list: MutableList<LocationNode>,
         private val level: Int
     ) : RecyclerView.Adapter<MenuItemListAdapter.MenuItemHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemHolder =
@@ -168,7 +167,7 @@ class SelectNewAreaDialog(
         override fun onBindViewHolder(holder: MenuItemHolder, position: Int) =
             holder.bind(list[position], holder.adapterPosition)
 
-        fun setMenuData(menuData: List<MenuItem>) {
+        fun setMenuData(menuData: List<LocationNode>) {
             list = menuData.toMutableList()
             notifyDataSetChanged()
         }
@@ -180,7 +179,7 @@ class SelectNewAreaDialog(
             val binding: DialogSelectiveMenuItemBinding =
                 DialogSelectiveMenuItemBinding.bind(containerView)
 
-            fun bind(menuItem: MenuItem, adapterPosition: Int) {
+            fun bind(menuItem: LocationNode, adapterPosition: Int) {
                 binding.menuText.text = menuItem.text
                 binding.menuText.setOnClickListener {
                     when (level) {

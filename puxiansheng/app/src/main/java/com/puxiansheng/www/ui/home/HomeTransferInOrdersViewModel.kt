@@ -53,7 +53,7 @@ class HomeTransferInOrdersViewModel(application: Application) : AndroidViewModel
             city = city
         ).let { apiRst ->
             if (apiRst.succeeded) {
-                (apiRst as APIRst.Success).data.data?.data?.orders
+                (apiRst as APIRst.Success).data.data?.data
             }else null
 //                (apiRst as APIRst.Success).data.data?.data?.orders?.map {
 //                    Order(

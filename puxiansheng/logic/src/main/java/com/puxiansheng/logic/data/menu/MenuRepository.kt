@@ -40,8 +40,11 @@ class MenuRepository(menuDao: MenuDao) {
     fun requestRemotePropertySelectiveData(signatureToken: String) =
         remoteMenuRepository.requestRemotePropertySelectiveData(signatureToken = signatureToken)
 
-    fun requestRemoteNewAreaSelectiveData(signatureToken: String) =
-        remoteMenuRepository.requestRemoteNewAreaSelectiveData(signatureToken = signatureToken)
+    fun requestRemoteNewAreaSelectiveData(tree:String,signatureToken: String) =
+        remoteMenuRepository.requestRemoteNewAreaSelectiveData(tree = tree,signatureToken = signatureToken)
+
+    fun requestRemoteMultiAreaSelectiveData(tree:String,ids:String,signatureToken: String) =
+        remoteMenuRepository.requestRemoteMultiAreaSelectiveData(tree = tree,ids = ids,signatureToken = signatureToken)
 
     fun requestRemoteNewAreaSelectiveDataByPid(signatureToken: String,id:Int) =
         remoteMenuRepository.requestRemoteNewAreaById(signatureToken = signatureToken,id = id)

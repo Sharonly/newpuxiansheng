@@ -43,7 +43,7 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "337"
+    const val API_VERSION = "341"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
@@ -59,11 +59,11 @@ object API {
     const val USER_CITY_ID = "city_id"
     const val USER_CITY_NAME = "city_name"
 
-    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
-    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
+//    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
+//    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
 
-//    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
-//    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
+    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
+    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
 
     //login
     const val DO_LOGIN = API_ADDRESS + "api/login.html"
@@ -200,6 +200,9 @@ object API {
     const val GET_REMOTE_PROPERTY_DATA = API_ADDRESS + "api/shop/get_property.html"
     //新地址
     const val GET_REMOTE_NEW_AREA_DATA = API_ADDRESS +"api/new_area/list.html"
+    
+    //多地址
+    const val GET_MULTI_CITY_AREA_DATA = API_ADDRESS+"api/many_new/area_list.html"
 
     //some simple data apis
     const val GET_HOME_PAGE_STATISTICS_DATA = API_ADDRESS + "api/shop/statistics.html"
@@ -207,6 +210,7 @@ object API {
     const val GET_SERVICE_LINK = API_ADDRESS + "api/config/kf_url.html"
 
     const val GET_CONFIG_URL = API_ADDRESS+"api/config.html"
+    const val GET_NEW_PXS_HEADLINE = API_ADDRESS+"api/get/recommend_transfer.html"
 
 
     private val interceptor = HttpInterceptor("", "","")

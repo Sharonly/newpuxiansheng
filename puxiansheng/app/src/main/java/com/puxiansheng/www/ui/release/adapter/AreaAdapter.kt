@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.http.AreaObject
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.AreaItemBinding
@@ -24,7 +25,7 @@ class AreaAdapter(
     )
 
 
-    fun addList(tempList: ArrayList<AreaObject>?, isClean: Boolean) {
+    fun addList(tempList: ArrayList<AreaObject>, isClean: Boolean) {
         if (isClean) {
             lists.clear()
         }

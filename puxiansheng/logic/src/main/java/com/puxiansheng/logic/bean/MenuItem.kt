@@ -11,7 +11,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 
 data class MenuItem(
-
     @ColumnInfo(name = "_menu_id")
     @SerializedName("id")
     var menuID: Long = 0,

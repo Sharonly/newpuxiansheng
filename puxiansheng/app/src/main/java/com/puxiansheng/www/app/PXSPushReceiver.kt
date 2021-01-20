@@ -66,6 +66,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 }
                 "shop_success" -> {
                     val intent2 = Intent(context, NewSuccessOrdersActivity::class.java)
+                    intent2.putExtra("type", 1)
                     intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }
@@ -106,6 +107,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 }
                 "notice_list" -> {
                     val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                    intent.putExtra("type", 1)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                 }
@@ -161,6 +163,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
             9 -> {//消息详情
                 val intent = Intent(context, MessageDetailActivity::class.java)
                 intent.putExtra("noticeId", data.jump_param)
+                intent.putExtra("category", 2)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

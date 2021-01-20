@@ -5,25 +5,24 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.util.ext.MyScreenUtil
+import com.puxiansheng.util.ext.PermissionUtils
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyActivityManage
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.common.AndroidBug5497Workaround
 import com.puxiansheng.www.login.WechatAPI
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.home.NewHomeFragment
@@ -54,6 +53,7 @@ class MainActivity : MyBaseActivity() {
     private var currentTokenCode: Int = 0
     private var lastIndex = -1
     private var backCount = 0
+
     private val fragmentsArray = arrayListOf<Fragment>(
         NewHomeFragment(),
         InfoHomeListFragment(),
@@ -64,6 +64,7 @@ class MainActivity : MyBaseActivity() {
 
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this, true, R.color.color81, true)
         return R.layout.activity_home
     }
 
@@ -73,6 +74,16 @@ class MainActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        if (!isTaskRoot) {
+            val intentAction = intent.action
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intentAction != null && intentAction == Intent.ACTION_MAIN) {
+                finish()
+                return
+            }
+        }
+
+//        AndroidBug5497Workaround.assistActivity(this)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN and WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         getSharedPreferences("pxs_privacy", Context.MODE_PRIVATE).let {
             it.getInt("show_privacy", 0).let { isShow ->
                 if (isShow == 0) {
@@ -84,11 +95,13 @@ class MainActivity : MyBaseActivity() {
             }
         }
 
-        ActivityCompat.requestPermissions(
-            this,
-            requiredPermissions,
-            requestCodePermissions
-        )
+//        ActivityCompat.requestPermissions(
+//            this,
+//            requiredPermissions,
+//            requestCodePermissions
+//        )
+
+        PermissionUtils.requestPermission(this@MainActivity, requiredPermissions)
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         initBottomBar()
         initData()
@@ -220,7 +233,6 @@ class MainActivity : MyBaseActivity() {
 
         appModel?.requireLocalDevice()?.observe(this@MainActivity, Observer {
             it?.let {
-                Log.d("GET_TOKEN----", "requireLocalDevice  111---- ")
                 appModel?.refreshSignatureToken(
                     it,
                     SharedPreferencesUtil.get("registration_id", "") as String
@@ -271,40 +283,37 @@ class MainActivity : MyBaseActivity() {
     }
 
 
-
     private fun initBottomBar() {
-        val menuView: BottomNavigationMenuView = nav_view.getChildAt(0) as BottomNavigationMenuView
-        val itemView: BottomNavigationItemView = menuView.getChildAt(3) as BottomNavigationItemView
-        val badge: View = LayoutInflater.from(this).inflate(R.layout.menu_badge, menuView, false);
-        itemView.addView(badge)
-
-
+//        val menuView: BottomNavigationMenuView = nav_view.getChildAt(0) as BottomNavigationMenuView
+//        val itemView: BottomNavigationItemView = menuView.getChildAt(3) as BottomNavigationItemView
+//        val badge: View = LayoutInflater.from(this).inflate(R.layout.menu_badge, menuView, false);
+//        itemView.addView(badge)
         nav_view.itemIconTintList = null
         nav_view.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    swichFragment(0)
+                    swichFragment(0, false)
                     MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "HomeFragment")
                     //  MyScreenUtil.setStateBarStyle(this@MainActivity, false, R.color.white, true)
                 }
                 R.id.navigation_info -> {
-                    swichFragment(1)
+                    swichFragment(1, false)
                     MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "InfoHomeListFragment")
                     //  MyScreenUtil.setStateBarStyle(this@MainActivity, false, R.color.white, true)
                 }
                 R.id.navigation_release -> {
-                    swichFragment(2)
+                    swichFragment(2, false)
                     MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "ReleaseFragment")
                     // MyScreenUtil.setStateBarStyle(this@MainActivity, false, R.color.white, true)
                 }
 
                 R.id.navigation_message -> {
-                    swichFragment(3)
+                    swichFragment(3, false)
                     MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "MessageHomeListFragment")
                     // MyScreenUtil.setStateBarStyle(this@MainActivity, false, R.color.white, true)
                 }
                 R.id.navigation_mine -> {
-                    swichFragment(4)
+                    swichFragment(4, false)
                     MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "MineFragment")
                     // MyScreenUtil.setStateBarStyle(this@MainActivity, true, R.color.white, true)
                 }
@@ -313,14 +322,43 @@ class MainActivity : MyBaseActivity() {
         }
 
         nav_view.selectedItemId = R.id.navigation_home
+
+    }
+
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("activity", "  main onNewIntent ")
+        val intExtra = intent?.getIntExtra("index", lastIndex) ?: lastIndex
+
+        //swichFragment(intExtra,true)
+        if (fragmentsArray[intExtra].isAdded) {
+            swichFragment(intExtra, true)
+        } else {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.home_container, fragmentsArray[intExtra])
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commitAllowingStateLoss()
+            lastIndex = intExtra
+        }
+        if (intExtra == 0) {
+            nav_view.selectedItemId = R.id.navigation_home
+        } else if (intExtra == 1) {
+            nav_view.selectedItemId = R.id.navigation_info
+        } else if (intExtra == 2) {
+            nav_view.selectedItemId = R.id.navigation_release
+        } else if (intExtra == 3) {
+            nav_view.selectedItemId = R.id.navigation_message
+        } else if (intExtra == 4) {
+            nav_view.selectedItemId = R.id.navigation_mine
+        }
     }
 
 
     /**
      * 切换fragment
      */
-    private fun swichFragment(position: Int) {
-
+    private fun swichFragment(position: Int, isJump: Boolean) {
         if (lastIndex == position) {
             return
         }
@@ -331,10 +369,16 @@ class MainActivity : MyBaseActivity() {
                 .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
         } else {
             if (lastIndex != -1) {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.home_container, fragmentsArray[position])
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
+                if (isJump) {
+                    supportFragmentManager.beginTransaction().show(fragmentsArray[position])
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .add(R.id.home_container, fragmentsArray[position])
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
+                }
             } else {
                 supportFragmentManager.beginTransaction()
                     .add(R.id.home_container, fragmentsArray[position])
@@ -342,16 +386,30 @@ class MainActivity : MyBaseActivity() {
                     .commitAllowingStateLoss()
             }
         }
-
         lastIndex = position
+    }
 
+
+    fun gotoRelease() {
+        lastIndex = 0
+//        swichFragment(2)
+        nav_view.selectedItemId = R.id.navigation_release
+    }
+
+
+    fun gotoInfo() {
+//        lastIndex = 0
+//        swichFragment(1,true)
+//        nav_view.selectedItemId = R.id.navigation_home
+//        nav_view.selectedItemId = nav_view.getChildAt(1).findViewById<>(R.)
     }
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_DOWN) {
             //销毁前activity数量
 //            println("剩余activity---》${MyActivityManage.activityMap.size}")
+            Log.e("---activity", " exitApp")
             MyActivityManage.exitApp()
         }
         return super.onKeyDown(keyCode, event)

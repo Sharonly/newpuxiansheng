@@ -11,6 +11,7 @@ import android.view.ViewParent
 import android.webkit.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import kotlinx.android.synthetic.main.fragment_invest_business_detail.*
@@ -26,6 +27,7 @@ class InvestBusinessDetailActivity : MyBaseActivity() {
     var shopUrl = ""
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.fragment_invest_business_detail
     }
 

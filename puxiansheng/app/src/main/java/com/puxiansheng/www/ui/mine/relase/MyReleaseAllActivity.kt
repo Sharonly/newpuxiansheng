@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.mine.relase
 
 import android.annotation.SuppressLint
 import com.google.android.material.tabs.TabLayoutMediator
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.umeng.analytics.MobclickAgent
@@ -9,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_my_all_release.*
 
 class MyReleaseAllActivity :MyBaseActivity(){
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_my_all_release
     }
 

@@ -55,7 +55,7 @@
             android:layout_height="166dp"
             android:background="@mipmap/bg_user_info">
 
-            <com.puxiansheng.www.common.CircleImageView
+            <ImageView
                 android:id="@+id/user_icon"
                 android:layout_width="92dp"
                 android:layout_height="92dp"

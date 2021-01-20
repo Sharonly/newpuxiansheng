@@ -12,14 +12,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
-import com.puxiansheng.www.common.AppFragment
-import com.puxiansheng.www.common.JumpUtils
-import com.puxiansheng.www.common.urlBg
+import com.puxiansheng.www.common.*
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMineBinding
 import com.puxiansheng.www.tools.UMengKeys
@@ -61,7 +60,7 @@ class MineFragment : AppFragment() {
             lifecycleScope.launch {
                 mineViewModel.getUserInformationFromRemote()?.let {
                     if (it is User) {
-                        user_icon.urlIcon(it.icon)
+                        user_icon.urlCircleImg(it.icon)
                         user_account.text = it.nickName ?: it.actualName
                         user_phone.visibility = View.VISIBLE
                         SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
@@ -120,7 +119,7 @@ class MineFragment : AppFragment() {
             mineViewModel.getUserInformationFromRemote()?.let {
                 if (it is User) {
                     Log.d("---imageicon", "UserInformation it.icon = " + it.icon)
-                    user_icon.urlIcon(it.icon)
+                    user_icon.urlCircleImg(it.icon)
                     user_account.text = it.nickName ?: it.actualName
                     user_phone.visibility = View.VISIBLE
                     SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
@@ -331,13 +330,13 @@ class MineFragment : AppFragment() {
                     userPhone?.text = phone
                     Log.d("---imageicon", " user.icon = " + user.icon)
                     if (user.icon.isNotEmpty()) {
-                        userIcon?.urlIcon(user.icon)
+                        userIcon?.urlCircleImg(user.icon)
                     }
                 } else {
                     isLogin = false
                     userAccount?.text = "请登录"
                     userPhone?.visibility = View.INVISIBLE
-                    userIcon?.setImageResource(R.mipmap.ic_default_icon)
+                    userIcon?.urlCircleImg(R.mipmap.ic_default_icon)
                 }
             }
         })

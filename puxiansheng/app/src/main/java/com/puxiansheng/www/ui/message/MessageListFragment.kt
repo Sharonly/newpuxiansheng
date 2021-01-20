@@ -70,7 +70,7 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
         refreshlayout.setOnRefreshLoadMoreListener(this@MessageListFragment)
 
         list.layoutManager = LinearLayoutManager(requireContext())
-        adapter = NewMessageListAdapter(requireActivity(), arrayListOf())
+        adapter = NewMessageListAdapter(requireActivity(), arrayListOf(),category)
         list.adapter = adapter
 
         if (NetUtil.isNetworkConnected(requireContext())) {

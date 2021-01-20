@@ -6,6 +6,9 @@ import com.puxiansheng.logic.bean.MarqueeInfo
 data class HttpRespMarqueeInfos(
     @SerializedName("result")
     val data: MarqueeHeadLine? = null
+
+
+
 )
 
 

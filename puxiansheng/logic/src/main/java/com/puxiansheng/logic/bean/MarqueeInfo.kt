@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MarqueeInfo(
         @SerializedName("id")
-        val id: Long? = null,
+        val id: Int = 0,
 
         @SerializedName("title")
         val title: String = "",

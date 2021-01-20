@@ -62,7 +62,7 @@ class FavoriteTransferInOrdersViewModel(application: Application) : AndroidViewM
                                 size = it.size,
                                 rent = it.rent,
                                 fee = it.fee,
-                                address = it.address,
+//                                address = it.address,
                                 industry = it.industry,
                                 runningState = it.runningState,
                                 includeFacilities = it.includeFacilities,

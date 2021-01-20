@@ -18,6 +18,7 @@ class SimpleOrderViewModel(application: Application) : AndroidViewModel(applicat
 
     var phone = ""
     var city = ""
+    var code = ""
 
     suspend fun requestMyFastTransferCount() =
         withContext(context = viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -39,7 +40,8 @@ class SimpleOrderViewModel(application: Application) : AndroidViewModel(applicat
     ) {
         orderRepository.submitSimpleTransferInOrder(
             phone = phone,
-            area = city
+            area = city,
+            code = code
         ).let {
             it
         }
@@ -60,7 +62,8 @@ class SimpleOrderViewModel(application: Application) : AndroidViewModel(applicat
     ) {
         orderRepository.submitSimpleTransferOutOrder(
             phone = phone,
-            area = city
+            area = city,
+            code = code
         ).let {
             it
         }

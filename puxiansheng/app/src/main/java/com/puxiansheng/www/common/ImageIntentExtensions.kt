@@ -84,6 +84,7 @@ fun pictureIntent(context: Context, image: BannerImage) {
 
                 "shop_success" -> {//成功案例
                     val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                    intent.putExtra("type", 1)
                     context.startActivity(intent)
                     MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferSuccessOrdersActivity")
                 }
@@ -155,6 +156,7 @@ fun pictureIntent(context: Context, image: BannerImage) {
                 MessageDetailActivity::class.java
             )
             intent.putExtra("noticeId", image.jump_param)
+            intent.putExtra("category", 2)
             context.startActivity(intent)
         }
 

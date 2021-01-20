@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.mine.favor
 
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.message.MessagePagerAdapter
@@ -17,6 +18,7 @@ class MyfarvorActivity : MyBaseActivity() {
     private var fragments = listOf<Fragment>(favoriteTransferOutFragment, favoriteTransferInFragment, favoriteInfoFragment)
 
     override fun getLayoutId(): Int {
+        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         return R.layout.activity_my_favor
     }
 

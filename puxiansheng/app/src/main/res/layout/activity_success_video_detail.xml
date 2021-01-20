@@ -47,6 +47,7 @@
                     android:textSize="@dimen/top_bar_title_text_size"
                     android:maxLines="1"
                     android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

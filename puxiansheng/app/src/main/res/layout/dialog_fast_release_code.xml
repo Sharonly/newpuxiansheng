@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/tanslate">
+
+        <RelativeLayout
+            android:id="@+id/layout_submit"
+            android:layout_width="310dp"
+            android:layout_height="220dp"
+            android:background="@drawable/bg_dialog"
+           >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#212121"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="请填写手机短信验证码"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="22dp"/>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
+                android:layout_below="@+id/title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="17dp"/>
+
+            <ImageView
+                android:id="@+id/bt_close"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:padding="2dp"
+               android:layout_alignParentRight="true"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="9dp"
+                android:src="@mipmap/ic_close_grey"/>
+
+            <TextView
+                android:id="@+id/txt_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="#F02121"
+                android:layout_below="@+id/desc"
+                android:text="验证码错误!"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:id="@+id/layout_num"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/desc"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp">
+
+
+            <EditText
+                android:id="@+id/num1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@null"
+                android:textSize="18sp"
+                android:textColor="#1A1A1A"
+                android:inputType="number"
+                android:focusable="true"
+                android:focusedByDefault="true"
+                android:maxLength="1"/>
+
+            <EditText
+                android:id="@+id/num2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@null"
+                android:textSize="18sp"
+                android:textColor="#1A1A1A"
+                android:inputType="number"
+                android:enabled="false"
+                android:maxLength="1"/>
+
+
+                <EditText
+                android:id="@+id/num3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:textColor="#1A1A1A"
+                    android:enabled="false"
+                    android:maxLength="1"/>
+
+
+                <EditText
+                android:id="@+id/num4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:textSize="18sp"
+                    android:textColor="#1A1A1A"
+                    android:maxLength="1"/>
+
+
+                <EditText
+                android:id="@+id/num5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:enabled="false"
+                    android:textSize="18sp"
+                    android:textColor="#1A1A1A"
+                    android:maxLength="1"/>
+
+
+                <EditText
+                android:id="@+id/num6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:enabled="false"
+                    android:textColor="#1A1A1A"
+                    android:maxLength="1"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/layout_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/layout_num"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp">
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E1E1E1"/>
+            </LinearLayout>
+
+            <TextView
+            android:id="@+id/txt_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="#9D9D9D"
+            android:layout_below="@+id/layout_line"
+            android:text="重新获取验证码"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"/>
+
+
+            <TextView
+                android:id="@+id/count_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:textColor="#F78C3B"
+                android:layout_below="@+id/txt_again"
+                android:text="60s可重发"
+                android:textSize="15sp"
+                android:layout_centerHorizontal="true"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>
+

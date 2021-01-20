@@ -28,13 +28,14 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class SelectAreaDialog(
-    private val onSelectArea: (locationNode: LocationNode?) -> Unit
+    private val onSelectArea: (locationNode: LocationNode?,isReset:Boolean) -> Unit
 ) : DialogFragment() {
 
     private lateinit var privacyDialogViewModel: SelectAreaViewModel
 
     private lateinit var appModel: MainViewModel
     private lateinit var binding: DialogSelectIndustryBinding
+    var isReset = true
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,8 +71,12 @@ class SelectAreaDialog(
         binding.lifecycleOwner = viewLifecycleOwner
 
         submit.setOnClickListener {
-            onSelectArea(privacyDialogViewModel.selectedLocationNode)
+            onSelectArea(privacyDialogViewModel.selectedLocationNode,isReset)
             dismiss()
+        }
+
+        btReset.setOnClickListener {
+            isReset = true
         }
 
         title.text = "城市"
@@ -133,6 +138,7 @@ class SelectAreaDialog(
                 binding.menuText.setOnClickListener {
                     privacyDialogViewModel.selectedLocationNode = locationNode
                     privacyDialogViewModel.selectedLocationNodePosition.postValue(adapterPosition)
+                    isReset = false
                 }
 
                 setSelected(false)

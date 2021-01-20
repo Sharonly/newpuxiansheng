@@ -8,15 +8,15 @@
     <TextView
         android:id="@+id/tv_msg_count"
         tools:text="11"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_red_circle"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_10"
+        android:textSize="8sp"
         />
 
 </LinearLayout>

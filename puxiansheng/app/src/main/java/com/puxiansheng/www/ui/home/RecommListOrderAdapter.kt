@@ -115,7 +115,7 @@ class RecommListOrderAdapter(var context: Context, var dataList: ArrayList<Order
             holder.shopIndustry.text = shopInfo.formattedFinalIndustry
             holder.shopSize.text = shopInfo.view_acreage_un_prefix
             holder.shopRent.text = shopInfo.view_rent_un_prefix
-            holder.shopArea.text = shopInfo.formattedFinalLocationNode
+            holder.shopArea.text = shopInfo.show_area
             holder.shopData.text = shopInfo.day_time
             holder.root.setOnClickListener {
                 if (Utils.isFastClick()) {

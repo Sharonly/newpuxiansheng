@@ -52,7 +52,6 @@ abstract class MyBaseActivity : AppCompatActivity() {
                 it == API.CODE_EMPTY_SIGNATURE_TOKEN||
                 it == API.CODE_UNKNOWN_SIGNATURE_TOKEN
             )  {
-                println("---homeActivity--->${it}")
                 appModel?.requireLocalDevice()?.observe(this, Observer {
                     it?.let {
                         lifecycleScope.launch {
