@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.*
+import com.puxiansheng.logic.data.common.CommonDataRepository
 import com.puxiansheng.logic.data.menu.MenuDatabase
 import com.puxiansheng.logic.data.menu.MenuRepository
 import com.puxiansheng.logic.data.order.OrderDatabase
@@ -22,6 +23,7 @@ class InsertOrUpdateTransferInOrderViewModel(application: Application) :
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     private val menuRepository = MenuRepository(MenuDatabase.getInstance(context).menuDao())
+    private val commonDataRepository = CommonDataRepository()
 
     //form data
     var type = "" //left it to be 0 only with the new order otherwise the id of the order.
@@ -82,6 +84,15 @@ class InsertOrUpdateTransferInOrderViewModel(application: Application) :
         menuRepository.requestRemoteMultiAreaSelectiveData("1",ids, API.currentSignatureToken).let {
             if (it.succeeded) (it as APIRst.Success).data.data?.areaObject else null
 
+        }
+    }
+
+
+    suspend fun getConfigInfo(name:String) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        commonDataRepository.getConfigUrlRemote(name = name).let {
+            if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
         }
     }
 

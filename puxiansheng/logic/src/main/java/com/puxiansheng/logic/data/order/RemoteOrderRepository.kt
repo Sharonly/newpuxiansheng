@@ -447,11 +447,12 @@ class RemoteOrderRepository {
 
     fun getUserLikeShopFromRemote(
         city: String? = null,
-        shopID: String
+        shopID: String,
+        page:Int
     ): APIRst<APIResp<HttpRecommendOrder>> = buildRequest(
         url = API.GET_USER_LIKE_SHOP,
         fieldMap = mutableMapOf(
-            "id" to shopID
+            "id" to shopID,"page" to page.toString()
         ).also { map ->
             city?.let {
                 map["city_id"] = city

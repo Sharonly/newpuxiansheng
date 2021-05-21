@@ -24,6 +24,7 @@ class TransferOutOrderDetailViewModel(application: Application) : AndroidViewMod
     private val userRepository = UserRepository(UserDatabase.getInstance(context).userDao())
     private val commonDataRepository = CommonDataRepository()
 
+
     suspend fun requestTransferOutOrderDetail(
         shopID: String
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -90,9 +91,10 @@ class TransferOutOrderDetailViewModel(application: Application) : AndroidViewMod
 
     suspend fun requestUserLikeShopList(
         cityId: String,
-        shopID: String
+        shopID: String,
+        page:Int
     ) = withContext(viewModelScope.coroutineContext + Dispatchers.IO) {
-        orderRepository.getUserLikeShopFromRemote(cityId = cityId, shopID = shopID).let { apiRst ->
+        orderRepository.getUserLikeShopFromRemote(cityId = cityId, shopID = shopID,page = page).let { apiRst ->
           return@let  if (apiRst.succeeded) (apiRst as APIRst.Success).data.data?.data else null
         }
     }

@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogSelectIndustryBinding
 import com.puxiansheng.www.databinding.DialogSelectiveMenuItemBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.MainViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -99,7 +99,7 @@ class SelectAreaDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        privacyDialogViewModel.requestRemoteCitiesByParentID(SharedPreferencesUtil.get(API.USER_CITY_ID,0).toString())
+        privacyDialogViewModel.requestRemoteCitiesByParentID(SpUtils.get(API.USER_CITY_ID,0).toString())
     }
 
     inner class MenuItemListAdapter(

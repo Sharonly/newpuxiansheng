@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.MessageItem
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.FragmentNewInfoListBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
@@ -61,7 +61,7 @@ class MessageListFragment() : Fragment(), OnRefreshLoadMoreListener {
     ): View? = FragmentNewInfoListBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        viewModel.cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+        viewModel.cityId = SpUtils.get(API.USER_CITY_ID, 0).toString()
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(resources.getDrawable(R.drawable.recyclerview_divider_order, null))
             list.addItemDecoration(it)

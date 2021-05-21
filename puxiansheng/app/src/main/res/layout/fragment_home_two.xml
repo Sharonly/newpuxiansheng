@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F4F5F7">
+
+                    <com.puxiansheng.www.common.ImageSwitcher
+                        android:id="@+id/top_banner_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:background="@mipmap/banner_blue" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_search"
+                        android:layout_width="310dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginTop="47dp"
+                        android:background="@drawable/bg_home_search"
+                        android:elevation="4dp"
+                        android:gravity="center_vertical"
+                        android:outlineAmbientShadowColor="#332BCB">
+
+
+                        <TextView
+                            android:id="@+id/button_select_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@+id/ic_map"
+                            android:clickable="true"
+                            android:drawableRight="@mipmap/ic_arrow_down_black"
+                            android:drawablePadding="5dp"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:text="中国"
+                            android:textColor="#222222"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/bt_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_toRightOf="@+id/button_select_location"
+                            android:clickable="true"
+                            android:drawableLeft="@mipmap/search_iicon"
+                            android:drawablePadding="4dp"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:hint="@string/input_search_content"
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/gray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/bt_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/layout_search"
+                        android:layout_alignBottom="@+id/layout_search"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/ic_message_white"
+                        android:layout_marginRight="10dp"
+                        android:padding="7dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menus"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_below="@+id/top_banner_view"
+                        android:layout_marginTop="5dp"
+                        android:nestedScrollingEnabled="false"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/layout_ptt"
+                        android:layout_width="match_parent"
+                        android:layout_height="49dp"
+                        android:layout_below="@+id/menus"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/bg_home_search"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
+
+                        <ImageView
+                            android:layout_width="59dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="7.5dp"
+                            android:src="@mipmap/words" />
+
+                        <com.puxiansheng.www.common.TextSwitchView
+                            android:id="@+id/pxs_headline"
+                            android:layout_width="238dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="16dp"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:singleLine="true"
+                            android:textColor="#252525"
+                            android:textSize="12sp" />
+
+
+                        <ImageView
+                            android:id="@+id/more_succee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="53.5dp"
+                            android:layout_marginRight="7dp"
+                            android:src="@mipmap/icon_arrow" />
+
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/banner_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/layout_ptt"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginRight="12dp"
+                        app:cardCornerRadius="4dp">
+
+                        <com.puxiansheng.www.common.ImageSwitcher
+                            android:id="@+id/banner_event"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <LinearLayout
+                        android:id="@+id/layout_transfer_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="249dp"
+                        android:layout_below="@+id/banner_layout"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="2dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/transfer_tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="15dp"
+                            app:tabIndicator="@drawable/tablayout_indicator_thin_grey"
+                            app:tabIndicatorColor="@color/tab_orange"
+                            app:tabIndicatorFullWidth="true"
+                            app:tabMode="fixed"
+                            app:tabSelectedTextColor="@color/black"
+                            app:tabTextAppearance="@style/tabHomeTextStyle" />
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/card_pager"
+                            android:layout_width="315dp"
+                            android:layout_height="185dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_projects"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_transfer_card">
+
+                        <TextView
+                            android:id="@+id/txt_project"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginTop="15dp"
+                            android:text="优质项目"
+                            android:textColor="#212121"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/project_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txt_project"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginRight="6dp"
+                            android:layout_marginTop="15dp"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"  />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_success"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_projects"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/bg_home_search">
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginTop="15dp"
+                            android:text="客户见证"
+                            android:textColor="#212121"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/kh_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginRight="15dp"
+                            android:drawableRight="@mipmap/ic_more_blue"
+                            android:drawablePadding="4dp"
+                            android:textColor="#4796FF"
+                            android:textSize="11sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/success_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="187dp"
+                            android:layout_below="@+id/kh_more"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="12dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_success"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="19dp"
+                        android:orientation="vertical">
+
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabs"
+                            android:layout_width="188dp"
+                            android:layout_height="wrap_content"
+                            app:tabGravity="fill"
+                            app:tabIndicator="@drawable/tablayout_indicator_thin"
+                            app:tabIndicatorColor="@color/tab_orange"
+                            app:tabMode="fixed"
+                            app:tabSelectedTextColor="@color/black"
+                            app:tabTextAppearance="@style/tabHomeTextStyle" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tabs"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/out_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="6dp"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                app:spanCount="2" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/in_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="6dp"
+                                android:visibility="gone"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                app:spanCount="2" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+        <!--        <ViewStub-->
+        <!--            android:id="@+id/top_search"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:layout="@layout/layout_top_search"-->
+        <!--            android:visibility="gone"/>-->
+
+        <RelativeLayout
+            android:id="@+id/layout_search_top"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+           android:visibility="gone">
+
+
+            <com.puxiansheng.www.common.StateBarView
+                android:id="@+id/appStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:id="@+id/top_search"
+                android:layout_below="@+id/appStatusBar"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="-20dp"
+                android:background="@drawable/bg_home_search"
+                android:elevation="4dp"
+                android:gravity="center_vertical"
+                android:outlineAmbientShadowColor="#332BCB"
+                android:layout_width="310dp"
+                android:layout_height="40dp">
+
+
+                <TextView
+                    android:id="@+id/bt_top_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/ic_map"
+                    android:clickable="true"
+                    android:drawableRight="@mipmap/ic_arrow_down_black"
+                    android:drawablePadding="5dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:text="中国"
+                    android:textColor="#222222"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bt_top_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_toRightOf="@+id/button_select_location"
+                    android:clickable="true"
+                    android:drawableLeft="@mipmap/search_iicon"
+                    android:drawablePadding="4dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/input_search_content"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/bt_top_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/top_search"
+                android:layout_alignBottom="@+id/top_search"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_message_black"
+                android:padding="7dp"/>
+
+        </RelativeLayout>
+
+        <com.puxiansheng.www.common.DragFloatActionButton
+            android:id="@+id/bt_kf"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="90dp"
+            android:src="@mipmap/ic_bt_kf"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/bt_fast_top"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/ic_fast_top"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+
+</layout>

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.puxiansheng.www.tools.SpUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,7 +18,7 @@ class ResetPasswordViewModel(application: Application) : AndroidViewModel(applic
     private val userRepository = UserRepository(UserDatabase.getInstance(context).userDao())
     val resetResult = MutableLiveData<Int>()
 
-    var userId = SharedPreferencesUtil.get(API.LOGIN_USER_ID,0).toString()
+    var userId = SpUtils.get(API.LOGIN_USER_ID,0).toString()
     var originalPassword = ""
     var newPassword = ""
     var newSecondPassword = ""

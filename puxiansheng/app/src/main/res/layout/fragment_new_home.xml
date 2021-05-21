@@ -222,7 +222,6 @@
                         android:layout_marginLeft="6dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="6dp"
-                        android:background="@mipmap/bg_card_transfer"
                         android:orientation="vertical">
 
                         <com.google.android.material.tabs.TabLayout

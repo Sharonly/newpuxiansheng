@@ -14,9 +14,7 @@ import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.ui.business.BusinessListActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
-import com.puxiansheng.www.ui.main.HomeActivity
 import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
 import com.puxiansheng.www.ui.order.*
@@ -24,7 +22,6 @@ import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
 import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
-import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_message_detail.*
 import kotlinx.coroutines.launch
 
@@ -117,6 +114,7 @@ class MessageDetailActivity() : MyBaseActivity() {
                                         }
                                         "about_us" ->{
                                             val intent = Intent(this@MessageDetailActivity, AboutUsActivity::class.java)
+                                            intent.putExtra("url", menuItem.jump_param)
                                             startActivity(intent)
                                         }
 

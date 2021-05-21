@@ -8,6 +8,7 @@ data class HttpRespOrderDetail(
     val obj: OrderDetailObject? = null
 )
 
+
 data class OrderDetailObject(
     @SerializedName("id")
     var shopID: Long = 0,
@@ -111,6 +112,8 @@ data class OrderDetailObject(
     @SerializedName("thum_img")
     var image: String = "",
 
+    @SerializedName("is_activity_selected")
+    var shopLabel: String = "",
 
     @SerializedName("area_obj")
     var address: Address? = null,
@@ -161,7 +164,7 @@ data class OrderDetailObject(
     var facilities: List<MenuItem>? = null,
 
     @SerializedName("area_multiple")//显示所有的地区
-    var area_multiple:String = "",
+    var area_multiple: String = "",
 
     @SerializedName("content")
     var description: String = "",
@@ -214,8 +217,6 @@ data class OrderDetailObject(
 
     @SerializedName("view_rent_un_prefix")
     var view_rent_un_prefix: String = "",
-
-
 
 
     @SerializedName("view_demand_ids")//显示全部设施

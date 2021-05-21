@@ -172,9 +172,11 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == MSG_UPDATE_SEEK) {
+//                Log.d("ijkplayer"," MSG_UPDATE_SEEK"+"mIsSeeking = "+mIsSeeking+"mIsShowBar = "+mIsShowBar);
                 final int pos = _setProgress();
                 if (!mIsSeeking && mIsShowBar && mVideoView.isPlaying()) {
                     // 这里会重复发送MSG，已达到实时更新 Seek 的效果
+//                    Log.d("ijkplayer"," mVideoView.isPlaying()");
                     msg = obtainMessage(MSG_UPDATE_SEEK);
                     sendMessageDelayed(msg, 1000 - (pos % 1000));
                 }
@@ -206,7 +208,7 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
     // 是否播放结束
     private boolean mIsPlayComplete = false;
     // 是否正在拖拽进度条
-    private boolean mIsSeeking;
+    private boolean mIsSeeking = false;
     // 目标进度
     private long mTargetPosition = INVALID_VALUE;
     // 当前进度
@@ -257,7 +259,7 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
 
     public void HideAllView() {
 //        mPlayerThumb.setVisibility(View.GONE);
-       mLoadingView.setVisibility(View.GONE);
+        mLoadingView.setVisibility(View.GONE);
 //        mTvVolume.setVisibility(View.GONE);
 //        mTvBrightness.setVisibility(View.GONE);
 //        mTvFastForward.setVisibility(View.GONE);
@@ -361,6 +363,7 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
         // 加载 IjkMediaPlayer 库
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+
         // 声音
         mAudioManager = (AudioManager) mAttachActivity.getSystemService(Context.AUDIO_SERVICE);
         mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -648,20 +651,20 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
         }
         if (!mVideoView.isPlaying()) {
             mIvPlay.setSelected(true);
-//            if (mInterruptPosition > 0) {
-//                mLoadingView.setVisibility(VISIBLE);
-//                mHandler.sendEmptyMessage(MSG_TRY_RELOAD);
-//            } else {
-            mVideoView.start();
-            // 更新进度
-            mHandler.sendEmptyMessage(MSG_UPDATE_SEEK);
-//            }
+            if (mInterruptPosition > 0) {
+                mLoadingView.setVisibility(VISIBLE);
+                mHandler.sendEmptyMessage(MSG_TRY_RELOAD);
+            } else {
+                mVideoView.start();
+                // 更新进度
+                mHandler.sendEmptyMessage(MSG_UPDATE_SEEK);
+            }
         }
         if (mIsNeverPlay) {
             mIsNeverPlay = false;
             mIvPlayCircle.setVisibility(GONE);
             mLoadingView.setVisibility(GONE);
-            mIsShowBar = false;
+//            mIsShowBar = false;
             // 放这边装载弹幕，不然会莫名其妙出现多切几次到首页会弹幕自动播放问题，这里处理下
             _loadDanmaku();
         }
@@ -1092,7 +1095,7 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
         _changeHeight(isFullscreen);
         mIvFullscreen.setSelected(isFullscreen);
         mHandler.post(mHideBarRunnable);
-//        mIvMediaQuality.setVisibility(isFullscreen ? VISIBLE : GONE);
+        mIvMediaQuality.setVisibility(isFullscreen ? VISIBLE : GONE);
         mIvMediaQuality.setVisibility(GONE);
         mLlBottomBar.setBackgroundResource(isFullscreen ? R.color.bg_video_view : android.R.color.transparent);
         if (mIsShowQuality && !isFullscreen) {
@@ -1457,6 +1460,7 @@ public class IjkPlayerViews extends FrameLayout implements View.OnClickListener,
             mDanmakuPlayerSeek.setSecondaryProgress(percent * 10);
         }
         // 更新播放时间
+        Log.d("ijkplayview", " 更新播放时间 "+StringUtils.generateTime(position));
         mTvCurTime.setText(StringUtils.generateTime(position));
         mTvEndTime.setText(StringUtils.generateTime(duration));
         // 返回当前播放进度

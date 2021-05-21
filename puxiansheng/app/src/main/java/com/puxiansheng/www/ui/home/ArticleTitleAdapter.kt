@@ -2,21 +2,14 @@ package com.puxiansheng.www.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.ArticleBean
-import com.puxiansheng.logic.bean.BusinessBean
 import com.puxiansheng.www.R
-import com.puxiansheng.www.databinding.ArticleTitleItmBinding
-import com.puxiansheng.www.ui.business.BusinessListAdapter
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
-import kotlinx.android.extensions.LayoutContainer
 
 class ArticleTitleAdapter(
      var list: List<ArticleBean>,  var context: Context

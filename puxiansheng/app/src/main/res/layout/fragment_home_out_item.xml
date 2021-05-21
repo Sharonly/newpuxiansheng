@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="234dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="6dp">
+
+        <RelativeLayout
+            android:id="@+id/item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_dialog">
+
+            <ImageView
+                android:id="@+id/shop_icon"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/title"
+                android:textColor="#333333"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_icon"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="11dp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:textColor="#FF6D06"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_alignLeft="@+id/title"
+                android:layout_below="@+id/shop_icon"
+                android:layout_marginTop="49dp"/>
+
+            <TextView
+                android:id="@+id/unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF6D06"
+                android:textSize="10sp"
+                android:layout_toRightOf="@+id/rent"
+                android:layout_alignBottom="@+id/rent"
+                android:layout_marginBottom="2dp"/>
+
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/title"
+                android:layout_alignBottom="@+id/rent"
+                android:layout_marginBottom="1dp"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/size"
+                android:layout_below="@+id/title"
+                android:layout_alignTop="@+id/size"
+                android:text="—"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp"
+                android:layout_toLeftOf="@+id/line"
+                android:layout_alignTop="@+id/size"
+                android:visibility="gone"/>
+
+
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:drawableStart="@mipmap/ic_location"
+                android:textColor="#666666"
+                android:layout_alignLeft="@+id/title"
+                android:layout_below="@+id/rent"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="8dp"
+                android:textSize="11sp" />
+
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/icon_time"
+                android:textColor="#666666"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="8dp"
+                android:textSize="11sp"
+                android:layout_below="@+id/area"
+                android:layout_alignLeft="@+id/title"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ic_label"
+            android:layout_width="40.5dp"
+            android:layout_height="25.5dp"
+            android:visibility="gone"/>
+
+    </androidx.cardview.widget.CardView>
+</layout>

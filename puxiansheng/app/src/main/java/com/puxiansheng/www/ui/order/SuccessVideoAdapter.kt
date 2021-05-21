@@ -2,6 +2,7 @@ package com.puxiansheng.www.ui.order
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,15 +51,14 @@ class SuccessVideoAdapter(
     }
 
 
-    fun addList(tempList:List<SuccessVideoBean>?, isClean: Boolean) {
-        if(tempList == null){
-            return
-        }
+    fun addList(tempList:List<SuccessVideoBean>, isClean: Boolean) {
         if (isClean) {
             list.clear()
+            Log.e("successVideo","   list.clear()")
         }
         list.addAll(tempList)
         notifyDataSetChanged()
+
     }
 
 
@@ -76,7 +76,11 @@ class SuccessVideoAdapter(
             var video = list[position]
             holder.shopTitle.text = video.title
             holder.shopImg.url(video.img)
-
+            holder.shopImg.setOnClickListener {
+                val intent = Intent(context, SucceseVideoDetailActivity::class.java)
+                intent.putExtra("shopID", video?.videoId.toString())
+                context.startActivity(intent)
+            }
             holder.root.setOnClickListener {
                 val intent = Intent(context, SucceseVideoDetailActivity::class.java)
                 intent.putExtra("shopID", video?.videoId.toString())

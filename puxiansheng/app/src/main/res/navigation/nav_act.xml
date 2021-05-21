@@ -40,13 +40,13 @@
 
 
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.puxiansheng.www.ui.home.NewHomeFragment"
-        android:label="@string/nav_home"
-        tools:layout="@layout/fragment_home">
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_home"-->
+<!--        android:name="com.puxiansheng.www.ui.home.NewHomeFragment"-->
+<!--        android:label="@string/nav_home"-->
+<!--        tools:layout="@layout/fragment_home">-->
 
-    </fragment>
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/navigation_info"
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_message"
-        android:name="com.puxiansheng.www.ui.message.MessageHomeListFragment"
+        android:name="com.puxiansheng.www.ui.business.BusinessListFragment"
         android:label="MessageListFragment"
         tools:layout="@layout/fragment_message_home">
 

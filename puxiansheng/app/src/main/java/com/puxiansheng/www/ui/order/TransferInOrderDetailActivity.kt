@@ -3,18 +3,17 @@ package com.puxiansheng.www.ui.order
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.MyScreenUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.ExpandTextView
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
-import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.*
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.bt_connect_kf
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.button_back
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.rent
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.shop_number
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.shop_title
 import kotlinx.android.synthetic.main.activity_transfer_in_order_detail.size
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -47,6 +45,10 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
     }
 
     private fun initView() {
+        scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            bt_connect_kf.rollBack()
+        }
+
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -105,7 +107,7 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
 //                                startActivity(this)
 //                            }
 
-                            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                                 Intent(Intent.ACTION_DIAL).apply {
                                     data = Uri.parse("tel:${order.serviceAgentPhone}")
                                     startActivity(this)
@@ -117,20 +119,19 @@ class TransferInOrderDetailActivity : MyBaseActivity() {
                         }
 
                         var str1: String = order.description
-                        expand_description.currentText = str1
-                        expand_description.clickListener = object : ExpandTextView.ClickListener {
-                            override fun onContentTextClick() {
-                                expand_description.currentText = str1
-                            }
+                        expand_description.text = str1
 
-                            override fun onSpecialTextClick(currentExpand: Boolean) {
-                                expand_description.isExpand = !currentExpand
-                            }
-                        }
-
+//                        expand_description.currentText = str1
+//                        expand_description.clickListener = object : ExpandTextView.ClickListener {
+//                            override fun onContentTextClick() {
+//                                expand_description.currentText = str1
+//                            }
+//
+//                            override fun onSpecialTextClick(currentExpand: Boolean) {
+//                                expand_description.isExpand = !currentExpand
+//                            }
+//                        }
                     }
-
-
             }
         }
 

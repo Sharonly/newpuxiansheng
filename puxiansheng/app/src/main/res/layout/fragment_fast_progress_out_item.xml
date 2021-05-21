@@ -3,16 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/layout_out"
-        android:layout_width="310dp"
-        android:layout_height="165dp"
-       android:orientation="vertical">
-
 
     <RelativeLayout
-        android:layout_width="310dp"
-        android:layout_height="102dp">
+        android:id="@+id/layout_out"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="183dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/layout_icon"
@@ -21,7 +18,7 @@
         android:layout_marginLeft="7dp"
         app:cardCornerRadius="2dp"
         app:cardElevation="0dp"
-        android:layout_marginTop="22dp">
+        android:layout_marginTop="31dp">
 
         <ImageView
             android:id="@+id/shop_icon"
@@ -56,31 +53,42 @@
             android:layout_alignBottom="@+id/layout_icon"/>
 
         <TextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/area"
+            android:textColor="#9B9B9B"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/layout_icon"/>
+
+        <TextView
             android:id="@+id/rent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@+id/area"
+            android:layout_toRightOf="@+id/size"
             android:textColor="#F78934"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:layout_alignBottom="@+id/layout_icon"
-            android:visibility="gone"/>
+         />
 
 
         <TextView
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/layout_icon"
+            android:layout_below="@+id/layout_icon"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
             android:textSize="13sp"/>
         <TextView
             android:id="@+id/index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/layout_icon"
+            android:layout_alignBottom="@+id/count"
             android:layout_toLeftOf="@+id/count"
             android:layout_marginRight="1.5dp"
             android:textColor="@color/black"
@@ -95,36 +103,32 @@
             android:layout_marginRight="8dp"
             android:textColor="#4796FF"
             android:textSize="12sp"
-            android:layout_alignBottom="@+id/layout_icon"/>
+            android:layout_alignBottom="@+id/count"/>
 
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#E5E5E5"
-           android:layout_alignParentBottom="true"
+            android:layout_marginTop="122dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
-    </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center">
 
         <TextView
             android:id="@+id/bt_more"
-            android:layout_width="90dp"
-            android:layout_height="28dp"
-            android:background="@drawable/bg_bt_card_orange"
-            android:gravity="center"
             android:text="查看更多"
-            android:textColor="#F78934"
-            android:textSize="@dimen/sp_14" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
+            android:layout_width="275dp"
+            android:layout_height="30dp"
+            android:textSize="@dimen/sp_14"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_below="@+id/line"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/appMain"
+            android:background="@drawable/bg_bt_release_orange"
+            app:cornerRadius="15dp"/>
+    </RelativeLayout>
 
 </layout>

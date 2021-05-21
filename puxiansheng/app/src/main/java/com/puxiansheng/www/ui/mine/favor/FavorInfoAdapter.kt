@@ -16,7 +16,6 @@ import com.puxiansheng.www.common.url
 import com.puxiansheng.www.databinding.FragmentFavorInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentInfoItemBinding
 import com.puxiansheng.www.databinding.FragmentOrderListEmptyBinding
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import kotlinx.android.extensions.LayoutContainer
 

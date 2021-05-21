@@ -43,6 +43,5 @@ dependencies {
     api 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
     // Danmaku
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
-
-
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }

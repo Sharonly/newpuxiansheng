@@ -24,7 +24,6 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.MapAddress
 import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.logic.util.GlideImageEngine
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.databinding.FragmentTransferOrderImgSelectorAddItemBinding
 import com.puxiansheng.www.databinding.FragmentTransferOrderImgSelectorItemBinding
 import com.puxiansheng.www.ui.main.MainViewModel
@@ -41,11 +40,17 @@ import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.PermissionUtils
 import com.puxiansheng.www.common.url
+import com.puxiansheng.www.tools.SpUtils
+import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.map.GetLocationActivity
+import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.*
+import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.bt_my_kefu
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.bt_select_rent
+import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_back
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_select_area
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_select_industry
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.button_select_size
@@ -59,6 +64,7 @@ import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_p
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_reason
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.input_title
 import kotlinx.android.synthetic.main.activity_relase_order_transfer_out.submit
+import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
@@ -76,7 +82,7 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     private var indulist = mutableSetOf<MenuItem>()
 
     override fun getLayoutId(): Int {
-        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
+        MyScreenUtil.setStateBarStyle(this,true,R.color.bg_order_list,true)
         return R.layout.activity_relase_order_transfer_out
     }
 
@@ -91,8 +97,24 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
             ViewModelProvider(this)[InsertOrUpdateTransferOutOrderViewModel::class.java]
         appViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         initView()
+        initData()
     }
 
+
+    private fun initData(){
+        lifecycleScope.launch {
+            insertOrUpdateTransferOutOrderViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
+                bt_my_kefu.setOnClickListener {
+                    val intent = Intent(this@InsertOrUpdateTransferOutOrderActivity, ServiceActivity::class.java)
+                    intent.putExtra("title", "我的客服")
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                    MobclickAgent.onEvent(this@InsertOrUpdateTransferOutOrderActivity, UMengKeys.PAGE_NAME, "ServiceActivity")
+                }
+            }
+        }
+
+    }
 
     private fun initView() {
         button_back.setOnClickListener {
@@ -100,9 +122,9 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
         }
 
         insertOrUpdateTransferOutOrderViewModel.contactName =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+            SpUtils.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferOutOrderViewModel.contactPhone =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
+            SpUtils.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
         input_name.setText(insertOrUpdateTransferOutOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferOutOrderViewModel.contactPhone)
@@ -932,8 +954,8 @@ class InsertOrUpdateTransferOutOrderActivity : MyBaseActivity() {
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location?) {
             if (location != null) {
-                latitude = location.latitude;
-                longitude = location.longitude;
+                latitude = location.latitude
+                longitude = location.longitude
             }
         }
 

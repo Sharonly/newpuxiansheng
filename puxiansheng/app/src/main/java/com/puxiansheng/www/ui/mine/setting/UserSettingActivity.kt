@@ -32,10 +32,10 @@ import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.GlideApp
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.MyScreenUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.urlCircleImg
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.CityListActivity
 import kotlinx.android.synthetic.main.fragment_my_setting.*
 import kotlinx.coroutines.launch
@@ -97,7 +97,7 @@ class UserSettingActivity : MyBaseActivity() {
                         settingViewModel.cityId = it.cityId
                     } else {
                         settingViewModel.cityId =
-                            SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString().toInt()
+                            SpUtils.get(API.USER_CITY_ID, 0).toString().toInt()
                     }
                     settingViewModel.iconImg = it.icon
                 }
@@ -112,8 +112,8 @@ class UserSettingActivity : MyBaseActivity() {
             ChangeIconDialog().show(supportFragmentManager, ChangeIconDialog::class.java.name)
         }
 
-        input_nick_name.setText(SharedPreferencesUtil.get(API.LOGIN_NICK_NAME, "").toString())
-        input_actual_name.setText(SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString())
+        input_nick_name.setText(SpUtils.get(API.LOGIN_NICK_NAME, "").toString())
+        input_actual_name.setText(SpUtils.get(API.LOGIN_ACTUL_NAME, "").toString())
 
 
         input_nick_name.addTextChangedListener {
@@ -123,7 +123,7 @@ class UserSettingActivity : MyBaseActivity() {
             settingViewModel.actualName = it.toString()
         }
 
-        if (SharedPreferencesUtil.get(API.USER_SEX, 0) == 0) {
+        if (SpUtils.get(API.USER_SEX, 0) == 0) {
             male.isChecked = true
         } else {
             femle.isChecked = true
@@ -182,24 +182,24 @@ class UserSettingActivity : MyBaseActivity() {
             lifecycleScope.launch {
                 settingViewModel.submitUserInfo()?.let {
                     if (it.code == API.CODE_SUCCESS) {
-                        SharedPreferencesUtil.put(API.LOGIN_USER_ICON, "")
+                        SpUtils.put(API.LOGIN_USER_ICON, "")
                         settingViewModel.nickName?.let { it1 ->
-                            SharedPreferencesUtil.put(API.LOGIN_NICK_NAME, it1)
+                            SpUtils.put(API.LOGIN_NICK_NAME, it1)
                         }
                         settingViewModel.actualName?.let { it1 ->
-                            SharedPreferencesUtil.put(
+                            SpUtils.put(
                                 API.LOGIN_ACTUL_NAME,
                                 it1
                             )
                         }
                         settingViewModel.sex?.let { it1 ->
-                            SharedPreferencesUtil.put(
+                            SpUtils.put(
                                 API.USER_SEX,
                                 it1
                             )
                         }
                         settingViewModel.contactPhone?.let { it1 ->
-                            SharedPreferencesUtil.put(
+                            SpUtils.put(
                                 API.LOGIN_USER_PHONE,
                                 it1
                             )

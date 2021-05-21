@@ -78,6 +78,12 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
                     shopInfo?.largeOrderImg.let {
                         it?.let { it1 -> holder.bgShop.urlBg(it1) }
                     }
+                    if(shopInfo?.shopLabel.length>4) {
+                        holder.bigLabel.visibility = View.VISIBLE
+                        holder.bigLabel.url(shopInfo.shopLabel)
+                    }else{
+                        holder.bigLabel.visibility = View.GONE
+                    }
                 } else {
                     holder.normalLayout.visibility = View.VISIBLE
                     holder.layoutBig.visibility = View.GONE
@@ -86,6 +92,12 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
                         holder.shopTitle.text = title
                     }
 
+                    if(shopInfo?.shopLabel.length>4) {
+                        holder.shopLabel.visibility = View.VISIBLE
+                        holder.shopLabel.url(shopInfo.shopLabel)
+                    }else{
+                        holder.shopLabel.visibility = View.GONE
+                    }
                     shopInfo?.images?.get(0)?.let { url ->
                         holder.shopIcon.url(url)
                     }
@@ -150,6 +162,13 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
             holder.shopRent.text = shopInfo.view_rent_un_prefix
             holder.shopArea.text = shopInfo.show_area
             holder.shopData.text = shopInfo.day_time
+            shopInfo?.isHot?.let {
+                if (it == 1) {
+                    holder.isHot.visibility = View.VISIBLE
+                } else {
+                    holder.isHot.visibility = View.GONE
+                }
+            }
             holder.root.setOnClickListener {
                 val intent = Intent(context, TransferInOrderDetailActivity::class.java)
                 intent.putExtra("shopID", shopInfo?.jump_param)
@@ -183,6 +202,8 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
         val layoutBig = containerView.findViewById<CardView>(R.id.layout_big)
         val bgShop = containerView.findViewById<ImageView>(R.id.bg_shop)
         val bigTitle = containerView.findViewById<TextView>(R.id.big_title)
+         val shopLabel  = containerView.findViewById<ImageView>(R.id.ic_label)
+         val bigLabel  = containerView.findViewById<ImageView>(R.id.big_label)
     }
 
 
@@ -197,6 +218,7 @@ class ListOrdersAdapter(var context: Context, var dataList: ArrayList<OrderDetai
         val shopRent = containerView.findViewById<TextView>(R.id.rent)
         val shopArea = containerView.findViewById<TextView>(R.id.area)
         val shopData = containerView.findViewById<TextView>(R.id.date)
+        val isHot = containerView.findViewById<TextView>(R.id.is_hot)
     }
 
 

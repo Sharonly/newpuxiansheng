@@ -147,7 +147,7 @@
                 android:layout_marginLeft="13dp"
                 android:layout_marginRight="13dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/banner_invest_business"
+
                 android:layout_marginTop="10dp"/>
 
             <TextView

@@ -1,6 +1,7 @@
 package com.puxiansheng.www.common
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -14,6 +15,7 @@ import com.puxiansheng.logic.bean.MarqueeInfo
 import com.puxiansheng.www.R
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory, View.OnClickListener,
     LifecycleEventObserver {
@@ -93,11 +95,11 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory, View.OnClickListe
                         index = next() //取得下标值
                         if (!infos.isNullOrEmpty()) {
                             updateText() //更新TextSwitcherd显示内容;
-                        }else{
+                        } else {
                             setText("")
                         }
                     }
-                }else{
+                } else {
                     setText("")
                 }
             }, 0)
@@ -119,12 +121,16 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory, View.OnClickListe
             var info = infos[index]
             if (info != null && info.title.isNotEmpty()) {
                 setText(info.title)
+
             }
         }
     }
 
     override fun makeView(): View {
-        return TextView(context)
+        val tv = TextView(context)
+        tv.maxLines = 1
+        tv.ellipsize = TextUtils.TruncateAt.END
+        return tv
     }
 
 
@@ -151,12 +157,12 @@ class TextSwitchView : TextSwitcher, ViewSwitcher.ViewFactory, View.OnClickListe
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_PAUSE -> {
-                 println("跑马灯-->onpause")
+                println("跑马灯-->onpause")
                 stopTimer()
             }
 
             Lifecycle.Event.ON_RESUME -> {
-                 println("跑马灯-->onResume")
+                println("跑马灯-->onResume")
                 startTimer()
             }
         }

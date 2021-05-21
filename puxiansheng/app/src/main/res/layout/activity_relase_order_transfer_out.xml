@@ -8,7 +8,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:theme="@style/Material">
+           >
 
 
             <com.puxiansheng.www.common.StateBarView
@@ -43,6 +43,18 @@
                     android:textColor="@color/black"
                     android:textSize="17dp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bt_my_kefu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right|center_vertical"
+                    android:text="客服"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginRight="15dp"/>
 
             </RelativeLayout>
 
@@ -478,8 +490,10 @@
                 <EditText
                     android:id="@+id/edit_user_address"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="35dp"
                     android:layout_below="@+id/line9"
+                    android:gravity="center_vertical"
                     android:layout_alignLeft="@+id/line9"
                     android:hint="请选择地址以后再修改"
                     android:textColor="@color/text_gray"
@@ -790,7 +804,7 @@
                     android:inputType="text"
                     android:visibility="gone"/>
 
-                <com.google.android.material.button.MaterialButton
+                <TextView
                     android:id="@+id/submit"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"

@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ abstract class MyBaseActivity : AppCompatActivity() {
                             Log.d("GET_TOKEN----","requireLocalDevice= ----222 ")
                             appModel?.getSignatureVersion(
                                 it,
-                                SharedPreferencesUtil.get("registration_id", "") as String
+                                SpUtils.get("registration_id", "") as String
                             )
                         }
                     } ?: appModel?.requireDevice()

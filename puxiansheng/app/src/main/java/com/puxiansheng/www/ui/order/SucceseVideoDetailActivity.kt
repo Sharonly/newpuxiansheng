@@ -2,28 +2,28 @@ package com.puxiansheng.www.ui.order
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.SuccessVideoBean
 import com.puxiansheng.util.ext.MyScreenUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.urlCircleImg
-import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
-import com.umeng.analytics.MobclickAgent
 import com.zhiniao.player.media.IjkPlayerViews
-import kotlinx.android.synthetic.main.activity_success_video_detail.*
+import kotlinx.android.synthetic.main.activity_exo_success_video_detail.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -37,10 +37,11 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
     private var type = 0
     private var fullScreen = true
     private var videoUrl = ""
+    private var isLandscape = false
 
     override fun getLayoutId(): Int {
-        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
-        return R.layout.activity_success_video_detail
+        MyScreenUtil.setStateBarStyle(this, true, R.color.color81, true)
+        return R.layout.activity_exo_success_video_detail
     }
 
     override fun business() {
@@ -52,10 +53,12 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
         super.onConfigurationChanged(newConfig)
         if (player_view != null) player_view.configurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            isLandscape = true
             top_content.visibility = View.GONE
             bottomLayout.visibility = View.GONE
             bt_publish.visibility = View.GONE
         } else {
+            isLandscape = false
             top_content.visibility = View.VISIBLE
             bottomLayout.visibility = View.VISIBLE
             bt_publish.visibility = View.VISIBLE
@@ -63,15 +66,19 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
     }
 
     private fun initView() {
-        var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+        var cityId = SpUtils.get(API.USER_CITY_ID, 0)
         button_back.setOnClickListener {
             onBackPressed()
         }
 
         icon_author.urlCircleImg(R.mipmap.ic_author_icon)
+        
+        layout_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            bt_publish.rollBack()
+        }
 
         bt_publish.setOnClickListener {
-            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                 val intent =
                     Intent(this, InsertOrUpdateTransferOutOrderActivity::class.java)
                 intent.putExtra("shopID", "0")
@@ -87,7 +94,7 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
                 video_title.text = video.title
                 shop_title.text = video.title
                 shop_info.text = video.detail
-                initPlayStudyBaUI(video.title, video.video)
+                initPlayStudyBaUI(video.title,video.video)
             }
 
 
@@ -95,12 +102,15 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
                 GridLayoutManager(this@SucceseVideoDetailActivity, 2)
             recommend_video.adapter = SuccessVideoAdapter(
                 this@SucceseVideoDetailActivity,
-                arrayListOf(),1
+                arrayListOf(), 1
             )
             viewModel.requestRecommendShopList(
-                cityId.toString(), intent.getIntExtra("shopID", 0).toString()
-            )?.let {it ->
-                (recommend_video.adapter as SuccessVideoAdapter).addList(it as ArrayList<SuccessVideoBean>, true)
+                cityId.toString(), intent.getStringExtra("shopID")
+            )?.let { it ->
+                (recommend_video.adapter as SuccessVideoAdapter).addList(
+                    it as ArrayList<SuccessVideoBean>,
+                    true
+                )
             }
 
         }
@@ -112,14 +122,6 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
             .setTitle(title)
             .setVideoPaths(Uri.parse(link))
             .start()
-//        var callBack = MediaPlayer.OnErrorListener { p0, i, p2 ->
-//            if (i == -10000) {
-//                // finish();
-//            }
-//            false
-//        }
-//        player_view.setOnErrorListener(callBack)
-//        player_view.alwaysFullScreen()
     }
 
     override fun setOnClick(click: Int) {
@@ -209,5 +211,7 @@ class SucceseVideoDetailActivity : MyBaseActivity(), IjkPlayerViews.OnPlayViewCl
         }
         super.onBackPressed()
     }
+
+
 
 }

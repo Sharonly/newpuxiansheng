@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-</androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/top_banner_view"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="-20dp"
+        android:background="@drawable/bg_home_search"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:outlineAmbientShadowColor="#332BCB">
+
+
+        <TextView
+            android:id="@+id/button_select_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/ic_map"
+            android:clickable="true"
+            android:drawableRight="@mipmap/ic_arrow_down_black"
+            android:drawablePadding="5dp"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="中国"
+            android:textColor="#222222"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bt_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@+id/button_select_location"
+            android:clickable="true"
+            android:drawableLeft="@mipmap/search_iicon"
+            android:drawablePadding="4dp"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="@string/search_tips"
+            android:paddingLeft="10dp"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
+    </LinearLayout>
+</RelativeLayout>

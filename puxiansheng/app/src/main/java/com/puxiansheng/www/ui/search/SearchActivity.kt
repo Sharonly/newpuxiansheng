@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.business.BusinessListActivity
 import com.puxiansheng.www.ui.business.InvestBusnessViewModel
@@ -50,7 +50,7 @@ class SearchActivity : MyBaseActivity() {
     override fun business() {
 //        mContext = this@SearchActivity
 //        MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, mPageName)
-        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
             API.LOGIN_USER_ID,
             0
         ).toString())
@@ -59,7 +59,7 @@ class SearchActivity : MyBaseActivity() {
         orderInViewModel = ViewModelProvider(this)[TransferInOrdersViewModel::class.java]
         businessViewModel = ViewModelProvider(this)[InvestBusnessViewModel::class.java]
 
-        searchViewModel.usrId = SharedPreferencesUtil.get(API.LOGIN_USER_ID,0).toString()
+        searchViewModel.usrId = SpUtils.get(API.LOGIN_USER_ID,0).toString()
 
         lifecycleScope.launch {
 //            history_list.removeAllViews()

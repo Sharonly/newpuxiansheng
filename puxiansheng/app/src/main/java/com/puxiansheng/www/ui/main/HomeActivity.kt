@@ -15,12 +15,13 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.LiveDataBus
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyActivityManage
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.business.BusinessListFragment
 import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
@@ -39,10 +40,10 @@ class HomeActivity : MyBaseActivity() {
     var context: Context = this@HomeActivity
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_PHONE_STATE,
+//        Manifest.permission.CAMERA,
+//        Manifest.permission.READ_EXTERNAL_STORAGE,
+//        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//        Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
     private var appModel: MainViewModel? = null
@@ -109,7 +110,7 @@ class HomeActivity : MyBaseActivity() {
                     appModel?.getCurrentLocation()
 
                 if (!isLogin) lifecycleScope.launch(Dispatchers.IO) {
-                    SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "")?.let { it ->
+                    SpUtils.get(API.LOGIN_USER_TOKEN, "")?.let { it ->
                         appModel?.currentUser?.postValue(appModel?.saveLoginUser())
                         API.setAuthToken(it.toString())
                     }
@@ -221,7 +222,7 @@ class HomeActivity : MyBaseActivity() {
                 Log.d("GET_TOKEN----", "requireLocalDevice  111---- ")
                 appModel?.refreshSignatureToken(
                     it,
-                    SharedPreferencesUtil.get("registration_id", "") as String
+                    SpUtils.get("registration_id", "") as String
                 )
             } ?: appModel?.requireDevice()
         })
@@ -261,7 +262,7 @@ class HomeActivity : MyBaseActivity() {
                 lifecycleScope.launch {
                     appModel?.getSignatureVersion(
                         it,
-                        SharedPreferencesUtil.get("registration_id", "") as String
+                        SpUtils.get("registration_id", "") as String
                     )
                 }
             } ?: appModel?.requireDevice()
@@ -274,7 +275,7 @@ class HomeActivity : MyBaseActivity() {
         val infoHomeFragment: Fragment = InfoHomeListFragment()
         val releaseFragment: Fragment = ReleaseFragment()
         val mineFragment: Fragment = MineFragment()
-        val messageHomeFragment: Fragment = MessageHomeListFragment()
+        val messageHomeFragment: Fragment = BusinessListFragment()
         val fragments = listOf(
             homeFragment,
             infoHomeFragment,
@@ -355,7 +356,7 @@ class HomeActivity : MyBaseActivity() {
 
                 }
                 R.id.navigation_message -> {
-                    if (appModel?.lastFragment !is MessageHomeListFragment) {
+                    if (appModel?.lastFragment !is BusinessListFragment) {
                         appModel?.lastFragment?.let {
                             supportFragmentManager.beginTransaction().hide(it)
                                 .show(

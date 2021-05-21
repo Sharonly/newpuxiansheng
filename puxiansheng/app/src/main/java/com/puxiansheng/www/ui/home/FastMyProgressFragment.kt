@@ -11,13 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
-import com.puxiansheng.util.ext.toast
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.databinding.FragmentCardFastInBinding
 import com.puxiansheng.www.databinding.FragmentCardFastOutBinding
 import com.puxiansheng.www.databinding.FragmentCardReleaseBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.mine.setting.UserSettingActivity
 import com.puxiansheng.www.ui.release.fasttransfer.SimpleOrderViewModel
@@ -37,7 +36,7 @@ class FastMyProgressFragment : Fragment() {
     ): View? = FragmentCardReleaseBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+        if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
             layoutNoLogin.visibility = View.GONE
             lifecycleScope.launch {
                 viewModel.requestMyFastTransferCount().let { list ->

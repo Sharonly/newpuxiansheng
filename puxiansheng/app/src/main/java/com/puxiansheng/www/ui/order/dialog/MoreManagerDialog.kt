@@ -16,11 +16,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.BitMapUtil
 import com.puxiansheng.www.databinding.DialogMoreManagerBinding
 import com.puxiansheng.www.tools.ShareUtils
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailViewModel
 import com.tencent.map.tools.Util
@@ -105,7 +105,7 @@ class MoreManagerDialog(
         }
 
         btFavor.setOnClickListener {
-            if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                 lifecycleScope.launch {
                     outViewModel.favorite(
                         objectID = shopId,

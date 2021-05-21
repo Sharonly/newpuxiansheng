@@ -12,10 +12,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.puxiansheng.logic.bean.MapAddress
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
 import com.umeng.analytics.MobclickAgent
@@ -123,7 +123,7 @@ class GetLocationActivity : MyBaseActivity() {
                         var lat: String = split[0]?.toString()//纬度
                         var lng: String = split[1]?.toString()//经度
                         var address: String = uri?.getQueryParameter("addr").toString()//地址
-                        put("my_location", address)
+                        SpUtils.put("my_location", address)
                         intent.putExtra("mes", address);//返回值
                         Log.d("----map", "  address = " + address)
                         mapAddress = MapAddress(address, lng.toDouble(), lat.toDouble())

@@ -30,7 +30,9 @@ object MyActivityManage {
     fun finshActivity(key:String){
         val weakReference = activityMap.get(key)
         weakReference?.get()?.finish()
-        activityMap.remove(key)
+        if(activityMap.containsKey(key)) {
+            activityMap.remove(key)
+        }
     }
 
 

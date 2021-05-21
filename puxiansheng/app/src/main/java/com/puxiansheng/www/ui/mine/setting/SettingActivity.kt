@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.common.PermissionPageUtils
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.main.dialog.UpgradeDialog
 import com.umeng.analytics.MobclickAgent
@@ -137,7 +137,7 @@ class SettingActivity : MyBaseActivity() {
                     lifecycleScope.launch {
                         appModel?.getSignatureVersion(
                             it,
-                            SharedPreferencesUtil.get("registration_id", "") as String
+                            SpUtils.get("registration_id", "") as String
                         )
                     }
                 } ?: appModel?.requireDevice()
@@ -145,7 +145,7 @@ class SettingActivity : MyBaseActivity() {
 
         }
 
-        user_phone_num.text = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+        user_phone_num.text = SpUtils.get(API.LOGIN_USER_PHONE, "").toString()
         user_phone_num.setOnClickListener {
             val intent = Intent(this, UserSettingActivity::class.java)
             startActivity(intent)
@@ -186,12 +186,12 @@ class SettingActivity : MyBaseActivity() {
                         var user = User("", "", "", "")
                         user?.loginState == 0
                         LiveDataBus.get().with("user")?.value = user
-                        SharedPreferencesUtil.put(API.LOGIN_USER_TOKEN, "")
-                        SharedPreferencesUtil.put(API.LOGIN_NICK_NAME, "")
-                        SharedPreferencesUtil.put(API.LOGIN_ACTUL_NAME, "")
-                        SharedPreferencesUtil.put(API.LOGIN_USER_ICON, "")
-                        SharedPreferencesUtil.put(API.LOGIN_USER_PHONE, "")
-                        SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 0)
+                        SpUtils.put(API.LOGIN_USER_TOKEN, "")
+                        SpUtils.put(API.LOGIN_NICK_NAME, "")
+                        SpUtils.put(API.LOGIN_ACTUL_NAME, "")
+                        SpUtils.put(API.LOGIN_USER_ICON, "")
+                        SpUtils.put(API.LOGIN_USER_PHONE, "")
+                        SpUtils.put(API.LOGIN_USER_STATE, 0)
                         onBackPressed()
 
                     }

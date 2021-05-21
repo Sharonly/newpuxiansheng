@@ -11,11 +11,12 @@ import kotlinx.android.synthetic.main.activity_my_favor.*
 
 class MyfarvorActivity : MyBaseActivity() {
 
-    private var tabTitles = listOf<String>("转铺", "找铺", "资讯")
+    private var tabTitles = listOf<String>("转铺", "找铺", "资讯","项目")
     private val favoriteTransferOutFragment: Fragment = FavoriteOutOrdersFragment()
     private val favoriteTransferInFragment: Fragment = FavoriteInOrdersFragment()
     private val favoriteInfoFragment: Fragment = FavoriteInfosFragment()
-    private var fragments = listOf<Fragment>(favoriteTransferOutFragment, favoriteTransferInFragment, favoriteInfoFragment)
+    private val favoriteProjectFragment: Fragment = FavoriteProjectFragment()
+    private var fragments = listOf<Fragment>(favoriteTransferOutFragment, favoriteTransferInFragment, favoriteInfoFragment,favoriteProjectFragment)
 
     override fun getLayoutId(): Int {
         MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
@@ -34,7 +35,7 @@ class MyfarvorActivity : MyBaseActivity() {
             onBackPressed()
         }
         pager.adapter = MessagePagerAdapter(fragmentManager = supportFragmentManager, fragments = fragments, titles = tabTitles)
-        pager.offscreenPageLimit = 3
+        pager.offscreenPageLimit = 4
         tabs.setupWithViewPager(pager)
         pager.setNoScroll(true)
         bt_delete.visibility = View.INVISIBLE

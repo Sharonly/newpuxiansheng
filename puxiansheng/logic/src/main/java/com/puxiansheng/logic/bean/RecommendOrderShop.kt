@@ -5,11 +5,14 @@ import com.google.gson.annotations.SerializedName
 
 data class HttpRecommendOrder(
     @SerializedName("result")
-    val data: List<RecommendOrderShop>? = null
+    val data: List<RecommendOrderShop>? = null,
 
+    @SerializedName("this_page")
+    val currentPage: Int = 0,
+
+    @SerializedName("total_page")
+    val totalPages: Int = 0
 )
-
-
 
 
 data class RecommendOrderShop(

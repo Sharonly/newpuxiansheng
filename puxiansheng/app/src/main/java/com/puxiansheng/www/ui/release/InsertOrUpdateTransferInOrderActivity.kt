@@ -1,5 +1,6 @@
 package com.puxiansheng.www.ui.release
 
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -12,12 +13,15 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.MenuItem
 import com.puxiansheng.util.ext.MyScreenUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.SpUtils
+import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.mine.ServiceActivity
 import com.puxiansheng.www.ui.order.dialog.*
 import com.puxiansheng.www.ui.release.adapter.MultiAreaAdapter
 import com.puxiansheng.www.ui.release.dialog.ReleaseDialog
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_release_order_transfer_in.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -32,7 +36,7 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
     private var areaLists: ArrayList<LocationNode> = arrayListOf()
 
     override fun getLayoutId(): Int {
-        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
+        MyScreenUtil.setStateBarStyle(this,true,R.color.bg_order_list,true)
         return R.layout.activity_release_order_transfer_in
     }
 
@@ -40,18 +44,35 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         insertOrUpdateTransferInOrderViewModel =
             ViewModelProvider(this)[InsertOrUpdateTransferInOrderViewModel::class.java]
         initView()
+        initData()
     }
 
+
+    private fun initData(){
+        lifecycleScope.launch {
+            insertOrUpdateTransferInOrderViewModel.getConfigInfo("api_kf_url")?.let { configInfo ->
+                bt_my_kefu.setOnClickListener {
+                    val intent = Intent(this@InsertOrUpdateTransferInOrderActivity, ServiceActivity::class.java)
+                    intent.putExtra("title", "我的客服")
+                    intent.putExtra("url", configInfo)
+                    startActivity(intent)
+                    MobclickAgent.onEvent(this@InsertOrUpdateTransferInOrderActivity, UMengKeys.PAGE_NAME, "ServiceActivity")
+                }
+            }
+        }
+
+    }
 
     private fun initView() {
         button_back.setOnClickListener {
             onBackPressed()
         }
 
+
         insertOrUpdateTransferInOrderViewModel.contactName =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
+            SpUtils.get(API.LOGIN_ACTUL_NAME, "").toString()
         insertOrUpdateTransferInOrderViewModel.contactPhone =
-            SharedPreferencesUtil.get(API.LOGIN_ACTUL_PHONE, "").toString()
+            SpUtils.get(API.LOGIN_ACTUL_PHONE, "").toString()
 
         input_name.setText(insertOrUpdateTransferInOrderViewModel.contactName)
         input_phone.setText(insertOrUpdateTransferInOrderViewModel.contactPhone)
@@ -278,7 +299,10 @@ class InsertOrUpdateTransferInOrderActivity : MyBaseActivity() {
         })
 
         input_floor.addTextChangedListener {
-            if (it.toString().toInt() != 0) {
+//            if (it.toString().toInt() != 0) {
+//                insertOrUpdateTransferInOrderViewModel.floor = it.toString().toInt()
+//            }
+            if (it.toString().isNotEmpty()) {
                 insertOrUpdateTransferInOrderViewModel.floor = it.toString().toInt()
             }
         }

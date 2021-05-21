@@ -12,9 +12,9 @@ import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.order.dialog.MoreManagerDialog
 import kotlinx.android.synthetic.main.activity_info_detail.*
@@ -37,7 +37,7 @@ class NewInfoDetailActivity : MyBaseActivity(){
     @SuppressLint("JavascriptInterface")
     override fun business() {
         infoId =  intent.getIntExtra("shop_Id",0).toString()
-        cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+        cityId = SpUtils.get(API.USER_CITY_ID, 0).toString()
         viewModel= ViewModelProvider(this)[InfoDetailViewModel::class.java]
         initView()
         initData()

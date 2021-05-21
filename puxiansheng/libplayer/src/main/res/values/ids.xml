@@ -52,5 +52,7 @@
     <item type="id" name="input_options_color_purple"/>
     <item type="id" name="input_options_color_lite_blue"/>
     <item type="id" name="input_options_color_brown"/>
+    <item name="jz_fullscreen_id" type="id" />
+    <item name="jz_tiny_id" type="id" />
 
 </resources>

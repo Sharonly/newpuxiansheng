@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.www.databinding.FragmentLocationNodeItemBinding
-import com.puxiansheng.www.ui.home.RecommListOrderAdapter
+import com.puxiansheng.www.tools.SpUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_city_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,7 +41,7 @@ class CityListActivity : MyBaseActivity() {
 
 
     fun initView() {
-        cur_city.text = intent.getStringExtra("locationCity")?: SharedPreferencesUtil.get(API.USER_CITY_NAME,"东莞市").toString()
+        cur_city.text = intent.getStringExtra("locationCity")?: SpUtils.get(API.USER_CITY_NAME,"东莞市").toString()
         DividerItemDecoration(this, DividerItemDecoration.VERTICAL).let {
             it.setDrawable(
                 resources.getDrawable(
@@ -105,8 +104,8 @@ class CityListActivity : MyBaseActivity() {
                 Log.d("currentCity","inType = "+intent.getIntExtra("inType",0))
                 if(intent.getIntExtra("inType",0)==1){
                     LiveDataBus.get().with("currentCity")?.value = locationNode
-                    SharedPreferencesUtil.put(API.USER_CITY_ID, locationNode.nodeID)
-                    SharedPreferencesUtil.put(API.USER_CITY_NAME, locationNode.text)
+                    SpUtils.put(API.USER_CITY_ID, locationNode.nodeID)
+                    SpUtils.put(API.USER_CITY_NAME, locationNode.text)
                 }else{
                     LiveDataBus.get().with("saveCity")?.value = locationNode
                 }

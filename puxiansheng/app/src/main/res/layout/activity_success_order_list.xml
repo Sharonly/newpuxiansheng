@@ -72,6 +72,27 @@
 
         </RelativeLayout>
 
+        <EditText
+            android:id="@+id/bt_search"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@+id/button_back"
+            android:background="@drawable/bg_bt_article_grey"
+            android:clickable="true"
+            android:drawableLeft="@mipmap/search_iicon"
+            android:drawablePadding="4dp"
+            android:focusable="true"
+            android:paddingLeft="30dp"
+            android:imeOptions="actionSearch"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:hint="@string/search_tips"
+            android:textColor="@color/input_text_blank"
+            android:textSize="16sp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -214,8 +235,8 @@
                 android:id="@+id/video_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:visibility="gone"/>
 
             </LinearLayout>

@@ -15,12 +15,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
-import com.puxiansheng.util.ext.SharedPreferencesUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.*
 import com.puxiansheng.www.common.urlIcon
 import com.puxiansheng.www.databinding.FragmentMineBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.info.WebViewActivity
 import com.puxiansheng.www.ui.login.LoginActivity
@@ -63,7 +62,7 @@ class MineFragment : AppFragment() {
                         user_icon.urlCircleImg(it.icon)
                         user_account.text = it.nickName ?: it.actualName
                         user_phone.visibility = View.VISIBLE
-                        SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
+                        SpUtils.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
                         phone =it.userPhoneNumber
                         phone = phone.substring(0, 3) + "****" + phone.substring(7, 11)
                         user_phone.text = phone
@@ -81,9 +80,11 @@ class MineFragment : AppFragment() {
                 }
 
                 mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
-                    banner.urlBg(banners.imageUrl)
+//                    banner.urlBg(banners.imageUrl)
+                    banner.urlBg(banners[0].imageUrl)
+
                     banner.setOnClickListener {
-                        JumpUtils.pictureIntent(requireActivity(), banners)
+                        JumpUtils.pictureIntent(requireActivity(), banners[0])
                     }
                 }
 
@@ -122,7 +123,7 @@ class MineFragment : AppFragment() {
                     user_icon.urlCircleImg(it.icon)
                     user_account.text = it.nickName ?: it.actualName
                     user_phone.visibility = View.VISIBLE
-                    SharedPreferencesUtil.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
+                    SpUtils.put(API.LOGIN_ACTUL_PHONE, it.userPhoneNumber)
                     phone =it.userPhoneNumber
                     phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
                     user_phone.text = phone
@@ -140,7 +141,7 @@ class MineFragment : AppFragment() {
             }
 
             mineViewModel.requestBannerImage("api_user_conter_image")?.let { banners ->
-                banner.urlBg(banners.imageUrl)
+                banner.urlBg(banners[0].imageUrl)
             }
 
 
@@ -185,12 +186,13 @@ class MineFragment : AppFragment() {
 
         userIcon.setOnClickListener {
             MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "userIconClick")
-            if (get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
                 val intent = Intent(requireActivity(), UserSettingActivity::class.java)
                 startActivity(intent)
             } else {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             }
         }
 
@@ -198,6 +200,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             }
         }
 
@@ -207,6 +210,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
 //                Navigation.findNavController(requireActivity(), R.id.homeNavHost).navigate(
 //                    R.id.action_mainFragment_to_settingFragment
@@ -221,6 +225,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), MyReleaseAllActivity::class.java)
                 startActivity(intent)
@@ -231,6 +236,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), MyfarvorActivity::class.java)
                 startActivity(intent)
@@ -241,6 +247,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), MyHistoryActivity::class.java)
                 startActivity(intent)
@@ -252,6 +259,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), UserOrderPublicActivity::class.java)
                 startActivity(intent)
@@ -262,6 +270,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), UserOrderProcessingActivity::class.java)
                 startActivity(intent)
@@ -273,6 +282,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), UserOrderSoldOutActivity::class.java)
                 startActivity(intent)
@@ -286,6 +296,7 @@ class MineFragment : AppFragment() {
             if (!isLogin) {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
             } else {
                 val intent = Intent(requireActivity(), UserSuggestActivity::class.java)
                 startActivity(intent)
@@ -326,9 +337,8 @@ class MineFragment : AppFragment() {
                     userAccount?.text = user.name ?: user.nickName
                     userPhone?.visibility = View.VISIBLE
                     phone =it.userPhoneNumber
-                    phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+                    phone = phone.substring(0, 3) + "****" + phone.substring(7, 11)
                     userPhone?.text = phone
-                    Log.d("---imageicon", " user.icon = " + user.icon)
                     if (user.icon.isNotEmpty()) {
                         userIcon?.urlCircleImg(user.icon)
                     }
@@ -340,8 +350,6 @@ class MineFragment : AppFragment() {
                 }
             }
         })
-
-
     }.root
 
 

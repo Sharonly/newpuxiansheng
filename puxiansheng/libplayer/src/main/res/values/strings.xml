@@ -10,4 +10,12 @@
         <item>超清</item>
         <item>1080P</item>
     </string-array>
+
+    <string name="tips_not_wifi">没有连接网络</string>
+    <string name="tips_not_wifi_confirm">Resume</string>
+    <string name="tips_not_wifi_cancel">Stop play</string>
+    <string name="no_url">没有播放地址</string>
+    <string name="replay">重播</string>
+    <string name="click_to_restart">点击重播</string>
+    <string name="video_loading_faild">加载失败</string>
 </resources>

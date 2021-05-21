@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.puxiansheng.www.databinding.FragmentMainBinding
+import com.puxiansheng.www.ui.business.BusinessListFragment
 import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.home.HomeViewModel
 import com.puxiansheng.www.ui.home.NewHomeFragment
@@ -51,7 +52,7 @@ class MainFragment : NavHostFragment() {
     private val infoHomeFragment: Fragment = InfoHomeListFragment()
     private val releaseFragment: Fragment = ReleaseFragment()
     private val mineFragment: Fragment = MineFragment()
-    private var messageHomeFragment: Fragment = MessageHomeListFragment()
+    private var messageHomeFragment: Fragment = BusinessListFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,7 +93,7 @@ class MainFragment : NavHostFragment() {
                         }
                     }
                     R.id.navigation_message -> {
-                        if (appModel.lastFragment !is MessageHomeListFragment) {
+                        if (appModel.lastFragment !is BusinessListFragment) {
                             childFragmentManager.beginTransaction().hide(appModel.lastFragment)
                                 .show(
                                     messageHomeFragment
@@ -139,7 +140,7 @@ class MainFragment : NavHostFragment() {
                 .add(
                     R.id.tabNavHost,
                     messageHomeFragment,
-                    MessageHomeListFragment::class.java.name
+                    BusinessListFragment::class.java.name
                 ).hide(messageHomeFragment)
                 .add(
                     R.id.tabNavHost,

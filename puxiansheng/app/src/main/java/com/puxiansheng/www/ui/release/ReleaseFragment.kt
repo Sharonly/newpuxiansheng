@@ -11,9 +11,9 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.common.AppFragment
 import com.puxiansheng.www.databinding.FragmentReleaseBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainViewModel
@@ -54,17 +54,17 @@ class ReleaseFragment : AppFragment() {
         }
 
         transferOut.setOnClickListener {
-            name = SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
-            phone = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
+            name = SpUtils.get(API.LOGIN_ACTUL_NAME, "").toString()
+            phone = SpUtils.get(API.LOGIN_USER_PHONE, "").toString()
 
-            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
                 val intent =
                     Intent(requireActivity(), InsertOrUpdateTransferOutOrderActivity::class.java)
                 intent.putExtra("shopID", "0")
                 startActivity(intent)
                 MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferOutOrderActivity")
-                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
                     API.LOGIN_USER_ID,
                     0
                 ).toString())
@@ -78,36 +78,27 @@ class ReleaseFragment : AppFragment() {
             }
         }
         transferIn.setOnClickListener {
-            name = SharedPreferencesUtil.get(API.LOGIN_ACTUL_NAME, "").toString()
-            phone = SharedPreferencesUtil.get(API.LOGIN_USER_PHONE, "").toString()
-
-            if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
-
+            name = SpUtils.get(API.LOGIN_ACTUL_NAME, "").toString()
+            phone = SpUtils.get(API.LOGIN_USER_PHONE, "").toString()
+            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
 //                if (name.isNotEmpty() && phone.isNotEmpty()) {
                 val intent =
                     Intent(requireActivity(), InsertOrUpdateTransferInOrderActivity::class.java)
                 intent.putExtra("shopID", "0")
                 startActivity(intent)
                 MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferInOrderActivity")
-                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+                MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
                     API.LOGIN_USER_ID,
                     0
                 ).toString())
-
 //                } else {
 //                    Toast.makeText(requireActivity(), "需要先保存个人信息才能发布哟", Toast.LENGTH_SHORT)
-//
 //                }
-
-
             } else {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
             }
-
         }
-
-
     }.root
 
 //    override fun onResume() {

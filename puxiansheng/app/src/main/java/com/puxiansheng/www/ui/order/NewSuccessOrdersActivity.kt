@@ -3,8 +3,11 @@ package com.puxiansheng.www.ui.order
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,15 +18,14 @@ import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.logic.bean.http.SuccessVideoBean
 import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.order.dialog.*
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_success_order_list.*
 import kotlinx.android.synthetic.main.activity_success_order_list.button_back
 import kotlinx.android.synthetic.main.activity_success_order_list.button_sort
@@ -58,14 +60,14 @@ class NewSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         mContext = this
         tabType =  intent.getIntExtra("type",1)
         MobclickAgent.onEvent(
-            mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+            mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
                 API.LOGIN_USER_ID,
                 0
             ).toString()
         )
         viewModel = ViewModelProvider(this)[NewTransferOutOrdersViewModel::class.java]
         if (NetUtil.isNetworkConnected(this)) {
-            viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+            viewModel.currentCity = SpUtils.get(API.USER_CITY_ID, 0).toString()
             initView()
         }
 
@@ -90,33 +92,99 @@ class NewSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
         button_sort.text = "排序"
 
-//        button_search.hint = "成功案例搜索"
-
-
         refreshlayout.setOnRefreshLoadMoreListener(this@NewSuccessOrdersActivity)
+
+
+        bt_search.addTextChangedListener {
+            viewModel.currentPage = 1
+            viewModel.title = it.toString()
+            if(it.toString().isEmpty()) {
+//                if(tabType == 2) {//客户见证可见
+                    isRefresh = true
+                    viewModel.currentPage = 1
+                    if (NetUtil.isNetworkConnected(this)) {
+                        lifecycleScope.launch {
+                            viewModel.getTransferSuccessFromRemote()?.let { list ->
+                                orderAdapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                            }
+
+                            viewModel.getTransferSuccessVideoFromRemote()?.let { videos ->
+                                videoAdapter?.addList(videos as ArrayList<SuccessVideoBean>, isRefresh)
+                                if ((videos as List<SuccessVideoBean>).size == 0) {
+                                    video_list.setBackgroundResource(R.drawable.bg_null)
+                                } else {
+                                    video_list.setBackgroundResource(R.color.white)
+                                }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT)
+                    }
+
+//                }else{
+//                    order_list.removeAllViews()
+//                    lifecycleScope.launch {
+//                        viewModel.getTransferSuccessFromRemote()?.let { list ->
+//                            orderAdapter?.addList(list as ArrayList<OrderDetailObject>, true)
+//                        }
+//                    }
+//                }
+            }
+        }
+        bt_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
+                hideKeyboard(bt_search)
+                viewModel.currentPage = 1
+//                if(tabType == 2) {//客户见证可见
+//                    video_list.removeAllViews()
+//                    lifecycleScope.launch {
+//                        viewModel.getTransferSuccessVideoFromRemote()?.let { videos ->
+//                            videoAdapter?.addList(videos as ArrayList<SuccessVideoBean>, true)
+//                            if (videos.isEmpty()) {
+//                                video_list.setBackgroundResource(R.drawable.bg_null)
+//                            } else {
+//                                video_list.setBackgroundResource(R.color.white)
+//                            }
+//                        }
+//                    }
+//                }else{
+//                    order_list.removeAllViews()
+//                    lifecycleScope.launch {
+//                        viewModel.getTransferSuccessFromRemote()?.let { list ->
+//                            orderAdapter?.addList(list as ArrayList<OrderDetailObject>, true)
+//                        }
+//                    }
+//                }
+                if (NetUtil.isNetworkConnected(this)) {
+                    lifecycleScope.launch {
+                        viewModel.getTransferSuccessFromRemote()?.let { list ->
+                            orderAdapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
+                        }
+
+                        viewModel.getTransferSuccessVideoFromRemote()?.let { videos ->
+                            videoAdapter?.addList(videos as ArrayList<SuccessVideoBean>, isRefresh)
+                            if ((videos as List<SuccessVideoBean>).size == 0) {
+                                video_list.setBackgroundResource(R.drawable.bg_null)
+                            } else {
+                                video_list.setBackgroundResource(R.color.white)
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "网络连接失败", Toast.LENGTH_SHORT)
+                }
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+
 
         button_back.setOnClickListener {
             onBackPressed()
         }
 
-//        button_search.addTextChangedListener {
-//            viewModel.title = it.toString()
-//        }
-//        button_search.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH && viewModel.title.isNotEmpty()) {
-//                hideKeyboard(button_search)
-//                order_list.removeAllViews()
-//                isRefresh = true
-//                lifecycleScope.launch {
-//                    viewModel.getTransferSuccessFromRemote()?.let {list ->
-//                            adapter?.addList(list as ArrayList<OrderDetailObject>, isRefresh)
-//                    }
-//                }
-//                return@OnEditorActionListener true
-//            }
-//            false
-//        })
-        if ( tabType == 2) {
+        if (tabType == 2) {
             tab_order.isSelected = false
             tab_video.isSelected = true
             tab_video.setTextColor(resources.getColor(R.color.text_black))
@@ -139,6 +207,7 @@ class NewSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
             tab_video.setTextColor(resources.getColor(R.color.txt_white_success))
             order_list.visibility = View.VISIBLE
             video_list.visibility = View.GONE
+            tabType == 1
         }
 
 
@@ -149,6 +218,7 @@ class NewSuccessOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
             tab_order.setTextColor(resources.getColor(R.color.txt_white_success))
             order_list.visibility = View.GONE
             video_list.visibility = View.VISIBLE
+            tabType == 2
         }
 
         selected_industry.setOnClickListener {

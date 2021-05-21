@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="166.5dp"
+        android:layout_width="match_parent"
         android:layout_height="219dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="6dp"
         android:layout_marginBottom="5dp"
         app:cardCornerRadius="6dp">
 
         <RelativeLayout
-            android:layout_width="166.5dp"
+            android:layout_width="match_parent"
             android:layout_height="219dp"
             android:background="@drawable/bg_dialog">
 

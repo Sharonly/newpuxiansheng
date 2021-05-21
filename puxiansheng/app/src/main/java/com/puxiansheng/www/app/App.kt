@@ -1,14 +1,15 @@
 package com.puxiansheng.www.app
 
-import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import cn.jpush.android.api.JPushInterface
 import com.puxiansheng.util.BaseApplication
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.BuildConfig
+import com.puxiansheng.www.tools.SpUtils
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.tencent.bugly.Bugly
+import com.tencent.bugly.beta.Beta
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 
@@ -36,13 +37,15 @@ class App : BaseApplication(){
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+        Beta.installTinker()
     }
 
 
     override fun onCreate() {
         super.onCreate()
+        Bugly.init(this, "fe0a6dee18", false)
     instance = this
-        registerActivityLifecycleCallbacks(MyActivityLifeCallback())
+    registerActivityLifecycleCallbacks(MyActivityLifeCallback())
     UMConfigure.setLogEnabled(true)
         UMConfigure.init(this, "5f277355b4b08b653e907878", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
@@ -52,7 +55,7 @@ class App : BaseApplication(){
         JPushInterface.init(this)
         //初始化组件化基础库, 统计SDK/推送SDK/分享SDK都必须调用此初始化接口
         registrationID = JPushInterface.getRegistrationID(this)
-        SharedPreferencesUtil.put("registration_id", registrationID)
+        SpUtils.put("registration_id", registrationID)
         println("registrationID = $registrationID")
         if (BuildConfig.DEBUG) {
             refWatcher = setupLeakCanary()

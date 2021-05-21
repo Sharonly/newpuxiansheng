@@ -18,7 +18,7 @@
     <color name="text_gray">#989796</color>
     <color name="line_gray">#F0EFED</color>
     <color name="gray_line">#fff8f8f8</color>
-    <color name="bg_order_list"> #FFFFFF</color>
+    <color name="bg_order_list">#FFFFFF</color>
 
     <color name="release_sava_text_color">#F78934</color>
     <color name="release_success_text_color">#3BCC9B</color>

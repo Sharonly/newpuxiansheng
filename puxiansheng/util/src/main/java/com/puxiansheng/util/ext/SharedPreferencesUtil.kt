@@ -1,3 +1,4 @@
+/*
 package com.puxiansheng.util.ext
 
 import android.content.Context
@@ -50,9 +51,11 @@ class SharedPreferencesUtil {
          return null
      }
 
-     /**
+     */
+/**
       * 存储对象
-      */
+      *//*
+
      fun putObject(key: String?, `object`: Any?) {
          val sp: SharedPreferences =
              BaseApplication.getAppContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
@@ -79,9 +82,11 @@ class SharedPreferencesUtil {
          }
      }
 
-     /**
+     */
+/**
       * 读取对象
-      */
+      *//*
+
      fun <T> getObject(key: String?, clazz: Class<T>?): T? {
          val sp: SharedPreferences =
              BaseApplication.getAppContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
@@ -154,4 +159,4 @@ class SharedPreferencesUtil {
          return context.getSharedPreferences(key, Context.MODE_PRIVATE).getInt(key, 0)
      }
  }
-}
+}*/

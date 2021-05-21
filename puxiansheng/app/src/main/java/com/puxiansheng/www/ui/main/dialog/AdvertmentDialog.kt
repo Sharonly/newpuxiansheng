@@ -55,7 +55,7 @@ class AdvertmentDialog(var context: Activity, var baners:List<BannerImage>
     ): View? = DialogAdvertBinding.inflate(inflater).apply {
         lifecycleOwner = viewLifecycleOwner
 
-        imgSwitcher.setImages(baners)
+        imgSwitcher.setImages(baners,false)
         imgIndex.text = imgSwitcher.getCurrentPos().toString() + "/" + baners.size
         imgSwitcher.listener = object : ImageSwitcher.OnPageChange {
             override fun onScrolled(index: Int) {

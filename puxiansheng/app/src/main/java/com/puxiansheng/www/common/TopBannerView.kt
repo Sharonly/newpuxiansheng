@@ -20,17 +20,6 @@ import com.bumptech.glide.Glide
 import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.TopBannerViewBinding
-import com.puxiansheng.www.ui.business.BusinessListActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
-import com.puxiansheng.www.ui.info.WebViewActivity
-import com.puxiansheng.www.ui.main.HomeActivity
-import com.puxiansheng.www.ui.message.MessageDetailActivity
-import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
-import com.puxiansheng.www.ui.order.*
-import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
-import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
-import com.puxiansheng.www.ui.release.fasttransfer.FastTransferInActivity
-import com.puxiansheng.www.ui.release.fasttransfer.FastTransferOutActivity
 import com.youth.banner.listener.OnBannerListener
 import com.youth.banner.loader.ImageLoader
 

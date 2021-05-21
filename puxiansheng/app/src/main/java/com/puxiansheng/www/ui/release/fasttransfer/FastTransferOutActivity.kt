@@ -1,19 +1,22 @@
 package com.puxiansheng.www.ui.release.fasttransfer
 
 import android.content.Context
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
+import com.puxiansheng.util.Regular
 import com.puxiansheng.util.ext.toast
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.urlBg
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.home.dialog.FastReleaseCodeDialog
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_fast_transfer.*
 import kotlinx.coroutines.delay
@@ -28,7 +31,7 @@ class FastTransferOutActivity : MyBaseActivity() {
 
     override fun business() {
         mContext = this
-        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
             API.LOGIN_USER_ID,
             0
         ).toString())
@@ -37,7 +40,6 @@ class FastTransferOutActivity : MyBaseActivity() {
     }
 
     fun initView() {
-
         button_back.setOnClickListener {
             onBackPressed()
         }
@@ -56,18 +58,33 @@ class FastTransferOutActivity : MyBaseActivity() {
         }
 
         submit.setOnClickListener {
-            viewModel.city = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
-            lifecycleScope.launch {
-                viewModel.submitSimpleTransferOutOrder().let {
-                    if (it.succeeded) {
-                        it as APIRst.Success
-                        it.data.msg.toast(this@FastTransferOutActivity)
-                        if (it.data.code == API.CODE_SUCCESS) {
-                            delay(2000)
-                            onBackPressed()
-                        }
+//            viewModel.city = SpUtils.get(API.USER_CITY_ID, 0).toString()
+//            lifecycleScope.launch {
+//                viewModel.submitSimpleTransferOutOrder().let {
+//                    if (it.succeeded) {
+//                        it as APIRst.Success
+//                        it.data.msg.toast(this@FastTransferOutActivity)
+//                        if (it.data.code == API.CODE_SUCCESS) {
+//                            delay(2000)
+//                            onBackPressed()
+//                        }
+//                    }
+//                }
+//            }
+
+            if (Regular.isPhoneNumber(viewModel.phone)){
+                var fastReleaseDialog = FastReleaseCodeDialog(0, viewModel.phone)
+                fastReleaseDialog.show(
+                    supportFragmentManager,
+                    FastReleaseCodeDialog::class.java.name
+                )
+                fastReleaseDialog.listener = object : FastReleaseCodeDialog.OnDisMissListener {
+                    override fun onDisMiss() {
+                        onBackPressed()
                     }
                 }
+            }else{
+                Toast.makeText(this, "请先输入正确的联系电话", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -6,8 +6,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-            android:orientation="vertical"
-            android:theme="@style/Material">
+            android:orientation="vertical">
 
             <com.puxiansheng.www.common.StateBarView
                 android:id="@+id/appStatusBar"
@@ -41,6 +40,18 @@
                     android:textColor="@color/black"
                     android:textSize="17dp"
                     android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bt_my_kefu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:gravity="right|center_vertical"
+                android:text="客服"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginRight="15dp"/>
 
             </RelativeLayout>
 
@@ -415,7 +426,10 @@
                     android:layout_marginLeft="50dp"
                     android:layout_toRightOf="@+id/txt_floor"
                     android:background="@null"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:inputType="number"
+                    android:digits="0123456789"/>
+
 
 
                 <TextView
@@ -467,7 +481,7 @@
                     android:padding="5dp"
                     android:layout_below="@+id/txt_description"
                     />
-                <com.google.android.material.button.MaterialButton
+                <TextView
                     android:id="@+id/submit"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"

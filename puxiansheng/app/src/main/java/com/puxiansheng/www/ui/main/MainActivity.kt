@@ -12,19 +12,21 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.LocationNode
 import com.puxiansheng.logic.bean.User
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.PermissionUtils
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyActivityManage
 import com.puxiansheng.www.app.MyBaseActivity
-import com.puxiansheng.www.common.AndroidBug5497Workaround
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.ui.business.BusinessListFragment
+import com.puxiansheng.www.ui.home.HomeFragment
 import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.info.InfoHomeListFragment
 import com.puxiansheng.www.ui.main.dialog.AdvertmentDialog
@@ -35,6 +37,7 @@ import com.puxiansheng.www.ui.release.ReleaseFragment
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home.nav_view
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -43,9 +46,9 @@ class MainActivity : MyBaseActivity() {
     var context: Context = this@MainActivity
     private val requestCodePermissions = 10
     private val requiredPermissions = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//        Manifest.permission.CAMERA,
+//        Manifest.permission.READ_EXTERNAL_STORAGE,
+//        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
@@ -53,12 +56,13 @@ class MainActivity : MyBaseActivity() {
     private var currentTokenCode: Int = 0
     private var lastIndex = -1
     private var backCount = 0
+    private var exitTime: Long = 0
 
     private val fragmentsArray = arrayListOf<Fragment>(
         NewHomeFragment(),
         InfoHomeListFragment(),
         ReleaseFragment(),
-        MessageHomeListFragment(),
+        BusinessListFragment(),
         MineFragment()
     )
 
@@ -74,6 +78,7 @@ class MainActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        MyActivityManage.finshActivity("LoginActivity")
         if (!isTaskRoot) {
             val intentAction = intent.action
             if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intentAction != null && intentAction == Intent.ACTION_MAIN) {
@@ -82,30 +87,17 @@ class MainActivity : MyBaseActivity() {
             }
         }
 
-//        AndroidBug5497Workaround.assistActivity(this)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN and WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        getSharedPreferences("pxs_privacy", Context.MODE_PRIVATE).let {
-            it.getInt("show_privacy", 0).let { isShow ->
-                if (isShow == 0) {
-                    val intent = Intent(this, StartActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
-                }
-            }
+        if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
+            finish()
+            return
         }
 
-//        ActivityCompat.requestPermissions(
-//            this,
-//            requiredPermissions,
-//            requestCodePermissions
-//        )
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN and WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         PermissionUtils.requestPermission(this@MainActivity, requiredPermissions)
         appModel = ViewModelProvider(this)[MainViewModel::class.java]
         initBottomBar()
         initData()
-
     }
 
     private fun initData() {
@@ -137,7 +129,7 @@ class MainActivity : MyBaseActivity() {
                     appModel?.getCurrentLocation()
 
                 if (!isLogin) lifecycleScope.launch(Dispatchers.IO) {
-                    SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "")?.let { it ->
+                    SpUtils.get(API.LOGIN_USER_TOKEN, "")?.let { it ->
                         appModel?.currentUser?.postValue(appModel?.saveLoginUser())
                         API.setAuthToken(it.toString())
                     }
@@ -192,7 +184,6 @@ class MainActivity : MyBaseActivity() {
 //                               supportFragmentManager,
 //                               UpgradeDialog::class.java.name
 //                           )
-
                             UpgradeDialog.getInstance().setData(
                                 this, versionName = it.showVersion,
                                 fileDownUrl = it.downloadUrl,
@@ -235,14 +226,12 @@ class MainActivity : MyBaseActivity() {
             it?.let {
                 appModel?.refreshSignatureToken(
                     it,
-                    SharedPreferencesUtil.get("registration_id", "") as String
+                    SpUtils.get("registration_id", "") as String
                 )
             } ?: appModel?.requireDevice()
         })
 
         API.logoutSignal.observe(this, Observer {
-            // Log.d("---logout"," it = "+it)
-//            println("---logout1--->${it}")
             if (it == API.CODE_REQUIRE_LOGIN ||
                 it == API.CODE_ERROR_AUTH_TOKEN ||
                 it == API.CODE_AUTO_CODE_INVALID ||
@@ -275,7 +264,7 @@ class MainActivity : MyBaseActivity() {
                 lifecycleScope.launch {
                     appModel?.getSignatureVersion(
                         it,
-                        SharedPreferencesUtil.get("registration_id", "") as String
+                        SpUtils.get("registration_id", "") as String
                     )
                 }
             } ?: appModel?.requireDevice()
@@ -335,10 +324,14 @@ class MainActivity : MyBaseActivity() {
         if (fragmentsArray[intExtra].isAdded) {
             swichFragment(intExtra, true)
         } else {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.home_container, fragmentsArray[intExtra])
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .commitAllowingStateLoss()
             supportFragmentManager.beginTransaction()
                 .add(R.id.home_container, fragmentsArray[intExtra])
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commitAllowingStateLoss()
+                .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
             lastIndex = intExtra
         }
         if (intExtra == 0) {
@@ -369,6 +362,7 @@ class MainActivity : MyBaseActivity() {
                 .hide(fragmentsArray[lastIndex]).commitAllowingStateLoss()
         } else {
             if (lastIndex != -1) {
+                Log.d("---swichFragment---","lastIndex = "+lastIndex +" isJump ="+isJump )
                 if (isJump) {
                     supportFragmentManager.beginTransaction().show(fragmentsArray[position])
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -398,10 +392,30 @@ class MainActivity : MyBaseActivity() {
 
 
     fun gotoInfo() {
-//        lastIndex = 0
-//        swichFragment(1,true)
-//        nav_view.selectedItemId = R.id.navigation_home
-//        nav_view.selectedItemId = nav_view.getChildAt(1).findViewById<>(R.)
+       lastIndex = 0
+        swichFragment(1, true)
+//        if (fragmentsArray[intExtra].isAdded) {
+//            swichFragment(intExtra, false)
+//        } else {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.home_container, fragmentsArray[intExtra])
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .commitAllowingStateLoss()
+//            lastIndex = intExtra
+//            if (intExtra == 0) {
+//                nav_view.selectedItemId = R.id.navigation_home
+//            } else if (intExtra == 1) {
+//                println("跳转到的index ---》${intExtra}")
+////                findViewById<BottomNavigationView>(R.id.nav_view)?.selectedItemId =  R.id.navigation_info
+////            nav_view.selectedItemId = R.id.navigation_info
+//            } else if (intExtra == 2) {
+//                nav_view.selectedItemId = R.id.navigation_release
+//            } else if (intExtra == 3) {
+//                nav_view.selectedItemId = R.id.navigation_message
+//            } else if (intExtra == 4) {
+//                nav_view.selectedItemId = R.id.navigation_mine
+//            }
+//        }
     }
 
 
@@ -409,9 +423,22 @@ class MainActivity : MyBaseActivity() {
         if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_DOWN) {
             //销毁前activity数量
 //            println("剩余activity---》${MyActivityManage.activityMap.size}")
-            Log.e("---activity", " exitApp")
-            MyActivityManage.exitApp()
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(
+                    context, "再按一次退出铺先生",
+                    Toast.LENGTH_SHORT
+                ).show()
+                exitTime = System.currentTimeMillis()
+                return true
+            } else {
+                MyActivityManage.exitApp()
+            }
         }
         return super.onKeyDown(keyCode, event)
     }
+
+
+
+
+
 }

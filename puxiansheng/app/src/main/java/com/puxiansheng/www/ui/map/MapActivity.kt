@@ -11,11 +11,13 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.www.tools.SpUtils
+import com.puxiansheng.www.ui.home.FastConnectDialog
 import com.puxiansheng.www.ui.main.MainViewModel
+import com.puxiansheng.www.ui.order.dialog.MapSelectDialog
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderViewModel
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap
@@ -41,6 +43,7 @@ class MapActivity : MyBaseActivity() {
     private var tencentMap: TencentMap? = null
     private var lat = 23.02067
     private var lng = 113.75179
+    private var destination ="目的地"
 
     val LOCATION_CODE = 1315
     var isNeedCheck = true
@@ -55,13 +58,18 @@ class MapActivity : MyBaseActivity() {
     }
 
     override fun business() {
+        lat =  intent.getDoubleExtra("lat",23.02067)
+        lng =  intent.getDoubleExtra("lng",113.75179)
+        destination =  intent.getStringExtra("destination")
         toptitle.text = "位置信息"
         button_back.setOnClickListener {
             onBackPressed()
         }
 
-        lat =  intent.getDoubleExtra("lat",23.02067)
-        lng =  intent.getDoubleExtra("lng",113.75179)
+        bt_go.setOnClickListener {
+            MapSelectDialog(lat,lng,
+                    destination).show(supportFragmentManager, MapSelectDialog::class.java.name)
+        }
 
         ActivityCompat.requestPermissions(
             this,
@@ -135,7 +143,7 @@ class MapActivity : MyBaseActivity() {
                         var lat: String = split[0]?.toString()//纬度
                         var lng: String = split[1]?.toString()//经度
                         var address: String = uri?.getQueryParameter("addr").toString()//地址
-                        put("my_location", address)
+                        SpUtils.put("my_location", address)
                         intent.putExtra("mes", address);//返回值
                         Log.d("----map", "  address = " + address)
                         LiveDataBus.get().with("Map")?.value = address

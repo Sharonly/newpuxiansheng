@@ -91,8 +91,8 @@ class UserRepository(userDao: UserDao) {
         password = password
     )
 
-    fun submitSuggestion(content: String,cate:String): APIRst<APIResp<HttpRespEmpty>> =
-        remoteUserRepository.submitSuggestion(content = content,cate = cate)
+    fun submitSuggestion(content: String, cate: String): APIRst<APIResp<HttpRespEmpty>> =
+        remoteUserRepository.submitSuggestion(content = content, cate = cate)
 
     fun getRequestType() = remoteUserRepository.getRequestType()
 
@@ -119,8 +119,21 @@ class UserRepository(userDao: UserDao) {
             cityId = cityId
         )
 
+    fun submitProjectInfo(
+        projectName: String,
+        phone: String,
+        name: String,
+        money: String
+    ): APIRst<APIResp<HttpRespEmpty>> =
+        remoteUserRepository.submitProjectInfo(
+            projectId = projectName,
+            name = name,
+            phone = phone,
+            money = money
+        )
+
     fun submitUserIcon(
-        file:File
+        file: File
     ): APIRst<APIResp<HttpRespIconUpload>> =
         remoteUserRepository.submitUserIcon(
             file = file

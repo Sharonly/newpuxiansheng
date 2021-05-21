@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BusinessBean
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.common.ImageSwitcher
@@ -106,7 +105,7 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
 
         lifecycleScope.launch {
             viewModel.requestBannerImage("api_join_images")?.let { banners ->
-                image_switcher.setImages(banners)
+                image_switcher.setImages(banners,false)
 
                 banner_index.removeAllViews()
                 for (i in 0 until banners.size) {
@@ -165,7 +164,7 @@ class BusinessListActivity : MyBaseActivity(), OnRefreshLoadMoreListener {
         viewModel.currentPage = 1
         lifecycleScope.launch {
             viewModel.requestBannerImage("api_join_images")?.let { banners ->
-                image_switcher.setImages(banners)
+                image_switcher.setImages(banners,false)
             }
 
             viewModel.getBusinessList()?.let {

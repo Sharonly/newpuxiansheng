@@ -40,7 +40,7 @@
         android:layout_height="@dimen/control_bar_height"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:visibility="gone">
+       >
 
         <ImageView
             android:id="@+id/iv_play"

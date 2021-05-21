@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -20,19 +21,24 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
-<!-- android:usesCleartextTraffic="true"-->
+    <!-- android:usesCleartextTraffic="true"-->
     <permission
         android:name="com.puxiansheng.www.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
@@ -42,112 +48,134 @@
         android:name=".app.App"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
+        android:icon="@mipmap/app_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/AppTheme"
-        android:icon="@mipmap/app_logo"
         android:roundIcon="@mipmap/app_logo"
-        android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:largeHeap="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="m">
-                <activity
-                    android:name=".ui.main.MainActivity"
-                    android:label="@string/app_name"
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:screenOrientation="portrait"
-                    android:launchMode="singleTask"
-                    android:theme="@style/AppTheme"
-                    android:windowSoftInputMode="adjustPan|stateHidden">
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN" />
-                        <category android:name="android.intent.category.LAUNCHER" />
-                    </intent-filter>
-                </activity>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
-<!--        <activity android:name=".ui.main.MainActivity"/>-->
-<!--        <activity android:name=".ui.main.HomeActivity"/>-->
-        <activity android:name=".ui.main.StartActivity"
+        </activity>
+
+        <activity
+            android:name=".ui.main.SplashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--        -->
+        <!--        <activity android:name=".ui.main.MainActivity"/>-->
+        <!--        <activity android:name=".ui.main.HomeActivity"/>-->
+        <activity
+            android:name=".ui.main.StartActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".ui.main.PermissionActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.main.PermissionActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.main.LocationActivity"/>
-        <activity android:name=".ui.main.CityListActivity"/>
-        <activity android:name=".ui.login.LoginActivity"
-            android:launchMode="singleInstance">
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.LocationActivity" />
+        <activity android:name=".ui.main.CityListActivity" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        <activity android:name=".ui.login.BindMobileNumberActivity"/>
+        <activity android:name=".ui.login.BindMobileNumberActivity" />
         <activity android:name=".ui.login.ForgetPasswordActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
-        <activity android:name=".ui.search.SearchActivity"/>
-        <activity android:name=".ui.info.WebViewActivity"
-            />
-        <activity android:name=".ui.info.InfoDetailActivity"/>
-        <activity android:name=".ui.info.NewInfoDetailActivity"/>
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.info.WebViewActivity" />
+        <!--        <activity android:name=".ui.info.InfoDetailActivity"/>-->
+        <activity android:name=".ui.info.NewInfoDetailActivity" />
 
-        <activity android:name=".ui.message.MessageDetailActivity"/>
+        <activity android:name=".ui.message.MessageDetailActivity" />
+        <activity android:name=".ui.message.MessageHomeListActivity" />
+        <activity android:name=".ui.release.fasttransfer.FastTransferOutActivity" />
+        <activity android:name=".ui.release.fasttransfer.FastTransferInActivity" />
+        <!--        <activity android:name=".ui.business.InvestBusinessActivity"/>-->
+        <activity android:name=".ui.business.BusinessListActivity" />
+        <activity android:name=".ui.business.InvestBusinessDetailActivity" />
 
-        <activity android:name=".ui.release.fasttransfer.FastTransferOutActivity"/>
-        <activity android:name=".ui.release.fasttransfer.FastTransferInActivity"/>
-<!--        <activity android:name=".ui.business.InvestBusinessActivity"/>-->
-        <activity android:name=".ui.business.BusinessListActivity"/>
-        <activity android:name=".ui.business.InvestBusinessDetailActivity"/>
+
+        <activity android:name=".ui.project.ProjectHomeListActivity" />
+        <activity android:name=".ui.project.ProjectDetailActivity" />
+        <activity android:name=".ui.project.ProjectApproveActivity" />
 
         <activity android:name=".ui.order.NewTransferOutOrdersActivity" />
         <activity android:name=".ui.order.NewTransferInOrdersActivity" />
-        <activity android:name=".ui.order.SucceseVideoDetailActivity"
+        <activity
+            android:name=".ui.order.SucceseVideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.order.NewSuccessOrdersActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity
+            android:name=".ui.order.NewSuccessOrdersActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.order.TransferOutOrderDetailActivity" />
         <activity android:name=".ui.order.TransferInOrderDetailActivity" />
-        <activity android:name=".ui.release.InsertOrUpdateTransferOutOrderActivity"/>
-        <activity android:name=".ui.release.InsertOrUpdateTransferInOrderActivity"/>
-        <activity android:name=".ui.map.GetLocationActivity"/>
-        <activity android:name=".ui.map.MapActivity"/>
+        <activity android:name=".ui.release.InsertOrUpdateTransferOutOrderActivity" />
+        <activity android:name=".ui.release.InsertOrUpdateTransferInOrderActivity" />
+        <activity android:name=".ui.map.GetLocationActivity" />
+        <activity android:name=".ui.map.MapActivity" />
 
-        <activity android:name=".ui.mine.setting.UserSettingActivity"/>
-        <activity android:name=".ui.mine.setting.SettingActivity"/>
-        <activity android:name=".ui.mine.setting.ResetPasswordActivity"/>
-        <activity android:name=".ui.mine.suggest.UserSuggestActivity"/>
-        <activity android:name=".ui.mine.suggest.UserCallBackActivity"/>
+        <activity android:name=".ui.mine.setting.UserSettingActivity" />
+        <activity android:name=".ui.mine.setting.SettingActivity" />
+        <activity android:name=".ui.mine.setting.ResetPasswordActivity" />
+        <activity android:name=".ui.mine.suggest.UserSuggestActivity" />
+        <activity android:name=".ui.mine.suggest.UserCallBackActivity" />
 
-        <activity android:name=".ui.mine.favor.MyfarvorActivity"/>
-        <activity android:name=".ui.mine.history.MyHistoryActivity"/>
-        <activity android:name=".ui.mine.relase.MyReleaseAllActivity"/>
+        <activity android:name=".ui.mine.favor.MyfarvorActivity" />
+        <activity android:name=".ui.mine.history.MyHistoryActivity" />
+        <activity android:name=".ui.mine.relase.MyReleaseAllActivity" />
 
-        <activity android:name=".ui.mine.relase.UserOrderPublicActivity"/>
-        <activity android:name=".ui.mine.relase.UserOrderProcessingActivity"/>
-        <activity android:name=".ui.mine.relase.UserOrderSoldOutActivity"/>
-        <activity android:name=".ui.mine.setting.AboutUsActivity"/>
+        <activity android:name=".ui.mine.relase.UserOrderPublicActivity" />
+        <activity android:name=".ui.mine.relase.UserOrderProcessingActivity" />
+        <activity android:name=".ui.mine.relase.UserOrderSoldOutActivity" />
+        <activity android:name=".ui.mine.setting.AboutUsActivity" />
 
-        <activity android:name=".ui.mine.ServiceActivity"/>
+        <activity android:name=".ui.mine.ServiceActivity" />
 
 
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent"
             android:taskAffinity="com.puxiansheng.www"
-            >
+            android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <service android:name=".app.PushService"
+        <service
+            android:name=".app.PushService"
             android:enabled="true"
             android:exported="false"
             android:process=":pushcore">
@@ -197,17 +225,17 @@
             android:name="TencentMapSDK"
             android:value="TMSBZ-BKGWK-3O2JH-AYOVY-SDCYO-QPFJ3" />
 
-<!--        <meta-data-->
-<!--            android:name="UMENG_APPKEY"-->
-<!--            android:value="5f277355b4b08b653e907878" >-->
-<!--        </meta-data>-->
-<!--        <meta-data-->
-<!--            android:name="UMENG_CHANNEL"-->
-<!--            android:value="Umeng" >-->
-<!--        </meta-data>-->
-<!--        <meta-data-->
-<!--            android:name="UMENG_CHANNEL"-->
-<!--            android:value="5f277355b4b08b653e907878"/>-->
+        <!--        <meta-data-->
+        <!--            android:name="UMENG_APPKEY"-->
+        <!--            android:value="5f277355b4b08b653e907878" >-->
+        <!--        </meta-data>-->
+        <!--        <meta-data-->
+        <!--            android:name="UMENG_CHANNEL"-->
+        <!--            android:value="Umeng" >-->
+        <!--        </meta-data>-->
+        <!--        <meta-data-->
+        <!--            android:name="UMENG_CHANNEL"-->
+        <!--            android:value="5f277355b4b08b653e907878"/>-->
     </application>
 
 

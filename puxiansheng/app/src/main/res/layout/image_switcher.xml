@@ -9,5 +9,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"/>
+
+        <RadioGroup
+            android:id="@+id/banner_index"
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+         />
     </FrameLayout>
 </layout>

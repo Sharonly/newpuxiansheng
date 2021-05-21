@@ -1,21 +1,22 @@
 package com.puxiansheng.www.common
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
+import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.BannerImage
+import com.puxiansheng.logic.bean.MarqueeInfo
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
+import com.puxiansheng.www.tools.Utils
 import com.puxiansheng.www.ui.business.BusinessListActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.info.WebViewActivity
-import com.puxiansheng.www.ui.main.HomeActivity
+import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
+import com.puxiansheng.www.ui.mine.suggest.UserSuggestActivity
 import com.puxiansheng.www.ui.order.*
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferInOrderActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
@@ -25,143 +26,493 @@ import com.umeng.analytics.MobclickAgent
 
 object JumpUtils{
 
-fun pictureIntent(context: Context, image: BannerImage) {
-    Log.d(
-        "---jump--",
-        " pictureIntent--->${image.jump_param}--->${image.imageUrl}" + "   image.jump_type = " + image.jump_type + "  image.jump_view =  " + image.jump_view + "  image.jump_param = " + image.jump_param
-    )
-    when (image.jump_type) {
-        1 -> {
-            when (image.jump_view) {
-                "index" -> {
-                }
-                "transfer_list" -> {
-                    val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
-                    intent.putExtra("title", "*")
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferOutOrdersActivity")
-                }
-                "find_list" -> {
-                    val intent = Intent(context, NewTransferInOrdersActivity::class.java)
-                    intent.putExtra("title", "*")
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferInOrdersActivity")
-                }
 
+    fun pictureIntent(context: Context, image: BannerImage) {
+        Log.d(
+            "---jump--",
+            " pictureIntent--->${image.jump_param}--->${image.imageUrl}" + "   image.jump_type = " + image.jump_type + "  image.jump_view =  " + image.jump_view + "  image.jump_param = " + image.jump_param
+        )
+        when (image.jump_type) {
+            1 -> {
+                when (image.jump_view) {
+                    "index" -> {
+                    }
+                    "transfer_list" -> {
+                            val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferOutOrdersActivity"
+                            )
+                    }
+                    "find_list" -> {
+                            val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferInOrdersActivity"
+                            )
+                    }
 
-                "activity_list" -> {//文章列表
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("name", "5")
-                    context.startActivity(intent)
-                }
-                "user_center" -> {
+                    "activity_list" -> {//文章列表
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.putExtra("name", "5")
+                            context.startActivity(intent)
+                    }
+                    "user_center" -> {
 
-                }
+                    }
+                    "join_list" -> {
+                            val intent = Intent(context, BusinessListActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "BusinessListActivity"
+                            )
+                    }
 
-                "join_list" -> {
-                    val intent = Intent(context, BusinessListActivity::class.java)
-                    intent.putExtra("title", "*")
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "BusinessListActivity")
-                }
+                    "quick_transfer" -> {
+                            val intent = Intent(context, FastTransferOutActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "FastTransferOutActivity"
+                            )
+                    }
 
-                "quick_transfer" -> {
-                    val intent = Intent(context, FastTransferOutActivity::class.java)
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "FastTransferOutActivity")
-                }
+                    "quick_find" -> {
+                            val intent = Intent(context, FastTransferInActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "FastTransferInActivity"
+                            )
+                    }
+                    "about_us" -> {
+                            val intent = Intent(context, AboutUsActivity::class.java)
+                            intent.putExtra("url", image.jump_param)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "AboutUsActivity")
+                    }
 
-                "quick_find" -> {
-                    val intent = Intent(context, FastTransferInActivity::class.java)
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "FastTransferInActivity")
-                }
-                "about_us" -> {
-                    val intent = Intent(context, AboutUsActivity::class.java)
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "AboutUsActivity")
-                }
+                    "shop_success" -> {//成功案例
+                            val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                            intent.putExtra("type", 1)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferSuccessOrdersActivity"
+                            )
+                    }
+                    "success_video" -> {//ship案例
+                            val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                            intent.putExtra("type", 2)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferSuccessOrdersActivity"
+                            )
+                    }
+                    "article_cate" -> {
+                        if (Utils.isFastClick()) {
+                            val i = Intent(context, MainActivity::class.java)
+                            i.putExtra("index", 1)
+                            context.startActivity(i)
+                        }
+                    }
+                    "transfer_shop" ->{
+                        if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                            val intent =
+                                Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
+                            intent.putExtra("shopID", "0")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferInOrderActivity")
+                            MobclickAgent.onEvent(context, UMengKeys.LOGIN_USER_ID, SpUtils.get(
+                                API.LOGIN_USER_ID,
+                                0
+                            ).toString())
+                        } else {
+                            val intent = Intent(context, LoginActivity::class.java)
+                            context.startActivity(intent)
+                        }
+                    }
+                    "find_shop" ->{
+                            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                                val intent =
+                                    Intent(
+                                        context,
+                                        InsertOrUpdateTransferInOrderActivity::class.java
+                                    )//
+                                intent.putExtra("shopID", "0")
+                                context.startActivity(intent)
+                                MobclickAgent.onEvent(
+                                    context,
+                                    UMengKeys.PAGE_NAME,
+                                    "InsertOrUpdateTransferOutOrderActivity"
+                                )
+                                MobclickAgent.onEvent(
+                                    context, UMengKeys.LOGIN_USER_ID, SpUtils.get(
+                                        API.LOGIN_USER_ID,
+                                        0
+                                    ).toString()
+                                )
+                            } else {
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    }
 
-                "shop_success" -> {//成功案例
-                    val intent = Intent(context, NewSuccessOrdersActivity::class.java)
-                    intent.putExtra("type", 1)
-                    context.startActivity(intent)
-                    MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "NewTransferSuccessOrdersActivity")
+                    "submit_complaint" -> {
+                        if (Utils.isFastClick()) {
+                            val intent =
+                                Intent(context, UserSuggestActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "UserSuggestActivity"
+                            )
+                        }
+                    }
                 }
             }
-        }
-        2 -> {//打开链接
+            2 -> {//打开链接
 //                val intent = Intent(Intent.ACTION_VIEW)
 //                intent.data = Uri.parse(image.jump_param)
 //                context.startActivity(intent)
 
-            //TODO  2020/6/8
-            val intent = Intent(context, WebViewActivity::class.java)
-            intent.putExtra("url", image.jump_param)
-            context.startActivity(intent)
-        }
+                //TODO  2020/6/8
+                val intent = Intent(context, WebViewActivity::class.java)
+                intent.putExtra("url", image.jump_param)
+                context.startActivity(intent)
+            }
 
-        3 -> {//找店详情
-            val intent = Intent(context, TransferInOrderDetailActivity::class.java)
-            intent.putExtra("shopID", image.jump_param)
-            context.startActivity(intent)
-            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferInOrderDetailActivity")
-        }
+            3 -> {//找店详情
+                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferInOrderDetailActivity")
+            }
 
-        4 -> {//转铺详情
-            val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
-            intent.putExtra("shopID", image.jump_param)
-            context.startActivity(intent)
-            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferOutOrderDetailActivity")
-        }
+            4 -> {//转铺详情
+                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferOutOrderDetailActivity")
+            }
 
-        5 -> {//文章详情
-            val intent = Intent(context, NewInfoDetailActivity::class.java)
-            intent.putExtra("url", image.jump_param)
-            intent.putExtra("shop_Id", image?.id)
-            intent.putExtra("title", image?.title)
-            intent.putExtra("img", image?.imageUrl)
-            context.startActivity(intent)
-            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "InfoDetailActivity")
-        }
+            5 -> {//文章详情
+                val intent = Intent(context, NewInfoDetailActivity::class.java)
+                intent.putExtra("url", image.jump_param)
+                intent.putExtra("shop_Id", image?.id)
+                intent.putExtra("title", image?.title)
+                intent.putExtra("img", image?.imageUrl)
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "InfoDetailActivity")
+            }
 
-        6 -> {
-            val intent = Intent(
-                context,
-                InsertOrUpdateTransferOutOrderActivity::class.java
-            )
-            intent.putExtra("shopID", image.jump_param)
-            context.startActivity(intent)
+            6 -> {
+                val intent = Intent(
+                    context,
+                    InsertOrUpdateTransferOutOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+
+            }
+            7 -> {
+                val intent = Intent(
+                    context,
+                    InsertOrUpdateTransferInOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            8 -> {
+                val intent = Intent(
+                    context,
+                    TransferOutOrderDetailActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            9 -> {
+                val intent = Intent(
+                    context,
+                    MessageDetailActivity::class.java
+                )
+                intent.putExtra("noticeId", image.jump_param)
+                intent.putExtra("category", 2)
+                context.startActivity(intent)
+            }
 
         }
-        7 -> {
-            val intent = Intent(
-                context,
-                InsertOrUpdateTransferInOrderActivity::class.java
-            )
-            intent.putExtra("shopID", image.jump_param)
-            context.startActivity(intent)
-        }
-        8 -> {
-            val intent = Intent(
-                context,
-                TransferOutOrderDetailActivity::class.java
-            )
-            intent.putExtra("shopID", image.jump_param)
-            context.startActivity(intent)
-        }
-        9 -> {
-            val intent = Intent(
-                context,
-                MessageDetailActivity::class.java
-            )
-            intent.putExtra("noticeId", image.jump_param)
-            intent.putExtra("category", 2)
-            context.startActivity(intent)
-        }
-
     }
-}
 
+
+
+    fun zixunIntent(context: Context, image: MarqueeInfo) {
+        Log.d(
+            "---jump--",
+            " pictureIntent--->${image.jump_param}--->" + "   image.jump_type = " + image.jump_type + "  image.jump_view =  " + image.jump_view + "  image.jump_param = " + image.jump_param
+        )
+        when (image.jump_type) {
+            1 -> {
+                when (image.jump_view) {
+                    "index" -> {
+                    }
+                    "transfer_list" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, NewTransferOutOrdersActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferOutOrdersActivity"
+                            )
+                        }
+                    }
+                    "find_list" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, NewTransferInOrdersActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferInOrdersActivity"
+                            )
+                        }
+                    }
+
+                    "activity_list" -> {//文章列表
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.putExtra("name", "5")
+                            context.startActivity(intent)
+                        }
+                    }
+                    "user_center" -> {
+
+                    }
+                    "join_list" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, BusinessListActivity::class.java)
+                            intent.putExtra("title", "*")
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "BusinessListActivity"
+                            )
+                        }
+                    }
+
+                    "quick_transfer" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, FastTransferOutActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "FastTransferOutActivity"
+                            )
+                        }
+                    }
+
+                    "quick_find" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, FastTransferInActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "FastTransferInActivity"
+                            )
+                        }
+                    }
+                    "about_us" -> {
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, AboutUsActivity::class.java)
+                            intent.putExtra("url", image.jump_param)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "AboutUsActivity")
+                        }
+                    }
+
+                    "shop_success" -> {//成功案例
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                            intent.putExtra("type", 1)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferSuccessOrdersActivity"
+                            )
+                        }
+                    }
+                    "success_video" -> {//ship案例
+                        if (Utils.isFastClick()) {
+                            val intent = Intent(context, NewSuccessOrdersActivity::class.java)
+                            intent.putExtra("type", 2)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "NewTransferSuccessOrdersActivity"
+                            )
+                        }
+                    }
+                    "article_cate" -> {
+                        if (Utils.isFastClick()) {
+                            val i = Intent(context, MainActivity::class.java)
+                            i.putExtra("index", 1)
+                            context.startActivity(i)
+                        }
+                    }
+                    "transfer_shop" ->{
+                        if (Utils.isFastClick()) {
+                            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                                val intent =
+                                    Intent(context, InsertOrUpdateTransferOutOrderActivity::class.java)
+                                intent.putExtra("shopID", "0")
+                                context.startActivity(intent)
+                                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME,"InsertOrUpdateTransferInOrderActivity")
+                                MobclickAgent.onEvent(context, UMengKeys.LOGIN_USER_ID, SpUtils.get(
+                                    API.LOGIN_USER_ID,
+                                    0
+                                ).toString())
+                            } else {
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                        }
+                    }
+                    "find_shop" ->{
+                        if (Utils.isFastClick()) {
+                            if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+                                val intent =
+                                    Intent(
+                                        context,
+                                        InsertOrUpdateTransferInOrderActivity::class.java
+                                    )//
+                                intent.putExtra("shopID", "0")
+                                context.startActivity(intent)
+                                MobclickAgent.onEvent(
+                                    context,
+                                    UMengKeys.PAGE_NAME,
+                                    "InsertOrUpdateTransferOutOrderActivity"
+                                )
+                                MobclickAgent.onEvent(
+                                    context, UMengKeys.LOGIN_USER_ID, SpUtils.get(
+                                        API.LOGIN_USER_ID,
+                                        0
+                                    ).toString()
+                                )
+                            } else {
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                        }
+                    }
+
+                    "submit_complaint" -> {
+                        if (Utils.isFastClick()) {
+                            val intent =
+                                Intent(context, UserSuggestActivity::class.java)
+                            context.startActivity(intent)
+                            MobclickAgent.onEvent(
+                                context,
+                                UMengKeys.PAGE_NAME,
+                                "UserSuggestActivity"
+                            )
+                        }
+                    }
+                }
+            }
+            2 -> {//打开链接
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse(image.jump_param)
+//                context.startActivity(intent)
+
+                //TODO  2020/6/8
+                val intent = Intent(context, WebViewActivity::class.java)
+                intent.putExtra("url", image.jump_param)
+                context.startActivity(intent)
+            }
+
+            3 -> {//找店详情
+                val intent = Intent(context, TransferInOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferInOrderDetailActivity")
+            }
+
+            4 -> {//转铺详情
+                val intent = Intent(context, TransferOutOrderDetailActivity::class.java)
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "TransferOutOrderDetailActivity")
+            }
+
+            5 -> {//文章详情
+                val intent = Intent(context, NewInfoDetailActivity::class.java)
+                intent.putExtra("url", image.jump_param)
+                intent.putExtra("shop_Id", image?.id)
+                intent.putExtra("title", image?.title)
+                intent.putExtra("img", " ")
+                context.startActivity(intent)
+                MobclickAgent.onEvent(context, UMengKeys.PAGE_NAME, "InfoDetailActivity")
+            }
+
+            6 -> {
+                val intent = Intent(
+                    context,
+                    InsertOrUpdateTransferOutOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+
+            }
+            7 -> {
+                val intent = Intent(
+                    context,
+                    InsertOrUpdateTransferInOrderActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            8 -> {
+                val intent = Intent(
+                    context,
+                    TransferOutOrderDetailActivity::class.java
+                )
+                intent.putExtra("shopID", image.jump_param)
+                context.startActivity(intent)
+            }
+            9 -> {
+                val intent = Intent(
+                    context,
+                    MessageDetailActivity::class.java
+                )
+                intent.putExtra("noticeId", image.jump_param)
+                intent.putExtra("category", 2)
+                context.startActivity(intent)
+            }
+
+        }
+    }
 
 }

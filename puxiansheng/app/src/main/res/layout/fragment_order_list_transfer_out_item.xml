@@ -32,6 +32,11 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 tools:ignore="ContentDescription" />
+            <ImageView
+                android:id="@+id/ic_label"
+                android:layout_width="40.5dp"
+                android:layout_height="25.5dp"
+                android:visibility="gone"/>
         </androidx.cardview.widget.CardView>
 
 
@@ -208,9 +213,15 @@
                     android:gravity="center_vertical"
                     android:text="详情"
                     android:textSize="12sp"/>
+
+
             </RelativeLayout>
 
-
+        <ImageView
+            android:id="@+id/big_label"
+            android:layout_width="40.5dp"
+            android:layout_height="25.5dp"
+            android:visibility="gone"/>
 
     </androidx.cardview.widget.CardView>
 

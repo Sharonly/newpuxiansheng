@@ -2,16 +2,20 @@ package com.puxiansheng.www.common
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import androidx.core.view.get
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.puxiansheng.logic.bean.BannerImage
+import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.ImageSwitcherBinding
-import kotlinx.android.synthetic.main.fragment_transfer_out_order_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -26,7 +30,11 @@ class ImageSwitcher : FrameLayout {
 
     constructor(context: Context) : super(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     init {
         binding = ImageSwitcherBinding.inflate(LayoutInflater.from(context), this, true).apply {
@@ -34,14 +42,21 @@ class ImageSwitcher : FrameLayout {
             imagePager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {}
 
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
 
                 }
 
                 override fun onPageSelected(position: Int) {
                     this@ImageSwitcher.position = position
                     setCurrentPos(position)
-
+                    if (bannerIndex.visibility == View.VISIBLE) {
+                        var bt: RadioButton = bannerIndex.getChildAt(position) as RadioButton
+                        bt.isChecked = true
+                    }
                     //2020/06/08 梁汉松
                     listener?.onScrolled(position)
                 }
@@ -49,36 +64,58 @@ class ImageSwitcher : FrameLayout {
         }
     }
 
-    fun setImages(images: List<BannerImage>?) {
+    fun setImages(images: List<BannerImage>?, show: Boolean) {
         images?.let {
             this.images = it
             position = 0
             binding.imagePager.adapter?.notifyDataSetChanged()
+            Log.d("imageswitcher", " isshow = " + show)
+            if (show && images.size > 1) {
+                binding.bannerIndex.visibility = View.VISIBLE
+                binding.bannerIndex.removeAllViews()
+                for (i in images.indices) {
+                    var tempButton = RadioButton(context)
+                    tempButton.setButtonDrawable(R.drawable.bg_index_bt) // 设置按钮的样式
+                    tempButton.setPadding(10, 0, 10, 0) // 设置文字距离按钮四周的距离
+                    binding.bannerIndex.addView(
+                        tempButton,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                var bt: RadioButton = binding.bannerIndex.getChildAt(0) as RadioButton
+                bt.isChecked = true
+            } else {
+                binding.bannerIndex.visibility = View.GONE
+            }
         }
     }
 
-    fun setCurrentPos(pos: Int){
+
+    fun setCurrentPos(pos: Int) {
         position = pos
     }
 
-    fun getCurrentPos():Int{
-        return if(images.isNotEmpty()) {
+    fun getCurrentPos(): Int {
+        return if (images.isNotEmpty()) {
             position + 1
-        }else{
+        } else {
             1
         }
     }
-
-
 
 
     @ExperimentalCoroutinesApi
     fun loop(ticker: ReceiveChannel<Unit>, coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             ticker.consumeEach {
-                binding.imagePager.setCurrentItem(position, true)
-                position += 1
-                if (position == images.size) position = 0
+                if (images.size > 1) {
+                    binding.imagePager.setCurrentItem(position, true)
+                    position += 1
+                    if (position == images.size) position = 0
+                } else {
+                    binding.imagePager.setCurrentItem(position, false)
+                }
             }
         }
     }
@@ -116,16 +153,16 @@ class ImageSwitcher : FrameLayout {
                 `object` as View?
             )
 
-        fun setOnImageClick(onImageClick: (image: BannerImage) -> Unit){
+        fun setOnImageClick(onImageClick: (image: BannerImage) -> Unit) {
             this.onImageClick = onImageClick
         }
 
 
     }
 
-    var listener:OnPageChange?=null
+    var listener: OnPageChange? = null
 
-    interface OnPageChange{
-        fun onScrolled(index:Int)
+    interface OnPageChange {
+        fun onScrolled(index: Int)
     }
 }

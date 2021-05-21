@@ -9,9 +9,9 @@ import com.puxiansheng.logic.bean.Order
 import com.puxiansheng.logic.bean.Shop
 import com.puxiansheng.logic.data.order.OrderDatabase
 import com.puxiansheng.logic.data.order.OrderRepository
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.puxiansheng.www.tools.SpUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class HomeTransferOutOrdersViewModel(application: Application) : AndroidViewMode
 //    private var currentPage = 1;
     var isLoadingMore = false
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
-    var currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+    var currentCity = SpUtils.get(API.USER_CITY_ID, 0).toString()
 
      fun deleteOrdersByType(
         type: Int

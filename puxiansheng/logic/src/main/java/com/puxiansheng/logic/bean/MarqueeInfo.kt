@@ -33,13 +33,13 @@ data class MarqueeInfo(
         @SerializedName("rent_name")
         val rentName: String = "",
 
-        @SerializedName("api_jump_type")
-        val apiJumpType: Int? = 0,
+        @SerializedName("jump_type")
+        val jump_type: Int? = 0,
 
-        @SerializedName("api_jump_view")
-        val apiJumpView: String = "",
+        @SerializedName("jump_view")
+        val jump_view: String = "",
 
-        @SerializedName("api_jump_param")
-        val apiJumpParam: String = ""
+        @SerializedName("jump_param")
+        val jump_param: String = ""
 )
 

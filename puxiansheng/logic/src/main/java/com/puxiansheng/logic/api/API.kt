@@ -43,10 +43,12 @@ object API {
 
     const val API_APP_ID = "cee34b0e9989df19"
     const val API_SECRET = "6385dab0cee34b0e9989df190522d449"
-    const val API_VERSION = "341"
+    const val API_VERSION = "344"
 
     const val WEIXIN_APP_ID ="wxe5266f2fb1236eee"
 
+    //http://img1.puxiansheng.com/uploads/video/20210120160238/e4592617c4761f182b886d98e048a057dca49222.mp4
+    //http://pxs3-img-test.oss-cn-shenzhen.aliyuncs.com/uploads/video/20210408142330/944c4ce22e925e00fb51b425b14524d10dafcc06.mp4
     const val LOGIN_USER_ID = "user_id"
     const val LOGIN_USER_TOKEN = "user_token"
     const val LOGIN_USER_PHONE = "user_phone"
@@ -59,11 +61,11 @@ object API {
     const val USER_CITY_ID = "city_id"
     const val USER_CITY_NAME = "city_name"
 
-//    private const val API_ADDRESS = "https://api3.51wpu.com.cn/"//测试
-//    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
+    private const val API_ADDRESS = "http://api3.51wpu.com.cn/"//测试340
+    private const val STORAGE_ADDRESS = "https://api3.51wpu.com.cn/"
 
-    private const val API_ADDRESS = "https://api3.puxiansheng.com/" //正式环境
-    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
+//    private const val API_ADDRESS = "https://api3.puxiansheng.com/"
+//    private const val STORAGE_ADDRESS = "https://api3.puxiansheng.com/"//正式环境
 
     //login
     const val DO_LOGIN = API_ADDRESS + "api/login.html"
@@ -90,6 +92,11 @@ object API {
     const val GET_NEW_HOME_MENU = API_ADDRESS+"api/get/nav_list.html"
 
     const val GET_NEW_HOME_VIDEO = API_ADDRESS+"api/get/recommend_success_video.html"
+
+    const val GET_NEW_HOME_PROJECT = API_ADDRESS+"api/get/recommend_demand.html"
+    const val GET_NEW_PROJECT_LIST = API_ADDRESS+"api/get/demand_list.html"
+    const val GET_PROJECT_DETAIL = API_ADDRESS+"api/get/demand_info.html"
+    const val GET_FAVOR_PROJECT = API_ADDRESS+"api/demand/get_collect_list.html"
 
     const val GET_JOIN_LIST = API_ADDRESS + "api/join/get_list.html"
     const val GET_JOIN_DETAIL = API_ADDRESS + "api/join/get_info.html"
@@ -152,8 +159,6 @@ object API {
     const val  DELETE_FAVOR_ORDER= API_ADDRESS + "api/user/collect_null.html"
     const val  REFRESH_SHOP =API_ADDRESS +"api/user/update_shop_time.html"
     const val DELETE_HISTORY_ORDER = API_ADDRESS + "api/new/clear_view_log.html"
-
-
 
 
     const val GET_EDIT_TRANSFER_OUT_ORDER =

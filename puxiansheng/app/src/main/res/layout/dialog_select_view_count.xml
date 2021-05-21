@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:theme="@style/Theme.MaterialComponents.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:theme="@style/Material">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/bt_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="重置"
+                        android:textColor="@color/gray"
+                        android:layout_gravity="start|center_vertical"
+                        android:textSize="16sp"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="热度"
+                        android:textColor="@color/appMain"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center" />
+
+
+                    <TextView
+                        android:id="@+id/submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center"
+                        android:text="确定"
+                        android:textColor="@color/appMain"
+                        android:visibility="invisible"/>
+                </FrameLayout>
+
+                <View
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+
+                <TextView
+                    android:id="@+id/bt_yes"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:textColor="@color/input_text_blank"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:text="从高到低" />
+
+                <View
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+
+
+                <TextView
+                    android:id="@+id/bt_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:textColor="@color/input_text_blank"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:text="从低到高"
+                    />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout>

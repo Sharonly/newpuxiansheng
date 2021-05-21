@@ -96,7 +96,7 @@ class InfoHomeListFragment : AppFragment() {
     override fun onResume() {
         super.onResume()
             if (NetUtil.isNetworkConnected(requireContext())) {
-                initData()
+//                initData()
             } else {
                 Toast.makeText(requireActivity(), "网络连接失败", Toast.LENGTH_SHORT)
             }

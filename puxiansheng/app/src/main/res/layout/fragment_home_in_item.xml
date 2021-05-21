@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="6dp"
+        android:elevation="6dp">
+
+        <RelativeLayout
+            android:id="@+id/layout_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_dialog">
+
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp"
+                android:layout_alignLeft="@+id/shop_title"
+                android:layout_below="@+id/shop_title"
+                android:layout_marginTop="8.5dp"/>
+
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/shop_title"
+                android:layout_alignBottom="@+id/area"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:id="@+id/industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp"
+                android:layout_alignLeft="@+id/shop_title"
+                android:layout_below="@+id/size"
+                android:layout_marginTop="8.5dp"/>
+
+
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/appMain"
+                android:layout_alignLeft="@+id/shop_title"
+                android:layout_below="@+id/industry"
+                android:layout_marginTop="8.5dp"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/icon_time"
+                android:textColor="#9B9B9B"
+                android:drawablePadding="3dp"
+                android:textSize="9sp"
+                android:layout_alignRight="@+id/size"
+               android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

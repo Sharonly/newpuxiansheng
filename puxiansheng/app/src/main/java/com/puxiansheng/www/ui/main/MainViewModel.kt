@@ -23,10 +23,9 @@ import com.puxiansheng.logic.data.system.SystemDatabase
 import com.puxiansheng.logic.data.system.SystemRepository
 import com.puxiansheng.logic.data.user.UserDatabase
 import com.puxiansheng.logic.data.user.UserRepository
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.put
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.home.NewHomeFragment
 import com.puxiansheng.www.ui.order.*
 import com.umeng.analytics.MobclickAgent
@@ -239,8 +238,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 (apiRst as APIRst.Success).data.data?.locationNode?.let { node ->
                     currentCity.postValue(node)
                     API.setCityId(node.nodeID.toString())
-                    put(API.USER_CITY_ID, node.nodeID)
-                    put(API.USER_CITY_NAME, node.text)
+                    SpUtils.put(API.USER_CITY_ID, node.nodeID)
+                    SpUtils.put(API.USER_CITY_NAME, node.text)
                 }
             }
         }
@@ -302,12 +301,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun forceLogout() {
         currentUser.value?.copy(loginState = 0)?.let { user ->
             MobclickAgent.onProfileSignOff()
-            put(API.LOGIN_USER_TOKEN, "")
-            put(API.LOGIN_NICK_NAME, "")
-            put(API.LOGIN_ACTUL_NAME, "")
-            put(API.LOGIN_USER_ICON, "")
-            put(API.LOGIN_USER_PHONE, "")
-            put(API.LOGIN_USER_STATE, 0)
+            SpUtils.put(API.LOGIN_USER_TOKEN, "")
+            SpUtils.put(API.LOGIN_NICK_NAME, "")
+            SpUtils.put(API.LOGIN_ACTUL_NAME, "")
+            SpUtils.put(API.LOGIN_USER_ICON, "")
+            SpUtils.put(API.LOGIN_USER_PHONE, "")
+            SpUtils.put(API.LOGIN_USER_STATE, 0)
             API.setAuthToken(user.token)
             currentUser.postValue(user)
         }
@@ -321,14 +320,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun saveLoginUser(): User? {
         var user: User? = User()
-        user?.token = get(API.LOGIN_USER_TOKEN, "") as String
-        user?.name = get(API.LOGIN_NICK_NAME, "") as String
-        user?.actualName = get(API.LOGIN_ACTUL_NAME, "") as String
-        user?.userPhoneNumber = get(API.LOGIN_USER_PHONE, "") as String
-        user?.icon = get(API.LOGIN_USER_ICON,"") as String
-        user?.loginState = get(API.LOGIN_USER_STATE, 0) as Int
-        user?.cityId = get(API.USER_CITY_ID, 0) as Int
-        user?.cityName = get(API.USER_CITY_NAME, "") as String
+        user?.token = SpUtils.get(API.LOGIN_USER_TOKEN, "") as String
+        user?.name = SpUtils.get(API.LOGIN_NICK_NAME, "") as String
+        user?.actualName = SpUtils.get(API.LOGIN_ACTUL_NAME, "") as String
+        user?.userPhoneNumber = SpUtils.get(API.LOGIN_USER_PHONE, "") as String
+        user?.icon = SpUtils.get(API.LOGIN_USER_ICON,"") as String
+        user?.loginState = SpUtils.get(API.LOGIN_USER_STATE, 0) as Int
+        user?.cityId = SpUtils.get(API.USER_CITY_ID, 0) as Int
+        user?.cityName = SpUtils.get(API.USER_CITY_NAME, "") as String
         return user
     }
 

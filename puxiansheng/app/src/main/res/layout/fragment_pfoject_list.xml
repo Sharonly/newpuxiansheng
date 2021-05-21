@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F8F8F8"
+        android:orientation="vertical">
+
+        <com.puxiansheng.www.common.StateBarView
+            android:id="@+id/appStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/topTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="好项目"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_gray"/>
+            <!--        </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_below="@+id/button_back"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="53dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="地区"
+                        android:textColor="@color/black" />
+                    <ImageView
+                        android:id="@+id/area_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_arrow_down_black"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="53dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_industry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="行业"
+                        android:textColor="@color/black" />
+                    <ImageView
+                        android:id="@+id/industry_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_arrow_down_black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="53dp"
+                    android:layout_weight="3"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/selected_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="热度"
+                        android:textColor="@color/black" />
+                    <ImageView
+                        android:id="@+id/size_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/ic_arrow_down_black"/>
+
+                </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+        <View
+            style="@style/DividerThin"
+            android:background="#F6F6F6" />
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/project_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="7dp"
+               />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:theme="@style/Material">
+
+            <TextView
+                android:id="@+id/bg_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/search_null"
+                android:gravity="center"
+                android:text="没有搜到相关信息"
+                android:textColor="#FF989796"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/not_network"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/bg_not_network"
+                android:gravity="center"
+                android:text="暂无网络"
+                android:textColor="#FF989796"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

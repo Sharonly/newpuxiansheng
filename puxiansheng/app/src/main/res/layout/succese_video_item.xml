@@ -4,7 +4,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/root"
-        android:layout_width="166.5dp"
+        android:layout_width="match_parent"
         android:layout_height="182dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="5dp"
@@ -14,7 +14,7 @@
         android:clickable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="166.5dp"
+            android:layout_width="match_parent"
             android:layout_height="182dp"
             android:background="@drawable/bg_dialog">
 

@@ -93,7 +93,11 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
             }
 
             shopInfo?.area_point_str?.let { area ->
-                holder.shopArea.text = area
+                holder.shopArea.text = area+"/"
+            }
+
+            shopInfo?.view_acreage_un_prefix.let { it ->
+                holder.shopSize.text = it+"/"
             }
 
             holder.btMore.setOnClickListener {
@@ -117,7 +121,10 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
             holder.shopRent.text = shopInfo.view_rent_un_prefix
             holder.status.text = shopInfo.state?.text
             holder.shopArea.text =
-                shopInfo.show_area
+                shopInfo.show_area+"/"
+            shopInfo?.view_acreage_un_prefix.let { it ->
+                holder.shopSize.text = it+"/"
+            }
             holder.btMore.setOnClickListener {
                 val intent = Intent(context, MyReleaseAllActivity::class.java)
                 context.startActivity(intent)
@@ -143,10 +150,11 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
 
     class TransferOutViewHolder(containerView: View) :
         RecyclerView.ViewHolder(containerView) {
-        val root = containerView.findViewById<LinearLayout>(R.id.layout_out)
+        val root = containerView.findViewById<RelativeLayout>(R.id.layout_out)
         val shopIcon = containerView.findViewById<ImageView>(R.id.shop_icon)
         val shopTitle = containerView.findViewById<TextView>(R.id.shop_title)
         val shopRent = containerView.findViewById<TextView>(R.id.rent)
+        val shopSize = containerView.findViewById<TextView>(R.id.size)
         val shopArea = containerView.findViewById<TextView>(R.id.area)
         val status = containerView.findViewById<TextView>(R.id.status)
         val index = containerView.findViewById<TextView>(R.id.index)
@@ -158,10 +166,11 @@ class ReleaseProgressAdapter(var context: Context, var dataList: ArrayList<Order
     //右边viewholder
     class TransferInViewHolder(val containerView: View) :
         RecyclerView.ViewHolder(containerView) {
-        val root = containerView.findViewById<LinearLayout>(R.id.layout_in)
+        val root = containerView.findViewById<RelativeLayout>(R.id.layout_in)
         val shopTitle = containerView.findViewById<TextView>(R.id.shop_title)
         val shopRent = containerView.findViewById<TextView>(R.id.rent)
         val shopArea = containerView.findViewById<TextView>(R.id.area)
+        val shopSize = containerView.findViewById<TextView>(R.id.size)
         val status = containerView.findViewById<TextView>(R.id.status)
         val index = containerView.findViewById<TextView>(R.id.index)
         val count = containerView.findViewById<TextView>(R.id.count)

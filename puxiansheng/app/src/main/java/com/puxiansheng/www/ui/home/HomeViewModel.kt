@@ -49,6 +49,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+    suspend fun requestHomeProject() =
+        withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
+            imageRepository.requestHomeProject().let {
+                return@let if (it.succeeded) (it as APIRst.Success).data.data?.projects else null
+            }
+        }
+
     suspend fun requestBannerImage(where: String) =
         withContext(viewModelScope.coroutineContext + Dispatchers.IO)  {
             imageRepository.requestRemoteImages(where).let {

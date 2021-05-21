@@ -17,32 +17,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.logic.bean.BannerImage
 import com.puxiansheng.logic.bean.MarqueeInfo
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil.Companion.get
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.*
-import com.puxiansheng.www.databinding.FragmentHomeBinding
+import com.puxiansheng.www.databinding.FragmentHomeTwoBinding
+
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.tools.Utils
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.main.CityListActivity
-import com.puxiansheng.www.ui.main.LocationActivity
 import com.puxiansheng.www.ui.main.MainViewModel
 import com.puxiansheng.www.ui.order.TransferOutOrderDetailActivity
 import com.puxiansheng.www.ui.search.SearchActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.umeng.analytics.MobclickAgent
-import com.youth.banner.listener.OnBannerClickListener
-import com.youth.banner.listener.OnBannerListener
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home_two.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -64,7 +59,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     private var rightCurrentPage = 1
     private var mContext: Context? = null
     private var maqueeList = ArrayList<MarqueeInfo>()
-    private var cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+    private var cityId = SpUtils.get(API.USER_CITY_ID, 0)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,15 +76,19 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentHomeBinding.inflate(inflater).apply {
+    ): View? = FragmentHomeTwoBinding.inflate(inflater).apply {
         MobclickAgent.onEvent(mContext, UMengKeys.PAGE_NAME, "HomeFragment")
         MobclickAgent.onEvent(
             mContext,
             UMengKeys.LOGIN_USER_ID,
-            get(API.LOGIN_USER_ID, 0).toString()
+            SpUtils.get(API.LOGIN_USER_ID, 0).toString()
         )
+
+
+
         //跑马灯绑定lifecycle
         lifecycle.addObserver(pxsHeadline)
+
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
             it.setDrawable(
                 resources.getDrawable(
@@ -141,15 +140,13 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
             }
         }
 
-        resources.displayMetrics.widthPixels.times(0.65).let {
-            topBannerView.layoutParams.height = it.toInt()
-        }
+//        resources.displayMetrics.widthPixels.times(0.65).let {
+//            topBannerView.layoutParams.height = it.toInt()
+//        }
 
-
-        val linearLayoutManager =
-            LinearLayoutManager(requireContext())
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        menus.layoutManager = linearLayoutManager
+        val gridLayoutManager =
+            GridLayoutManager(requireContext(), 4)
+        menus.layoutManager = gridLayoutManager
         menus.adapter = HomeMenuAdapter(requireActivity(), mutableListOf())
 
 
@@ -192,21 +189,15 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
         scroll.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (scrollY in 0..255) {
-                appStatusBar.setBackgroundColor(Color.argb(scrollY, 247, 137, 52))
-                layoutTop.setBackgroundColor(Color.argb(scrollY, 247, 137, 52))
+//                appStatusBar.setBackgroundColor(Color.argb(scrollY, 247, 137, 52))
+//                layoutTop.setBackgroundColor(Color.argb(scrollY, 247, 137, 52))
             } else {
-                appStatusBar.setBackgroundColor(Color.argb(255, 247, 137, 52))
-                layoutTop.setBackgroundColor(Color.argb(255, 247, 137, 52))
+//                appStatusBar.setBackgroundColor(Color.argb(255, 247, 137, 52))
+//                layoutTop.setBackgroundColor(Color.argb(255, 247, 137, 52))
             }
         }
 
-        appModel.currentCity.observe(viewLifecycleOwner, Observer {
-            buttonSelectLocation.text = it.text
-            homeViewModel.currentCity = it.nodeID.toString()
-            SharedPreferencesUtil.put(API.USER_CITY_ID, it.nodeID)
-            isLoading = true
-            initView()
-        })
+
     }.root
 
 
@@ -214,16 +205,16 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             if (NetUtil.isNetworkConnected(requireContext())) {
-                button_select_location.text = get(API.USER_CITY_NAME, "中国").toString()
+                button_select_location.text = SpUtils.get(API.USER_CITY_NAME, "中国").toString()
                 initView()
             } else {
                 Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
             }
         } else {
-            if (maqueeList?.size > 0) {
-                pxs_headline.stopTimer()
-            }
-            top_banner_view.stopBanner()
+//            if (maqueeList?.size > 0) {
+//                pxs_headline.stopTimer()
+//            }
+//            top_banner_view.stopBanner()
         }
     }
 
@@ -231,7 +222,7 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
     override fun onResume() {
         super.onResume()
         if (NetUtil.isNetworkConnected(requireContext())) {
-            button_select_location.text = get(API.USER_CITY_NAME, "中国").toString()
+            button_select_location.text = SpUtils.get(API.USER_CITY_NAME, "中国").toString()
             initView()
         } else {
             Toast.makeText(requireContext(), "请连接网络", Toast.LENGTH_SHORT)
@@ -240,16 +231,16 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
 
     override fun onPause() {
         super.onPause()
-        if (maqueeList?.size > 0) {
-            pxs_headline.stopTimer()
-        }
-        top_banner_view.stopBanner()
+//        if (maqueeList?.size > 0) {
+//            pxs_headline.stopTimer()
+//        }
+//        top_banner_view.stopBanner()
     }
 
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         if (NetUtil.isNetworkConnected(requireContext())) {
-            cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+            cityId = SpUtils.get(API.USER_CITY_ID, 0)
             when (currentTab) {
                 0 -> {
                     //左边
@@ -322,46 +313,19 @@ class HomeFragment : AppFragment(), OnRefreshLoadMoreListener {
         rightCurrentPage = 1
 
         lifecycleScope.launch {
-            homeViewModel.requestMenuImage()?.let {
+            homeViewModel.requestNewMenuImage()?.let {
+                Log.d("bannerfragment yhhhh"," banner it.size = "+it.size)
                 (menus.adapter as HomeMenuAdapter).setMenuData(it)
             }
 
-            homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
-                top_banner_view.setBannerImages(banners)
-            }
-            top_banner_view.startBanner()
+//            homeViewModel.requestBannerImage("mobile_index_banner")?.let { banners ->
+//                top_banner_view.setBannerImages(banners)
+//            }
+//            top_banner_view.startBanner()
 
-            homeViewModel.requestBannerImage("api_home_advertising")?.let { banners ->
-                img_three.url(banners[0].imageUrl)
-                img_four.url(banners[1].imageUrl)
-                img_two.url(banners[2].imageUrl)
-                img_one.url(banners[3].imageUrl)
-
-
-                img_three.setOnClickListener {
-                    if (Utils.isFastClick()) {
-                        JumpUtils.pictureIntent(requireActivity(), banners[0])
-                    }
-                }
-                img_four.setOnClickListener {
-                    if (Utils.isFastClick()) {
-                        JumpUtils.pictureIntent(requireActivity(), banners[1])
-                    }
-                }
-                img_two.setOnClickListener {
-                    if (Utils.isFastClick()) {
-                        JumpUtils.pictureIntent(requireActivity(), banners[2])
-                    }
-                }
-                img_one.setOnClickListener {
-                    if (Utils.isFastClick()) {
-                        JumpUtils.pictureIntent(requireActivity(), banners[3])
-                    }
-                }
-            }
 
             pxs_headline.clearResources()
-            cityId = SharedPreferencesUtil.get(API.USER_CITY_ID, 0)
+            cityId = SpUtils.get(API.USER_CITY_ID, 0)
             homeViewModel.requestMarqueeMessage(cityId.toString())?.let { data ->
 
 

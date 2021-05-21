@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.puxiansheng.logic.bean.InfoItem
 import com.puxiansheng.www.R
 import com.puxiansheng.www.common.url
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 
 class FavorInfoListAdapter(var mContext: Context, var lists: ArrayList<InfoItem>,var deleteListener: DeleteListener) :

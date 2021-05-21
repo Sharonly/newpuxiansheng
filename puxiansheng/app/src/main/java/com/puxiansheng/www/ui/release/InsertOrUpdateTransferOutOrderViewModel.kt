@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.*
+import com.puxiansheng.logic.data.common.CommonDataRepository
 import com.puxiansheng.logic.data.menu.MenuDatabase
 import com.puxiansheng.logic.data.menu.MenuRepository
 import com.puxiansheng.logic.data.order.OrderDatabase
@@ -26,6 +27,7 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
     private val context = getApplication<Application>().applicationContext
     private val orderRepository = OrderRepository(OrderDatabase.getInstance(context).getOrderDao())
     private val menuRepository = MenuRepository(MenuDatabase.getInstance(context).menuDao())
+    private val commonDataRepository = CommonDataRepository()
 
     //form data
     var type = ""//left it to be 0 only with the new order otherwise the id of the order.
@@ -243,6 +245,15 @@ class InsertOrUpdateTransferOutOrderViewModel(application: Application) :
 //                    null
 //                }
 //            } else null
+        }
+    }
+
+
+    suspend fun getConfigInfo(name:String) = withContext(
+        context = viewModelScope.coroutineContext + Dispatchers.IO
+    ) {
+        commonDataRepository.getConfigUrlRemote(name = name).let {
+            if (it.succeeded) (it as APIRst.Success).data?.data?.urls else null
         }
     }
 }

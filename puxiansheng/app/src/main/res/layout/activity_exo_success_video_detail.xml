@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:id="@+id/top_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.puxiansheng.www.common.StateBarView
+                android:id="@+id/appStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/button_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:padding="14dp"
+                    android:src="@mipmap/ic_back_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/video_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/top_bar_title_text_size"
+                    android:maxLines="1"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+<!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--            android:layout_below="@+id/top_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+<!--            <com.google.android.material.appbar.AppBarLayout-->
+
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--            <com.zhiniao.player.media.IjkPlayerViews-->
+<!--                android:id="@+id/player_view"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways"-->
+<!--                android:layout_below="@+id/top_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/top_content"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="220dp"-->
+<!--                />-->
+
+<!--            </com.google.android.material.appbar.AppBarLayout>-->
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/layout_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_below="@+id/top_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <com.zhiniao.player.media.IjkPlayerViews
+                        android:id="@+id/player_view"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/bottomLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/icon_author"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:src="@mipmap/ic_author_icon"
+                                />
+
+                            <TextView
+                                android:id="@+id/name_author"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="14dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/app_name"
+                                android:textColor="@color/input_text_blank"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/shop_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:padding="14.5dp"
+                            android:text="铺位介绍"
+                            android:textColor="#252525"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <!--                <com.puxiansheng.www.common.ExpandTextView-->
+                        <!--                    android:id="@+id/expand_description"-->
+                        <!--                    android:layout_width="match_parent"-->
+                        <!--                    android:layout_height="wrap_content"-->
+                        <!--                    android:layout_marginLeft="20dp"-->
+                        <!--                    android:layout_marginRight="20dp"-->
+                        <!--                    android:layout_marginBottom="20dp"-->
+                        <!--                    app:bottom_margin="5dp"-->
+                        <!--                    app:content_bold="false"-->
+                        <!--                    app:content_color="@color/input_text_blank"-->
+                        <!--                    app:content_size="14sp"-->
+                        <!--                    app:current_text="暂无信息"-->
+                        <!--                    app:expand_prifix_text="..."-->
+                        <!--                    app:expand_text="展开"-->
+                        <!--                    app:max_line="6"-->
+                        <!--                    app:shrink_text="收起"-->
+                        <!--                    app:special_bold="true"-->
+                        <!--                    app:special_color="@color/tab_orange"-->
+                        <!--                    app:special_horizon_click_more="60dp"-->
+                        <!--                    app:special_left_margin="10dp"-->
+                        <!--                    app:special_size="14sp"-->
+                        <!--                    app:special_vertical_click_more="10dp" />-->
+
+                        <TextView
+                            android:id="@+id/shop_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="12sp"
+                            android:textColor="#777777"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="48dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="推荐视频"
+                            android:textColor="#252525"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recommend_video"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:layout_marginRight="11dp"
+                            android:layout_marginBottom="80dp"
+                            android:nestedScrollingEnabled="false" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+<!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+        <com.puxiansheng.www.common.DragFloatActionButton
+            android:id="@+id/bt_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="40dp"
+            android:src="@mipmap/ic_fabu"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </RelativeLayout>
+
+</layout>

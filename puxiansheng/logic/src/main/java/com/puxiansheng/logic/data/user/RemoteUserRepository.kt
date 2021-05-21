@@ -223,6 +223,27 @@ class RemoteUserRepository {
         call(it)
     }
 
+
+    fun submitProjectInfo(
+        projectId: String,
+        phone: String,
+        name: String,
+        money: String
+    ): APIRst<APIResp<HttpRespEmpty>> = buildRequest(
+        url = API.SAVE_USER_INFO,
+        fieldMap = mutableMapOf(
+            "id" to projectId,
+            "name" to name,
+            "phone" to phone,
+            "invest_money" to money
+        ).also { map ->
+            map["sign"] =
+                sign(signatureToken = API.currentSignatureToken, fieldMap = map, method = "POST")
+        }
+    ).let {
+        call(it)
+    }
+
     fun submitUserIcon(file:File): APIRst<APIResp<HttpRespIconUpload>> = buildRequest(
         url = API.SAVE_USER_ICON,
 //        fieldMap = mutableMapOf(

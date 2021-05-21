@@ -17,9 +17,9 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.MyScreenUtil
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.order.dialog.*
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -56,13 +56,14 @@ class NewTransferInOrdersActivity : MyBaseActivity(), OnRefreshLoadMoreListener 
     override fun business() {
         MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
         mContext = this
-        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SharedPreferencesUtil.get(
+        MobclickAgent.onEvent(mContext, UMengKeys.LOGIN_USER_ID, SpUtils.get(
             API.LOGIN_USER_ID,
             0
         ).toString())
         viewModel = ViewModelProvider(this)[NewTransferInOrdersViewModel::class.java]
         if(NetUtil.isNetworkConnected(this)) {
-            viewModel.currentCity = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+            viewModel.currentCity = SpUtils
+                .get(API.USER_CITY_ID, 0).toString()
             initView()
         }
     }

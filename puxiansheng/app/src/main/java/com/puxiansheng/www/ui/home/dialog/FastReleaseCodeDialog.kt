@@ -16,11 +16,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.util.http.APIRst
 import com.puxiansheng.util.http.succeeded
 import com.puxiansheng.www.R
 import com.puxiansheng.www.databinding.DialogFastReleaseCodeBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.home.viewmodel.FastReleaseViewModel
 import com.zhiniao.player.utils.SoftInputUtils
 import kotlinx.android.synthetic.main.layout_register.*
@@ -63,7 +63,7 @@ class FastReleaseCodeDialog(private var type: Int, private var phone: String) : 
         }
 
         viewModel.phone = phone
-        viewModel.city = SharedPreferencesUtil.get(API.USER_CITY_ID, 0).toString()
+        viewModel.city = SpUtils.get(API.USER_CITY_ID, 0).toString()
         desc.text = "已发送到手机" + phone.subSequence(0, 3) + "****" + phone.subSequence(7, 11)
         txtError.visibility = View.GONE
         txtAgain.setOnClickListener {

@@ -1,40 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/fast_release"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="44dp"
-        android:src="@mipmap/fast_release"
-       />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F4F5F7">
 
-    <ImageView
-        android:id="@+id/transfer_out"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="17.5dp"
-        android:src="@mipmap/img_transfer_out"
-        android:clickable="true"
-        />
+        <com.puxiansheng.www.common.StateBarView
+            android:id="@+id/appStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
 
-    <ImageView
-        android:id="@+id/transfer_in"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@mipmap/img_transfer_in"
-        android:clickable="true"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/topTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="发布"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:background="@color/white"/>
+
+        <RelativeLayout
+            android:id="@+id/transfer_out"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/bg_dialog"
+            android:elevation="4dp"
+            android:outlineAmbientShadowColor="#332BCB">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginLeft="28dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/release_out"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:layout_marginLeft="28dp"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp"
+                android:text="@string/release_out_desc"/>
+
+            <ImageView
+                android:layout_width="42.4dp"
+                android:layout_height="41dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="14dp"
+                android:src="@mipmap/img_transfer_out"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/transfer_in"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/bg_dialog"
+            android:elevation="4dp"
+            android:outlineAmbientShadowColor="#332BCB">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginLeft="28dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/release_in"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:layout_marginLeft="28dp"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp"
+                android:text="@string/release_in_desc"/>
+
+            <ImageView
+                android:layout_width="42.4dp"
+                android:layout_height="41dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="14dp"
+                android:src="@mipmap/img_transfer_in"/>
+
+        </RelativeLayout>
+    </LinearLayout>
 </layout>

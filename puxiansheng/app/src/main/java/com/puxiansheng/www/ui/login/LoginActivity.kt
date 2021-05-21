@@ -1,6 +1,5 @@
 package com.puxiansheng.www.ui.login
 
-import android.content.Context
 import android.content.Intent
 import android.text.InputType
 import android.util.Log
@@ -17,10 +16,11 @@ import com.puxiansheng.logic.bean.http.HttpRespBindMobilePhone
 import com.puxiansheng.logic.util.LiveDataBus
 import com.puxiansheng.util.Regular
 import com.puxiansheng.util.ext.MyScreenUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
+import com.puxiansheng.www.app.MyActivityManage
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.www.login.WechatAPI
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.tools.UMengKeys
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_CODE
 import com.puxiansheng.www.ui.login.LoginViewModel.Companion.MODE_LOGIN_WITH_PASSWORD
@@ -40,23 +40,24 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class LoginActivity : MyBaseActivity() {
-   // var context: Context ?= null
+    // var context: Context ?= null
     var isSeleted = false
-    private  var loginViewModel: LoginViewModel? = null
+    private var loginViewModel: LoginViewModel? = null
     var loginType = MODE_LOGIN_WITH_PASSWORD
     var loginTypeName = ""
     var passIsShow = false
     var isLogin = false
 
     override fun getLayoutId(): Int {
-        MyScreenUtil.setStateBarStyle(this,true,R.color.color81,true)
+        MyScreenUtil.setStateBarStyle(this, true, R.color.color81, true)
         return R.layout.activity_login
     }
 
     override fun business() {
-       // context = this
+        // context = this
         MobclickAgent.onEvent(this, UMengKeys.PAGE_NAME, "LoginActivity")
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        loginViewModel?.wechatCode?.postValue(intent?.getStringExtra("authCode"))
         initView()
     }
 
@@ -72,7 +73,7 @@ class LoginActivity : MyBaseActivity() {
 
         tab_register.setOnClickListener {
             tab_login.setTextColor(resources.getColor(R.color.gray))
-            tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
+            tab_login.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F)
             tab_register.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
             tab_register.setTextColor(resources.getColor(R.color.black))
             layout_login_by_password.visibility = View.GONE
@@ -184,10 +185,11 @@ class LoginActivity : MyBaseActivity() {
         bt_login.setOnClickListener {
             loginViewModel?.userAccount.let {
                 if (!Regular.isPhoneNumber(it)) {
-                    if(loginType == MODE_LOGIN_WITH_PASSWORD) {
+                    if (loginType == MODE_LOGIN_WITH_PASSWORD) {
                         input_user_account.error = resources.getString(R.string.login_error_account)
-                    }else if(loginType == MODE_REGISTER || loginType == MODE_LOGIN_WITH_CODE){
-                        input_user_phonenum.error = resources.getString(R.string.login_error_account)
+                    } else if (loginType == MODE_REGISTER || loginType == MODE_LOGIN_WITH_CODE) {
+                        input_user_phonenum.error =
+                            resources.getString(R.string.login_error_account)
                     }
                     return@setOnClickListener
                 }
@@ -233,38 +235,41 @@ class LoginActivity : MyBaseActivity() {
                         if (it is User) {
                             if (loginType == MODE_REGISTER) {
                                 loginViewModel?.loginMode?.postValue(MODE_LOGIN_WITH_PASSWORD)
-                                LoginSuccessDialog(it.tipsMsg).show(supportFragmentManager, LoginSuccessDialog::class.java.name)
+                                LoginSuccessDialog(it.tipsMsg).show(
+                                    supportFragmentManager,
+                                    LoginSuccessDialog::class.java.name
+                                )
                                 input_user_phonenum.setText("")
                                 txt_message_token.setText("")
                                 initLoginView()
                             } else {
                                 MobclickAgent.onProfileSignIn(it.userID.toString())
-                                SharedPreferencesUtil.put(
+                                SpUtils.put(
                                     API.LOGIN_USER_TOKEN,
                                     it.token
                                 )
-                                SharedPreferencesUtil.put(
+                                SpUtils.put(
                                     API.LOGIN_NICK_NAME,
                                     it.name
                                 )
-                                SharedPreferencesUtil.put(
+                                SpUtils.put(
                                     API.LOGIN_ACTUL_NAME,
                                     it.actualName
                                 )
-                                SharedPreferencesUtil.put(
+                                SpUtils.put(
                                     API.LOGIN_USER_ICON,
                                     it.icon
                                 )
-                                SharedPreferencesUtil.put(
+                                SpUtils.put(
                                     API.LOGIN_USER_PHONE,
                                     it.userPhoneNumber
                                 )
-                                SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
+                                SpUtils.put(API.LOGIN_USER_STATE, 1)
                                 API.setAuthToken(it.token)
                                 LiveDataBus.get().with("user")?.value = it
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)
-                                finish()
+                                MyActivityManage.finshActivity("LoginActivity")
                             }
                         }
                         isLogin = false
@@ -282,6 +287,7 @@ class LoginActivity : MyBaseActivity() {
                 }
             )
             loginTypeName = "微信登录"
+
         }
 
         requestVerificationCode.setOnClickListener {
@@ -308,7 +314,7 @@ class LoginActivity : MyBaseActivity() {
         }
 
         loginViewModel?.toastMsg?.observe(this@LoginActivity, Observer {
-            Log.d("login"," toastMsg = "+it)
+            Log.d("login", " toastMsg = " + it)
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             isLogin = false
         })
@@ -325,7 +331,7 @@ class LoginActivity : MyBaseActivity() {
 
         loginViewModel?.wechatCode?.observe(this@LoginActivity, Observer { weChatCode ->
             weChatCode?.let { code ->
-                Log.d("intent", " MODE_LOGIN_WITH_WECHAT = " + code)
+                Log.d("login_intent", " MODE_LOGIN_WITH_WECHAT = " + code)
                 if (code.isNotEmpty()) {
                     loginViewModel?.wechatLoginCode = code
                     if (loginViewModel?.wechatLoginCode?.isNotEmpty()!!) {
@@ -344,42 +350,45 @@ class LoginActivity : MyBaseActivity() {
                                                 )
                                             intent.putExtra(
                                                 "id",
-                                                result.dataObject?.result.toString() ?: "-99"
+                                                result.dataObject?.result.toString()
                                             )
                                             this@LoginActivity.startActivity(intent)
+                                            finish()
                                         } else {
                                             if (result is User) {
-                                                Log.d("---login--", "is User")
-                                                MobclickAgent.onProfileSignIn("WeChat",result.userID.toString())
-                                                SharedPreferencesUtil.put(
+                                                MobclickAgent.onProfileSignIn(
+                                                    "WeChat",
+                                                    result.userID.toString()
+                                                )
+                                                SpUtils.put(
                                                     API.LOGIN_USER_ID,
                                                     result.userID
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_USER_TOKEN,
                                                     result.token
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_NICK_NAME,
                                                     result.name
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_ACTUL_NAME,
                                                     result.actualName
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_USER_ICON,
                                                     result.icon
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_USER_PHONE,
                                                     result.userPhoneNumber
                                                 )
-                                                SharedPreferencesUtil.put(
+                                                SpUtils.put(
                                                     API.LOGIN_USER_STATE,
                                                     1
                                                 )
-                                                SharedPreferencesUtil.put(API.LOGIN_USER_STATE, 1)
+                                                SpUtils.put(API.LOGIN_USER_STATE, 1)
                                                 API.setAuthToken(result.token)
                                                 LiveDataBus.get().with("user")?.value = result
                                                 val intent =
@@ -388,7 +397,7 @@ class LoginActivity : MyBaseActivity() {
                                                         MainActivity::class.java
                                                     )
                                                 startActivity(intent)
-                                                finish()
+                                                MyActivityManage.finshActivity("LoginActivity")
                                             }
                                         }
                                         isLogin = false
@@ -418,11 +427,20 @@ class LoginActivity : MyBaseActivity() {
         loginTypeName = "手机号快速登录"
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        if( loginTypeName == "微信登录"){
+          finish()
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
-        Log.d("---intent", " intent?.extras?  " + intent?.extras?.getString("authCode"))
-        loginViewModel?.wechatCode?.postValue(intent?.extras?.getString("authCode"))
+        loginViewModel?.wechatCode?.postValue(intent?.getStringExtra("authCode"))
+//        Log.e("login_intent", "intent?.extras?  ")
+//        Log.e("login_intent", "intent?.extras?  " + intent?.getStringExtra("authCode"))
     }
 
 //    override fun onResume() {

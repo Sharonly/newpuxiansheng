@@ -15,7 +15,7 @@ import com.puxiansheng.www.databinding.RecommendOrderItemBinding
 import kotlinx.android.extensions.LayoutContainer
 
 class RecommendOrderAdapter(
-    private var list: List<RecommendOrderShop>,  private val onItemSelect: ((order: RecommendOrderShop?) -> Unit)? = null
+    private var list: ArrayList<RecommendOrderShop>,  private val onItemSelect: ((order: RecommendOrderShop?) -> Unit)? = null
     ) : RecyclerView.Adapter<RecommendOrderAdapter.OrderItemViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendOrderAdapter.OrderItemViewHolder = OrderItemViewHolder(
@@ -35,8 +35,11 @@ class RecommendOrderAdapter(
             holder.bind(list[position])
         }
 
-    fun setMenuData(listData: List<RecommendOrderShop>) {
-        list = listData.toMutableList()
+    fun setMenuData(listData: List<RecommendOrderShop>, isClean: Boolean) {
+        if (isClean) {
+            list.clear()
+        }
+        list.addAll(listData)
         notifyDataSetChanged()
     }
 

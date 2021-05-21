@@ -8,10 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.User
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.R
 import com.puxiansheng.www.app.MyBaseActivity
 import com.puxiansheng.logic.util.LiveDataBus
+import com.puxiansheng.www.app.MyActivityManage
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bind_phone.*
 import kotlinx.android.synthetic.main.activity_bind_phone.input_account
@@ -75,35 +76,33 @@ private fun initView(){
 
         bt_sure.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.bindMobileNumber(
-                    id = intent.getStringExtra("id")
-                ).let { result ->
+                viewModel.bindMobileNumber(id = intent.getStringExtra("id")).let { result ->
                     if (result is User) {
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_USER_ID,
                             result.userID
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_USER_TOKEN,
                             result.token
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_NICK_NAME,
                             result.name
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_ACTUL_NAME,
                             result.actualName
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_USER_ICON,
                             result.icon
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_USER_PHONE,
                             result.userPhoneNumber
                         )
-                        SharedPreferencesUtil.put(
+                        SpUtils.put(
                             API.LOGIN_USER_STATE,
                             1
                         )
@@ -113,7 +112,7 @@ private fun initView(){
                         val intent =
                             Intent(this@BindMobileNumberActivity, MainActivity::class.java)
                         startActivity(intent)
-                        finish()
+                        MyActivityManage.finshActivity("BindMobileNumberActivity")
                     }
                 }
             }

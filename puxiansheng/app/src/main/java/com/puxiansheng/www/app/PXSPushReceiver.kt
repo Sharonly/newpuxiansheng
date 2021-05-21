@@ -9,7 +9,6 @@ import cn.jpush.android.service.JPushMessageReceiver
 import com.google.gson.Gson
 import com.puxiansheng.www.app.PXSPushReceiver.Test.DataBean
 import com.puxiansheng.www.ui.business.BusinessListActivity
-import com.puxiansheng.www.ui.info.InfoDetailActivity
 import com.puxiansheng.www.ui.info.NewInfoDetailActivity
 import com.puxiansheng.www.ui.message.MessageDetailActivity
 import com.puxiansheng.www.ui.mine.setting.AboutUsActivity
@@ -88,6 +87,7 @@ class PXSPushReceiver : JPushMessageReceiver() {
                 }
                 "about_us" -> {
                     val intent2 = Intent(context, AboutUsActivity::class.java)
+                    intent2.putExtra("url", data.jump_param)
                     intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent2)
                 }

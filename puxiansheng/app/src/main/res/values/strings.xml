@@ -4,9 +4,10 @@
     <string name="nav_info">资讯</string>
     <string name="nav_release">发布</string>
     <string name="nav_message">消息</string>
+    <string name="nav_business">招商加盟</string>
     <string name="nav_mine">我的</string>
 
-    <string name="search_tips">请输入你的需求</string>
+    <string name="search_tips">输入您想搜索的内容</string>
     <string name="login_error_account">无效的手机号</string>
     <string name="login_error_password">密码必须为20位内的字符串</string>
     <string name="login_error_code">请输入6位动态密码</string>
@@ -14,7 +15,6 @@
     <string name="search_transfer_in">找店搜索</string>
     <string name="search_invest_business">招商加盟搜索</string>
     <string name="search_info">百科资讯搜索</string>
-
 
 <!--    setting-->
     <string name="setting">设置</string>
@@ -41,6 +41,12 @@
 
     <string name="message_title">通知消息</string>
     <string name="delete_history_title">确定清除全部历史记录吗？</string>
-    <string name="input_search_content">请输入您想搜索的内容</string>
+    <string name="input_search_content">搜索生意转让，店铺转让</string>
 
+    <string name="release_out">发布转店</string>
+    <string name="release_in">发布找店</string>
+    <string name="release_out_desc">累计成功转店10万+</string>
+    <string name="release_in_desc">平均20天找店成功</string>
+
+    <string name="add_project_progress">1、来电资讯\n2、合作商进行实地考察\n3、双方正式签订合同\n4、店铺选址和市场评估\n5、双方商讨店面的设计与规划\n6、安排合作商进行专业培训</string>
 </resources>

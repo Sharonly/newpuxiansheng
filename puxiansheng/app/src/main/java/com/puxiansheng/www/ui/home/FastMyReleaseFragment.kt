@@ -17,8 +17,8 @@ import com.puxiansheng.logic.api.API
 import com.puxiansheng.logic.bean.MessageItem
 import com.puxiansheng.logic.bean.http.OrderDetailObject
 import com.puxiansheng.util.ext.NetUtil
-import com.puxiansheng.util.ext.SharedPreferencesUtil
 import com.puxiansheng.www.databinding.FragmentCardReleaseBinding
+import com.puxiansheng.www.tools.SpUtils
 import com.puxiansheng.www.ui.login.LoginActivity
 import com.puxiansheng.www.ui.main.MainActivity
 import com.puxiansheng.www.ui.release.InsertOrUpdateTransferOutOrderActivity
@@ -58,7 +58,7 @@ class FastMyReleaseFragment : Fragment() {
         adapter = ReleaseProgressAdapter(requireActivity(), arrayListOf())
         releaseList.adapter = adapter
 
-        if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+        if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
             layoutNoLogin.visibility = View.GONE
             layoutNoRelease.visibility = View.VISIBLE
             lifecycleScope.launch {
@@ -93,7 +93,7 @@ class FastMyReleaseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (SharedPreferencesUtil.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
+        if (SpUtils.get(API.LOGIN_USER_TOKEN, "").toString().isNotEmpty()) {
             layout_no_login.visibility = View.GONE
             layout_no_release.visibility = View.VISIBLE
         } else {

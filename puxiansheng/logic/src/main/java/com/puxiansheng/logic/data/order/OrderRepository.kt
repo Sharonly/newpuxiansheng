@@ -246,7 +246,7 @@ class OrderRepository(orderDao: OrderDao) {
     )
 
 
-    fun getUserLikeShopFromRemote(cityId:String,shopID: String)=remoteOrderRepository.getUserLikeShopFromRemote(city=cityId,shopID = shopID)
+    fun getUserLikeShopFromRemote(cityId:String,shopID: String,page: Int)=remoteOrderRepository.getUserLikeShopFromRemote(city=cityId,shopID = shopID,page = page)
 
     fun getRecommendShopVideoFromRemote(cityId:String,shopID: String)=remoteOrderRepository.getSuccessVideoRecommendFromRemote(city=cityId,shopID = shopID)
 
